@@ -50,3 +50,22 @@ def test_multiples_prospectos_mixtos():
     nombres = [p["nombre"] for p in result]
     assert "Ana" in nombres
     assert "Carlos" in nombres
+
+from message_templates import get_followup_message
+
+def test_mensaje_camara():
+    msg = get_followup_message("camara", "Carlos", 4)
+    assert "Carlos" in msg
+    assert len(msg) > 20
+
+def test_mensaje_despacho():
+    msg = get_followup_message("despacho", "Ana", 5)
+    assert "Ana" in msg
+
+def test_mensaje_pyme():
+    msg = get_followup_message("pyme", "Pedro", 3)
+    assert "Pedro" in msg
+
+def test_mensaje_segmento_desconocido_usa_default():
+    msg = get_followup_message("otro", "Laura", 3)
+    assert "Laura" in msg
