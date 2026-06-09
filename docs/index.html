@@ -62,8 +62,8 @@
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Sprint Operativo",
-            "description": "Taller avanzado para equipos que ya usan IA y quieren el siguiente nivel: bases de datos inteligentes, dashboards en tiempo real, conexiones entre herramientas y primeros agentes autónomos.",
+            "name": "IA en Operación — Nivel Avanzado",
+            "description": "Taller avanzado para equipos que ya usan IA y quieren ir más lejos: sistemas de información propios, reportes que se actualizan solos, herramientas conectadas entre sí y asistentes que trabajan de forma autónoma.",
             "provider": {"@type": "LocalBusiness", "name": "Lightning Pro Solutions"}
           }
         }
@@ -738,10 +738,9 @@
       display: block;
     }
 
-    /* TESTIMONIAL */
     /* EXPEDIENTE */
     .expediente {
-      padding: 72px 0;
+      padding: 72px 0 0;
       background: var(--black-mid);
       border-top: 1px solid var(--border);
     }
@@ -752,31 +751,76 @@
       padding: 0 48px;
     }
 
-    .expediente-list {
-      margin-top: 48px;
+    .expediente-scroll-wrap {
+      margin-top: 40px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .expediente-scroll-wrap::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 24px;
+      width: 80px;
+      background: linear-gradient(to right, transparent, var(--black-mid));
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .expediente-scroll {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 8px 48px 32px;
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #2a2a2a transparent;
+    }
+
+    .expediente-scroll:active {
+      cursor: grabbing;
+    }
+
+    .expediente-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .expediente-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .expediente-scroll::-webkit-scrollbar-thumb {
+      background: #2a2a2a;
+      border-radius: 4px;
+    }
+
+    .exp-card {
+      flex: 0 0 360px;
+      scroll-snap-align: start;
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 12px;
+      padding: 28px 24px;
       display: flex;
       flex-direction: column;
+      gap: 0;
+      transition: border-color 0.2s;
     }
 
-    .exp-entry {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 48px;
-      padding: 32px 0;
-      border-bottom: 1px solid var(--border);
-      align-items: start;
-    }
-
-    .exp-entry:first-child {
-      border-top: 1px solid var(--border);
+    .exp-card:hover {
+      border-color: #2a2a2a;
     }
 
     .exp-client {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       line-height: 1.2;
     }
 
@@ -793,14 +837,15 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 9px;
+      margin-top: 0;
     }
 
     .exp-points li {
-      font-size: 15px;
+      font-size: 14px;
       color: var(--muted);
-      line-height: 1.55;
-      padding-left: 18px;
+      line-height: 1.5;
+      padding-left: 16px;
       position: relative;
     }
 
@@ -809,12 +854,22 @@
       position: absolute;
       left: 0;
       color: var(--green);
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .exp-points li strong {
       color: var(--text);
       font-weight: 500;
+    }
+
+    .exp-img {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 20px;
+      object-fit: cover;
+      max-height: 180px;
+      border: 1px solid var(--border);
+      display: block;
     }
 
     /* keep old proyectos grid for fallback - hidden */
@@ -1086,9 +1141,12 @@
         padding: 0 24px;
       }
 
-      .exp-entry {
-        grid-template-columns: 1fr;
-        gap: 16px;
+      .expediente-scroll {
+        padding: 8px 24px 32px;
+      }
+
+      .exp-card {
+        flex: 0 0 300px;
       }
 
       .about-inner {
@@ -1099,6 +1157,10 @@
 
       .cta-final-inner {
         padding: 0 24px;
+      }
+
+      .para-quien-inner {
+        padding: 0 24px !important;
       }
 
       .footer-inner {
@@ -1158,11 +1220,42 @@
     </div>
   </section>
 
-  <!-- LOGOS STRIP -->
-  <section class="logos-strip">
-    <div class="logos-strip-inner">
-      <p class="logos-label reveal">EMPRESAS QUE YA CAPACITARON A SU EQUIPO</p>
-      <p class="logos-names reveal">Despachos fiscales · Consultorías gubernamentales · Agencias inmobiliarias · Empresas de logística · Empresas de servicios · Sector construcción</p>
+
+  <!-- PARA QUIÉN ES -->
+  <section style="padding: 64px 0; background: var(--black-mid); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="para-quien-inner" style="max-width: 860px; margin: 0 auto; padding: 0 48px;">
+      <p class="section-label reveal" style="text-align:center;">¿ESTO ES PARA MÍ?</p>
+      <h2 class="reveal" style="font-size:clamp(22px,3vw,32px);font-weight:700;text-align:center;margin:12px 0 40px;letter-spacing:-0.5px;">Si tu equipo trabaja desde una computadora, este taller es para ti.</h2>
+
+      <!-- Fila 1: 3 tarjetas -->
+      <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:14px;">
+        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
+          <div style="font-size:30px;margin-bottom:10px;">⚖️</div>
+          <p style="font-size:14px;font-weight:600;color:#e8e8e8;line-height:1.4;">Despachos legales y contables</p>
+        </div>
+        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
+          <div style="font-size:30px;margin-bottom:10px;">🏢</div>
+          <p style="font-size:14px;font-weight:600;color:#e8e8e8;line-height:1.4;">Consultorías y asesorías</p>
+        </div>
+        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
+          <div style="font-size:30px;margin-bottom:10px;">🏛️</div>
+          <p style="font-size:14px;font-weight:600;color:#e8e8e8;line-height:1.4;">Organismos de gobierno</p>
+        </div>
+      </div>
+
+      <!-- Fila 2: 2 tarjetas centradas -->
+      <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;max-width:580px;margin:0 auto;">
+        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
+          <div style="font-size:30px;margin-bottom:10px;">📊</div>
+          <p style="font-size:14px;font-weight:600;color:#e8e8e8;line-height:1.4;">Áreas de ventas y administración</p>
+        </div>
+        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
+          <div style="font-size:30px;margin-bottom:10px;">📣</div>
+          <p style="font-size:14px;font-weight:600;color:#e8e8e8;line-height:1.4;">Agencias y empresas de servicios</p>
+        </div>
+      </div>
+
+      <p class="reveal" style="text-align:center;color:#888;font-size:15px;margin-top:28px;">No se necesita experiencia técnica. Si tu trabajo vive en correos, documentos, reportes y reuniones — es exactamente para ti.</p>
     </div>
   </section>
 
@@ -1170,14 +1263,14 @@
   <section class="problem">
     <div class="problem-inner">
       <div class="reveal">
-        <h2 class="problem-headline">La mayoría usa IA como chat. Nosotros te enseñamos a construir un sistema que mejora entre más lo usas.</h2>
+        <h2 class="problem-headline">La mayoría usa IA y sigue haciendo lo mismo de siempre.</h2>
+        <p style="color:#888;font-size:16px;line-height:1.7;margin:20px 0;">Le preguntan algo, copian la respuesta y mañana empiezan desde cero. Sin memoria. Sin contexto. Sin estructura. Como si fuera la primera vez, siempre.</p>
+        <p style="color:#e8e8e8;font-size:16px;line-height:1.7;margin:0 0 24px;">Nosotros te enseñamos a construir algo diferente: un sistema que recuerda cómo trabajas, aprende de tu negocio y mejora entre más lo usas.</p>
         <ul class="problem-task-list">
-          <li><strong>ChatGPT</strong> — Deja de empezar desde cero cada vez. Aprende a crear proyectos, alimentar memorias de contexto y estructurar instrucciones para que la herramienta conozca tu negocio, tu tono y tus procesos.</li>
-          <li><strong>Claude</strong> — No es un chat. Es un analista. Sube tus contratos, facturas y reportes y obten análisis estructurados que puedes auditar, corregir y reutilizar.</li>
-          <li><strong>Gemini</strong> — Conéctalo a información real y actual. Lo que los demás no pueden responderte porque su conocimiento ya venció, Gemini lo encuentra hoy.</li>
-          <li><strong>NotebookLM</strong> — Convierte los documentos internos de tu empresa en una base de conocimiento consultable. Tu equipo deja de preguntar por WhatsApp y empieza a consultar un sistema que ya sabe todo lo que tú sabes.</li>
-          <li>Sales con una estructura lista para escalar.</li>
+          <li><strong>ChatGPT</strong> — Deja de empezar desde cero. Aprende a darle instrucciones para que conozca tu negocio, tu tono y tus procesos.</li>
+          <li><strong>Claude</strong> — Sube tus contratos, facturas y reportes. Obtén análisis en minutos que antes tomaban horas.</li>
         </ul>
+        <p style="color:#666;font-size:14px;line-height:1.7;margin:12px 0 0;">También exploramos Gemini, Grok, Canva, OpenArt y otras herramientas según las necesidades del equipo.</p>
       </div>
       <div class="reveal">
         <h3 class="solution-headline">¿Por qué no lo usan ya?</h3>
@@ -1193,6 +1286,14 @@
           <div class="solution-group">
             <span class="solution-block">× No saben cómo integrarlo sin romper su flujo</span>
             <span class="solution-arrow">Lo aplican en su trabajo real ese mismo día, sin cambiar sistemas</span>
+          </div>
+          <div class="solution-group">
+            <span class="solution-block">× Inventa cosas, se equivoca y no saben si confiarle</span>
+            <span class="solution-arrow">Aprenden a darle contexto real para que no divague — y a revisar el resultado antes de usarlo</span>
+          </div>
+          <div class="solution-group">
+            <span class="solution-block">× Tiene errores, repite ideas y da respuestas vagas</span>
+            <span class="solution-arrow">Eso pasa cuando no sabe quién eres ni cómo trabajas — el taller resuelve exactamente eso</span>
           </div>
         </div>
       </div>
@@ -1223,14 +1324,14 @@
           <a href="https://wa.me/526623478040?text=Quiero%20info%20del%20taller%20IA%20Sin%20Miedo%20B%C3%A1sico" class="btn-outline-green" target="_blank" rel="noopener">Solicitar propuesta</a>
         </div>
         <div class="taller-card featured reveal">
-          <span class="taller-badge green">SPRINT OPERATIVO</span>
-          <h3 class="taller-name">Sprint Operativo</h3>
-          <p class="taller-desc">Para equipos que ya usan las herramientas y quieren ir al siguiente nivel. Crean bases de datos inteligentes, dashboards que se actualizan en tiempo real, conexiones entre herramientas y sus primeros agentes autónomos. El objetivo: automatizar operaciones completas, no tareas sueltas.</p>
+          <span class="taller-badge green">NIVEL AVANZADO</span>
+          <h3 class="taller-name">IA en Operación</h3>
+          <p class="taller-desc">Para equipos que ya usan las herramientas y quieren ir más lejos. Aprenden a crear sistemas de información propios, reportes que se actualizan solos, herramientas que se conectan entre sí y asistentes que trabajan por su cuenta. El objetivo: que la tecnología opere procesos completos — no solo tareas sueltas.</p>
           <div class="taller-meta">
             <span>Presencial o remoto</span>
-            <span>Requiere haber hecho IA Sin Miedo o equivalente</span>
+            <span>Requiere haber tomado IA Sin Miedo o similar</span>
           </div>
-          <a href="https://wa.me/526623478040?text=Quiero%20un%20diagn%C3%B3stico%20para%20el%20Sprint%20Operativo" class="btn-green" target="_blank" rel="noopener">Solicitar diagnóstico</a>
+          <a href="https://wa.me/526623478040?text=Quiero%20informaci%C3%B3n%20del%20taller%20avanzado%20de%20IA" class="btn-green" target="_blank" rel="noopener">Solicitar información</a>
         </div>
       </div>
     </div>
@@ -1241,145 +1342,110 @@
     <div class="expediente-inner">
       <p class="section-label reveal">EXPEDIENTE</p>
       <h2 class="section-h2 reveal">Lo que hemos construido.</h2>
+    </div>
+    <div class="expediente-scroll-wrap">
+      <div class="expediente-scroll" id="expScroll">
 
-      <div class="exp-entry reveal">
-        <div>
+        <div class="exp-card reveal">
           <p class="exp-client">Despacho Fiscal</p>
-          <p class="exp-sector">Legal · Baja California</p>
-        </div>
-        <div>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 14px;">"En un mes de trabajo regular recupero entre 25 y 40 horas que antes destinaba a redacción, búsqueda y ordenamiento. Esas horas las reinvierto en lo que ningún sistema sustituye: la estrategia y la atención al cliente."</blockquote>
+          <p class="exp-sector" style="margin-bottom:16px;">Legal · Baja California</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">"En un mes recupero entre 25 y 40 horas que antes destinaba a redacción y búsqueda. Las reinvierto en lo que ningún sistema sustituye: la estrategia y la atención al cliente."</blockquote>
           <ul class="exp-points">
-            <li>Abogado litigante fiscal — Mexicali, Baja California</li>
-            <li>Un recurso de revocación que tomaba 22–28 horas: hoy lo resuelve en 8–10</li>
-            <li>Análisis de resoluciones, adminiculación probatoria y redacción de escritos con IA</li>
-            <li>La estrategia y el criterio jurídico siguen siendo suyos — la IA ejecuta</li>
+            <li>Un proceso que tomaba 22–28 horas: hoy lo resuelve en 8–10</li>
+            <li>Usa IA para analizar documentos legales, cruzar información y redactar escritos</li>
+            <li>El criterio jurídico sigue siendo suyo — la IA hace el trabajo pesado</li>
           </ul>
           <img src="img/6.despacho.webp" alt="Despacho fiscal usando IA" class="exp-img">
         </div>
-      </div>
 
-      <div class="exp-entry reveal">
-        <div>
+        <div class="exp-card reveal">
           <p class="exp-client">Consultoría Gubernamental</p>
-          <p class="exp-sector">Auditoría · Sonora</p>
-        </div>
-        <div>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 14px;">Se construyó una estructura de agentes con todos los requerimientos normativos de la auditoría. Se cargaron leyes, reglamentos y normativas actualizadas. Se alimentó con los documentos reales: contratos, estados de cuenta, licitaciones. La IA analizó. El despacho decidió. Sin inventar nada.</blockquote>
+          <p class="exp-sector" style="margin-bottom:16px;">Auditoría · Sonora</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Se cargaron leyes, reglamentos y documentos reales. La IA analizó. El despacho decidió. Sin inventar nada.</blockquote>
           <ul class="exp-points">
-            <li>Auditoría financiera externa a organismo descentralizado municipal — Sonora</li>
-            <li>961 transacciones y $86.4M en pagos cruzados contra contratos, banco y contabilidad</li>
-            <li>Detección de procedimientos irregulares, desvíos de recursos y sobrepagos a proveedores</li>
-            <li>5 hallazgos formalizados con $13.8M en irregularidades — sustentados en normativa vigente</li>
-            <li>Semanas de revisión manual comprimidas en días combinando IA con experiencia del despacho</li>
+            <li>Auditoría financiera a organismo municipal — Sonora</li>
+            <li>961 transacciones y $86.4M revisados con IA</li>
+            <li>$13.8M en irregularidades formalizadas y sustentadas en normativa</li>
+            <li>Semanas de revisión manual comprimidas en días</li>
           </ul>
           <img src="img/7.consultoria.webp" alt="Auditoría con IA" class="exp-img">
         </div>
-      </div>
 
-      <div class="exp-entry reveal">
-        <div>
+        <div class="exp-card reveal">
           <p class="exp-client">Agencia Inmobiliaria</p>
-          <p class="exp-sector">Bienes raíces · Arizona &amp; Sonora</p>
-        </div>
-        <div>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 14px;">El primer callcenter con inteligencia artificial que desarrollamos. Hacía y recibía llamadas, agendaba citas sin empalmes y notificaba al asesor — todo sin intervención humana.</blockquote>
+          <p class="exp-sector" style="margin-bottom:16px;">Bienes raíces · Arizona &amp; Sonora</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">El asistente hacía y recibía llamadas, agendaba citas y avisaba al asesor — todo sin que nadie tuviera que estar al teléfono.</blockquote>
           <ul class="exp-points">
-            <li>Agente conversacional conectado al inventario de propiedades, Google Calendar y CRM en tiempo real</li>
-            <li>Publicidad pagada en Meta que redirigía automáticamente a WhatsApp — el agente atendía 24/7</li>
-            <li>Agenda citas sin conflictos de horario gracias al acceso en tiempo real al calendario</li>
-            <li>Departamento de Foreclosures: agente que detectaba propiedades en proceso y contactaba al dueño — llamada y correo — antes que cualquier competidor</li>
-            <li>Al confirmar la cita, el agente notificaba al asesor de ventas automáticamente</li>
+            <li>Asistente de voz que atendía por teléfono y WhatsApp las 24 horas</li>
+            <li>Agendaba citas automáticamente sin conflictos de horario</li>
+            <li>Detectaba propiedades en proceso legal y contactaba al dueño antes que la competencia</li>
           </ul>
-          <img src="img/3.whatsapp.webp" alt="Agente WhatsApp en acción" class="exp-img">
+          <img src="img/3.whatsapp.webp" alt="Asistente de voz con IA" class="exp-img">
         </div>
-      </div>
 
-      <div class="exp-entry reveal">
-        <div>
-          <p class="exp-client">Plataforma Proptech</p>
-          <p class="exp-sector">Tecnología inmobiliaria · Sonora</p>
-        </div>
-        <div>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 14px;">Antes el asesor buscaba propiedad por propiedad en cada portal. Hoy el cliente describe lo que quiere, el sistema filtra y el asesor solo da clic en contactar.</blockquote>
+        <div class="exp-card reveal">
+          <p class="exp-client">Óptica de Lujo</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Retail · Varias sucursales · Hermosillo</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Antes eran seis sistemas distintos. Hoy corren como uno solo — cada venta, cliente y gasto trazado en tiempo real.</blockquote>
           <ul class="exp-points">
-            <li>Dashboard que conecta todos los portales inmobiliarios del noroeste en un solo lugar</li>
-            <li>Actualización automática diaria a las 8:30 AM — nuevas propiedades, salidas de mercado y cambios de precio en tiempo real</li>
-            <li>Búsqueda por características del cliente: el sistema filtra y entrega solo las opciones que aplican</li>
-            <li>Contacto directo al captador con un clic — sin salir del Dashboard ni buscar portal por portal</li>
-            <li>Elimina el riesgo de promover propiedades que ya no están disponibles</li>
+            <li>Un solo sistema para tiendas físicas y tienda en línea</li>
+            <li>Gerentes ven ventas, inventario y clientes frecuentes en tiempo real</li>
+            <li>Asistentes de IA que crean contenido para redes y analizan resultados de marketing</li>
           </ul>
-          <img src="img/5.dashboard.webp" alt="Dashboard inmobiliario" class="exp-img">
+          <img src="img/11.dhagen.webp" alt="Óptica de lujo con sistema integrado" class="exp-img" onerror="this.style.display='none'">
         </div>
-      </div>
 
-      <div class="exp-entry reveal">
-        <div>
+        <div class="exp-card reveal">
+          <p class="exp-client">Plataforma Inmobiliaria</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Tecnología · Sonora</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Antes el asesor buscaba propiedad por propiedad en cada portal. Hoy el cliente describe lo que quiere, el sistema filtra y el asesor solo da clic en contactar.</blockquote>
+          <ul class="exp-points">
+            <li>Panel que une todos los portales inmobiliarios del noroeste en un solo lugar</li>
+            <li>Se actualiza solo cada mañana — propiedades nuevas, precios y disponibilidad al día</li>
+            <li>El asesor filtra por lo que busca el cliente y contacta al vendedor con un clic</li>
+            <li>Elimina el riesgo de ofrecer propiedades que ya no están disponibles</li>
+          </ul>
+          <img src="img/5.dashboard.webp" alt="Plataforma inmobiliaria" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
+          <p class="exp-client">Academia de Artes Marciales</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Deporte · Sonora</p>
+          <ul class="exp-points" style="margin-top:0;">
+            <li>Asistente por WhatsApp que responde preguntas y comunica precios</li>
+            <li>Agenda clases de prueba automáticamente sin intervención del equipo</li>
+            <li>Recordatorios automáticos a alumnos con mensualidades vencidas</li>
+            <li>El equipo dejó de contestar los mismos mensajes — el asistente opera 24/7</li>
+          </ul>
+          <img src="img/10.artesmarciales.webp" alt="Academia de artes marciales con IA" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
           <p class="exp-client">Empresa de Acabados</p>
-          <p class="exp-sector">Construcción · Sonora</p>
-        </div>
-        <div>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 14px;">Sin presupuesto de publicidad. En lugar de pautar en redes, creamos un sistema que llega directamente a las empresas que necesitan el servicio — antes de que ellas lo busquen.</blockquote>
+          <p class="exp-sector" style="margin-bottom:16px;">Construcción · Sonora</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Sin presupuesto de publicidad. En lugar de pautar en redes, creamos un sistema que llega directamente a las empresas que necesitan el servicio — antes de que ellas lo busquen.</blockquote>
           <ul class="exp-points">
-            <li>Sitio web con identidad de marca creada desde cero</li>
-            <li>Sistema de scraping diario que identifica empresas potenciales por sector e industria</li>
-            <li>Envío automatizado de correos masivos personalizados por tipo de cliente — sin intervención manual</li>
-            <li>Cada correo incluye CTA directo a WhatsApp para contacto inmediato con el asesor de ventas</li>
-            <li>Marketing de precisión sin depender de presupuesto publicitario en redes sociales</li>
+            <li>Sitio web con identidad de marca creada desde cero con IA</li>
+            <li>Sistema que identifica automáticamente empresas que pueden necesitar el servicio</li>
+            <li>Envía correos personalizados por tipo de cliente sin intervención manual</li>
+            <li>Marketing que llega directo al cliente sin depender de publicidad en redes</li>
           </ul>
           <img src="img/8.acabados.webp" alt="Empresa de acabados" class="exp-img">
         </div>
-      </div>
 
-      <div class="exp-entry reveal">
-        <div>
+        <div class="exp-card reveal">
           <p class="exp-client">Empresa de Logística</p>
-          <p class="exp-sector">Fletes y acarreos · Sonora</p>
-        </div>
-        <div>
-          <ul class="exp-points">
+          <p class="exp-sector" style="margin-bottom:16px;">Fletes y acarreos · Sonora</p>
+          <ul class="exp-points" style="margin-top:0;">
             <li>Identidad de marca creada desde cero con IA</li>
-            <li>Publicidad básica automatizada en Meta</li>
-            <li>Sistema de respuestas automáticas configurado en Meta y WhatsApp Business</li>
+            <li>Publicidad automatizada en redes sociales</li>
+            <li>Asistente automático configurado en Meta y WhatsApp Business</li>
             <li>Presencia digital operando sin intervención manual del equipo</li>
           </ul>
           <img src="img/9.logistica.webp" alt="Empresa de logística" class="exp-img">
         </div>
-      </div>
 
-      <div class="exp-entry reveal">
-        <div>
-          <p class="exp-client">Óptica de Lujo</p>
-          <p class="exp-sector">Retail · Varias sucursales · Hermosillo</p>
-        </div>
-        <div>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 14px;">Seis sistemas distintos — punto de venta, inventario, CRM, ecommerce, marketing y finanzas — corriendo como uno solo. Cada venta, cada cliente y cada peso de marketing trazado en tiempo real, en todas las sucursales y en dhagen.mx.</blockquote>
-          <ul class="exp-points">
-            <li>Plataforma <strong>Optiflow</strong>: sistema integral a la medida que unifica operaciones físicas y ecommerce en un solo panel</li>
-            <li>Verificación de inventario con <strong>visión computacional</strong>; segmentación RFM de clientes y conciliación de caja en tiempo real para gerentes</li>
-            <li>Flota de agentes IA: outreach B2B a cuentas corporativas, generación de contenido SEO y departamento virtual de marketing que planea campañas y analiza performance</li>
-            <li>Ecommerce con checkout via <strong>Stripe y Bitcoin Lightning</strong>, sistema de afiliados integrado, inventario y precios sincronizados con tiendas físicas</li>
-          </ul>
-          <img src="img/11.dhagen.webp" alt="Óptica de lujo con plataforma de retail integrada" class="exp-img" onerror="this.style.display='none'">
-        </div>
       </div>
-
-      <div class="exp-entry reveal">
-        <div>
-          <p class="exp-client">Academia de Artes Marciales</p>
-          <p class="exp-sector">Deporte · Sonora</p>
-        </div>
-        <div>
-          <ul class="exp-points">
-            <li>Chatbot vía <strong>WhatsApp Business</strong> que responde preguntas frecuentes y comunica precios</li>
-            <li>Agenda clases de prueba automáticamente sin intervención del equipo</li>
-            <li>Recordatorios automáticos de mensualidades vencidas a alumnos con atraso</li>
-            <li>El equipo deja de contestar los mismos mensajes — el agente opera 24/7</li>
-          </ul>
-          <img src="img/10.artesmarciales.webp" alt="Academia de artes marciales con IA" class="exp-img">
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -1393,15 +1459,12 @@ Stack real
 en producción.</h2>
         <p class="about-bio reveal">El instructor es la cara de Lightning — y detrás hay un equipo técnico con el talento para hacer todo realidad. Lo que nos diferencia no es solo el stack: es la capacidad de sentarnos con un cliente, entender cómo opera su negocio y detectar dónde la IA genera impacto real. Sin venderle tecnología que no necesita. Sin abrumarlo con términos que no le sirven. El resultado siempre es un plan concreto, ejecutable y diseñado para escalar con el equipo que ya tiene.</p>
         <div class="chips reveal">
-          <span class="chip">Agentes IA</span>
-          <span class="chip">WhatsApp API</span>
-          <span class="chip">n8n</span>
-          <span class="chip">Claude API</span>
-          <span class="chip">Meta API</span>
-          <span class="chip">Web Scraping</span>
-          <span class="chip">Django</span>
-          <span class="chip">PostgreSQL</span>
-          <span class="chip">MCP</span>
+          <span class="chip">Talleres para equipos</span>
+          <span class="chip">Sistemas de IA a la medida</span>
+          <span class="chip">Asistentes por WhatsApp</span>
+          <span class="chip">Automatización de procesos</span>
+          <span class="chip">Análisis de documentos con IA</span>
+          <span class="chip">Norte de México y EUA</span>
         </div>
       </div>
       <div class="about-stats">
@@ -1563,6 +1626,26 @@ en producción.</h2>
           el.classList.add('pre-animate');
           observer.observe(el);
         }
+      });
+    })();
+
+    /* ── Drag to scroll — expediente horizontal ── */
+    (function () {
+      var el = document.getElementById('expScroll');
+      if (!el) return;
+      var isDown = false, startX, scrollLeft;
+      el.addEventListener('mousedown', function (e) {
+        isDown = true;
+        startX = e.pageX - el.offsetLeft;
+        scrollLeft = el.scrollLeft;
+      });
+      el.addEventListener('mouseleave', function () { isDown = false; });
+      el.addEventListener('mouseup', function () { isDown = false; });
+      el.addEventListener('mousemove', function (e) {
+        if (!isDown) return;
+        e.preventDefault();
+        var x = e.pageX - el.offsetLeft;
+        el.scrollLeft = scrollLeft - (x - startX) * 1.2;
       });
     })();
   </script>
