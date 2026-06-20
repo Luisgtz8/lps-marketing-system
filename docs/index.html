@@ -534,6 +534,165 @@
       color: var(--green);
     }
 
+    .method-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .method-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .method-card {
+      background: #111;
+      border: 1px solid #252525;
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .method-card.good {
+      background: #1a1200;
+      border-color: rgba(245,158,11,0.55);
+    }
+
+    .method-card h3 {
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+
+    .method-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .method-list li {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .method-list li::before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .method-card.bad .method-list li::before {
+      content: "×";
+      color: #c0413a;
+    }
+
+    .method-card.good .method-list li::before {
+      content: "✓";
+    }
+
+    .system-diagram {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .system-step {
+      background: #111;
+      border: 1px solid #252525;
+      border-radius: 10px;
+      padding: 18px;
+      min-height: 132px;
+      position: relative;
+    }
+
+    .system-step::after {
+      content: "→";
+      position: absolute;
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .system-step:last-child::after {
+      display: none;
+    }
+
+    .system-step span {
+      display: block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+
+    .system-step strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .system-step p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .structure-board {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      margin: 34px 0 40px;
+      align-items: stretch;
+    }
+
+    .folder-tree,
+    .prompt-stack {
+      background: #111;
+      border: 1px solid #252525;
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .folder-tree pre {
+      color: #f7c56b;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      margin-top: 14px;
+    }
+
+    .prompt-stack-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .prompt-piece {
+      border: 1px solid rgba(245,158,11,0.25);
+      background: rgba(245,158,11,0.07);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+      color: #d8d8d8;
+    }
+
+    .prompt-piece strong {
+      color: var(--green);
+    }
+
     /* TALLERES */
     .talleres {
       padding: 60px 0;
@@ -1125,6 +1284,25 @@
         padding: 0 24px;
       }
 
+      .method-inner {
+        padding: 0 24px;
+      }
+
+      .method-grid,
+      .system-diagram,
+      .structure-board {
+        grid-template-columns: 1fr;
+      }
+
+      .system-step::after {
+        content: "↓";
+        right: auto;
+        top: auto;
+        left: 24px;
+        bottom: -18px;
+        transform: none;
+      }
+
       .talleres-inner {
         padding: 0 24px;
       }
@@ -1181,6 +1359,7 @@
       <ul class="nav-links">
         <li class="nav-text-links-item"><a href="#talleres">Talleres</a></li>
         <li class="nav-text-links-item"><a href="#proyectos">Proyectos</a></li>
+        <li class="nav-text-links-item"><a href="curso.html">Curso</a></li>
         <li>
           <a href="https://wa.me/526623478040?text=Hola%2C%20me%20interesa%20el%20taller%20de%20IA" class="btn-nav" target="_blank" rel="noopener">Contactar</a>
         </li>
@@ -1198,8 +1377,8 @@
     <div class="hero-inner">
       <div class="hero-left">
         <p class="hero-eyebrow reveal">TALLERES DE IA PARA EQUIPOS · HERMOSILLO, SONORA</p>
-        <h1 class="hero-h1 reveal">Tu equipo trabaja con IA <span class="accent">desde hoy.</span></h1>
-        <p class="hero-sub reveal">Sin teoría. Sin tecnicismos. Tu equipo sale usando herramientas de IA ese mismo día.</p>
+        <h1 class="hero-h1 reveal">Deja de usar IA para <span class="accent">preguntas sueltas.</span></h1>
+        <p class="hero-sub reveal">Tu equipo aprende a trabajar con estructura: contexto, carpetas, prompts y asistentes que mejoran conforme se usan.</p>
         <div class="hero-btns reveal">
           <a href="https://wa.me/526623478040?text=Hola%2C%20quiero%20agendar%20un%20taller%20de%20IA%20para%20mi%20equipo" class="btn-primary" target="_blank" rel="noopener">Apartar fecha →</a>
           <a href="#talleres" class="btn-outline">Ver talleres</a>
@@ -1208,13 +1387,13 @@
       <div class="hero-panel reveal">
         <img src="img/1.taller.webp" alt="Equipo trabajando con IA" class="hero-panel-img">
         <p class="panel-label">EL CAMBIO</p>
-        <p style="font-size:13px;color:#a0a0a0;margin:0 0 16px;line-height:1.6;">Antes pasabas una hora escribiendo ese correo, buscando ese dato o armando ese reporte. Hoy tienes asistentes digitales que ya saben cómo trabajas, cómo escribes y qué esperas. Tú orquestas. Ellos ejecutan.</p>
+        <p style="font-size:13px;color:#a0a0a0;margin:0 0 16px;line-height:1.6;">El taller no es una lista de trucos. Es aprender a preparar la información para que la IA entienda tu negocio, recuerde tus reglas y produzca trabajo útil sin empezar desde cero cada vez.</p>
         <ul class="check-list">
-          <li><span class="check">✓</span> Antes: correo de cobranza desde cero. Hoy: un asistente que conoce tu tono y tu cliente.</li>
-          <li><span class="check">✓</span> Antes: buscar en carpetas. Hoy: le preguntas al sistema y responde en segundos.</li>
-          <li><span class="check">✓</span> Antes: revisar contratos a mano. Hoy: análisis estructurado con criterio en minutos.</li>
-          <li><span class="check">✓</span> Cada empleado con su propio equipo de asistentes digitales que aprenden cómo trabaja.</li>
-          <li><span class="check">✓</span> Entre más los usas, más saben de ti. El sistema mejora solo.</li>
+          <li><span class="check">✓</span> De preguntas aisladas a procesos reutilizables.</li>
+          <li><span class="check">✓</span> De archivos sueltos a carpetas con contexto claro.</li>
+          <li><span class="check">✓</span> De prompts improvisados a instrucciones con rol, datos y salida.</li>
+          <li><span class="check">✓</span> De respuestas vagas a resultados que se pueden revisar y mejorar.</li>
+          <li><span class="check">✓</span> Cada uso deja una mejor versión del sistema.</li>
         </ul>
       </div>
     </div>
@@ -1261,40 +1440,52 @@
 
   <!-- PROBLEMA / SOLUCIÓN -->
   <section class="problem">
-    <div class="problem-inner">
+    <div class="method-inner">
       <div class="reveal">
-        <h2 class="problem-headline">La mayoría usa IA y sigue haciendo lo mismo de siempre.</h2>
-        <p style="color:#888;font-size:16px;line-height:1.7;margin:20px 0;">Le preguntan algo, copian la respuesta y mañana empiezan desde cero. Sin memoria. Sin contexto. Sin estructura. Como si fuera la primera vez, siempre.</p>
-        <p style="color:#e8e8e8;font-size:16px;line-height:1.7;margin:0 0 24px;">Nosotros te enseñamos a construir algo diferente: un sistema que recuerda cómo trabajas, aprende de tu negocio y mejora entre más lo usas.</p>
-        <ul class="problem-task-list">
-          <li><strong>ChatGPT</strong> — Deja de empezar desde cero. Aprende a darle instrucciones para que conozca tu negocio, tu tono y tus procesos.</li>
-          <li><strong>Claude</strong> — Sube tus contratos, facturas y reportes. Obtén análisis en minutos que antes tomaban horas.</li>
-        </ul>
-        <p style="color:#666;font-size:14px;line-height:1.7;margin:12px 0 0;">También exploramos Gemini, Grok, Canva, OpenArt y otras herramientas según las necesidades del equipo.</p>
+        <p class="section-label">EL MÉTODO</p>
+        <h2 class="section-h2" style="max-width:760px;margin-bottom:16px;">La IA funciona mejor cuando tiene estructura.</h2>
+        <p style="color:#888;font-size:16px;line-height:1.7;max-width:760px;">La mayoría empieza con una pregunta suelta. En el taller les enseño a construir un sistema: información ordenada, contexto reutilizable, prompts con arquitectura y criterio para revisar resultados.</p>
       </div>
-      <div class="reveal">
-        <h3 class="solution-headline">¿Por qué no lo usan ya?</h3>
-        <div class="solution-groups">
-          <div class="solution-group">
-            <span class="solution-block">× No saben qué herramienta usar</span>
-            <span class="solution-arrow">Salen con criterio propio para elegir la correcta</span>
-          </div>
-          <div class="solution-group">
-            <span class="solution-block">× No saben cómo revisar resultados</span>
-            <span class="solution-arrow">Aprenden a validar con ojo crítico, no a confiar ciegamente</span>
-          </div>
-          <div class="solution-group">
-            <span class="solution-block">× No saben cómo integrarlo sin romper su flujo</span>
-            <span class="solution-arrow">Lo aplican en su trabajo real ese mismo día, sin cambiar sistemas</span>
-          </div>
-          <div class="solution-group">
-            <span class="solution-block">× Inventa cosas, se equivoca y no saben si confiarle</span>
-            <span class="solution-arrow">Aprenden a darle contexto real para que no divague — y a revisar el resultado antes de usarlo</span>
-          </div>
-          <div class="solution-group">
-            <span class="solution-block">× Tiene errores, repite ideas y da respuestas vagas</span>
-            <span class="solution-arrow">Eso pasa cuando no sabe quién eres ni cómo trabajas — el taller resuelve exactamente eso</span>
-          </div>
+
+      <div class="method-grid reveal">
+        <div class="method-card bad">
+          <h3>Lo que hace quien no sabe</h3>
+          <ul class="method-list">
+            <li>Pregunta una cosa aislada y copia lo primero que sale.</li>
+            <li>No le da contexto del negocio, cliente, tono ni objetivo.</li>
+            <li>Sube archivos sin orden y luego no sabe qué se usó.</li>
+            <li>Confía ciegamente o descarta la IA porque se equivocó.</li>
+            <li>Mañana vuelve a empezar desde cero.</li>
+          </ul>
+        </div>
+
+        <div class="method-card good">
+          <h3>Lo que les enseño a hacer</h3>
+          <ul class="method-list">
+            <li>Crear carpetas y archivos `.md` con la información vigente.</li>
+            <li>Dar instrucciones estables: rol, contexto, datos, criterio y salida.</li>
+            <li>Separar fuente oficial, ejemplos, pendientes e histórico.</li>
+            <li>Revisar respuestas con criterio humano antes de usarlas.</li>
+            <li>Convertir tareas repetidas en asistentes reutilizables.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="system-diagram reveal">
+        <div class="system-step">
+          <span>1 · Ordenar</span>
+          <strong>Carpetas y fuentes</strong>
+          <p>La IA sabe qué información usar, qué ignorar y dónde está la fuente vigente.</p>
+        </div>
+        <div class="system-step">
+          <span>2 · Instruir</span>
+          <strong>Prompts con arquitectura</strong>
+          <p>No se pide “hazme algo”. Se define rol, contexto, datos, criterio y formato.</p>
+        </div>
+        <div class="system-step">
+          <span>3 · Mejorar</span>
+          <strong>Skills y asistentes</strong>
+          <p>Las tareas repetidas se vuelven instrucciones reutilizables que mejoran con uso.</p>
         </div>
       </div>
     </div>
@@ -1306,14 +1497,44 @@
       <p class="section-label reveal">TALLERES</p>
       <h2 class="section-h2 section-h2-center reveal">Elige el formato para tu equipo</h2>
       <img src="img/2.reunion.webp" alt="Taller IA en acción" class="talleres-img reveal">
+
+      <div class="structure-board reveal">
+        <div class="folder-tree">
+          <span class="taller-badge green">ESTRUCTURA</span>
+          <h3 class="taller-name" style="margin-top:14px;">Así ordenamos la información</h3>
+          <p class="taller-desc">La IA deja de adivinar cuando tiene fuentes, reglas y ejemplos bien separados.</p>
+          <pre>empresa/
+├─ AGENTS.md
+├─ fuente_unica.md
+├─ procesos/
+├─ clientes/
+├─ prompts/
+└─ historico/</pre>
+        </div>
+
+        <div class="prompt-stack">
+          <span class="taller-badge green">PROMPT</span>
+          <h3 class="taller-name" style="margin-top:14px;">Así pedimos trabajo útil</h3>
+          <p class="taller-desc">Un buen prompt funciona como una orden de trabajo clara, no como una ocurrencia.</p>
+          <div class="prompt-stack-list">
+            <div class="prompt-piece"><strong>Rol:</strong> qué tipo de asistente eres.</div>
+            <div class="prompt-piece"><strong>Contexto:</strong> qué debe saber del negocio.</div>
+            <div class="prompt-piece"><strong>Datos:</strong> archivos, casos y ejemplos.</div>
+            <div class="prompt-piece"><strong>Criterio:</strong> qué revisar antes de responder.</div>
+            <div class="prompt-piece"><strong>Salida:</strong> tabla, correo, reporte o plan.</div>
+          </div>
+        </div>
+      </div>
+
       <div class="talleres-grid">
         <div class="taller-card reveal">
           <span class="taller-badge">BÁSICO</span>
           <h3 class="taller-name">IA Sin Miedo</h3>
-          <p class="taller-desc">El punto de entrada. Tu equipo aprende a darle estructura a cada herramienta para que conozca el negocio, el tono y los procesos — y mejore entre más la usen. Sin prerequisitos técnicos. Sin jerga innecesaria.</p>
+          <p class="taller-desc">El punto de entrada. Tu equipo aprende a usar IA con contexto, carpetas, prompts claros y revisión humana. Salen con una forma de trabajar que pueden repetir al día siguiente, no solo con ejemplos bonitos.</p>
           <div class="taller-meta">
             <span>Presencial o remoto</span>
             <span>Sin requisito previo</span>
+            <span>Enfocado en tareas reales del equipo</span>
           </div>
           <div class="taller-price-block">
             <div>
@@ -1326,10 +1547,11 @@
         <div class="taller-card featured reveal">
           <span class="taller-badge green">NIVEL AVANZADO</span>
           <h3 class="taller-name">IA en Operación</h3>
-          <p class="taller-desc">Para equipos que ya usan las herramientas y quieren ir más lejos. Aprenden a crear sistemas de información propios, reportes que se actualizan solos, herramientas que se conectan entre sí y asistentes que trabajan por su cuenta. El objetivo: que la tecnología opere procesos completos — no solo tareas sueltas.</p>
+          <p class="taller-desc">Para equipos que ya usan IA y quieren convertirla en operación: asistentes, reportes, bases de conocimiento, flujos entre herramientas y procesos que no dependen de estar copiando y pegando.</p>
           <div class="taller-meta">
             <span>Presencial o remoto</span>
             <span>Requiere haber tomado IA Sin Miedo o similar</span>
+            <span>Orientado a sistemas, no a prompts sueltos</span>
           </div>
           <a href="https://wa.me/526623478040?text=Quiero%20informaci%C3%B3n%20del%20taller%20avanzado%20de%20IA" class="btn-green" target="_blank" rel="noopener">Solicitar información</a>
         </div>

@@ -1,0 +1,2545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IA Sin Miedo — Curso en línea · Lightning Pro Solutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --amber: #F59E0B;
+      --amber-dim: rgba(245,158,11,0.12);
+      --amber-border: rgba(245,158,11,0.35);
+      --black: #080808;
+      --black-mid: #0f0f0f;
+      --surface: #111111;
+      --surface2: #161616;
+      --border: #222222;
+      --text: #e8e8e8;
+      --muted: #888888;
+      --success: #22c55e;
+      --success-dim: rgba(34,197,94,0.12);
+      --error: #ef4444;
+      --error-dim: rgba(239,68,68,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+
+    /* ─── LOGIN ─── */
+    /* ─── MAIN LAYOUT ─── */
+
+    .top-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: rgba(8,8,8,0.92);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+    }
+
+    .top-bar-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+
+    .progress-bar-wrap {
+      flex: 1;
+      max-width: 240px;
+      margin: 0 24px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--amber);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    .progress-label {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .course-layout {
+      display: flex;
+      padding-top: 56px;
+      min-height: 100vh;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      background: var(--black-mid);
+      border-right: 1px solid var(--border);
+      padding: 24px 0;
+      position: fixed;
+      top: 56px;
+      bottom: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-section {
+      padding: 0 16px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 8px;
+      margin-bottom: 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-size: 14px;
+      color: var(--muted);
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item:hover { background: var(--surface); color: var(--text); }
+
+    .nav-item.active {
+      background: var(--amber-dim);
+      color: var(--amber);
+      border: 1px solid var(--amber-border);
+    }
+
+    .nav-item.done { color: var(--success); }
+    .nav-item.done .nav-dot { background: var(--success); }
+
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .nav-item.active .nav-dot { background: var(--amber); }
+
+    /* ─── CONTENT ─── */
+    .content-area {
+      margin-left: 260px;
+      flex: 1;
+      padding: 48px 64px;
+      max-width: 860px;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .content-area { margin-left: 0; padding: 24px 20px; }
+    }
+
+    .module { display: none; }
+    .module.active { display: block; }
+
+    .module-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 12px;
+    }
+
+    .module-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .module-desc {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    .module-img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 36px;
+      display: block;
+      object-fit: cover;
+      max-height: 360px;
+    }
+
+    /* ─── CONTENT BLOCKS ─── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .card p { color: var(--muted); margin-bottom: 12px; }
+    .card p:last-child { margin-bottom: 0; }
+
+    .highlight {
+      background: var(--amber-dim);
+      border: 1px solid var(--amber-border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+
+    .highlight p { color: var(--text); margin: 0; }
+
+    .formula-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .formula-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .formula-num {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--amber);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .formula-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .formula-desc { font-size: 13px; color: var(--muted); }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 540px) { .tools-grid { grid-template-columns: 1fr; } }
+
+    .tool-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .tool-card.primary { border-color: var(--amber-border); }
+
+    .tool-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .tool-use { font-size: 13px; color: var(--muted); }
+
+    .tool-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .badge-primary { background: var(--amber); color: #000; }
+    .badge-secondary { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+
+    /* ─── QUIZ ─── */
+    .quiz-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .quiz-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 10px;
+    }
+
+    .quiz-question {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      line-height: 1.35;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quiz-option {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text);
+      text-align: left;
+      transition: border-color 0.15s, background 0.15s;
+      line-height: 1.4;
+    }
+
+    .quiz-option:hover:not(:disabled) {
+      border-color: #444;
+      background: #1a1a1a;
+    }
+
+    .quiz-option.correct {
+      background: var(--success-dim);
+      border-color: var(--success);
+      color: var(--success);
+      cursor: default;
+    }
+
+    .quiz-option.wrong {
+      background: var(--error-dim);
+      border-color: var(--error);
+      color: var(--error);
+      cursor: default;
+    }
+
+    .quiz-option.disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .quiz-feedback {
+      margin-top: 16px;
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .quiz-feedback.correct {
+      background: var(--success-dim);
+      border: 1px solid var(--success);
+      color: var(--success);
+      display: block;
+    }
+
+    .quiz-feedback.wrong {
+      background: var(--error-dim);
+      border: 1px solid var(--error);
+      color: #fca5a5;
+      display: block;
+    }
+
+    /* ─── PROMPT CARDS ─── */
+    .prompt-card {
+      background: var(--black-mid);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .prompt-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .prompt-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .prompt-tool-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--amber);
+      color: #000;
+    }
+
+    .prompt-tool-badge.claude { background: #7c3aed; color: #fff; }
+    .prompt-tool-badge.gemini { background: #1d4ed8; color: #fff; }
+    .prompt-tool-badge.notebooklm { background: #065f46; color: #fff; }
+
+    .prompt-body {
+      padding: 20px;
+      font-family: 'Inter', monospace;
+      font-size: 13px;
+      color: #ccc;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .prompt-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .prompt-context {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .copy-btn {
+      background: var(--amber);
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 16px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .copy-btn:hover { opacity: 0.85; }
+    .copy-btn.copied { background: var(--success); color: #fff; }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .download-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+    .prompt-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .prompt-footer-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .resource-banner {
+      background: rgba(245,158,11,0.06);
+      border: 1px solid var(--amber-border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .resource-banner-info { font-size: 13px; color: var(--muted); }
+    .resource-banner-info strong { color: var(--text); display: block; margin-bottom: 2px; }
+
+    /* ─── NAV BUTTONS ─── */
+    .module-nav {
+      display: flex;
+      gap: 12px;
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-prev {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 24px;
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .btn-prev:hover { border-color: #555; }
+
+    .btn-next {
+      background: var(--amber);
+      border: none;
+      border-radius: 8px;
+      padding: 11px 28px;
+      color: #000;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn-next:hover { opacity: 0.88; }
+
+    /* ─── LIBRARY FICHA ─── */
+    .ficha-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 540px) { .ficha-grid { grid-template-columns: 1fr; } }
+
+    .ficha-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+
+    .ficha-field {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 4px;
+    }
+
+    .ficha-val { font-size: 13px; color: var(--muted); }
+
+    /* ─── COMPLETION ─── */
+    .completion-screen {
+      text-align: center;
+      padding: 64px 24px;
+    }
+
+    .completion-icon {
+      font-size: 56px;
+      margin-bottom: 24px;
+    }
+
+    .completion-screen h2 {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .completion-screen p {
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto 32px;
+    }
+
+    /* ─── CHECKLIST ─── */
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .check-item:hover { border-color: #333; }
+
+    .check-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      accent-color: var(--amber);
+      margin-top: 2px;
+      cursor: pointer;
+    }
+
+    .check-item:has(input:checked) {
+      border-color: var(--success);
+      background: var(--success-dim);
+    }
+
+    .check-item:has(input:checked) span {
+      color: var(--success);
+      text-decoration: line-through;
+      text-decoration-color: rgba(34,197,94,0.4);
+    }
+
+    /* Mobile nav */
+    .mobile-tabs {
+      display: none;
+      overflow-x: auto;
+      gap: 8px;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--black-mid);
+      position: fixed;
+      top: 56px;
+      left: 0; right: 0;
+      z-index: 90;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-tabs { display: flex; }
+      .content-area { padding-top: 80px; }
+    }
+
+    .mobile-tab {
+      flex-shrink: 0;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .mobile-tab.active {
+      background: var(--amber);
+      border-color: var(--amber);
+      color: #000;
+      font-weight: 700;
+    }
+
+    /* ─── ACCORDION ─── */
+    details { border-bottom: 1px solid var(--border); }
+    details:last-child { border-bottom: none; }
+    details summary {
+      cursor: pointer;
+      padding: 14px 0;
+      font-weight: 600;
+      color: var(--text);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      user-select: none;
+      font-size: 14px;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    details summary::after {
+      content: '+';
+      font-size: 16px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    details[open] summary::after { content: '−'; }
+    details[open] summary { color: var(--amber); }
+    .accordion-body {
+      padding: 0 0 16px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════ LOGIN ═══════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════ COURSE ═══════════════════════════════════════ -->
+<div id="course-screen">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <span class="top-bar-logo">Lightning Pro</span>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+    <span class="progress-label" id="progress-label">Módulo 1 de 5</span>
+  </div>
+
+  <!-- MOBILE TABS -->
+  <div class="mobile-tabs" id="mobile-tabs"></div>
+
+  <div class="course-layout">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Módulos</div>
+        <div id="nav-items"></div>
+      </div>
+    </nav>
+
+    <!-- CONTENT -->
+    <main class="content-area">
+
+      <!-- ══════ MÓDULO 1 — INTRO ══════ -->
+      <div class="module active" id="mod-1">
+        <div class="module-eyebrow">Módulo 1</div>
+        <h1 class="module-title">¿Qué es (y qué no es) la IA?</h1>
+        <p class="module-desc">Antes de usar cualquier herramienta, alineamos expectativas. La IA es poderosa — pero solo si sabes qué pedirle y cómo revisar lo que produce.</p>
+
+        <img class="module-img" src="img/curso_m1_que_es_ia.png" alt="Profesional usando IA como herramienta de trabajo">
+
+        <div class="highlight">
+          <p><strong>Principio central del curso:</strong><br>La IA propone. El equipo decide.</p>
+        </div>
+
+        <div class="card">
+          <h3>Lo que la IA hace bien</h3>
+          <p>Genera primeras versiones rápidas de textos, correos, reportes y resúmenes. Analiza documentos largos y extrae lo relevante. Busca patrones en datos y responde preguntas sobre procedimientos internos. Ahorra el tiempo de "hoja en blanco".</p>
+        </div>
+
+        <div class="card">
+          <h3>Lo que la IA NO hace</h3>
+          <p>No firma documentos. No conoce tu empresa a menos que se lo digas. No garantiza que lo que produce sea correcto — puede inventar datos, fechas o citas. No reemplaza el criterio profesional.</p>
+          <p>Copy-paste sin revisión no es eficiencia. Es riesgo.</p>
+        </div>
+
+        <div class="quiz-block">
+          <div class="quiz-label">Pregunta 1 de 5</div>
+          <div class="quiz-question">¿Cuál de estas afirmaciones sobre la IA es FALSA?</div>
+          <div class="quiz-options" id="q1">
+            <button class="quiz-option" onclick="answer('q1', this, false)">A. La IA puede generar primeras versiones de correos y reportes muy rápido.</button>
+            <button class="quiz-option" onclick="answer('q1', this, false)">B. Es importante revisar lo que produce la IA antes de usarlo.</button>
+            <button class="quiz-option" onclick="answer('q1', this, true)">C. La IA siempre produce información correcta y verificada.</button>
+            <button class="quiz-option" onclick="answer('q1', this, false)">D. La IA puede analizar documentos largos como contratos o listas de gastos.</button>
+          </div>
+          <div class="quiz-feedback" id="q1-feedback"></div>
+        </div>
+
+        <div class="module-nav">
+          <button class="btn-next" onclick="goTo(2)">Siguiente módulo →</button>
+        </div>
+      </div>
+
+      <!-- ══════ MÓDULO 2 — FÓRMULA ══════ -->
+      <div class="module" id="mod-2">
+        <div class="module-eyebrow">Módulo 2</div>
+        <h1 class="module-title">La fórmula del prompt</h1>
+        <p class="module-desc">Un prompt bien construido siempre tiene 5 elementos. Si falta uno, la IA empieza a adivinar — y cuando adivina, se equivoca.</p>
+
+        <img class="module-img" src="img/curso_m2_formula_prompt.png" alt="Prompt estructurado en 5 partes">
+
+        <div class="formula-grid">
+          <div class="formula-item">
+            <div class="formula-num">01</div>
+            <div class="formula-name">ROL</div>
+            <div class="formula-desc">Desde qué posición debe responder. "Actúa como coordinador de ventas…"</div>
+          </div>
+          <div class="formula-item">
+            <div class="formula-num">02</div>
+            <div class="formula-name">CONTEXTO</div>
+            <div class="formula-desc">Datos reales: cliente, situación, empresa, números del mes.</div>
+          </div>
+          <div class="formula-item">
+            <div class="formula-num">03</div>
+            <div class="formula-name">TAREA</div>
+            <div class="formula-desc">Qué debe producir exactamente. No "ayúdame" — "crea un resumen de 5 puntos".</div>
+          </div>
+          <div class="formula-item">
+            <div class="formula-num">04</div>
+            <div class="formula-name">FORMATO</div>
+            <div class="formula-desc">Cómo debe entregarlo: correo, bullets, tabla, resumen, lista numerada.</div>
+          </div>
+          <div class="formula-item">
+            <div class="formula-num">05</div>
+            <div class="formula-name">CRITERIO</div>
+            <div class="formula-desc">Tono, longitud, qué incluir, qué evitar. "Máximo 120 palabras, sin tecnicismos."</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Malo vs. bueno</h3>
+          <p><strong style="color: var(--error);">Malo:</strong> "hazme un reporte de ventas"<br>
+          ¿De qué período? ¿Para quién? ¿Qué datos? La IA inventa.</p>
+          <p><strong style="color: var(--success);">Bueno:</strong> "Actúa como coordinador de ventas de una distribuidora. Contexto: ventas mayo $312,400 de un objetivo de $350,000. Crea un resumen ejecutivo de 5 puntos para el director. Tono directo, sin tecnicismos, usa bullets."</p>
+        </div>
+
+        <div class="quiz-block">
+          <div class="quiz-label">Pregunta 2 de 5</div>
+          <div class="quiz-question">Lee este prompt. ¿Qué elemento de la fórmula le falta?<br><br><em style="color: var(--muted); font-style: italic;">"Eres un ejecutivo de cobranza. El cliente Restaurante Los Arcos tiene 31 días de atraso con $19,800 pendientes. Escríbeme un correo de seguimiento."</em></div>
+          <div class="quiz-options" id="q2">
+            <button class="quiz-option" onclick="answer('q2', this, false)">A. ROL — no dice desde qué posición responde.</button>
+            <button class="quiz-option" onclick="answer('q2', this, false)">B. CONTEXTO — no hay datos del cliente.</button>
+            <button class="quiz-option" onclick="answer('q2', this, false)">C. TAREA — no está claro qué debe producir.</button>
+            <button class="quiz-option" onclick="answer('q2', this, true)">D. CRITERIO — no especifica tono, longitud ni qué evitar.</button>
+          </div>
+          <div class="quiz-feedback" id="q2-feedback"></div>
+        </div>
+
+        <div class="quiz-block">
+          <div class="quiz-label">Pregunta 3 de 5</div>
+          <div class="quiz-question">¿Cuál de estos prompts está mejor construido?</div>
+          <div class="quiz-options" id="q3">
+            <button class="quiz-option" onclick="answer('q3', this, false)">A. "Hazme un correo de cobranza."</button>
+            <button class="quiz-option" onclick="answer('q3', this, false)">B. "Escríbeme algo para cobrarle a un cliente que me debe."</button>
+            <button class="quiz-option" onclick="answer('q3', this, true)">C. "Actúa como ejecutivo de cobranza. Cliente: Restaurante Los Arcos, $19,800 pendientes, 31 días de atraso. Escríbeme un correo formal. Tono firme pero sin sonar agresivo. Máximo 120 palabras. Termina con una fecha límite de pago."</button>
+            <button class="quiz-option" onclick="answer('q3', this, false)">D. "Ayúdame con un correo para cobrar dinero que me deben, por favor."</button>
+          </div>
+          <div class="quiz-feedback" id="q3-feedback"></div>
+        </div>
+
+        <div class="module-nav">
+          <button class="btn-prev" onclick="goTo(1)">← Anterior</button>
+          <button class="btn-next" onclick="goTo(3)">Siguiente módulo →</button>
+        </div>
+      </div>
+
+      <!-- ══════ MÓDULO 3 — HERRAMIENTAS ══════ -->
+      <div class="module" id="mod-3">
+        <div class="module-eyebrow">Módulo 3</div>
+        <h1 class="module-title">Cuál herramienta usar</h1>
+        <p class="module-desc">No todas las herramientas de IA hacen lo mismo. Elegir bien ahorra tiempo y evita frustración.</p>
+
+        <img class="module-img" src="img/curso_m3_herramientas.png" alt="Comparación de las cuatro herramientas de IA">
+
+        <div class="tools-grid">
+          <div class="tool-card primary">
+            <span class="tool-badge badge-primary">Principal</span>
+            <div class="tool-name">ChatGPT</div>
+            <div class="tool-use">Correos, reportes ejecutivos, resúmenes, comunicación. La base para el 80% de las tareas.</div>
+          </div>
+          <div class="tool-card primary">
+            <span class="tool-badge badge-primary">Principal</span>
+            <div class="tool-name">Claude</div>
+            <div class="tool-use">Análisis de documentos reales: contratos, facturas, listas de gastos, textos largos. Más cuidadoso con los datos.</div>
+          </div>
+          <div class="tool-card">
+            <span class="tool-badge badge-secondary">Complemento</span>
+            <div class="tool-name">Gemini</div>
+            <div class="tool-use">Información actual del mercado. Lo que ChatGPT no tiene porque su conocimiento tiene fecha de corte.</div>
+          </div>
+          <div class="tool-card">
+            <span class="tool-badge badge-secondary">Complemento</span>
+            <div class="tool-name">NotebookLM</div>
+            <div class="tool-use">Convierte tus manuales y procedimientos internos en una base de conocimiento consultable por pregunta.</div>
+          </div>
+        </div>
+
+        <div class="highlight">
+          <p><strong>Regla simple:</strong> Si tienes un documento real (contrato, factura, reporte) → Claude. Si necesitas redactar o resumir → ChatGPT. Si necesitas saber qué pasa en el mercado hoy → Gemini.</p>
+        </div>
+
+        <div class="quiz-block">
+          <div class="quiz-label">Pregunta 4 de 5</div>
+          <div class="quiz-question">Tu empresa tiene un contrato de 12 páginas con un cliente. Quieres saber si tienes penalizaciones por las entregas tardías del mes pasado. ¿Qué herramienta usas?</div>
+          <div class="quiz-options" id="q4">
+            <button class="quiz-option" onclick="answer('q4', this, false)">A. ChatGPT — es la herramienta principal.</button>
+            <button class="quiz-option" onclick="answer('q4', this, true)">B. Claude — analiza documentos largos con más precisión.</button>
+            <button class="quiz-option" onclick="answer('q4', this, false)">C. Gemini — tiene información actualizada del mercado.</button>
+            <button class="quiz-option" onclick="answer('q4', this, false)">D. NotebookLM — para consultar procedimientos internos.</button>
+          </div>
+          <div class="quiz-feedback" id="q4-feedback"></div>
+        </div>
+
+        <div class="quiz-block">
+          <div class="quiz-label">Pregunta 5 de 5</div>
+          <div class="quiz-question">Las ventas de un producto bajaron 23% en el último mes. Quieres entender si es una tendencia del mercado antes de tomar una decisión de inventario. ¿Qué usas?</div>
+          <div class="quiz-options" id="q5">
+            <button class="quiz-option" onclick="answer('q5', this, false)">A. Claude — es el mejor para análisis.</button>
+            <button class="quiz-option" onclick="answer('q5', this, false)">B. NotebookLM — tiene tus procedimientos.</button>
+            <button class="quiz-option" onclick="answer('q5', this, true)">C. Gemini — consulta información actual del mercado.</button>
+            <button class="quiz-option" onclick="answer('q5', this, false)">D. ChatGPT — para redactar el análisis.</button>
+          </div>
+          <div class="quiz-feedback" id="q5-feedback"></div>
+        </div>
+
+        <div class="module-nav">
+          <button class="btn-prev" onclick="goTo(2)">← Anterior</button>
+          <button class="btn-next" onclick="goTo(4)">Ver los prompts de práctica →</button>
+        </div>
+      </div>
+
+      <!-- ══════ MÓDULO 4 — PRÁCTICA ══════ -->
+      <div class="module" id="mod-4">
+        <div class="module-eyebrow">Módulo 4</div>
+        <h1 class="module-title">Prompts de práctica</h1>
+        <p class="module-desc">Estos son los 6 prompts del taller. Cópialos, ábrelos en la herramienta indicada y adapta los datos a tu empresa. No los uses como receta — usa la fórmula para personalizarlos.</p>
+
+        <img class="module-img" src="img/curso_m4_practica.png" alt="Documentos reales siendo procesados con IA">
+
+        <!-- E1 -->
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Ejercicio 1 — Resumen ejecutivo de ventas</span>
+            <span class="prompt-tool-badge">ChatGPT</span>
+          </div>
+          <div class="resource-banner" style="margin:0; border-radius:0; border-left:none; border-right:none; border-top:none;">
+            <div class="resource-banner-info">
+              <strong>Archivo de referencia incluido</strong>
+              Datos de ventas de mayo de Distribuidora Noroeste. Ábrelo, revisa los números y úsalos en el prompt.
+            </div>
+            <a class="download-btn" href="./recursos/ventas_mayo_2026.xlsx" download>⬇ Descargar ventas_mayo_2026.xlsx</a>
+          </div>
+          <div class="prompt-body" id="p1">Actúa como coordinador de ventas de una distribuidora de material de oficina en Hermosillo.
+
+Contexto del mes de mayo:
+- Ventas totales: $312,400 MXN
+- Objetivo: $350,000 MXN
+- Cumplimiento: 89.3%
+- Pedidos entregados: 54
+- Pedidos cancelados: 3
+- Clientes nuevos: 4
+- Top cliente: Despacho Jurídico Medina, $38,200
+- Producto más vendido: Papel bond carta, 310 resmas
+- Producto con caída: Cartuchos de tinta, bajó 23% vs abril
+
+Crea:
+1. Resumen ejecutivo en 5 puntos
+2. Un párrafo de explicación para el director
+3. Una acción concreta para junio
+
+Tono directo. Sin tecnicismos. Usa bullets.</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Adapta los números con tus datos reales</span>
+            <div class="prompt-footer-actions">
+              <button class="copy-btn" onclick="copyPrompt('p1', this)">Copiar prompt</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- E2 -->
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Ejercicio 2 — Correo de cobranza</span>
+            <span class="prompt-tool-badge">ChatGPT</span>
+          </div>
+          <div class="prompt-body" id="p2">Actúa como ejecutivo de cobranza de una distribuidora de material de oficina.
+
+Situación:
+- Cliente: Restaurante Los Arcos (3 sucursales)
+- Monto pendiente: $19,800 MXN
+- Días de atraso: 31 días
+- Contacto previo: WhatsApp hace 8 días, sin respuesta
+
+Escríbeme un correo formal de seguimiento de cobranza.
+Tono: firme pero profesional, sin sonar agresivo.
+No menciones consecuencias legales todavía.
+Máximo 120 palabras.
+Termina con una llamada a la acción clara y una fecha límite.</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Cambia el nombre del cliente, monto y días según tu caso</span>
+            <div class="prompt-footer-actions"><button class="copy-btn" onclick="copyPrompt('p2', this)">Copiar prompt</button></div>
+          </div>
+        </div>
+
+        <!-- E3 -->
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Ejercicio 3 — Análisis de contrato</span>
+            <span class="prompt-tool-badge claude">Claude</span>
+          </div>
+          <div class="resource-banner" style="margin:0; border-radius:0; border-left:none; border-right:none; border-top:none;">
+            <div class="resource-banner-info">
+              <strong>Contrato de práctica incluido</strong>
+              Contrato Colegio Bilingüe Arcoíris. Descárgalo, ábrelo y súbelo directamente a Claude antes de pegar el prompt.
+            </div>
+            <a class="download-btn" href="./recursos/contrato_arcoiris.pdf" download>⬇ Descargar contrato_arcoiris.pdf</a>
+          </div>
+          <div class="prompt-body" id="p3">Actúa como asesor legal y operativo.
+
+[El contrato está adjunto como archivo — Claude lo leerá automáticamente]
+
+Analiza este contrato y respóndeme solo esto:
+1. ¿Cuánto podría reclamarme el cliente por entregas tardías?
+2. ¿Qué cláusulas me ponen en riesgo hoy?
+3. ¿Qué pasa si el cliente no renueva y no avisa?
+4. Una acción concreta que debo tomar esta semana
+
+Situación actual: En abril se entregó con 3 días de retraso un pedido de $22,000 MXN. El colegio no ha reclamado penalización pero tampoco ha firmado la renovación.
+
+Sin introducción. Solo bullets.</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">1. Descarga el PDF · 2. Súbelo a Claude · 3. Pega el prompt</span>
+            <div class="prompt-footer-actions">
+              <a class="download-btn" href="./recursos/contrato_arcoiris.pdf" download>⬇ PDF</a>
+              <button class="copy-btn" onclick="copyPrompt('p3', this)">Copiar prompt</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- E4 -->
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Ejercicio 4 — Revisión de gastos</span>
+            <span class="prompt-tool-badge claude">Claude</span>
+          </div>
+          <div class="resource-banner" style="margin:0; border-radius:0; border-left:none; border-right:none; border-top:none;">
+            <div class="resource-banner-info">
+              <strong>Hoja de gastos de práctica incluida</strong>
+              Gastos mayo 2026 de Distribuidora Noroeste. Descárgala y súbela a Claude antes de pegar el prompt.
+            </div>
+            <a class="download-btn" href="./recursos/gastos_mayo_2026.xlsx" download>⬇ Descargar gastos_mayo_2026.xlsx</a>
+          </div>
+          <div class="prompt-body" id="p4">Actúa como auditor operativo.
+
+[El archivo de gastos está adjunto — Claude lo leerá automáticamente]
+
+Revisa esta lista de gastos y respóndeme:
+1. ¿Cuál es el margen operativo del mes?
+2. ¿Qué concepto llama la atención y por qué?
+3. ¿Hay algo que parece fuera de lugar o inusual?
+4. ¿Qué dato faltante necesitarías para un análisis más completo?
+5. Una acción concreta antes de que cierre el mes
+
+Sin introducción. Usa bullets.</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">1. Descarga el Excel · 2. Súbelo a Claude · 3. Pega el prompt</span>
+            <div class="prompt-footer-actions">
+              <a class="download-btn" href="./recursos/gastos_mayo_2026.xlsx" download>⬇ Excel</a>
+              <button class="copy-btn" onclick="copyPrompt('p4', this)">Copiar prompt</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- E5 -->
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Ejercicio 5 — Contexto del mercado</span>
+            <span class="prompt-tool-badge gemini">Gemini</span>
+          </div>
+          <div class="prompt-body" id="p5">Soy dueño de [tipo de negocio] en México.
+
+Mis ventas de [producto o servicio] bajaron [X]% en el último mes. Necesito entender el contexto actual del mercado.
+
+Respóndeme:
+1. ¿Qué está pasando con el mercado de [producto] en México hoy?
+2. ¿Están migrando las empresas a alguna alternativa?
+3. ¿Qué están haciendo los competidores para adaptarse?
+4. ¿Hay alguna tendencia reciente que explique esta caída?
+
+Información actual, no de hace un año. Máximo 5 bullets por pregunta.</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Reemplaza los corchetes con tu industria y producto real</span>
+            <div class="prompt-footer-actions"><button class="copy-btn" onclick="copyPrompt('p5', this)">Copiar prompt</button></div>
+          </div>
+        </div>
+
+        <!-- E6 -->
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Ejercicio 6 — Consulta de procedimientos</span>
+            <span class="prompt-tool-badge notebooklm">NotebookLM</span>
+          </div>
+          <div class="prompt-body" id="p6">Preguntas para hacerle a NotebookLM después de subir tus procedimientos internos:
+
+Pregunta 1:
+¿Qué hace [puesto] cuando [situación específica]?
+
+Pregunta 2:
+¿Cuándo se suspende [proceso] a un cliente? ¿Qué pasos se siguen antes?
+
+Pregunta 3:
+Un cliente [situación]. ¿Se puede [acción]? ¿Qué condiciones aplican?
+
+Nota: En NotebookLM primero subes el documento (PDF o texto). Luego le haces las preguntas una por una en el chat.</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Adapta las preguntas a tus procesos reales</span>
+            <div class="prompt-footer-actions"><button class="copy-btn" onclick="copyPrompt('p6', this)">Copiar prompt</button></div>
+          </div>
+        </div>
+
+        <div class="quiz-block">
+          <div class="quiz-label">Pregunta del módulo</div>
+          <div class="quiz-question">Hiciste los 6 ejercicios. Ahora quieres guardar el prompt de cobranza para usarlo el próximo mes con otro cliente. ¿Cuál es el siguiente paso correcto?</div>
+          <div class="quiz-options" id="q6">
+            <button class="quiz-option" onclick="answer('q6', this, false)">A. Copiarlo en un bloc de notas tal como está y listo.</button>
+            <button class="quiz-option" onclick="answer('q6', this, false)">B. No hace falta guardarlo — lo vuelvo a pedir a la IA cuando lo necesite.</button>
+            <button class="quiz-option" onclick="answer('q6', this, true)">C. Guardarlo con la ficha: para qué sirve, qué datos necesita, qué revisar antes de enviarlo.</button>
+            <button class="quiz-option" onclick="answer('q6', this, false)">D. Compartirlo con el equipo sin adaptarlo primero.</button>
+          </div>
+          <div class="quiz-feedback" id="q6-feedback"></div>
+        </div>
+
+        <div class="module-nav">
+          <button class="btn-prev" onclick="goTo(3)">← Anterior</button>
+          <button class="btn-next" onclick="goTo(5)">Siguiente módulo →</button>
+        </div>
+      </div>
+
+      <!-- ══════ MÓDULO 5 — BIBLIOTECA Y SKILLS ══════ -->
+      <div class="module" id="mod-5">
+        <div class="module-eyebrow">Módulo 5</div>
+        <h1 class="module-title">De prompt a sistema</h1>
+        <p class="module-desc">Guardar lo que funciona y convertirlo en herramienta reutilizable. Así el equipo no empieza desde cero cada semana.</p>
+
+        <img class="module-img" src="img/curso_m5_sistema.png" alt="Skills documentadas como archivos reutilizables">
+
+        <div class="highlight">
+          <p><strong>El orden correcto:</strong><br>
+          Tarea repetitiva → Prompt bien estructurado → Resultado revisado → Prompt guardado → <strong>Skill reutilizable</strong> → Conector o automatización cuando haga sentido.</p>
+        </div>
+
+        <div class="card">
+          <h3>Prompt vs skill vs agente</h3>
+          <div style="overflow-x:auto; margin-top:12px;">
+            <table style="width:100%; border-collapse:collapse; font-size:14px;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <th style="text-align:left; padding:8px 12px; color:var(--amber); font-family:'Space Grotesk',sans-serif;">Concepto</th>
+                  <th style="text-align:left; padding:8px 12px; color:var(--amber); font-family:'Space Grotesk',sans-serif;">Qué significa</th>
+                  <th style="text-align:left; padding:8px 12px; color:var(--amber); font-family:'Space Grotesk',sans-serif;">Ejemplo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:10px 12px; font-weight:600;">Prompt</td>
+                  <td style="padding:10px 12px; color:var(--muted);">Una instrucción para pedir una respuesta</td>
+                  <td style="padding:10px 12px; color:var(--muted);">"Hazme un correo de cobranza"</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:10px 12px; font-weight:600;">Prompt bueno</td>
+                  <td style="padding:10px 12px; color:var(--muted);">Instrucción con los 5 elementos</td>
+                  <td style="padding:10px 12px; color:var(--muted);">"Actúa como ejecutivo de cobranza…"</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:10px 12px; font-weight:600;">Skill</td>
+                  <td style="padding:10px 12px; color:var(--muted);">Forma documentada de repetir una tarea con calidad</td>
+                  <td style="padding:10px 12px; color:var(--muted);">Skill de cobranza, resumen semanal, revisión de contrato</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 12px; font-weight:600;">Agente</td>
+                  <td style="padding:10px 12px; color:var(--muted);">Sistema que usa instrucciones y herramientas para completar un flujo</td>
+                  <td style="padding:10px 12px; color:var(--muted);">Agente que revisa leads y prepara seguimientos</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Ficha mínima por prompt</h3>
+          <p>Cada prompt que decides guardar necesita estos 6 campos. Sin ellos, en dos semanas no sabrás para qué sirve ni si sigue funcionando.</p>
+          <div class="ficha-grid">
+            <div class="ficha-item">
+              <div class="ficha-field">Proceso</div>
+              <div class="ficha-val">¿Para qué tarea sirve este prompt?</div>
+            </div>
+            <div class="ficha-item">
+              <div class="ficha-field">Herramienta</div>
+              <div class="ficha-val">ChatGPT / Claude / Gemini / NotebookLM</div>
+            </div>
+            <div class="ficha-item">
+              <div class="ficha-field">Prompt adaptado</div>
+              <div class="ficha-val">El texto completo, con tus datos reales ya incluidos.</div>
+            </div>
+            <div class="ficha-item">
+              <div class="ficha-field">Output aceptable</div>
+              <div class="ficha-val">Copia del resultado que sí funcionó como referencia.</div>
+            </div>
+            <div class="ficha-item">
+              <div class="ficha-field">Corrección humana</div>
+              <div class="ficha-val">Qué tuviste que cambiar o agregar antes de usar el resultado.</div>
+            </div>
+            <div class="ficha-item">
+              <div class="ficha-field">Cuándo usarlo</div>
+              <div class="ficha-val">La situación específica en que este prompt aplica.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Las 5 preguntas de revisión</h3>
+          <p>Antes de usar cualquier respuesta de IA, hazte estas preguntas:</p>
+          <p>1. ¿Qué dato importante falta o podría estar mal?<br>
+          2. ¿Qué frase suena genérica y no representa a mi empresa?<br>
+          3. ¿Hay algún monto, fecha o nombre que deba verificar?<br>
+          4. ¿Qué parte no firmaría yo con mi nombre?<br>
+          5. ¿Qué acción concreta queda pendiente después de este texto?</p>
+        </div>
+
+        <div class="highlight">
+          <p><strong>Para tu próxima semana:</strong><br>
+          Elige una sola tarea repetitiva. Usa IA para el primer borrador. Revisa con criterio. Guarda lo que funcionó con la ficha de arriba.<br><br>
+          No intentes cambiar todo de golpe. Un proceso a la vez.</p>
+        </div>
+
+        <div class="card">
+          <h3>Cómo adaptar un prompt de internet</h3>
+          <p>Un prompt de internet no conoce tu negocio, tu cliente, tu tono ni tus reglas internas. Úsalo como punto de partida, no como receta. Identifica qué rol le asigna, qué contexto usa y qué partes no aplican. Después adáptalo con la fórmula de 5 elementos.</p>
+        </div>
+
+        <!-- Plantilla skill con copy -->
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Plantilla — Convertir un prompt en skill</span>
+            <span class="prompt-tool-badge">Cualquier herramienta</span>
+          </div>
+          <div class="prompt-body" id="skill-template">NOMBRE DE LA SKILL:
+
+Sirve para:
+
+Cuándo usarla:
+
+Quién la usa:
+
+Información que necesita:
+
+Prompt base:
+
+Formato de salida:
+
+Criterios de revisión:
+
+Ejemplo de buen resultado:
+
+Errores comunes:
+
+Qué nunca debe hacer:
+
+Dónde se guarda:</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Llena una ficha por cada prompt que decidas conservar</span>
+            <button class="copy-btn" onclick="copyPrompt('skill-template', this)">Copiar plantilla</button>
+          </div>
+        </div>
+
+        <!-- Ejemplo skill seguimiento comercial -->
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Ejemplo de skill — Seguimiento comercial</span>
+            <span class="prompt-tool-badge">ChatGPT</span>
+          </div>
+          <div class="prompt-body" id="skill-seguimiento">NOMBRE DE LA SKILL:
+Seguimiento comercial sin sonar insistente.
+
+Sirve para:
+Dar seguimiento a prospectos que pidieron información y no respondieron.
+
+Cuándo usarla:
+2 a 5 días después del primer contacto.
+
+Quién la usa:
+Ventas, dirección comercial o atención a clientes.
+
+Información que necesita:
+- Nombre del prospecto
+- Empresa
+- Qué pidió
+- Fecha del último contacto
+- Canal: WhatsApp, correo, llamada
+- Tono deseado
+
+Prompt base:
+Actúa como asistente comercial. Redacta un mensaje breve de seguimiento para un prospecto que pidió información y no ha respondido. Usa tono humano, claro y profesional. No presiones. No inventes urgencia. Cierra con una pregunta simple.
+
+Formato de salida:
+1. WhatsApp corto
+2. Correo formal
+3. Mensaje muy breve
+
+Criterios de revisión:
+- Suena humano
+- No exagera
+- No promete resultados
+- Tiene siguiente paso claro
+
+Qué nunca debe hacer:
+Amenazar, sonar automático, inventar datos o forzar cierre.</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Adapta los datos a tu industria y tipo de prospecto</span>
+            <button class="copy-btn" onclick="copyPrompt('skill-seguimiento', this)">Copiar skill</button>
+          </div>
+        </div>
+
+        <!-- Ejemplo skill resumen ejecutivo -->
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Ejemplo de skill — Resumen ejecutivo mensual</span>
+            <span class="prompt-tool-badge">ChatGPT</span>
+          </div>
+          <div class="prompt-body" id="skill-resumen">NOMBRE DE LA SKILL:
+Resumen ejecutivo mensual.
+
+Sirve para:
+Convertir datos de ventas, operación o gastos en un resumen para dirección.
+
+Cuándo usarla:
+Antes de juntas semanales o mensuales.
+
+Información que necesita:
+- Periodo
+- Resultado principal
+- Objetivo
+- Variación contra periodo anterior
+- Riesgos
+- Acción sugerida
+
+Prompt base:
+Actúa como gerente operativo. Con la información siguiente, crea un resumen ejecutivo en máximo 5 bullets, una explicación breve y una acción concreta para la siguiente semana. No inventes datos. Si falta información importante, dilo al final.
+
+Formato de salida:
+- 5 bullets
+- Explicación breve
+- Acción recomendada
+- Datos faltantes
+
+Criterios de revisión:
+- Se entiende en 30 segundos
+- No usa tecnicismos innecesarios
+- Distingue datos de opinión
+- Propone una acción concreta</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Usa para preparar juntas directivas o reportes de área</span>
+            <button class="copy-btn" onclick="copyPrompt('skill-resumen', this)">Copiar skill</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Plugins y conectores</h3>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;">
+            <div>
+              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; color:var(--amber); margin-bottom:8px;">Plugin = capacidad</div>
+              <div style="font-size:13px; color:var(--muted); line-height:1.7;">Agrega una función dentro de la herramienta.<br><br>Ejemplos: leer PDFs, analizar hojas de cálculo, generar imágenes, buscar en internet, crear presentaciones.</div>
+            </div>
+            <div>
+              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; color:var(--amber); margin-bottom:8px;">Conector = acceso</div>
+              <div style="font-size:13px; color:var(--muted); line-height:1.7;">Permiso para que la IA trabaje con una cuenta o sistema.<br><br>Ejemplos: Google Drive, Gmail, Calendar, CRM, Meta, Dropbox.</div>
+            </div>
+          </div>
+          <div style="margin-top:16px; padding:14px 16px; background:var(--surface2); border-radius:8px; border:1px solid var(--border); font-size:13px;">
+            <strong>Agente</strong> = flujo que usa capacidades (plugins) y accesos (conectores) para completar una tarea de principio a fin.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Cuándo sí conectar herramientas</h3>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;">
+            <div>
+              <div style="color:var(--success); font-weight:600; font-size:13px; margin-bottom:8px;">SÍ conviene cuando:</div>
+              <div style="font-size:13px; color:var(--muted); line-height:1.8;">La tarea se repite<br>La fuente de información está definida<br>Hay una persona responsable<br>El resultado tiene formato claro<br>Hay una regla de revisión humana</div>
+            </div>
+            <div>
+              <div style="color:var(--error); font-weight:600; font-size:13px; margin-bottom:8px;">NO conviene cuando:</div>
+              <div style="font-size:13px; color:var(--muted); line-height:1.8;">Nadie sabe quién usa el resultado<br>Los datos están desordenados<br>No hay criterio para validar<br>Se quiere conectar "por moda"<br>Se espera que la IA arregle un proceso que nadie entiende</div>
+            </div>
+          </div>
+          <div class="highlight" style="margin-top:16px; margin-bottom:0;">
+            <p>"Si el proceso está desordenado, conectar herramientas solo acelera el desorden."</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Glosario práctico</h3>
+          <div style="margin-top:8px;">
+            <details>
+              <summary>Prompt</summary>
+              <div class="accordion-body">Instrucción que le das a la IA. Sin estructura, la IA adivina. Con los 5 elementos (rol, contexto, tarea, formato, criterio) produce algo útil.</div>
+            </details>
+            <details>
+              <summary>Skill</summary>
+              <div class="accordion-body">Prompt documentado y validado para una tarea específica. Incluye el contexto que necesita, el formato de salida, los criterios de revisión y un ejemplo de resultado aceptable. Es la memoria operativa del equipo — se guarda, se comparte y se mejora con el tiempo.</div>
+            </details>
+            <details>
+              <summary>Plugin</summary>
+              <div class="accordion-body">Extensión que agrega una <strong>capacidad</strong> a la herramienta de IA, sin conectar cuentas externas. Ejemplos: leer PDFs adjuntos, interpretar Excel, generar imágenes, buscar en internet, crear presentaciones.</div>
+            </details>
+            <details>
+              <summary>Conector</summary>
+              <div class="accordion-body">Permiso que le das a la IA para trabajar con una cuenta o sistema externo. Da <strong>acceso</strong>, no capacidades nuevas. Ejemplos por área:<br>· Administración: Google Drive, Sheets, Dropbox<br>· Comunicación: Gmail, Outlook, Slack<br>· Ventas: CRM, WhatsApp Business, HubSpot<br>· Marketing: Meta Ads, Canva, Analytics</div>
+            </details>
+            <details>
+              <summary>Agente</summary>
+              <div class="accordion-body">Sistema que combina instrucciones (skills), capacidades (plugins) y accesos (conectores) para ejecutar un flujo de principio a fin. No es magia — es la unión de todo lo anterior aplicada a un proceso claro. Ejemplo: revisa Gmail → identifica leads → redacta mensaje → lo guarda en el CRM → notifica al vendedor.</div>
+            </details>
+            <details>
+              <summary>Automatización</summary>
+              <div class="accordion-body">Flujo que se ejecuta solo cuando ocurre algo (correo nuevo, fecha, formulario enviado). La IA puede ser parte de una automatización, pero no toda automatización usa IA. Herramientas: n8n, Zapier, Make. Regla: primero el proceso tiene que estar claro. Si el proceso es un desorden, automatizarlo solo acelera el desorden.</div>
+            </details>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Preguntas frecuentes</h3>
+          <div style="margin-top:8px;">
+            <details>
+              <summary>¿Cuál herramienta de IA es mejor?</summary>
+              <div class="accordion-body">Depende de la tarea. ChatGPT para comunicación y reportes. Claude para documentos largos y datos sensibles. Gemini para información actual del mercado. NotebookLM para consultar tus propios documentos. La pregunta correcta es "¿qué tarea quiero resolver?", no "¿cuál es mejor?"</div>
+            </details>
+            <details>
+              <summary>¿Puedo copiar prompts de internet?</summary>
+              <div class="accordion-body">Sí, como punto de partida. Un prompt de internet no conoce tu negocio, tus clientes ni tu tono. Sirve para entender la estructura — no para usarse directamente. Primero se entiende, luego se adapta con la fórmula, después se prueba con datos reales.</div>
+            </details>
+            <details>
+              <summary>¿Qué pasa si la IA inventa información?</summary>
+              <div class="accordion-body">Se llama alucinación: la IA rellena los huecos con información plausible pero falsa cuando no tiene suficiente contexto. La solución es dar más contexto y revisar el resultado con las 5 preguntas de este módulo antes de usarlo.</div>
+            </details>
+            <details>
+              <summary>¿La IA reemplaza empleados?</summary>
+              <div class="accordion-body">El primer paso no es reemplazar — es quitar carga repetitiva: primeros borradores, resumir documentos, preparar seguimientos. El criterio, la validación y la responsabilidad siguen siendo humanos. Un equipo que usa IA bien produce más en el mismo tiempo.</div>
+            </details>
+            <details>
+              <summary>¿Necesito pagar muchas suscripciones?</summary>
+              <div class="accordion-body">No al inicio. ChatGPT y Claude tienen versiones gratuitas funcionales. Gemini y NotebookLM son gratuitas. Pagar más herramientas antes de saber usarlas bien solo aumenta el gasto. Primero domina el método con lo que tienes.</div>
+            </details>
+            <details>
+              <summary>¿Cuándo conviene agregar un plugin?</summary>
+              <div class="accordion-body">Cuando la tarea que ya sabes hacer con prompts requiere procesar un archivo real (PDF, Excel, imagen). Los plugins extienden lo que puedes pedir, pero no reemplazan saber pedir bien. Primero el prompt, luego el plugin si hace falta.</div>
+            </details>
+            <details>
+              <summary>¿Cuándo conviene agregar un conector?</summary>
+              <div class="accordion-body">Cuando la tarea ya la haces bien con prompts y skills, se repite constantemente, y los datos viven en un sistema externo (CRM, Gmail, Drive). Un conector tiene sentido solo si el flujo ya está validado — conectar un proceso que no funciona solo lo acelera en la dirección equivocada.</div>
+            </details>
+            <details>
+              <summary>¿Cuándo tiene sentido construir un agente?</summary>
+              <div class="accordion-body">Cuando tienes: proceso claro y documentado, prompts validados para cada paso, conectores definidos, y alguien responsable de revisar el resultado. Un agente no inventa el proceso — lo ejecuta. Si el proceso no existe o nadie lo entiende, el agente reproduce el caos más rápido.</div>
+            </details>
+            <details>
+              <summary>¿Qué hago mañana con lo que aprendí hoy?</summary>
+              <div class="accordion-body">Elige una sola tarea repetitiva. Escribe el prompt con la fórmula de 5 elementos. Úsalo con datos reales. Revisa el resultado. Corrige lo que no representa a tu empresa. Guarda la versión que funcionó con la ficha de skill. Si esa tarea vuelve la próxima semana, ya tienes el sistema listo.</div>
+            </details>
+          </div>
+        </div>
+
+        <div class="module-nav">
+          <button class="btn-prev" onclick="goTo(4)">← Anterior</button>
+          <button class="btn-next" onclick="goTo(6)">Siguiente: Tu proyecto →</button>
+        </div>
+      </div>
+
+      <!-- ══════ MÓDULO 6 — PROYECTO FINAL ══════ -->
+      <div class="module" id="mod-6">
+        <div class="module-eyebrow">Módulo 6 — Proyecto final</div>
+        <h1 class="module-title">Tu proyecto completo</h1>
+        <p class="module-desc">Aquí están todas las piezas listas: 6 skills de los ejercicios de hoy y 4 agentes configurados. Copia, adapta los datos entre corchetes con tu negocio real y guarda cada uno en su carpeta. Al terminar tienes tu primer sistema de IA funcionando.</p>
+
+        <img class="module-img" src="img/curso_m6_proyecto.png" alt="Carpeta completa con las 6 skills del proyecto">
+
+        <div class="highlight">
+          <p><strong>Dos tipos de herramientas en tu proyecto:</strong><br>
+          <strong>Skills</strong> — instrucciones documentadas para tareas que se repiten. Una por cada ejercicio del taller, ya completas.<br>
+          <strong>Agentes</strong> — instrucciones que configuran la IA para trabajar de una forma específica durante toda una sesión.</p>
+        </div>
+
+        <!-- ─── 6 SKILLS DEL TALLER ─── -->
+        <div style="margin-top:32px; margin-bottom:8px;">
+          <h2 style="font-size:22px; margin-bottom:8px;">Tus 6 skills — una por ejercicio</h2>
+          <p style="color:var(--muted); font-size:15px; margin-bottom:24px;">Cada skill ya está completa. Reemplaza los campos entre <code style="background:var(--surface2); padding:2px 6px; border-radius:4px; font-size:13px; color:var(--text);">[CORCHETES]</code> con tu negocio real y guárdalas en <code style="background:var(--surface2); padding:2px 6px; border-radius:4px; font-size:13px; color:var(--text);">02_mis_skills/</code>.</p>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Skill 1 — Resumen ejecutivo de ventas</span>
+            <span class="prompt-tool-badge">ChatGPT</span>
+          </div>
+          <div class="prompt-body" id="skill-ej1">NOMBRE DE LA SKILL:
+Resumen ejecutivo de ventas mensual.
+
+Sirve para:
+Convertir datos de ventas del mes en un resumen claro para el director o dueño del negocio.
+
+Cuándo usarla:
+Al cierre del mes, antes de junta directiva o cuando el jefe pide "¿cómo vamos?".
+
+Quién la usa:
+Coordinador de ventas, gerente de área, administrador.
+
+Información que necesita:
+- Período (mes y año)
+- Ventas totales y objetivo del mes
+- % de cumplimiento
+- Pedidos entregados y cancelados
+- Clientes nuevos
+- Top cliente y producto más vendido
+- Producto con caída (y cuánto bajó vs mes anterior)
+
+Prompt base:
+Actúa como coordinador de ventas de [TIPO DE NEGOCIO] en [CIUDAD].
+
+Contexto del mes de [MES]:
+- Ventas totales: $[MONTO] MXN
+- Objetivo: $[MONTO] MXN
+- Cumplimiento: [%]
+- Pedidos entregados: [N] · Cancelados: [N]
+- Clientes nuevos: [N]
+- Top cliente: [NOMBRE], $[MONTO]
+- Producto más vendido: [PRODUCTO]
+- Producto con caída: [PRODUCTO], bajó [%] vs mes anterior
+
+Crea:
+1. Resumen ejecutivo en 5 puntos
+2. Un párrafo de explicación para el director
+3. Una acción concreta para el siguiente mes
+
+Tono directo. Sin tecnicismos. Usa bullets.
+
+Formato de salida:
+5 bullets · párrafo breve · 1 acción concreta.
+
+Criterios de revisión:
+- Se entiende en menos de 60 segundos
+- No inventa datos que no pusiste
+- La acción es específica (no "mejorar ventas")
+- El tono no suena a excusa
+
+Qué nunca debe hacer:
+Inventar números, usar tecnicismos, sonar defensivo.
+
+Dónde se guarda:
+Mi_Proyecto_IA/02_mis_skills/skill_resumen_ventas.md</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Ejercicio 1 — adapta los corchetes con tus datos reales</span>
+            <div class="prompt-footer-actions">
+              <button class="copy-btn" onclick="copyPrompt('skill-ej1', this)">Copiar skill</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Skill 2 — Correo de cobranza</span>
+            <span class="prompt-tool-badge">ChatGPT</span>
+          </div>
+          <div class="prompt-body" id="skill-ej2">NOMBRE DE LA SKILL:
+Correo de cobranza sin quemar la relación.
+
+Sirve para:
+Redactar correos de seguimiento a clientes con atraso que no han respondido.
+
+Cuándo usarla:
+Después de 25–35 días de atraso cuando ya hubo contacto previo sin respuesta.
+
+Quién la usa:
+Ejecutivo de cobranza, administración, directivo con cuentas directas.
+
+Información que necesita:
+- Nombre del cliente
+- Monto pendiente
+- Días de atraso
+- Tipo y fecha del último contacto
+- Tono deseado: firme / cordial / neutro
+
+Prompt base:
+Actúa como ejecutivo de cobranza de [TIPO DE NEGOCIO].
+
+Situación:
+- Cliente: [NOMBRE DEL CLIENTE]
+- Monto pendiente: $[MONTO] MXN
+- Días de atraso: [N] días
+- Contacto previo: [CANAL] hace [N] días, sin respuesta
+
+Escríbeme un correo formal de seguimiento de cobranza.
+Tono: firme pero profesional, sin sonar agresivo.
+No menciones consecuencias legales todavía.
+Máximo 120 palabras.
+Termina con una fecha límite específica de pago.
+
+Formato de salida:
+Correo completo con asunto, cuerpo y cierre. Listo para enviar.
+
+Criterios de revisión:
+- Tiene fecha límite específica (no "a la brevedad")
+- No inventa acuerdos previos
+- Tono firme pero no amenazante
+- Se puede enviar directamente sin editar más de una línea
+
+Qué nunca debe hacer:
+Amenazar, inventar consecuencias legales, sonar automatizado.
+
+Dónde se guarda:
+Mi_Proyecto_IA/02_mis_skills/skill_cobranza.md</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Ejercicio 2 — cambia cliente, monto y días de atraso</span>
+            <div class="prompt-footer-actions">
+              <button class="copy-btn" onclick="copyPrompt('skill-ej2', this)">Copiar skill</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Skill 3 — Análisis de riesgos de contrato</span>
+            <span class="prompt-tool-badge claude">Claude</span>
+          </div>
+          <div class="prompt-body" id="skill-ej3">NOMBRE DE LA SKILL:
+Análisis de riesgos de contrato vigente.
+
+Sirve para:
+Revisar contratos con clientes o proveedores para detectar cláusulas de riesgo antes de una reunión o renovación.
+
+Cuándo usarla:
+Antes de una renovación, cuando hubo un incumplimiento, o cuando el cliente no ha respondido sobre el contrato.
+
+Quién la usa:
+Directivo, administrador, gerente de operaciones.
+
+Información que necesita:
+- Archivo del contrato (PDF adjunto a Claude)
+- Situación actual específica (qué pasó, cuándo)
+- El escenario que más te preocupa
+
+Prompt base:
+Actúa como asesor legal y operativo.
+
+[Adjunta el contrato como archivo antes de pegar este prompt]
+
+Analiza este contrato y respóndeme solo esto:
+1. ¿Cuánto podría reclamarme el cliente por [SITUACIÓN]?
+2. ¿Qué cláusulas me ponen en riesgo hoy?
+3. ¿Qué pasa si [ESCENARIO QUE TE PREOCUPA]?
+4. Una acción concreta que debo tomar esta semana
+
+Situación actual: [DESCRIBE QUÉ PASÓ Y CUÁNDO]
+
+Sin introducción. Solo bullets.
+
+Formato de salida:
+4 bullets numerados. Directo. Sin introducción.
+
+Criterios de revisión:
+- Las cláusulas citadas existen en el contrato (verificar)
+- Los montos calculados corresponden al texto real
+- La acción concreta es para esta semana
+- No inventa cláusulas ni da dictamen legal definitivo
+
+Qué nunca debe hacer:
+Inventar cláusulas, predecir resultados judiciales, dar garantía legal.
+
+Dónde se guarda:
+Mi_Proyecto_IA/02_mis_skills/skill_analisis_contrato.md</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Ejercicio 3 — adjunta el contrato real a Claude antes de pegar</span>
+            <div class="prompt-footer-actions">
+              <button class="copy-btn" onclick="copyPrompt('skill-ej3', this)">Copiar skill</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Skill 4 — Revisión de gastos operativos</span>
+            <span class="prompt-tool-badge claude">Claude</span>
+          </div>
+          <div class="prompt-body" id="skill-ej4">NOMBRE DE LA SKILL:
+Revisión de gastos operativos mensuales.
+
+Sirve para:
+Detectar gastos inusuales, calcular margen e identificar lo que necesita explicación antes de presentar los números al dueño.
+
+Cuándo usarla:
+Al cierre del mes, antes de presentar estados financieros o cuando un gasto se ve fuera de lo normal.
+
+Quién la usa:
+Administrador, contador, gerente operativo, directivo.
+
+Información que necesita:
+- Lista de gastos por concepto y monto (archivo o lista pegada)
+- Ventas del mes (para calcular margen)
+- Comparación con mes anterior si existe
+- Contexto de gastos inusuales que ya se sabe por qué subieron
+
+Prompt base:
+Actúa como auditor operativo.
+
+[Adjunta el archivo de gastos o pega la lista con montos]
+
+Revisa esta lista de gastos y respóndeme:
+1. ¿Cuál es el margen operativo del mes?
+2. ¿Qué concepto llama la atención y por qué?
+3. ¿Hay algo que parece fuera de lugar o inusual?
+4. ¿Qué dato faltante necesitarías para un análisis más completo?
+5. Una acción concreta antes de que cierre el mes
+
+Sin introducción. Usa bullets.
+
+Formato de salida:
+5 bullets numerados. Directo. Sin conclusión larga.
+
+Criterios de revisión:
+- El margen está calculado correctamente (ventas − gastos / ventas × 100)
+- El gasto "inusual" tiene razón concreta, no solo "es mucho"
+- La acción concreta es para esta semana
+- No inventa datos que no estaban en la lista
+
+Qué nunca debe hacer:
+Inventar números, dar dictamen contable definitivo, recomendar acciones fiscales sin asesor.
+
+Dónde se guarda:
+Mi_Proyecto_IA/02_mis_skills/skill_revision_gastos.md</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Ejercicio 4 — adjunta el Excel o pega la lista de gastos a Claude</span>
+            <div class="prompt-footer-actions">
+              <button class="copy-btn" onclick="copyPrompt('skill-ej4', this)">Copiar skill</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Skill 5 — Investigación de mercado actual</span>
+            <span class="prompt-tool-badge gemini">Gemini</span>
+          </div>
+          <div class="prompt-body" id="skill-ej5">NOMBRE DE LA SKILL:
+Investigación de tendencias de mercado actuales.
+
+Sirve para:
+Entender qué está pasando en el mercado hoy antes de tomar decisiones de inventario, precios o estrategia comercial.
+
+Cuándo usarla:
+Cuando un producto baja de forma inesperada, cuando hay presión de precios o antes de una compra grande de inventario.
+
+Quién la usa:
+Dueño, director comercial, comprador, gerente de ventas.
+
+Información que necesita:
+- Tipo de negocio y ciudad / región
+- Producto o categoría específica afectada
+- % de caída y período de comparación
+
+Prompt base:
+Soy dueño de [TIPO DE NEGOCIO] en [CIUDAD], México.
+
+Mis ventas de [PRODUCTO O CATEGORÍA] bajaron [X]% en [PERÍODO]. Necesito entender el contexto actual del mercado.
+
+Respóndeme:
+1. ¿Qué está pasando con el mercado de [PRODUCTO] en México hoy?
+2. ¿Están migrando los clientes hacia alguna alternativa?
+3. ¿Qué están haciendo los competidores para adaptarse?
+4. ¿Hay alguna tendencia reciente que explique esta caída?
+
+Información actual, no de hace un año. Máximo 5 bullets por pregunta.
+
+Herramienta: Gemini — tiene acceso a información actual. NO usar ChatGPT para esta skill.
+
+Formato de salida:
+4 bloques de máximo 5 bullets cada uno.
+
+Criterios de revisión:
+- La información es reciente (verificar que no cite datos de años anteriores)
+- Las tendencias aplican al mercado mexicano, no solo a EE.UU.
+- Las recomendaciones son accionables para una empresa local
+
+Qué nunca debe hacer:
+Predecir precios exactos, inventar estadísticas, citar fuentes sin verificar.
+
+Dónde se guarda:
+Mi_Proyecto_IA/02_mis_skills/skill_investigacion_mercado.md</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Ejercicio 5 — usar en Gemini, no en ChatGPT (necesita información actual)</span>
+            <div class="prompt-footer-actions">
+              <button class="copy-btn" onclick="copyPrompt('skill-ej5', this)">Copiar skill</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Skill 6 — Consulta de procedimientos internos</span>
+            <span class="prompt-tool-badge notebooklm">NotebookLM</span>
+          </div>
+          <div class="prompt-body" id="skill-ej6">NOMBRE DE LA SKILL:
+Consulta de procedimientos internos.
+
+Sirve para:
+Responder preguntas operativas usando los propios manuales de la empresa, sin buscar en documentos largos.
+
+Cuándo usarla:
+Cuando un empleado nuevo pregunta cómo hacer algo, cuando hay una situación atípica con un cliente, o cuando nadie recuerda exactamente cómo funciona un proceso.
+
+Quién la usa:
+Cualquier persona del equipo. Especialmente útil para capacitar empleados nuevos sin ocupar al gerente.
+
+Información que necesita:
+- Manual o documento de procedimientos (PDF o texto) subido a NotebookLM
+- Pregunta específica sobre el proceso
+
+Cómo configurar NotebookLM:
+1. Entra a notebooklm.google.com
+2. Crea un nuevo notebook con el nombre del área (Ventas, Cobranza, Almacén…)
+3. Sube tu manual o procedimientos como fuente
+4. Hazle preguntas específicas una por una en el chat
+
+Preguntas modelo:
+¿Qué hace [PUESTO] cuando [SITUACIÓN ESPECÍFICA]?
+¿Cuándo se suspende [PROCESO] a un cliente? ¿Qué pasos se siguen antes?
+Un cliente [SITUACIÓN]. ¿Se puede [ACCIÓN]? ¿Qué condiciones aplican?
+
+Formato de salida:
+Respuesta directa citando el procedimiento con referencia a la fuente del documento.
+
+Criterios de revisión:
+- La respuesta cita el documento (no inventa)
+- Si no está en el documento, NotebookLM lo dice explícitamente
+- El documento subido está actualizado
+
+Errores comunes:
+- Subir un procedimiento desactualizado
+- Hacer preguntas muy generales ("¿cómo funciona ventas?")
+- No actualizar el notebook cuando cambian los procedimientos
+
+Qué nunca debe hacer:
+Inventar procedimientos que no están en el documento subido.
+
+Dónde se guarda:
+Mi_Proyecto_IA/02_mis_skills/skill_procedimientos_internos.md</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Ejercicio 6 — sube tus propios procedimientos a NotebookLM primero</span>
+            <div class="prompt-footer-actions">
+              <button class="copy-btn" onclick="copyPrompt('skill-ej6', this)">Copiar skill</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── AGENTES ─── -->
+        <div style="margin-top:48px; padding-top:40px; border-top:1px solid var(--border); margin-bottom:8px;">
+          <h2 style="font-size:22px; margin-bottom:8px;">Tus 4 agentes — listos para activar</h2>
+          <p style="color:var(--muted); font-size:15px; margin-bottom:24px;">Pega cada agente al inicio de una conversación nueva en ChatGPT o Claude. Espera la frase de arranque y luego dile lo que necesitas.</p>
+        </div>
+
+        <!-- ─── AGENTE 1: EFICIENCIA DE TEXTO ─── -->
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Agente 1 — Eficiencia de texto</span>
+            <span class="prompt-tool-badge">ChatGPT · Claude</span>
+          </div>
+          <div class="prompt-body" id="agente-eficiencia">Eres un editor ejecutivo especializado en comunicación clara y directa.
+
+Tu trabajo es tomar cualquier texto que te comparta y reducirlo al mínimo necesario sin perder el significado, el tono ni la instrucción original.
+
+Reglas que siempre sigues:
+- Elimina frases de relleno, repeticiones y cortesías innecesarias.
+- Conserva todos los datos: montos, fechas, nombres, acciones concretas.
+- Mantén el tono del texto original (formal, casual, técnico).
+- No agregues información que no estaba en el texto original.
+- Si algo es ambiguo, señálalo en lugar de inventar.
+
+Formato de entrega:
+1. Versión reducida (máximo 50% del original)
+2. Lista de lo que eliminaste y por qué
+3. Una frase si hay algo que debería aclararse antes de enviarlo
+
+Cuando estés listo para recibir el texto, di: "Listo. Pega el texto que quieres comprimir."</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Pega este prompt primero, luego el texto que quieres comprimir</span>
+            <div class="prompt-footer-actions">
+              <button class="copy-btn" onclick="copyPrompt('agente-eficiencia', this)">Copiar agente</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── AGENTE 2: LECTOR DE PDF ─── -->
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Agente 2 — Lector de documentos</span>
+            <span class="prompt-tool-badge claude">Claude</span>
+          </div>
+          <div class="prompt-body" id="agente-pdf">Eres un analista de documentos experto en extractar información crítica de forma estructurada.
+
+Cuando te comparta un documento (PDF, Word, texto pegado o imagen de documento), debes:
+
+Paso 1 — Resumen ejecutivo
+- De qué trata el documento en 3 líneas o menos
+- Fecha del documento (si aplica)
+- Partes involucradas (si aplica)
+
+Paso 2 — Puntos clave
+- Máximo 7 bullets con la información más importante
+- Incluye números, fechas y montos si existen
+
+Paso 3 — Riesgos o alertas
+- ¿Hay algo que requiere acción urgente?
+- ¿Hay fechas que se acercan o que ya vencieron?
+- ¿Hay cláusulas o condiciones que podrían perjudicar?
+
+Paso 4 — Preguntas pendientes
+- Lista de 3 a 5 preguntas que deberías hacerte o resolver antes de actuar sobre este documento
+
+Paso 5 — Acción recomendada
+- Una sola acción concreta que debes tomar esta semana basándote en lo que leíste
+
+Reglas:
+- No inventes datos que no están en el documento.
+- Si algo no está claro, dilo explícitamente.
+- Si el documento es muy largo, dímelo y te lo analizo por secciones.
+
+Cuando estés listo, di: "Listo. Sube o pega el documento."</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Activa el agente primero, luego sube cualquier PDF o pega el texto del documento</span>
+            <div class="prompt-footer-actions">
+              <button class="copy-btn" onclick="copyPrompt('agente-pdf', this)">Copiar agente</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── AGENTE 3: BRAINSTORMING ─── -->
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Agente 3 — Sesión de brainstorming</span>
+            <span class="prompt-tool-badge">ChatGPT · Claude</span>
+          </div>
+          <div class="prompt-body" id="agente-brainstorming">Eres un facilitador de sesiones de ideas para negocios. Tu trabajo es ayudarme a generar, organizar y evaluar ideas sobre un tema específico, con criterio práctico y enfoque en resultados reales.
+
+Cuando te comparta un tema o problema, sigue este proceso:
+
+Fase 1 — Generación (expansión)
+- Genera 10 ideas sin filtrar. Incluye ideas convencionales, creativas e inesperadas.
+- No te autocensures. Quantity first.
+
+Fase 2 — Evaluación (filtro)
+- De las 10, elige las 3 más prometedoras considerando: impacto potencial, facilidad de implementación, costo estimado y riesgo.
+- Justifica brevemente cada elección.
+
+Fase 3 — Desarrollo (profundidad)
+- Para la idea más prometedora:
+  a) ¿Cuál sería el primer paso concreto para probarla?
+  b) ¿Qué recursos necesitaría?
+  c) ¿Cuál es el mayor riesgo y cómo se mitiga?
+  d) ¿Cuándo podría tenerse un resultado inicial?
+
+Fase 4 — Pregunta de cierre
+- Hazme una sola pregunta que me ayude a clarificar el siguiente paso real.
+
+Reglas:
+- Sé directo y práctico. Evita ideas que suenen bien pero sean imposibles de implementar.
+- Si el tema es vago, pide clarificación antes de generar ideas.
+- Adapta el nivel de profundidad al tamaño del problema.
+
+Cuando estés listo, di: "Listo. ¿Sobre qué tema o problema quieres hacer el brainstorming?"</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Activa el agente y cuéntale el problema o tema que quieres explorar</span>
+            <div class="prompt-footer-actions">
+              <button class="copy-btn" onclick="copyPrompt('agente-brainstorming', this)">Copiar agente</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── AGENTE 4: CONTROL REMOTO ─── -->
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <span class="prompt-title">Agente 4 — Control remoto de tareas</span>
+            <span class="prompt-tool-badge">ChatGPT · Claude</span>
+          </div>
+          <div class="prompt-body" id="agente-control">Eres un asistente operativo experto en descomponer tareas complejas en instrucciones simples, paso a paso, como si guiaras a alguien desde cero.
+
+Tu trabajo es tomar cualquier tarea que te describa y convertirla en un protocolo claro y ejecutable, sin asumir que la persona que lo va a seguir ya sabe cómo hacerlo.
+
+Cuando te dé una tarea, entrega:
+
+Protocolo paso a paso:
+- Instrucciones numeradas, en orden lógico
+- Cada paso tiene una sola acción concreta
+- Incluye: qué hacer, dónde hacerlo, qué resultado esperar
+- Usa lenguaje simple, sin tecnicismos
+
+Puntos de verificación:
+- 2 o 3 momentos donde pausar y confirmar que todo va bien antes de continuar
+
+Posibles errores comunes:
+- Lista de 3 cosas que suelen salir mal y cómo evitarlas
+
+Tiempo estimado:
+- Cuánto debería tardar alguien haciendo esto por primera vez
+
+Uso recomendado:
+- Esto funciona para: documentar procesos, capacitar a un empleado nuevo, crear un checklist operativo, o preparar una instrucción que se repite en el equipo.
+
+Cuando estés listo, di: "Listo. ¿Qué tarea o proceso quieres convertir en protocolo?"</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Ideal para documentar procesos, capacitar a alguien nuevo o crear checklists</span>
+            <div class="prompt-footer-actions">
+              <button class="copy-btn" onclick="copyPrompt('agente-control', this)">Copiar agente</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── CARPETA DEL PROYECTO ─── -->
+        <div style="margin-top:40px;">
+          <h2 style="font-size:22px; margin-bottom:8px;">Tu carpeta de proyecto</h2>
+          <p style="color:var(--muted); font-size:15px; margin-bottom:24px;">Esta es la estructura que debes tener al terminar el taller. Crea esta carpeta en tu computadora y guarda cada archivo en su lugar.</p>
+        </div>
+
+        <div class="card">
+          <h3 style="font-family:monospace; font-size:15px; font-weight:400; color:var(--amber);">📁 Mi_Proyecto_IA/</h3>
+          <div style="font-family:monospace; font-size:13px; line-height:2; margin-top:16px; color:var(--muted);">
+            <div style="color:var(--text); margin-bottom:4px;">📁 <strong>01_mis_ejercicios/</strong></div>
+            <div style="padding-left:20px;">01_Resumen_Ventas_Mayo.txt &nbsp;<span style="color:#444;">← ejercicio 1 del taller</span></div>
+            <div style="padding-left:20px;">02_Correo_Cobranza.txt &nbsp;<span style="color:#444;">← ejercicio 2</span></div>
+            <div style="padding-left:20px;">03_Analisis_Contrato.txt &nbsp;<span style="color:#444;">← ejercicio 3</span></div>
+            <div style="padding-left:20px;">04_Revision_Gastos.txt &nbsp;<span style="color:#444;">← ejercicio 4</span></div>
+            <div style="padding-left:20px;">05_Mercado_Gemini.txt &nbsp;<span style="color:#444;">← ejercicio 5</span></div>
+            <div style="padding-left:20px;">06_Procedimientos_NotebookLM.txt &nbsp;<span style="color:#444;">← ejercicio 6</span></div>
+            <div style="margin-top:12px; color:var(--text);">📁 <strong>02_mis_skills/</strong></div>
+            <div style="padding-left:20px;">skill_resumen_ventas.md &nbsp;<span style="color:#444;">← copiada de arriba · ejercicio 1</span></div>
+            <div style="padding-left:20px;">skill_cobranza.md &nbsp;<span style="color:#444;">← ejercicio 2</span></div>
+            <div style="padding-left:20px;">skill_analisis_contrato.md &nbsp;<span style="color:#444;">← ejercicio 3</span></div>
+            <div style="padding-left:20px;">skill_revision_gastos.md &nbsp;<span style="color:#444;">← ejercicio 4</span></div>
+            <div style="padding-left:20px;">skill_investigacion_mercado.md &nbsp;<span style="color:#444;">← ejercicio 5</span></div>
+            <div style="padding-left:20px;">skill_procedimientos_internos.md &nbsp;<span style="color:#444;">← ejercicio 6</span></div>
+            <div style="margin-top:12px; color:var(--text);">📁 <strong>03_mis_agentes/</strong></div>
+            <div style="padding-left:20px;">agente_eficiencia.txt &nbsp;<span style="color:#444;">← copiado de este módulo</span></div>
+            <div style="padding-left:20px;">agente_lector_pdf.txt</div>
+            <div style="padding-left:20px;">agente_brainstorming.txt</div>
+            <div style="padding-left:20px;">agente_control_remoto.txt</div>
+            <div style="padding-left:20px;">agente_[uno_que_creaste_tú].txt &nbsp;<span style="color:#444;">← el tuyo propio</span></div>
+            <div style="margin-top:12px; color:var(--text);">📁 <strong>04_recursos/</strong></div>
+            <div style="padding-left:20px;">contrato_arcoiris.pdf</div>
+            <div style="padding-left:20px;">gastos_mayo_2026.xlsx</div>
+            <div style="padding-left:20px;">ventas_mayo_2026.xlsx</div>
+          </div>
+        </div>
+
+        <!-- ─── CHECKLIST DE ENTREGA ─── -->
+        <div style="margin-top:32px;">
+          <h2 style="font-size:20px; margin-bottom:16px;">Checklist de cierre</h2>
+        </div>
+
+        <div class="card" id="checklist-card">
+          <h3 style="margin-bottom:16px;">¿Qué tienes listo?</h3>
+          <div style="display:flex; flex-direction:column; gap:10px;" id="checklist">
+            <label class="check-item"><input type="checkbox" onchange="updateChecklist()"> <span>Completé los 6 ejercicios y guardé los archivos de texto</span></label>
+            <label class="check-item"><input type="checkbox" onchange="updateChecklist()"> <span>Copié las 6 skills a mi carpeta y adapté al menos 1 con mis datos reales</span></label>
+            <label class="check-item"><input type="checkbox" onchange="updateChecklist()"> <span>Copié los 4 agentes en archivos .txt en mi carpeta</span></label>
+            <label class="check-item"><input type="checkbox" onchange="updateChecklist()"> <span>Identifiqué UNA tarea de mi trabajo para aplicar la próxima semana</span></label>
+            <label class="check-item"><input type="checkbox" onchange="updateChecklist()"> <span>Adapté al menos un prompt con datos reales de mi empresa</span></label>
+            <label class="check-item"><input type="checkbox" onchange="updateChecklist()"> <span>Creé mi carpeta Mi_Proyecto_IA/ con las 4 subcarpetas</span></label>
+            <label class="check-item"><input type="checkbox" onchange="updateChecklist()"> <span>Sé distinguir entre: prompt, skill, plugin, conector y agente</span></label>
+          </div>
+          <div id="checklist-progress" style="margin-top:20px; display:none;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <span style="font-size:13px; color:var(--muted);" id="checklist-label">0 de 7 completados</span>
+            </div>
+            <div style="height:6px; background:var(--border); border-radius:3px; overflow:hidden;">
+              <div id="checklist-bar" style="height:100%; background:var(--amber); border-radius:3px; transition:width 0.3s ease; width:0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── RETO FINAL ─── -->
+        <div class="prompt-card" style="margin-top:24px;">
+          <div class="prompt-header">
+            <span class="prompt-title">Tu primer agente propio — Reto final</span>
+            <span class="prompt-tool-badge">ChatGPT · Claude</span>
+          </div>
+          <div class="prompt-body" id="agente-propio">Eres un agente especializado en [DESCRIBE TU ROL AQUÍ].
+
+Tu trabajo es [DESCRIBE LO QUE HACE].
+
+Cuando te comparta [DESCRIBE QUÉ TE VAN A DAR], debes:
+
+Paso 1 — [NOMBRE DEL PASO]
+[Qué haces en este paso]
+
+Paso 2 — [NOMBRE DEL PASO]
+[Qué haces en este paso]
+
+Paso 3 — [NOMBRE DEL PASO]
+[Qué haces en este paso]
+
+Reglas que siempre sigues:
+- [Regla 1]
+- [Regla 2]
+- [Regla 3]
+
+Lo que nunca debes hacer:
+- [Límite 1]
+- [Límite 2]
+
+Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</div>
+          <div class="prompt-footer">
+            <span class="prompt-context">Rellena los corchetes y crea tu primer agente personalizado</span>
+            <div class="prompt-footer-actions">
+              <button class="copy-btn" onclick="copyPrompt('agente-propio', this)">Copiar plantilla</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-nav">
+          <button class="btn-prev" onclick="goTo(5)">← Anterior</button>
+          <button class="btn-next" onclick="goTo(7)">Último módulo →</button>
+        </div>
+      </div>
+
+      <!-- ══════ MÓDULO 7 — CHAT → APP → TERMINAL ══════ -->
+      <div class="module" id="mod-7">
+        <div class="module-eyebrow">Módulo 7</div>
+        <h1 class="module-title">Del chat a la terminal</h1>
+        <p class="module-desc">Cada herramienta tiene tres niveles de uso. Empiezas en el chat — sin instalar nada, sin configurar nada. Con el tiempo, subes de nivel según lo que necesites. No es obligatorio llegar al nivel 3. Pero ayuda saber que existe.</p>
+
+        <img class="module-img" src="img/curso_m7_terminal.png" alt="Los tres niveles de acceso a IA: chat, app, terminal">
+
+        <!-- ─── LAS 3 INTERFACES ─── -->
+        <div style="margin-bottom:32px;">
+          <h2 style="font-size:20px; margin-bottom:16px;">Las 3 formas de acceder a IA</h2>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+
+            <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; text-align:center;">
+              <div style="font-size:32px; margin-bottom:12px;">🌐</div>
+              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; margin-bottom:8px;">Sitio web</div>
+              <div style="font-size:13px; color:var(--muted); line-height:1.6;">Abres el browser, entras a la URL. Sin instalación. Funciona en cualquier computadora. Ideal para empezar.</div>
+              <div style="margin-top:12px; font-size:12px; color:var(--amber);">claude.ai · chatgpt.com</div>
+            </div>
+
+            <div style="background:var(--surface); border:1px solid var(--amber-border); border-radius:12px; padding:20px; text-align:center;">
+              <div style="font-size:32px; margin-bottom:12px;">💻</div>
+              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; margin-bottom:8px;">App descargable</div>
+              <div style="font-size:13px; color:var(--muted); line-height:1.6;">Se instala en tu Mac o Windows. Vive en tu barra de menú o escritorio. Sin abrir browser. Atajos de teclado globales. Más rápida.</div>
+              <div style="margin-top:12px; font-size:12px; color:var(--amber);">Claude Desktop · ChatGPT Desktop</div>
+            </div>
+
+            <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; text-align:center;">
+              <div style="font-size:32px; margin-bottom:12px;">⌨️</div>
+              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; margin-bottom:8px;">Terminal / CLI</div>
+              <div style="font-size:13px; color:var(--muted); line-height:1.6;">Texto puro. Máximo control. La IA trabaja directamente con tus archivos, carpetas y código. Para flujos avanzados.</div>
+              <div style="margin-top:12px; font-size:12px; color:var(--amber);">Claude Code · OpenAI CLI</div>
+            </div>
+
+          </div>
+          <div style="margin-top:12px; padding:12px 16px; background:var(--surface2); border-radius:8px; font-size:13px; color:var(--muted);">
+            Las tres interfaces conectan con el mismo modelo de IA. Lo que cambia es <strong style="color:var(--text);">cómo le das contexto</strong> y <strong style="color:var(--text);">qué tanto puede ver de tu trabajo</strong>.
+          </div>
+        </div>
+
+        <!-- ─── ESCALERA CLAUDE ─── -->
+        <div style="margin-bottom:40px;">
+          <h2 style="font-size:20px; margin-bottom:6px;">Claude — 3 niveles</h2>
+          <p style="color:var(--muted); font-size:14px; margin-bottom:20px;">Cada nivel agrega contexto y control. Subes cuando sientes que el nivel anterior ya te quedó chico.</p>
+
+          <div style="display:flex; flex-direction:column; gap:0;">
+
+            <!-- Nivel 1 Claude -->
+            <div style="display:flex; gap:0; position:relative;">
+              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
+                <div style="width:32px; height:32px; border-radius:50%; background:var(--amber); color:#000; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">1</div>
+                <div style="width:2px; flex:1; background:var(--border); margin-top:4px;"></div>
+              </div>
+              <div style="padding:0 0 28px 16px; flex:1;">
+                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Chat &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">claude.ai</span></div>
+                <div style="font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:10px;">Abres el browser, escribes, recibes respuesta. Cada conversación empieza desde cero — Claude no recuerda lo de ayer ni conoce tu empresa. Perfecta para tareas puntuales: redactar un correo, resumir un texto, analizar un PDF.</div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Sin instalación</span>
+                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Ideal para comenzar</span>
+                  <span style="background:var(--error-dim); border:1px solid var(--error); color:#fca5a5; font-size:11px; padding:3px 10px; border-radius:20px;">Sin memoria entre sesiones</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Nivel 2 Claude -->
+            <div style="display:flex; gap:0; position:relative;">
+              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
+                <div style="width:32px; height:32px; border-radius:50%; background:var(--amber); color:#000; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">2</div>
+                <div style="width:2px; flex:1; background:var(--border); margin-top:4px;"></div>
+              </div>
+              <div style="padding:0 0 28px 16px; flex:1;">
+                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Proyectos &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">claude.ai → Projects</span></div>
+                <div style="font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:10px;">Creas un proyecto con instrucciones fijas ("siempre responde en español formal", "mi empresa es X, mis clientes son Y"). Subes documentos que Claude lee en cada conversación. Claude recuerda el contexto del proyecto entre sesiones. Ideal para trabajo repetitivo o en equipo.</div>
+                <div style="background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:13px; color:var(--muted); margin-bottom:10px;">
+                  Ejemplo: creas un proyecto "Cobranza" con las políticas de tu empresa y los templates de tus correos. Cada vez que abres ese proyecto, Claude ya sabe quién eres y cómo trabajas.
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Contexto persistente</span>
+                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Documentos adjuntos permanentes</span>
+                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Instrucciones fijas por proyecto</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Nivel 3 Claude -->
+            <div style="display:flex; gap:0;">
+              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
+                <div style="width:32px; height:32px; border-radius:50%; background:var(--amber); color:#000; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">3</div>
+              </div>
+              <div style="padding:0 0 0 16px; flex:1;">
+                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Terminal / Claude Code &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">App + CLI</span></div>
+                <div style="font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:10px;">Claude trabaja directamente dentro de tu computadora. Lee y edita archivos, corre scripts, navega carpetas. No es solo un chat — es un asistente que puede hacer cosas en tu sistema. Requiere instalar Claude Code desde la terminal.</div>
+                <div style="background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:13px; color:var(--muted); margin-bottom:10px;">
+                  Ejemplo: le dices "revisa todos los contratos en la carpeta /clientes y genera un resumen de los que vencen en 30 días". Claude los lee, los analiza y te entrega el reporte — sin que abras cada archivo tú mismo.
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                  <span style="background:var(--amber-dim); border:1px solid var(--amber-border); color:var(--amber); font-size:11px; padding:3px 10px; border-radius:20px;">Nivel avanzado</span>
+                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Acceso a tus archivos reales</span>
+                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Automatización completa</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ─── ESCALERA CHATGPT ─── -->
+        <div style="margin-bottom:40px;">
+          <h2 style="font-size:20px; margin-bottom:6px;">ChatGPT — 4 niveles</h2>
+          <p style="color:var(--muted); font-size:14px; margin-bottom:20px;">ChatGPT tiene un nivel más que Claude en la escalera: los GPTs personalizados y el acceso a Codex para tareas de código.</p>
+
+          <div style="display:flex; flex-direction:column; gap:0;">
+
+            <!-- Nivel 1 GPT -->
+            <div style="display:flex; gap:0;">
+              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
+                <div style="width:32px; height:32px; border-radius:50%; background:#10a37f; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">1</div>
+                <div style="width:2px; flex:1; background:var(--border); margin-top:4px;"></div>
+              </div>
+              <div style="padding:0 0 28px 16px; flex:1;">
+                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Chat &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">chatgpt.com</span></div>
+                <div style="font-size:14px; color:var(--muted); line-height:1.6;">Conversación directa en el browser. Sin configurar nada. GPT-4o disponible gratis con límites. La herramienta más usada en el mundo para este tipo de tareas. Donde practicaste hoy los ejercicios 1 y 2.</div>
+              </div>
+            </div>
+
+            <!-- Nivel 2 GPT -->
+            <div style="display:flex; gap:0;">
+              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
+                <div style="width:32px; height:32px; border-radius:50%; background:#10a37f; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">2</div>
+                <div style="width:2px; flex:1; background:var(--border); margin-top:4px;"></div>
+              </div>
+              <div style="padding:0 0 28px 16px; flex:1;">
+                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Proyectos &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">chatgpt.com → Projects</span></div>
+                <div style="font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:10px;">Agrupa conversaciones por tema. ChatGPT comparte contexto entre las conversaciones del mismo proyecto. Puedes darle instrucciones fijas y subir archivos de referencia. Equivalente al nivel 2 de Claude.</div>
+                <div style="background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:13px; color:var(--muted);">
+                  Ejemplo: proyecto "Ventas" con las políticas de precios y el catálogo. Cada conversación nueva dentro del proyecto ya tiene ese contexto disponible.
+                </div>
+              </div>
+            </div>
+
+            <!-- Nivel 3 GPT -->
+            <div style="display:flex; gap:0;">
+              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
+                <div style="width:32px; height:32px; border-radius:50%; background:#10a37f; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">3</div>
+                <div style="width:2px; flex:1; background:var(--border); margin-top:4px;"></div>
+              </div>
+              <div style="padding:0 0 28px 16px; flex:1;">
+                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Codex &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">platform.openai.com</span></div>
+                <div style="font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:10px;">Entorno de OpenAI especializado en tareas de código y automatización. Puede ejecutar código en su propio entorno, leer repositorios, correr pruebas y generar scripts completos. Diferente al chat normal — aquí ChatGPT actúa más como un programador autónomo.</div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                  <span style="background:var(--amber-dim); border:1px solid var(--amber-border); color:var(--amber); font-size:11px; padding:3px 10px; border-radius:20px;">Requiere suscripción Plus o Pro</span>
+                  <span style="background:var(--amber-dim); border:1px solid var(--amber-border); color:var(--amber); font-size:11px; padding:3px 10px; border-radius:20px;">Enfocado en código</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Nivel 4 GPT -->
+            <div style="display:flex; gap:0;">
+              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
+                <div style="width:32px; height:32px; border-radius:50%; background:#10a37f; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">4</div>
+              </div>
+              <div style="padding:0 0 0 16px; flex:1;">
+                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Terminal / API &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">API key + CLI</span></div>
+                <div style="font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:10px;">Conexión directa al modelo desde código o terminal. Sin interfaz gráfica. Se usa cuando quieres que ChatGPT sea parte de un sistema más grande: un flujo de automatización, una aplicación propia, un agente que corre solo.</div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                  <span style="background:var(--amber-dim); border:1px solid var(--amber-border); color:var(--amber); font-size:11px; padding:3px 10px; border-radius:20px;">Nivel técnico</span>
+                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Integración con cualquier sistema</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ─── TABLA COMPARATIVA ─── -->
+        <div class="card" style="margin-bottom:24px;">
+          <h3 style="margin-bottom:16px;">¿En qué nivel estás tú hoy?</h3>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:13px;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <th style="text-align:left; padding:10px 12px; color:var(--muted); font-weight:600;">Situación</th>
+                  <th style="text-align:center; padding:10px 12px; color:var(--muted); font-weight:600;">Claude</th>
+                  <th style="text-align:center; padding:10px 12px; color:var(--muted); font-weight:600;">ChatGPT</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:12px; color:var(--text);">Recién comienzo, quiero probar</td>
+                  <td style="padding:12px; text-align:center; color:var(--amber);">Nivel 1 — Chat</td>
+                  <td style="padding:12px; text-align:center; color:#10a37f;">Nivel 1 — Chat</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:12px; color:var(--text);">Ya lo uso seguido, quiero que me recuerde</td>
+                  <td style="padding:12px; text-align:center; color:var(--amber);">Nivel 2 — Proyectos</td>
+                  <td style="padding:12px; text-align:center; color:#10a37f;">Nivel 2 — Proyectos</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:12px; color:var(--text);">Quiero que trabaje con mis archivos</td>
+                  <td style="padding:12px; text-align:center; color:var(--amber);">Nivel 3 — Terminal</td>
+                  <td style="padding:12px; text-align:center; color:#10a37f;">Nivel 3 — Codex</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px; color:var(--text);">Quiero integrarlo en un sistema propio</td>
+                  <td style="padding:12px; text-align:center; color:var(--amber);">Nivel 3 — API</td>
+                  <td style="padding:12px; text-align:center; color:#10a37f;">Nivel 4 — API</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-top:16px; padding:14px 16px; background:var(--surface2); border-radius:8px; font-size:13px; color:var(--muted);">
+            Hoy terminaste el taller usando <strong style="color:var(--text);">Nivel 1</strong> de ambas herramientas. El siguiente paso natural es crear tu primer <strong style="color:var(--text);">Proyecto</strong> en Claude o ChatGPT con el contexto de tu empresa.
+          </div>
+        </div>
+
+        <!-- ─── QUIZ ─── -->
+        <div class="quiz-block">
+          <div class="quiz-label">Pregunta del módulo</div>
+          <div class="quiz-question">Llevas 3 semanas usando ChatGPT para hacer resúmenes de ventas. Cada vez que abres una conversación nueva tienes que explicarle de nuevo quién eres y cómo es tu empresa. ¿Qué nivel deberías usar?</div>
+          <div class="quiz-options" id="q8">
+            <button class="quiz-option" onclick="answer('q8', this, false)">A. Nivel 1 — Chat. Es suficiente para resúmenes.</button>
+            <button class="quiz-option" onclick="answer('q8', this, true)">B. Nivel 2 — Proyectos. Así el contexto de tu empresa queda guardado y no lo repites cada vez.</button>
+            <button class="quiz-option" onclick="answer('q8', this, false)">C. Nivel 4 — API. Para automatizarlo completamente.</button>
+            <button class="quiz-option" onclick="answer('q8', this, false)">D. Nivel 3 — Codex. Para que lo haga solo.</button>
+          </div>
+          <div class="quiz-feedback" id="q8-feedback"></div>
+        </div>
+
+        <!-- ─── PRÓXIMOS PASOS ─── -->
+        <div class="highlight" style="margin-top:24px;">
+          <p><strong>Tu camino de los próximos 30 días:</strong><br><br>
+          Semana 1 — Aplica lo de hoy desde el chat (Nivel 1). Un prompt. Un proceso real.<br>
+          Semana 2 — Crea tu primer Proyecto en Claude con las instrucciones de tu empresa.<br>
+          Semana 3 — Agrega documentos al proyecto: contrato base, políticas, catálogo.<br>
+          Semana 4 — Empieza a construir skills reales con la ficha que aprendiste hoy.</p>
+        </div>
+
+        <!-- ─── CIERRE FINAL ─── -->
+        <div class="completion-screen">
+          <div class="completion-icon">⚡</div>
+          <h2>Curso completo</h2>
+          <p>Sabes qué es la IA, cómo pedirle bien, qué herramienta usar para cada tarea, cómo guardar lo que funciona y hacia dónde crecer. Lo que sigue es aplicarlo — un proceso a la vez.</p>
+          <button class="btn-next" onclick="goTo(1)">Repasar desde el inicio</button>
+        </div>
+
+        <div class="module-nav">
+          <button class="btn-prev" onclick="goTo(6)">← Anterior</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  const PASSWORD = 'curso';
+
+  const MODULES = [
+    { id: 1, label: '¿Qué es la IA?', time: '8 min' },
+    { id: 2, label: 'La fórmula del prompt', time: '14 min' },
+    { id: 3, label: 'Cuál herramienta usar', time: '12 min' },
+    { id: 4, label: 'Prompts de práctica', time: '45 min' },
+    { id: 5, label: 'De prompt a sistema', time: '25 min' },
+    { id: 6, label: 'Tu proyecto', time: '40 min' },
+    { id: 7, label: 'Chat → App → Terminal', time: '12 min' }
+  ];
+
+  const ANSWERS = {
+    q1: { correct: 2, feedback: { ok: '¡Correcto! La IA no siempre produce información correcta. Puede inventar datos, fechas o citas. Por eso siempre hay que revisar antes de usar.', err: 'Incorrecto. La IA no garantiza precisión — puede inventar datos y cometer errores. Siempre revisa antes de usar el resultado.' } },
+    q2: { correct: 3, feedback: { ok: '¡Exacto! El prompt tiene ROL, CONTEXTO y TAREA, pero no dice el tono, la longitud ni qué evitar. Sin CRITERIO la IA puede producir algo genérico o inapropiado.', err: 'No exactamente. El prompt sí tiene ese elemento. Lo que falta es el CRITERIO: tono, longitud y qué evitar.' } },
+    q3: { correct: 2, feedback: { ok: '¡Correcto! Tiene los 5 elementos: ROL (ejecutivo de cobranza), CONTEXTO (cliente y situación), TAREA (correo formal), FORMATO implícito y CRITERIO (tono, 120 palabras, fecha límite).', err: 'No. Las opciones A, B y D son prompts sin contexto suficiente — la IA tiene que adivinar demasiado.' } },
+    q4: { correct: 1, feedback: { ok: '¡Correcto! Claude es la mejor opción para analizar documentos reales como contratos. Puede leer el texto completo y responder preguntas específicas sobre su contenido.', err: 'No es la mejor opción aquí. Claude es la herramienta diseñada para analizar documentos largos como contratos, facturas y reportes.' } },
+    q5: { correct: 2, feedback: { ok: '¡Exacto! Gemini tiene acceso a información actual del mercado. Es la herramienta indicada cuando necesitas entender qué está pasando hoy — no hace seis meses.', err: 'No es la mejor opción para esto. Gemini tiene acceso a información actual del mercado y es la herramienta correcta para este tipo de consulta.' } },
+    q6: { correct: 2, feedback: { ok: '¡Correcto! Un prompt guardado sin ficha se olvida en dos semanas. La ficha te dice para qué sirve, qué datos necesita y qué revisar — eso lo convierte en una herramienta reutilizable, no en un texto suelto.', err: 'No es suficiente. Un prompt sin contexto pierde utilidad rápido. Necesitas la ficha: para qué sirve, qué datos necesita, qué revisar antes de usarlo. Así se convierte en sistema, no en texto suelto.' } },
+    q8: { correct: 1, feedback: { ok: '¡Correcto! Los Proyectos guardan el contexto de tu empresa de forma permanente. Claude o ChatGPT ya saben quién eres desde el primer mensaje de cada sesión nueva.', err: 'No exactamente. El problema es que tienes que repetir el contexto cada vez. Los Proyectos (Nivel 2) resuelven exactamente eso — guardan las instrucciones fijas y los documentos para siempre.' } }
+  };
+
+  let currentModule = 1;
+  let completedModules = new Set();
+  let answeredQuestions = new Set();
+
+  buildNav();
+  goTo(1);
+
+  // ─── NAV ───
+  function buildNav() {
+    const nav = document.getElementById('nav-items');
+    const tabs = document.getElementById('mobile-tabs');
+    nav.innerHTML = '';
+    tabs.innerHTML = '';
+    MODULES.forEach(m => {
+      // Sidebar
+      const btn = document.createElement('button');
+      btn.className = 'nav-item';
+      btn.id = `nav-${m.id}`;
+      btn.innerHTML = `<span class="nav-dot"></span><span style="flex:1">${m.label}</span><span style="font-size:11px;color:#555;flex-shrink:0">${m.time}</span>`;
+      btn.onclick = () => goTo(m.id);
+      nav.appendChild(btn);
+      // Mobile
+      const tab = document.createElement('button');
+      tab.className = 'mobile-tab';
+      tab.id = `tab-${m.id}`;
+      tab.textContent = m.id;
+      tab.onclick = () => goTo(m.id);
+      tabs.appendChild(tab);
+    });
+  }
+
+  function goTo(n) {
+    // Mark previous as done
+    if (currentModule !== n) completedModules.add(currentModule);
+
+    document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active', 'done'));
+    document.querySelectorAll('.mobile-tab').forEach(t => t.classList.remove('active'));
+
+    document.getElementById(`mod-${n}`).classList.add('active');
+    document.getElementById(`nav-${n}`).classList.add('active');
+    document.getElementById(`tab-${n}`).classList.add('active');
+
+    completedModules.forEach(id => {
+      const el = document.getElementById(`nav-${id}`);
+      if (el && id !== n) el.classList.add('done');
+    });
+
+    currentModule = n;
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(n) {
+    const pct = Math.round(((n - 1) / MODULES.length) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-label').textContent = `Módulo ${n} de ${MODULES.length}`;
+  }
+
+  // ─── QUIZ ───
+  function answer(qid, btn, isCorrect) {
+    if (answeredQuestions.has(qid)) return;
+    answeredQuestions.add(qid);
+
+    const container = document.getElementById(qid);
+    const options = container.querySelectorAll('.quiz-option');
+    const feedback = document.getElementById(qid + '-feedback');
+    const data = ANSWERS[qid];
+
+    options.forEach((opt, i) => {
+      opt.disabled = true;
+      if (i === data.correct) {
+        opt.classList.add('correct');
+      } else {
+        opt.classList.add('disabled');
+      }
+    });
+
+    if (!isCorrect) btn.classList.add('wrong');
+
+    feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'wrong');
+    feedback.textContent = isCorrect ? '✓ ' + data.feedback.ok : '✗ ' + data.feedback.err;
+  }
+
+  // ─── CHECKLIST ───
+  function updateChecklist() {
+    const boxes = document.querySelectorAll('#checklist input[type="checkbox"]');
+    const total = boxes.length;
+    const done = [...boxes].filter(b => b.checked).length;
+    const pct = Math.round((done / total) * 100);
+    const prog = document.getElementById('checklist-progress');
+    prog.style.display = 'block';
+    document.getElementById('checklist-label').textContent = `${done} de ${total} completados`;
+    document.getElementById('checklist-bar').style.width = pct + '%';
+    if (done === total) {
+      document.getElementById('checklist-bar').style.background = 'var(--success)';
+    }
+  }
+
+  // ─── COPY ───
+  function copyPrompt(id, btn) {
+    const text = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '¡Copiado!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copiar prompt';
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(() => {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = '¡Copiado!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copiar prompt';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
