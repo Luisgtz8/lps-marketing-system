@@ -1148,6 +1148,9 @@
     }
     .er-item.er-done { border-color: var(--success); color: var(--success); background: rgba(16,185,129,0.08); }
     .er-item.er-skip { border-color: var(--amber);   color: var(--amber);   background: rgba(245,158,11,0.08); }
+    .er-item { cursor: pointer; transition: transform 0.12s, box-shadow 0.12s; text-align: left; }
+    .er-item:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .er-item.jump-flash { box-shadow: 0 0 0 3px var(--amber) !important; transition: box-shadow 0s; }
     .er-icon { font-size: 14px; flex-shrink: 0; }
 
     .results-cta { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -3465,6 +3468,24 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     // (the user already navigated away, warning will show on return)
   }
 
+  // ─── JUMP TO ELEMENT ───
+  function jumpTo(mod, elementId) {
+    goTo(mod);
+    setTimeout(function() {
+      var el = document.getElementById(elementId);
+      if (!el) return;
+      // Open <details> accordion if the element is inside one
+      var details = el.closest('details');
+      if (details) details.open = true;
+      // Scroll to the wrapping card or the element itself
+      var target = el.closest('.prompt-card') || el;
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Amber flash to highlight the destination
+      target.classList.add('jump-flash');
+      setTimeout(function() { target.classList.remove('jump-flash'); }, 1200);
+    }, 80);
+  }
+
   // ─── RESULTS SCREEN ───
   const QUIZ_META = [
     { id: 'q1', label: 'P1' },
@@ -3548,31 +3569,33 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     }).join('');
 
     // Exercise items
+    var exLabels = ['Resumen ventas','Cobranza','Contrato','Gastos','Mercado','Procedimientos'];
     var exItems = ALL_EX.map(function(p, i) {
       var done = exercisesDone.has(p);
-      return '<div class="er-item ' + (done ? 'er-done' : 'er-skip') + '">'
+      return '<button class="er-item ' + (done ? 'er-done' : 'er-skip') + '" onclick="jumpTo(4,\'' + p + '\')" title="' + (done ? '✓ ' : 'Ir a ') + exLabels[i] + '">'
         + '<span class="er-icon">' + (done ? '✓' : '↩') + '</span>'
         + '<span>E' + (i + 1) + '</span>'
-        + '</div>';
+        + '</button>';
     }).join('');
 
     // Skill items
+    var skillNames = ['Ventas','Cobranza','Contrato','Gastos','Mercado','Procedimientos'];
     var skillItems = ALL_SKILLS.map(function(s, i) {
       var done = skillsDone.has(s);
-      return '<div class="er-item ' + (done ? 'er-done' : 'er-skip') + '">'
+      return '<button class="er-item ' + (done ? 'er-done' : 'er-skip') + '" onclick="jumpTo(6,\'' + s + '\')" title="' + (done ? '✓ ' : 'Ir a ') + 'Skill ' + (i+1) + '">'
         + '<span class="er-icon">' + (done ? '✓' : '↩') + '</span>'
         + '<span>S' + (i + 1) + '</span>'
-        + '</div>';
+        + '</button>';
     }).join('');
 
     // Agent items
     var agentLabels = ['Eficiencia','PDF','Ideas','Control'];
     var agentItems = ALL_AGENTS.map(function(a, i) {
       var done = agentsDone.has(a);
-      return '<div class="er-item ' + (done ? 'er-done' : 'er-skip') + '">'
+      return '<button class="er-item ' + (done ? 'er-done' : 'er-skip') + '" onclick="jumpTo(6,\'' + a + '\')" title="' + (done ? '✓ ' : 'Ir a ') + 'Agente ' + agentLabels[i] + '">'
         + '<span class="er-icon">' + (done ? '✓' : '↩') + '</span>'
         + '<span>' + agentLabels[i] + '</span>'
-        + '</div>';
+        + '</button>';
     }).join('');
 
     var backToM4 = hasSkipped
