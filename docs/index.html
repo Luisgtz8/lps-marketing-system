@@ -122,6 +122,9 @@
   }
   </script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <script>
+    (function(){var t=localStorage.getItem('lps-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');})();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1348,6 +1351,201 @@
         text-align: center;
       }
     }
+
+    /* ─── THEME TOGGLE BUTTON ─── */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 6px;
+      padding: 7px 11px;
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--muted);
+      color: var(--text);
+    }
+
+    /* ─── LIGHT MODE ─── */
+    [data-theme="light"] {
+      --black: #f9f9f9;
+      --black-mid: #f0f0f0;
+      --surface: #e8e8e8;
+      --border: #d5d5d5;
+      --text: #111111;
+      --muted: #555555;
+    }
+
+    [data-theme="light"] body {
+      background: #f9f9f9;
+      color: #111111;
+    }
+
+    [data-theme="light"] nav {
+      background: rgba(249, 249, 249, 0.92);
+    }
+
+    [data-theme="light"] .hero-panel {
+      background: #ffffff;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    [data-theme="light"] .hero-panel p {
+      color: #555;
+    }
+
+    [data-theme="light"] .check-list li {
+      color: #111;
+    }
+
+    [data-theme="light"] .logos-names {
+      color: #666;
+    }
+
+    [data-theme="light"] .method-card {
+      background: #ffffff;
+      border-color: #e0e0e0;
+    }
+
+    [data-theme="light"] .method-card.good {
+      background: #fffbeb;
+    }
+
+    [data-theme="light"] .method-list li {
+      color: #555;
+    }
+
+    [data-theme="light"] .system-step {
+      background: #ffffff;
+      border-color: #e0e0e0;
+    }
+
+    [data-theme="light"] .system-step strong {
+      color: #111;
+    }
+
+    [data-theme="light"] .system-step p {
+      color: #555;
+    }
+
+    [data-theme="light"] .folder-tree,
+    [data-theme="light"] .prompt-stack {
+      background: #ffffff;
+      border-color: #e0e0e0;
+    }
+
+    [data-theme="light"] .prompt-piece {
+      color: #333;
+    }
+
+    [data-theme="light"] .taller-card {
+      background: #ffffff;
+      border-color: #ddd;
+    }
+
+    [data-theme="light"] .taller-card.featured {
+      background: #fffbeb;
+    }
+
+    [data-theme="light"] .taller-badge {
+      background: #ebebeb;
+      color: #444;
+    }
+
+    [data-theme="light"] .taller-desc,
+    [data-theme="light"] .taller-meta span,
+    [data-theme="light"] .taller-note,
+    [data-theme="light"] .taller-currency {
+      color: #555;
+    }
+
+    [data-theme="light"] .btn-outline {
+      color: #111;
+      border-color: #ccc;
+    }
+
+    [data-theme="light"] .btn-outline:hover {
+      border-color: #555;
+      color: #000;
+    }
+
+    [data-theme="light"] .exp-card {
+      background: #ffffff;
+      border-color: #e8e8e8;
+    }
+
+    [data-theme="light"] .exp-card:hover {
+      border-color: #ccc;
+    }
+
+    [data-theme="light"] .exp-client {
+      color: #111;
+    }
+
+    [data-theme="light"] .exp-points li {
+      color: #555;
+    }
+
+    [data-theme="light"] .exp-points li strong {
+      color: #111;
+    }
+
+    [data-theme="light"] blockquote {
+      color: #666 !important;
+    }
+
+    [data-theme="light"] .chip {
+      background: #f0f0f0;
+      border-color: #ddd;
+      color: #444;
+    }
+
+    [data-theme="light"] .about-bio {
+      color: #555;
+    }
+
+    [data-theme="light"] .exp-img,
+    [data-theme="light"] .talleres-img,
+    [data-theme="light"] .about-img {
+      border-color: var(--border);
+    }
+
+    [data-theme="light"] .expediente-scroll-wrap::after {
+      background: linear-gradient(to right, transparent, #f0f0f0);
+    }
+
+    [data-theme="light"] .expediente-scroll {
+      scrollbar-color: #ccc transparent;
+    }
+
+    /* inline-styled dark elements */
+    [data-theme="light"] .para-quien-inner div[style*="background:#111"] {
+      background: #ffffff !important;
+      border-color: #ddd !important;
+    }
+
+    [data-theme="light"] .para-quien-inner p[style*="color:#e8e8e8"] {
+      color: #111 !important;
+    }
+
+    [data-theme="light"] [style*="color:#888"] {
+      color: #555 !important;
+    }
+
+    [data-theme="light"] [style*="color:#a0a0a0"] {
+      color: #666 !important;
+    }
+
+    [data-theme="light"] [style*="color:#e8e8e8"],
+    [data-theme="light"] [style*="color: #e8e8e8"] {
+      color: #111 !important;
+    }
   </style>
 </head>
 <body>
@@ -1360,6 +1558,9 @@
         <li class="nav-text-links-item"><a href="#talleres">Talleres</a></li>
         <li class="nav-text-links-item"><a href="#proyectos">Proyectos</a></li>
         <li class="nav-text-links-item"><a href="curso.html">Curso</a></li>
+        <li>
+          <button class="theme-toggle" id="themeToggle" aria-label="Cambiar modo de color">☀️</button>
+        </li>
         <li>
           <a href="https://wa.me/526623478040?text=Hola%2C%20me%20interesa%20el%20taller%20de%20IA" class="btn-nav" target="_blank" rel="noopener">Contactar</a>
         </li>
@@ -1761,7 +1962,7 @@ en producción.</h2>
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         /* static grid */
-        ctx.strokeStyle = 'rgba(255,255,255,0.028)';
+        ctx.strokeStyle = document.documentElement.getAttribute('data-theme') === 'light' ? 'rgba(0,0,0,0.07)' : 'rgba(255,255,255,0.028)';
         ctx.lineWidth = 1;
         for (var gx = 0; gx <= canvas.width; gx += CELL) {
           ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, canvas.height); ctx.stroke();
@@ -1848,6 +2049,33 @@ en producción.</h2>
           el.classList.add('pre-animate');
           observer.observe(el);
         }
+      });
+    })();
+
+    /* ── Theme toggle ── */
+    (function () {
+      var btn = document.getElementById('themeToggle');
+      var html = document.documentElement;
+
+      function applyTheme(theme) {
+        if (theme === 'light') {
+          html.setAttribute('data-theme', 'light');
+          btn.textContent = '🌙';
+          btn.title = 'Modo oscuro';
+        } else {
+          html.removeAttribute('data-theme');
+          btn.textContent = '☀️';
+          btn.title = 'Modo claro';
+        }
+      }
+
+      var saved = localStorage.getItem('lps-theme') || 'dark';
+      applyTheme(saved);
+
+      btn.addEventListener('click', function () {
+        var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        localStorage.setItem('lps-theme', next);
+        applyTheme(next);
       });
     })();
 
