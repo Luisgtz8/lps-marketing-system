@@ -970,6 +970,113 @@
     }
     .btn-copy-gen:hover { opacity: 0.85; }
     .btn-copy-gen.copied { background: var(--success); color: #fff; }
+
+    /* ─── EXERCISE PROGRESS TRACKER (M4) ─── */
+    .ex-tracker {
+      display: flex; align-items: center; gap: 16px; padding: 14px 20px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; margin-bottom: 24px;
+    }
+    .ex-tracker-label {
+      font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); flex-shrink: 0;
+    }
+    .ex-tracker-dots { display: flex; gap: 6px; flex: 1; }
+    .ex-dot {
+      width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700;
+      color: var(--muted); transition: all 0.25s; cursor: default;
+    }
+    .ex-dot.done { background: var(--success); border-color: var(--success); color: #fff; }
+    .ex-tracker-count {
+      font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700;
+      color: var(--muted); flex-shrink: 0; transition: color 0.25s;
+    }
+    .ex-tracker-count.all { color: var(--success); }
+
+    /* ─── SKIP WARNING (M4 exit) ─── */
+    .skip-warning {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: rgba(245,158,11,0.07); border: 1px solid var(--amber-border);
+      border-radius: 12px; padding: 16px 20px; margin-bottom: 24px;
+    }
+    .skip-warning.hidden { display: none; }
+    .skip-warning-icon { font-size: 20px; flex-shrink: 0; }
+    .skip-warning-body { flex: 1; font-size: 13px; line-height: 1.65; }
+    .skip-warning-body strong { display: block; color: var(--amber);
+      font-family: 'Space Grotesk', sans-serif; font-size: 13px; margin-bottom: 6px; }
+    .skip-warning-list { margin: 0 0 10px; padding-left: 18px; color: var(--text); }
+    .skip-warning-list li { margin-bottom: 3px; }
+    .skip-warning-dismiss {
+      background: none; border: none; padding: 0; font-size: 12px;
+      color: var(--muted); text-decoration: underline; cursor: pointer;
+    }
+
+    /* ─── RESULTS CARD (completion screen) ─── */
+    .results-card {
+      border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 32px;
+    }
+    .results-header {
+      display: flex; align-items: center; gap: 24px;
+      padding: 28px 32px; background: var(--surface); border-bottom: 1px solid var(--border);
+    }
+    .score-ring {
+      width: 82px; height: 82px; border-radius: 50%; flex-shrink: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 26px; line-height: 1;
+      border: 4px solid var(--amber); color: var(--text);
+    }
+    .score-ring .ring-denom { font-size: 12px; font-weight: 600; color: var(--muted); margin-top: 2px; }
+    .score-ring.ring-success { border-color: var(--success); }
+    .score-ring.ring-error   { border-color: var(--error); }
+    .results-header-text { flex: 1; min-width: 0; }
+    .results-badge {
+      display: inline-block; padding: 3px 12px; border-radius: 20px; margin-bottom: 8px;
+      font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.07em;
+    }
+    .results-badge.badge-success { background: rgba(16,185,129,0.12); color: var(--success); }
+    .results-badge.badge-amber   { background: rgba(245,158,11,0.12);  color: var(--amber); }
+    .results-badge.badge-error   { background: rgba(239,68,68,0.12);   color: var(--error); }
+    .results-header-text h3 {
+      font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 700;
+      color: var(--text); margin: 0 0 5px;
+    }
+    .results-header-text p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.5; }
+
+    .results-body { padding: 24px 32px; display: flex; flex-direction: column; gap: 22px; }
+    .results-section-title {
+      font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+    }
+
+    .quiz-result-row {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .qr-chip {
+      display: flex; align-items: center; gap: 6px; padding: 7px 12px;
+      border-radius: 8px; border: 1px solid var(--border); font-size: 12px; font-weight: 600;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .qr-chip.qr-correct { border-color: var(--success); color: var(--success); background: rgba(16,185,129,0.08); }
+    .qr-chip.qr-wrong   { border-color: var(--error);   color: var(--error);   background: rgba(239,68,68,0.08); }
+    .qr-chip.qr-skip    { color: var(--muted); }
+
+    .ex-result-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    }
+    @media (max-width: 580px) { .ex-result-grid { grid-template-columns: 1fr 1fr; } }
+    .er-item {
+      display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+      border-radius: 8px; border: 1px solid var(--border); font-size: 12px; font-weight: 600;
+    }
+    .er-item.er-done { border-color: var(--success); color: var(--success); background: rgba(16,185,129,0.08); }
+    .er-item.er-skip { border-color: var(--amber);   color: var(--amber);   background: rgba(245,158,11,0.08); }
+    .er-icon { font-size: 14px; flex-shrink: 0; }
+
+    .results-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+    @media (max-width: 500px) { .results-header { flex-direction: column; text-align: center; } }
+
   </style>
 </head>
 <body>
@@ -1237,6 +1344,30 @@
         <p class="module-desc">Estos son los 6 prompts del taller. Cópialos, ábrelos en la herramienta indicada y adapta los datos a tu empresa. No los uses como receta — usa la fórmula para personalizarlos.</p>
 
         <img class="module-img" src="img/curso_m4_practica.png" alt="Documentos reales siendo procesados con IA">
+
+        <!-- ─── EXERCISE PROGRESS TRACKER ─── -->
+        <div class="ex-tracker">
+          <span class="ex-tracker-label">Ejercicios</span>
+          <div class="ex-tracker-dots" id="ex-tracker-dots">
+            <div class="ex-dot" id="ex-dot-p1" title="E1 Resumen ventas">1</div>
+            <div class="ex-dot" id="ex-dot-p2" title="E2 Cobranza">2</div>
+            <div class="ex-dot" id="ex-dot-p3" title="E3 Contrato">3</div>
+            <div class="ex-dot" id="ex-dot-p4" title="E4 Gastos">4</div>
+            <div class="ex-dot" id="ex-dot-p5" title="E5 Mercado">5</div>
+            <div class="ex-dot" id="ex-dot-p6" title="E6 Procedimientos">6</div>
+          </div>
+          <span class="ex-tracker-count" id="ex-tracker-count">0 / 6</span>
+        </div>
+
+        <!-- ─── SKIP WARNING (hidden until triggered) ─── -->
+        <div class="skip-warning hidden" id="m4-skip-warning">
+          <div class="skip-warning-icon">⚠</div>
+          <div class="skip-warning-body">
+            <strong id="skip-warning-title"></strong>
+            <ul class="skip-warning-list" id="skip-warning-list"></ul>
+            <button class="skip-warning-dismiss" onclick="document.getElementById('m4-skip-warning').classList.add('hidden')">Entendido, continuar de todos modos</button>
+          </div>
+        </div>
 
         <div class="tool-section-header">ChatGPT — Ejercicios 1 y 2</div>
 
@@ -2806,13 +2937,8 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
           Semana 4 — Construye una skill real con la ficha que aprendiste hoy.</p>
         </div>
 
-        <!-- ─── CIERRE FINAL ─── -->
-        <div class="completion-screen">
-          <div class="completion-icon">⚡</div>
-          <h2>Curso completo</h2>
-          <p>Sabes qué es la IA, cómo pedirle bien, qué herramienta usar, cómo guardar lo que funciona, cómo usarla con seguridad y hacia dónde crecer. Lo que sigue es aplicarlo — un proceso a la vez.</p>
-          <button class="btn-next" onclick="goTo(1)">Repasar desde el inicio</button>
-        </div>
+        <!-- ─── RESULTADOS FINALES (dinámico) ─── -->
+        <div id="completion-results"></div>
 
         <div class="module-nav">
           <button class="btn-prev" onclick="goTo(6)">← Anterior</button>
@@ -2849,6 +2975,8 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
   let currentModule = 1;
   let completedModules = new Set();
   let answeredQuestions = new Set();
+  let correctAnswers = new Set();   // q-ids respondidos correctamente
+  let exercisesDone = new Set();    // p1-p6 ejercicios iniciados
 
   buildNav();
   goTo(1);
@@ -2878,6 +3006,10 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
   }
 
   function goTo(n) {
+    // Warn if leaving M4 with skipped exercises
+    if (currentModule === 4 && n !== 4) checkSkippedOnExit();
+    // Build results when arriving at last module
+    if (n === 7) buildResults();
     // Mark previous as done
     if (currentModule !== n) completedModules.add(currentModule);
 
@@ -2928,6 +3060,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
 
     feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'wrong');
     feedback.textContent = isCorrect ? '✓ ' + data.feedback.ok : '✗ ' + data.feedback.err;
+    if (isCorrect) correctAnswers.add(qid);
   }
 
   // ─── CHECKLIST ───
@@ -3087,6 +3220,163 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     });
   })();
 
+  // ─── EXERCISE TRACKING ───
+  const EX_LABELS = {
+    p1: 'E1 — Resumen de ventas',
+    p2: 'E2 — Correo de cobranza',
+    p3: 'E3 — Análisis de contrato',
+    p4: 'E4 — Revisión de gastos',
+    p5: 'E5 — Contexto de mercado',
+    p6: 'E6 — Procedimientos internos'
+  };
+  const ALL_EX = ['p1','p2','p3','p4','p5','p6'];
+
+  function markExerciseDone(pid) {
+    if (!ALL_EX.includes(pid) || exercisesDone.has(pid)) return;
+    exercisesDone.add(pid);
+    var dot = document.getElementById('ex-dot-' + pid);
+    if (dot) dot.classList.add('done');
+    var count = exercisesDone.size;
+    var counter = document.getElementById('ex-tracker-count');
+    if (counter) {
+      counter.textContent = count + ' / 6';
+      if (count === 6) counter.classList.add('all');
+    }
+  }
+
+  function checkSkippedOnExit() {
+    var skipped = ALL_EX.filter(function(p) { return !exercisesDone.has(p); });
+    if (skipped.length === 0) return;
+    var warning = document.getElementById('m4-skip-warning');
+    var title = document.getElementById('skip-warning-title');
+    var list = document.getElementById('skip-warning-list');
+    title.textContent = 'Saltaste ' + skipped.length + ' ejercicio' + (skipped.length > 1 ? 's' : '') + ' — los datos reales marcan la diferencia.';
+    list.innerHTML = skipped.map(function(p) { return '<li>' + EX_LABELS[p] + '</li>'; }).join('');
+    warning.classList.remove('hidden');
+    // Scroll warning into view when user returns to M4
+    // (the user already navigated away, warning will show on return)
+  }
+
+  // ─── RESULTS SCREEN ───
+  const QUIZ_META = [
+    { id: 'q1', label: 'P1' },
+    { id: 'q2', label: 'P2' },
+    { id: 'q3', label: 'P3' },
+    { id: 'q4', label: 'P4' },
+    { id: 'q5', label: 'P5' },
+    { id: 'q6', label: 'P6' },
+    { id: 'q8', label: 'P7' }
+  ];
+
+  function buildResults() {
+    var el = document.getElementById('completion-results');
+    if (!el) return;
+
+    var totalQ = QUIZ_META.length;
+    var correctQ = QUIZ_META.filter(function(m) { return correctAnswers.has(m.id); }).length;
+    var answeredQ = QUIZ_META.filter(function(m) { return answeredQuestions.has(m.id); }).length;
+    var exDone = ALL_EX.filter(function(p) { return exercisesDone.has(p); }).length;
+    var exSkipped = ALL_EX.filter(function(p) { return !exercisesDone.has(p); });
+
+    // Determine grade
+    var grade, badgeClass, ringClass, headline, msg;
+    var hasSkipped = exSkipped.length > 0;
+    var pct = answeredQ > 0 ? Math.round((correctQ / totalQ) * 100) : null;
+
+    if (hasSkipped) {
+      grade = 'Incompleto';
+      badgeClass = 'badge-amber';
+      ringClass = '';
+      headline = 'Faltaron ' + exSkipped.length + ' ejercicio' + (exSkipped.length > 1 ? 's' : '');
+      msg = 'Los ejercicios son la parte más práctica del taller. Puedes regresar al Módulo 4 para completarlos.';
+    } else if (pct === null) {
+      grade = 'Sin calificar';
+      badgeClass = 'badge-amber';
+      ringClass = '';
+      headline = 'No respondiste las preguntas del curso';
+      msg = 'Hiciste todos los ejercicios. Responde las preguntas en cada módulo para ver tu calificación.';
+    } else if (pct >= 80) {
+      grade = 'Aprobado';
+      badgeClass = 'badge-success';
+      ringClass = 'ring-success';
+      headline = correctQ + ' de ' + totalQ + ' respuestas correctas';
+      msg = 'Completaste el taller y dominas los conceptos. Lo que sigue es aplicarlo — un proceso a la vez.';
+    } else if (pct >= 60) {
+      grade = 'Aprobado con repaso';
+      badgeClass = 'badge-amber';
+      ringClass = '';
+      headline = correctQ + ' de ' + totalQ + ' respuestas correctas';
+      msg = 'Completaste el taller. Hay módulos donde vale la pena repasar antes de seguir.';
+    } else {
+      grade = 'Necesita refuerzo';
+      badgeClass = 'badge-error';
+      ringClass = 'ring-error';
+      headline = correctQ + ' de ' + totalQ + ' respuestas correctas';
+      msg = 'Te recomendamos repasar desde el módulo 1 antes de aplicarlo en tu empresa.';
+    }
+
+    // Score display
+    var scoreNum = pct !== null ? correctQ : exDone;
+    var scoreDen = pct !== null ? totalQ : 6;
+    var scoreLabel = pct !== null ? 'aciertos' : 'ejercicios';
+
+    // Quiz chips
+    var quizChips = QUIZ_META.map(function(m) {
+      var cls, icon;
+      if (!answeredQuestions.has(m.id)) { cls = 'qr-skip'; icon = '—'; }
+      else if (correctAnswers.has(m.id)) { cls = 'qr-correct'; icon = '✓'; }
+      else { cls = 'qr-wrong'; icon = '✗'; }
+      return '<div class="qr-chip ' + cls + '"><span>' + icon + '</span><span>' + m.label + '</span></div>';
+    }).join('');
+
+    // Exercise items
+    var exItems = ALL_EX.map(function(p, i) {
+      var done = exercisesDone.has(p);
+      return '<div class="er-item ' + (done ? 'er-done' : 'er-skip') + '">'
+        + '<span class="er-icon">' + (done ? '✓' : '↩') + '</span>'
+        + '<span>E' + (i + 1) + '</span>'
+        + '</div>';
+    }).join('');
+
+    var backToM4 = hasSkipped
+      ? '<button class="btn-prev" onclick="goTo(4)" style="margin-right:12px;">← Completar ejercicios</button>'
+      : '';
+
+    el.innerHTML =
+      '<div class="results-card">'
+        + '<div class="results-header">'
+          + '<div class="score-ring ' + ringClass + '">'
+            + '<span>' + scoreNum + '</span>'
+            + '<span class="ring-denom">/ ' + scoreDen + '</span>'
+          + '</div>'
+          + '<div class="results-header-text">'
+            + '<span class="results-badge ' + badgeClass + '">' + grade + '</span>'
+            + '<h3>' + headline + '</h3>'
+            + '<p>' + msg + '</p>'
+          + '</div>'
+        + '</div>'
+        + '<div class="results-body">'
+          + '<div>'
+            + '<div class="results-section-title">Ejercicios del taller</div>'
+            + '<div class="ex-result-grid">' + exItems + '</div>'
+          + '</div>'
+          + '<div>'
+            + '<div class="results-section-title">Preguntas de módulo</div>'
+            + '<div class="quiz-result-row">' + quizChips + '</div>'
+          + '</div>'
+          + '<div class="results-cta">'
+            + backToM4
+            + '<button class="btn-next" onclick="goTo(1)">Repasar desde el inicio</button>'
+          + '</div>'
+        + '</div>'
+      + '</div>'
+      + '<div class="completion-screen">'
+        + '<div class="completion-icon">⚡</div>'
+        + '<h2>Curso completo</h2>'
+        + '<p>Sabes qué es la IA, cómo pedirle bien, qué herramienta usar, cómo guardar lo que funciona y hacia dónde crecer. Lo que sigue es aplicarlo — un proceso a la vez.</p>'
+      + '</div>';
+  }
+
   // ─── PUZZLE: NIVEL (M7) ───
   var selectedNivel = null;
   var nivelScore = 0;
@@ -3220,6 +3510,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
   };
 
   function generatePrompt(id) {
+    markExerciseDone(id);
     var card = document.querySelector('[data-personalizer="' + id + '"]');
     var fields = card.querySelectorAll('[data-field]');
     var data = {};
@@ -3232,6 +3523,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
   }
 
   function copyGenerated(id, btn) {
+    markExerciseDone(id);
     var text = document.getElementById('gen-' + id + '-text').textContent;
     var orig = btn.textContent;
     navigator.clipboard.writeText(text).then(function() {
@@ -3249,6 +3541,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
 
   // ─── COPY ───
   function copyPrompt(id, btn) {
+    if (/^p[1-6]$/.test(id)) markExerciseDone(id);
     const text = document.getElementById(id).textContent;
     navigator.clipboard.writeText(text).then(() => {
       btn.textContent = '¡Copiado!';
