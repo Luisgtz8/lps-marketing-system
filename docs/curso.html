@@ -2190,6 +2190,30 @@ Criterios de revisión:
 
         <img class="module-img" src="img/curso_m6_proyecto.png" alt="Carpeta completa con las 6 skills del proyecto">
 
+        <!-- ─── PROGRESS TRACKER M6 ─── -->
+        <div class="ex-tracker" style="margin-bottom:8px;">
+          <span class="ex-tracker-label">Skills</span>
+          <div class="ex-tracker-dots">
+            <div class="ex-dot" id="ex-dot-skill-ej1" title="Skill 1 Ventas">S1</div>
+            <div class="ex-dot" id="ex-dot-skill-ej2" title="Skill 2 Cobranza">S2</div>
+            <div class="ex-dot" id="ex-dot-skill-ej3" title="Skill 3 Contrato">S3</div>
+            <div class="ex-dot" id="ex-dot-skill-ej4" title="Skill 4 Gastos">S4</div>
+            <div class="ex-dot" id="ex-dot-skill-ej5" title="Skill 5 Mercado">S5</div>
+            <div class="ex-dot" id="ex-dot-skill-ej6" title="Skill 6 Procedimientos">S6</div>
+          </div>
+          <span class="ex-tracker-count" id="skill-tracker-count">0 / 6</span>
+        </div>
+        <div class="ex-tracker">
+          <span class="ex-tracker-label">Agentes</span>
+          <div class="ex-tracker-dots">
+            <div class="ex-dot" id="ex-dot-agente-eficiencia" title="Agente Eficiencia">A1</div>
+            <div class="ex-dot" id="ex-dot-agente-pdf" title="Agente PDF">A2</div>
+            <div class="ex-dot" id="ex-dot-agente-brainstorming" title="Agente Brainstorming">A3</div>
+            <div class="ex-dot" id="ex-dot-agente-control" title="Agente Control">A4</div>
+          </div>
+          <span class="ex-tracker-count" id="agent-tracker-count">0 / 4</span>
+        </div>
+
         <div class="highlight">
           <p><strong>Dos tipos de herramientas en tu proyecto:</strong><br>
           <strong>Skills</strong> — instrucciones documentadas para tareas que se repiten. Una por cada ejercicio del taller, ya completas.<br>
@@ -3131,7 +3155,9 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
   let completedModules = new Set();
   let answeredQuestions = new Set();
   let correctAnswers = new Set();   // q-ids respondidos correctamente
-  let exercisesDone = new Set();    // p1-p6 ejercicios iniciados
+  let exercisesDone = new Set();    // p1-p6 ejercicios M4
+  let skillsDone    = new Set();    // skill-ej1..6 M6
+  let agentsDone    = new Set();    // agente-* M6
 
   buildNav();
   goTo(1);
@@ -3386,6 +3412,9 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
   };
   const ALL_EX = ['p1','p2','p3','p4','p5','p6'];
 
+  const ALL_SKILLS = ['skill-ej1','skill-ej2','skill-ej3','skill-ej4','skill-ej5','skill-ej6'];
+  const ALL_AGENTS = ['agente-eficiencia','agente-pdf','agente-brainstorming','agente-control'];
+
   function markExerciseDone(pid) {
     if (!ALL_EX.includes(pid) || exercisesDone.has(pid)) return;
     exercisesDone.add(pid);
@@ -3396,6 +3425,30 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     if (counter) {
       counter.textContent = count + ' / 6';
       if (count === 6) counter.classList.add('all');
+    }
+  }
+
+  function markSkillDone(id) {
+    if (!ALL_SKILLS.includes(id) || skillsDone.has(id)) return;
+    skillsDone.add(id);
+    var dot = document.getElementById('ex-dot-' + id);
+    if (dot) dot.classList.add('done');
+    var counter = document.getElementById('skill-tracker-count');
+    if (counter) {
+      counter.textContent = skillsDone.size + ' / 6';
+      if (skillsDone.size === 6) counter.classList.add('all');
+    }
+  }
+
+  function markAgentDone(id) {
+    if (!ALL_AGENTS.includes(id) || agentsDone.has(id)) return;
+    agentsDone.add(id);
+    var dot = document.getElementById('ex-dot-' + id);
+    if (dot) dot.classList.add('done');
+    var counter = document.getElementById('agent-tracker-count');
+    if (counter) {
+      counter.textContent = agentsDone.size + ' / 4';
+      if (agentsDone.size === 4) counter.classList.add('all');
     }
   }
 
@@ -3430,20 +3483,31 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     var totalQ = QUIZ_META.length;
     var correctQ = QUIZ_META.filter(function(m) { return correctAnswers.has(m.id); }).length;
     var answeredQ = QUIZ_META.filter(function(m) { return answeredQuestions.has(m.id); }).length;
-    var exDone = ALL_EX.filter(function(p) { return exercisesDone.has(p); }).length;
-    var exSkipped = ALL_EX.filter(function(p) { return !exercisesDone.has(p); });
+    var exDone      = ALL_EX.filter(function(p) { return exercisesDone.has(p); }).length;
+    var exSkipped   = ALL_EX.filter(function(p) { return !exercisesDone.has(p); });
+    var skillsDoneN = ALL_SKILLS.filter(function(s) { return skillsDone.has(s); }).length;
+    var agentsDoneN = ALL_AGENTS.filter(function(a) { return agentsDone.has(a); }).length;
+    var totalPractice = 6 + 6 + 4; // ejercicios + skills + agentes
+    var donePractice  = exDone + skillsDoneN + agentsDoneN;
+    var hasSkippedSkills  = skillsDoneN < 6;
+    var hasSkippedAgents  = agentsDoneN < 4;
 
     // Determine grade
     var grade, badgeClass, ringClass, headline, msg;
     var hasSkipped = exSkipped.length > 0;
     var pct = answeredQ > 0 ? Math.round((correctQ / totalQ) * 100) : null;
 
-    if (hasSkipped) {
+    var anySkipped = hasSkipped || hasSkippedSkills || hasSkippedAgents;
+    if (anySkipped) {
       grade = 'Incompleto';
       badgeClass = 'badge-amber';
       ringClass = '';
-      headline = 'Faltaron ' + exSkipped.length + ' ejercicio' + (exSkipped.length > 1 ? 's' : '');
-      msg = 'Los ejercicios son la parte más práctica del taller. Puedes regresar al Módulo 4 para completarlos.';
+      var missing = [];
+      if (hasSkipped)       missing.push(exSkipped.length + ' ejercicio' + (exSkipped.length > 1 ? 's' : '') + ' (M4)');
+      if (hasSkippedSkills) missing.push((6 - skillsDoneN) + ' skill' + (6 - skillsDoneN > 1 ? 's' : '') + ' (M6)');
+      if (hasSkippedAgents) missing.push((4 - agentsDoneN) + ' agente' + (4 - agentsDoneN > 1 ? 's' : '') + ' (M6)');
+      headline = 'Faltaron: ' + missing.join(', ');
+      msg = 'La práctica es la parte más importante. Regresa a completar lo que faltó — copiar y adaptar cada pieza toma solo unos minutos.';
     } else if (pct === null) {
       grade = 'Sin calificar';
       badgeClass = 'badge-amber';
@@ -3470,10 +3534,9 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       msg = 'Te recomendamos repasar desde el módulo 1 antes de aplicarlo en tu empresa.';
     }
 
-    // Score display
-    var scoreNum = pct !== null ? correctQ : exDone;
-    var scoreDen = pct !== null ? totalQ : 6;
-    var scoreLabel = pct !== null ? 'aciertos' : 'ejercicios';
+    // Score display: quiz score if answered, else practice completion
+    var scoreNum = pct !== null ? correctQ : donePractice;
+    var scoreDen = pct !== null ? totalQ   : totalPractice;
 
     // Quiz chips
     var quizChips = QUIZ_META.map(function(m) {
@@ -3490,6 +3553,25 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       return '<div class="er-item ' + (done ? 'er-done' : 'er-skip') + '">'
         + '<span class="er-icon">' + (done ? '✓' : '↩') + '</span>'
         + '<span>E' + (i + 1) + '</span>'
+        + '</div>';
+    }).join('');
+
+    // Skill items
+    var skillItems = ALL_SKILLS.map(function(s, i) {
+      var done = skillsDone.has(s);
+      return '<div class="er-item ' + (done ? 'er-done' : 'er-skip') + '">'
+        + '<span class="er-icon">' + (done ? '✓' : '↩') + '</span>'
+        + '<span>S' + (i + 1) + '</span>'
+        + '</div>';
+    }).join('');
+
+    // Agent items
+    var agentLabels = ['Eficiencia','PDF','Ideas','Control'];
+    var agentItems = ALL_AGENTS.map(function(a, i) {
+      var done = agentsDone.has(a);
+      return '<div class="er-item ' + (done ? 'er-done' : 'er-skip') + '">'
+        + '<span class="er-icon">' + (done ? '✓' : '↩') + '</span>'
+        + '<span>' + agentLabels[i] + '</span>'
         + '</div>';
     }).join('');
 
@@ -3512,15 +3594,24 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
         + '</div>'
         + '<div class="results-body">'
           + '<div>'
-            + '<div class="results-section-title">Ejercicios del taller</div>'
+            + '<div class="results-section-title">Ejercicios — Módulo 4</div>'
             + '<div class="ex-result-grid">' + exItems + '</div>'
+          + '</div>'
+          + '<div>'
+            + '<div class="results-section-title">Skills — Módulo 6</div>'
+            + '<div class="ex-result-grid">' + skillItems + '</div>'
+          + '</div>'
+          + '<div>'
+            + '<div class="results-section-title">Agentes — Módulo 6</div>'
+            + '<div class="ex-result-grid" style="grid-template-columns:repeat(4,1fr)">' + agentItems + '</div>'
           + '</div>'
           + '<div>'
             + '<div class="results-section-title">Preguntas de módulo</div>'
             + '<div class="quiz-result-row">' + quizChips + '</div>'
           + '</div>'
           + '<div class="results-cta">'
-            + backToM4
+            + (hasSkipped ? '<button class="btn-prev" onclick="goTo(4)">← Completar ejercicios</button>' : '')
+            + (hasSkippedSkills || hasSkippedAgents ? '<button class="btn-prev" onclick="goTo(6)">← Completar M6</button>' : '')
             + '<button class="btn-next" onclick="goTo(1)">Repasar desde el inicio</button>'
           + '</div>'
         + '</div>'
@@ -3696,7 +3787,9 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
 
   // ─── COPY ───
   function copyPrompt(id, btn) {
-    if (/^p[1-6]$/.test(id)) markExerciseDone(id);
+    if (/^p[1-6]$/.test(id))       markExerciseDone(id);
+    if (/^skill-ej[1-6]$/.test(id)) markSkillDone(id);
+    if (/^agente-/.test(id))        markAgentDone(id);
     const text = document.getElementById(id).textContent;
     navigator.clipboard.writeText(text).then(() => {
       btn.textContent = '¡Copiado!';
