@@ -1473,6 +1473,33 @@
           </div>
         </div>
 
+        <!-- ─── SETUP DE CARPETA ─── -->
+        <div class="card" style="border-color:var(--amber-border); margin-bottom:24px;">
+          <h3 style="color:var(--amber); margin-bottom:14px;">Antes de empezar — crea tu carpeta ahora</h3>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+            <div>
+              <div style="font-size:11px; font-family:'Space Grotesk',sans-serif; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Estructura de carpetas</div>
+              <div style="font-family:monospace; font-size:13px; line-height:2.2; color:var(--muted);">
+                <div style="color:var(--text); font-weight:700;">📁 Mi_Proyecto_IA/</div>
+                <div style="padding-left:16px;">📁 01_mis_ejercicios/</div>
+                <div style="padding-left:16px;">📁 02_mis_skills/</div>
+                <div style="padding-left:16px;">📁 03_mis_agentes/</div>
+                <div style="padding-left:16px;">📁 04_recursos/</div>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:11px; font-family:'Space Grotesk',sans-serif; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Flujo por ejercicio</div>
+              <div style="font-size:13px; line-height:2; color:var(--muted);">
+                <div>1. Copia el prompt de abajo</div>
+                <div>2. Pégalo en la herramienta indicada</div>
+                <div>3. Copia la <strong style="color:var(--text);">respuesta</strong> que te da la IA</div>
+                <div>4. Guárdala como <code style="background:var(--surface2);padding:1px 5px;border-radius:4px;">archivo.txt</code> en <code style="background:var(--surface2);padding:1px 5px;border-radius:4px;">01_mis_ejercicios/</code></div>
+                <div style="margin-top:6px; font-size:12px;">Archivos descargados → <code style="background:var(--surface2);padding:1px 5px;border-radius:4px;">04_recursos/</code></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="tool-section-header">ChatGPT — Ejercicios 1 y 2</div>
 
         <!-- E1 -->
@@ -1508,7 +1535,7 @@ Crea:
 
 Tono directo. Sin tecnicismos. Usa bullets.</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Adapta los números con tus datos reales</span>
+            <span class="prompt-context">Adapta los números · guarda el resultado como <strong>01_Resumen_Ventas_Mayo.txt</strong> en 01_mis_ejercicios/</span>
             <div class="prompt-footer-actions">
               <button class="copy-btn" onclick="copyPrompt('p1', this)">Copiar prompt</button>
             </div>
@@ -1570,7 +1597,7 @@ No menciones consecuencias legales todavía.
 Máximo 120 palabras.
 Termina con una llamada a la acción clara y una fecha límite.</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Cambia el nombre del cliente, monto y días según tu caso</span>
+            <span class="prompt-context">Cambia cliente, monto y días · guarda el resultado como <strong>02_Correo_Cobranza.txt</strong> en 01_mis_ejercicios/</span>
             <div class="prompt-footer-actions"><button class="copy-btn" onclick="copyPrompt('p2', this)">Copiar prompt</button></div>
           </div>
           <div class="prompt-personalizer" data-personalizer="p2">
@@ -1635,7 +1662,7 @@ Situación actual: En abril se entregó con 3 días de retraso un pedido de $22,
 
 Sin introducción. Solo bullets.</div>
           <div class="prompt-footer">
-            <span class="prompt-context">1. Descarga el PDF · 2. Súbelo a Claude · 3. Pega el prompt</span>
+            <span class="prompt-context">1. Descarga el PDF → 04_recursos/ · 2. Súbelo a Claude · 3. Pega el prompt · guarda el resultado como <strong>03_Analisis_Contrato.txt</strong></span>
             <div class="prompt-footer-actions">
               <a class="download-btn" href="./recursos/contrato_arcoiris.pdf" download>⬇ PDF</a>
               <button class="copy-btn" onclick="copyPrompt('p3', this)">Copiar prompt</button>
@@ -1688,7 +1715,7 @@ Revisa esta lista de gastos y respóndeme:
 
 Sin introducción. Usa bullets.</div>
           <div class="prompt-footer">
-            <span class="prompt-context">1. Descarga el Excel · 2. Súbelo a Claude · 3. Pega el prompt</span>
+            <span class="prompt-context">1. Descarga el Excel → 04_recursos/ · 2. Súbelo a Claude · 3. Pega el prompt · guarda el resultado como <strong>04_Revision_Gastos.txt</strong></span>
             <div class="prompt-footer-actions">
               <a class="download-btn" href="./recursos/gastos_mayo_2026.xlsx" download>⬇ Excel</a>
               <button class="copy-btn" onclick="copyPrompt('p4', this)">Copiar prompt</button>
@@ -1739,7 +1766,7 @@ Respóndeme:
 
 Información actual, no de hace un año. Máximo 5 bullets por pregunta.</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Reemplaza los corchetes con tu industria y producto real</span>
+            <span class="prompt-context">Usar en Gemini (tiene acceso a internet) · guarda el resultado como <strong>05_Mercado_Gemini.txt</strong> en 01_mis_ejercicios/</span>
             <div class="prompt-footer-actions"><button class="copy-btn" onclick="copyPrompt('p5', this)">Copiar prompt</button></div>
           </div>
           <div class="prompt-personalizer" data-personalizer="p5">
@@ -1796,7 +1823,7 @@ Un cliente [situación]. ¿Se puede [acción]? ¿Qué condiciones aplican?
 
 Nota: En NotebookLM primero subes el documento (PDF o texto). Luego le haces las preguntas una por una en el chat.</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Adapta las preguntas a tus procesos reales</span>
+            <span class="prompt-context">Sube tus procedimientos a NotebookLM primero · guarda las respuestas como <strong>06_Procedimientos_NotebookLM.txt</strong></span>
             <div class="prompt-footer-actions"><button class="copy-btn" onclick="copyPrompt('p6', this)">Copiar prompt</button></div>
           </div>
           <div class="prompt-personalizer" data-personalizer="p6">
@@ -2217,6 +2244,18 @@ Criterios de revisión:
           <span class="ex-tracker-count" id="agent-tracker-count">0 / 4</span>
         </div>
 
+        <!-- ─── MAPA DE DESTINO ─── -->
+        <div class="card" style="border-color:var(--amber-border); margin-bottom:16px;">
+          <h3 style="color:var(--amber); margin-bottom:12px;">Dónde va cada cosa</h3>
+          <div style="font-family:monospace; font-size:13px; line-height:2.3; color:var(--muted);">
+            <div style="color:var(--text); font-weight:700; margin-bottom:2px;">📁 Mi_Proyecto_IA/</div>
+            <div style="padding-left:16px;">📁 01_mis_ejercicios/ &nbsp;<span style="font-family:'Inter',sans-serif; font-size:11px; color:#555;">← resultados del M4, ya los tienes como .txt</span></div>
+            <div style="padding-left:16px; color:var(--amber);">📁 02_mis_skills/ &nbsp;<span style="font-family:'Inter',sans-serif; font-size:11px; color:#555;">← copia cada skill de abajo y guárdala como .md</span></div>
+            <div style="padding-left:16px; color:var(--amber);">📁 03_mis_agentes/ &nbsp;<span style="font-family:'Inter',sans-serif; font-size:11px; color:#555;">← copia cada agente de abajo y guárdalo como .txt</span></div>
+            <div style="padding-left:16px;">📁 04_recursos/ &nbsp;<span style="font-family:'Inter',sans-serif; font-size:11px; color:#555;">← archivos descargados en M4</span></div>
+          </div>
+        </div>
+
         <div class="highlight">
           <p><strong>Dos tipos de herramientas en tu proyecto:</strong><br>
           <strong>Skills</strong> — instrucciones documentadas para tareas que se repiten. Una por cada ejercicio del taller, ya completas.<br>
@@ -2292,7 +2331,7 @@ Inventar números, usar tecnicismos, sonar defensivo.
 Dónde se guarda:
 Mi_Proyecto_IA/02_mis_skills/skill_resumen_ventas.md</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Ejercicio 1 — adapta los corchetes con tus datos reales</span>
+            <span class="prompt-context">Copia · pega en un archivo de texto · guarda como <strong>skill_resumen_ventas.md</strong> en 02_mis_skills/</span>
             <div class="prompt-footer-actions">
               <button class="copy-btn" onclick="copyPrompt('skill-ej1', this)">Copiar skill</button>
             </div>
@@ -2356,7 +2395,7 @@ Amenazar, inventar consecuencias legales, sonar automatizado.
 Dónde se guarda:
 Mi_Proyecto_IA/02_mis_skills/skill_cobranza.md</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Ejercicio 2 — cambia cliente, monto y días de atraso</span>
+            <span class="prompt-context">Copia · pega en un archivo de texto · guarda como <strong>skill_cobranza.md</strong> en 02_mis_skills/</span>
             <div class="prompt-footer-actions">
               <button class="copy-btn" onclick="copyPrompt('skill-ej2', this)">Copiar skill</button>
             </div>
@@ -2418,7 +2457,7 @@ Inventar cláusulas, predecir resultados judiciales, dar garantía legal.
 Dónde se guarda:
 Mi_Proyecto_IA/02_mis_skills/skill_analisis_contrato.md</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Ejercicio 3 — adjunta el contrato real a Claude antes de pegar</span>
+            <span class="prompt-context">Copia · pega en un archivo de texto · guarda como <strong>skill_analisis_contrato.md</strong> en 02_mis_skills/</span>
             <div class="prompt-footer-actions">
               <button class="copy-btn" onclick="copyPrompt('skill-ej3', this)">Copiar skill</button>
             </div>
@@ -2480,7 +2519,7 @@ Inventar números, dar dictamen contable definitivo, recomendar acciones fiscale
 Dónde se guarda:
 Mi_Proyecto_IA/02_mis_skills/skill_revision_gastos.md</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Ejercicio 4 — adjunta el Excel o pega la lista de gastos a Claude</span>
+            <span class="prompt-context">Copia · pega en un archivo de texto · guarda como <strong>skill_revision_gastos.md</strong> en 02_mis_skills/</span>
             <div class="prompt-footer-actions">
               <button class="copy-btn" onclick="copyPrompt('skill-ej4', this)">Copiar skill</button>
             </div>
@@ -2541,7 +2580,7 @@ Predecir precios exactos, inventar estadísticas, citar fuentes sin verificar.
 Dónde se guarda:
 Mi_Proyecto_IA/02_mis_skills/skill_investigacion_mercado.md</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Ejercicio 5 — usar en Gemini, no en ChatGPT (necesita información actual)</span>
+            <span class="prompt-context">Copia · pega en un archivo de texto · guarda como <strong>skill_investigacion_mercado.md</strong> en 02_mis_skills/</span>
             <div class="prompt-footer-actions">
               <button class="copy-btn" onclick="copyPrompt('skill-ej5', this)">Copiar skill</button>
             </div>
@@ -2602,7 +2641,7 @@ Inventar procedimientos que no están en el documento subido.
 Dónde se guarda:
 Mi_Proyecto_IA/02_mis_skills/skill_procedimientos_internos.md</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Ejercicio 6 — sube tus propios procedimientos a NotebookLM primero</span>
+            <span class="prompt-context">Copia · pega en un archivo de texto · guarda como <strong>skill_procedimientos_internos.md</strong> en 02_mis_skills/</span>
             <div class="prompt-footer-actions">
               <button class="copy-btn" onclick="copyPrompt('skill-ej6', this)">Copiar skill</button>
             </div>
@@ -2613,7 +2652,7 @@ Mi_Proyecto_IA/02_mis_skills/skill_procedimientos_internos.md</div>
         <!-- ─── AGENTES ─── -->
         <div style="margin-top:48px; padding-top:40px; border-top:1px solid var(--border); margin-bottom:8px;">
           <h2 style="font-size:22px; margin-bottom:8px;">Tus 4 agentes — listos para activar</h2>
-          <p style="color:var(--muted); font-size:15px; margin-bottom:24px;">Pega cada agente al inicio de una conversación nueva en ChatGPT o Claude. Espera la frase de arranque y luego dile lo que necesitas.</p>
+          <p style="color:var(--muted); font-size:15px; margin-bottom:8px;">Copia cada agente → guárdalo como archivo .txt en <code style="background:var(--surface2);padding:1px 6px;border-radius:4px;font-size:13px;">03_mis_agentes/</code> → pégalo al inicio de una conversación nueva para activarlo.</p>
         </div>
 
         <!-- ─── AGENTE 1: EFICIENCIA DE TEXTO ─── -->
@@ -2640,7 +2679,7 @@ Formato de entrega:
 
 Cuando estés listo para recibir el texto, di: "Listo. Pega el texto que quieres comprimir."</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Pega este prompt primero, luego el texto que quieres comprimir</span>
+            <span class="prompt-context">Copia · guarda como <strong>agente_eficiencia.txt</strong> en 03_mis_agentes/ · actívalo pegándolo al inicio de una conversación nueva</span>
             <div class="prompt-footer-actions">
               <button class="copy-btn" onclick="copyPrompt('agente-eficiencia', this)">Copiar agente</button>
             </div>
@@ -2684,7 +2723,7 @@ Reglas:
 
 Cuando estés listo, di: "Listo. Sube o pega el documento."</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Activa el agente primero, luego sube cualquier PDF o pega el texto del documento</span>
+            <span class="prompt-context">Copia · guarda como <strong>agente_lector_pdf.txt</strong> en 03_mis_agentes/ · actívalo y luego sube el PDF o pega el texto</span>
             <div class="prompt-footer-actions">
               <button class="copy-btn" onclick="copyPrompt('agente-pdf', this)">Copiar agente</button>
             </div>
@@ -2726,7 +2765,7 @@ Reglas:
 
 Cuando estés listo, di: "Listo. ¿Sobre qué tema o problema quieres hacer el brainstorming?"</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Activa el agente y cuéntale el problema o tema que quieres explorar</span>
+            <span class="prompt-context">Copia · guarda como <strong>agente_brainstorming.txt</strong> en 03_mis_agentes/ · actívalo y cuéntale el problema o tema</span>
             <div class="prompt-footer-actions">
               <button class="copy-btn" onclick="copyPrompt('agente-brainstorming', this)">Copiar agente</button>
             </div>
@@ -2765,7 +2804,7 @@ Uso recomendado:
 
 Cuando estés listo, di: "Listo. ¿Qué tarea o proceso quieres convertir en protocolo?"</div>
           <div class="prompt-footer">
-            <span class="prompt-context">Ideal para documentar procesos, capacitar a alguien nuevo o crear checklists</span>
+            <span class="prompt-context">Copia · guarda como <strong>agente_control_remoto.txt</strong> en 03_mis_agentes/ · úsalo para documentar procesos o capacitar a alguien nuevo</span>
             <div class="prompt-footer-actions">
               <button class="copy-btn" onclick="copyPrompt('agente-control', this)">Copiar agente</button>
             </div>
