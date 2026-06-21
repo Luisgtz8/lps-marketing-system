@@ -2624,226 +2624,175 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       <div class="module" id="mod-7">
         <div class="module-eyebrow">Módulo 7</div>
         <h1 class="module-title">Del chat a la terminal</h1>
-        <p class="module-desc">Cada herramienta tiene tres niveles de uso. Empiezas en el chat — sin instalar nada, sin configurar nada. Con el tiempo, subes de nivel según lo que necesites. No es obligatorio llegar al nivel 3. Pero ayuda saber que existe.</p>
+        <p class="module-desc">La misma IA tiene tres formas de acceso. Hoy usaste el nivel 1 — el chat. Conviene saber hasta dónde llega cada nivel, cuándo tiene sentido subir y qué nunca debes compartir con ninguna herramienta.</p>
 
         <img class="module-img" src="img/curso_m7_terminal.png" alt="Los tres niveles de acceso a IA: chat, app, terminal">
 
         <!-- ─── LAS 3 INTERFACES ─── -->
-        <div style="margin-bottom:32px;">
-          <h2 style="font-size:20px; margin-bottom:16px;">Las 3 formas de acceder a IA</h2>
-          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
-
-            <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; text-align:center;">
-              <div style="font-size:32px; margin-bottom:12px;">🌐</div>
-              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; margin-bottom:8px;">Sitio web</div>
-              <div style="font-size:13px; color:var(--muted); line-height:1.6;">Abres el browser, entras a la URL. Sin instalación. Funciona en cualquier computadora. Ideal para empezar.</div>
-              <div style="margin-top:12px; font-size:12px; color:var(--amber);">claude.ai · chatgpt.com</div>
-            </div>
-
-            <div style="background:var(--surface); border:1px solid var(--amber-border); border-radius:12px; padding:20px; text-align:center;">
-              <div style="font-size:32px; margin-bottom:12px;">💻</div>
-              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; margin-bottom:8px;">App descargable</div>
-              <div style="font-size:13px; color:var(--muted); line-height:1.6;">Se instala en tu Mac o Windows. Vive en tu barra de menú o escritorio. Sin abrir browser. Atajos de teclado globales. Más rápida.</div>
-              <div style="margin-top:12px; font-size:12px; color:var(--amber);">Claude Desktop · ChatGPT Desktop</div>
-            </div>
-
-            <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; text-align:center;">
-              <div style="font-size:32px; margin-bottom:12px;">⌨️</div>
-              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; margin-bottom:8px;">Terminal / CLI</div>
-              <div style="font-size:13px; color:var(--muted); line-height:1.6;">Texto puro. Máximo control. La IA trabaja directamente con tus archivos, carpetas y código. Para flujos avanzados.</div>
-              <div style="margin-top:12px; font-size:12px; color:var(--amber);">Claude Code · OpenAI CLI</div>
-            </div>
-
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:12px;">
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px; text-align:center;">
+            <div style="font-size:26px; margin-bottom:10px;">🌐</div>
+            <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; margin-bottom:6px;">Sitio web</div>
+            <div style="font-size:12px; color:var(--muted); line-height:1.6;">Sin instalación. Cualquier computadora. Para empezar ya.</div>
+            <div style="margin-top:10px; font-size:11px; color:var(--amber);">claude.ai · chatgpt.com</div>
           </div>
-          <div style="margin-top:12px; padding:12px 16px; background:var(--surface2); border-radius:8px; font-size:13px; color:var(--muted);">
-            Las tres interfaces conectan con el mismo modelo de IA. Lo que cambia es <strong style="color:var(--text);">cómo le das contexto</strong> y <strong style="color:var(--text);">qué tanto puede ver de tu trabajo</strong>.
+          <div style="background:var(--surface); border:1px solid var(--amber-border); border-radius:12px; padding:18px; text-align:center;">
+            <div style="font-size:26px; margin-bottom:10px;">💻</div>
+            <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; margin-bottom:6px;">App descargable</div>
+            <div style="font-size:12px; color:var(--muted); line-height:1.6;">En tu escritorio. Sin abrir browser. Atajos globales. Más rápida.</div>
+            <div style="margin-top:10px; font-size:11px; color:var(--amber);">Claude Desktop · ChatGPT Desktop</div>
+          </div>
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px; text-align:center;">
+            <div style="font-size:26px; margin-bottom:10px;">⌨️</div>
+            <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; margin-bottom:6px;">Terminal / CLI</div>
+            <div style="font-size:12px; color:var(--muted); line-height:1.6;">Máximo control. La IA trabaja directo con tus archivos y sistemas.</div>
+            <div style="margin-top:10px; font-size:11px; color:var(--amber);">Claude Code · OpenAI CLI</div>
           </div>
         </div>
-
-        <!-- ─── ESCALERA CLAUDE ─── -->
-        <div style="margin-bottom:40px;">
-          <h2 style="font-size:20px; margin-bottom:6px;">Claude — 3 niveles</h2>
-          <p style="color:var(--muted); font-size:14px; margin-bottom:20px;">Cada nivel agrega contexto y control. Subes cuando sientes que el nivel anterior ya te quedó chico.</p>
-
-          <div style="display:flex; flex-direction:column; gap:0;">
-
-            <!-- Nivel 1 Claude -->
-            <div style="display:flex; gap:0; position:relative;">
-              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
-                <div style="width:32px; height:32px; border-radius:50%; background:var(--amber); color:#000; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">1</div>
-                <div style="width:2px; flex:1; background:var(--border); margin-top:4px;"></div>
-              </div>
-              <div style="padding:0 0 28px 16px; flex:1;">
-                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Chat &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">claude.ai</span></div>
-                <div style="font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:10px;">Abres el browser, escribes, recibes respuesta. Cada conversación empieza desde cero — Claude no recuerda lo de ayer ni conoce tu empresa. Perfecta para tareas puntuales: redactar un correo, resumir un texto, analizar un PDF.</div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Sin instalación</span>
-                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Ideal para comenzar</span>
-                  <span style="background:var(--error-dim); border:1px solid var(--error); color:#fca5a5; font-size:11px; padding:3px 10px; border-radius:20px;">Sin memoria entre sesiones</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Nivel 2 Claude -->
-            <div style="display:flex; gap:0; position:relative;">
-              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
-                <div style="width:32px; height:32px; border-radius:50%; background:var(--amber); color:#000; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">2</div>
-                <div style="width:2px; flex:1; background:var(--border); margin-top:4px;"></div>
-              </div>
-              <div style="padding:0 0 28px 16px; flex:1;">
-                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Proyectos &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">claude.ai → Projects</span></div>
-                <div style="font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:10px;">Creas un proyecto con instrucciones fijas ("siempre responde en español formal", "mi empresa es X, mis clientes son Y"). Subes documentos que Claude lee en cada conversación. Claude recuerda el contexto del proyecto entre sesiones. Ideal para trabajo repetitivo o en equipo.</div>
-                <div style="background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:13px; color:var(--muted); margin-bottom:10px;">
-                  Ejemplo: creas un proyecto "Cobranza" con las políticas de tu empresa y los templates de tus correos. Cada vez que abres ese proyecto, Claude ya sabe quién eres y cómo trabajas.
-                </div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Contexto persistente</span>
-                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Documentos adjuntos permanentes</span>
-                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Instrucciones fijas por proyecto</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Nivel 3 Claude -->
-            <div style="display:flex; gap:0;">
-              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
-                <div style="width:32px; height:32px; border-radius:50%; background:var(--amber); color:#000; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">3</div>
-              </div>
-              <div style="padding:0 0 0 16px; flex:1;">
-                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Terminal / Claude Code &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">App + CLI</span></div>
-                <div style="font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:10px;">Claude trabaja directamente dentro de tu computadora. Lee y edita archivos, corre scripts, navega carpetas. No es solo un chat — es un asistente que puede hacer cosas en tu sistema. Requiere instalar Claude Code desde la terminal.</div>
-                <div style="background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:13px; color:var(--muted); margin-bottom:10px;">
-                  Ejemplo: le dices "revisa todos los contratos en la carpeta /clientes y genera un resumen de los que vencen en 30 días". Claude los lee, los analiza y te entrega el reporte — sin que abras cada archivo tú mismo.
-                </div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                  <span style="background:var(--amber-dim); border:1px solid var(--amber-border); color:var(--amber); font-size:11px; padding:3px 10px; border-radius:20px;">Nivel avanzado</span>
-                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Acceso a tus archivos reales</span>
-                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Automatización completa</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
+        <div style="margin-bottom:32px; padding:12px 16px; background:var(--surface2); border-radius:8px; font-size:13px; color:var(--muted);">
+          Las tres interfaces conectan con el mismo modelo. Lo que cambia es <strong style="color:var(--text);">cuánto contexto puede ver</strong> y <strong style="color:var(--text);">qué puede hacer en tu computadora</strong>.
         </div>
 
-        <!-- ─── ESCALERA CHATGPT ─── -->
-        <div style="margin-bottom:40px;">
-          <h2 style="font-size:20px; margin-bottom:6px;">ChatGPT — 4 niveles</h2>
-          <p style="color:var(--muted); font-size:14px; margin-bottom:20px;">ChatGPT tiene un nivel más que Claude en la escalera: los GPTs personalizados y el acceso a Codex para tareas de código.</p>
-
-          <div style="display:flex; flex-direction:column; gap:0;">
-
-            <!-- Nivel 1 GPT -->
-            <div style="display:flex; gap:0;">
-              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
-                <div style="width:32px; height:32px; border-radius:50%; background:#10a37f; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">1</div>
-                <div style="width:2px; flex:1; background:var(--border); margin-top:4px;"></div>
-              </div>
-              <div style="padding:0 0 28px 16px; flex:1;">
-                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Chat &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">chatgpt.com</span></div>
-                <div style="font-size:14px; color:var(--muted); line-height:1.6;">Conversación directa en el browser. Sin configurar nada. GPT-4o disponible gratis con límites. La herramienta más usada en el mundo para este tipo de tareas. Donde practicaste hoy los ejercicios 1 y 2.</div>
-              </div>
-            </div>
-
-            <!-- Nivel 2 GPT -->
-            <div style="display:flex; gap:0;">
-              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
-                <div style="width:32px; height:32px; border-radius:50%; background:#10a37f; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">2</div>
-                <div style="width:2px; flex:1; background:var(--border); margin-top:4px;"></div>
-              </div>
-              <div style="padding:0 0 28px 16px; flex:1;">
-                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Proyectos &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">chatgpt.com → Projects</span></div>
-                <div style="font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:10px;">Agrupa conversaciones por tema. ChatGPT comparte contexto entre las conversaciones del mismo proyecto. Puedes darle instrucciones fijas y subir archivos de referencia. Equivalente al nivel 2 de Claude.</div>
-                <div style="background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:13px; color:var(--muted);">
-                  Ejemplo: proyecto "Ventas" con las políticas de precios y el catálogo. Cada conversación nueva dentro del proyecto ya tiene ese contexto disponible.
-                </div>
-              </div>
-            </div>
-
-            <!-- Nivel 3 GPT -->
-            <div style="display:flex; gap:0;">
-              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
-                <div style="width:32px; height:32px; border-radius:50%; background:#10a37f; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">3</div>
-                <div style="width:2px; flex:1; background:var(--border); margin-top:4px;"></div>
-              </div>
-              <div style="padding:0 0 28px 16px; flex:1;">
-                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Codex &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">platform.openai.com</span></div>
-                <div style="font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:10px;">Entorno de OpenAI especializado en tareas de código y automatización. Puede ejecutar código en su propio entorno, leer repositorios, correr pruebas y generar scripts completos. Diferente al chat normal — aquí ChatGPT actúa más como un programador autónomo.</div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                  <span style="background:var(--amber-dim); border:1px solid var(--amber-border); color:var(--amber); font-size:11px; padding:3px 10px; border-radius:20px;">Requiere suscripción Plus o Pro</span>
-                  <span style="background:var(--amber-dim); border:1px solid var(--amber-border); color:var(--amber); font-size:11px; padding:3px 10px; border-radius:20px;">Enfocado en código</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Nivel 4 GPT -->
-            <div style="display:flex; gap:0;">
-              <div style="display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0;">
-                <div style="width:32px; height:32px; border-radius:50%; background:#10a37f; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; flex-shrink:0;">4</div>
-              </div>
-              <div style="padding:0 0 0 16px; flex:1;">
-                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; margin-bottom:4px;">Terminal / API &nbsp;<span style="font-size:12px; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif;">API key + CLI</span></div>
-                <div style="font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:10px;">Conexión directa al modelo desde código o terminal. Sin interfaz gráfica. Se usa cuando quieres que ChatGPT sea parte de un sistema más grande: un flujo de automatización, una aplicación propia, un agente que corre solo.</div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                  <span style="background:var(--amber-dim); border:1px solid var(--amber-border); color:var(--amber); font-size:11px; padding:3px 10px; border-radius:20px;">Nivel técnico</span>
-                  <span style="background:var(--success-dim); border:1px solid var(--success); color:var(--success); font-size:11px; padding:3px 10px; border-radius:20px;">Integración con cualquier sistema</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- ─── TABLA COMPARATIVA ─── -->
-        <div class="card" style="margin-bottom:24px;">
-          <h3 style="margin-bottom:16px;">¿En qué nivel estás tú hoy?</h3>
+        <!-- ─── TABLA UNIFICADA ─── -->
+        <div class="card" style="margin-bottom:32px;">
+          <h3 style="margin-bottom:16px;">¿Cuándo subir de nivel?</h3>
           <div style="overflow-x:auto;">
             <table style="width:100%; border-collapse:collapse; font-size:13px;">
               <thead>
                 <tr style="border-bottom:1px solid var(--border);">
-                  <th style="text-align:left; padding:10px 12px; color:var(--muted); font-weight:600;">Situación</th>
-                  <th style="text-align:center; padding:10px 12px; color:var(--muted); font-weight:600;">Claude</th>
-                  <th style="text-align:center; padding:10px 12px; color:var(--muted); font-weight:600;">ChatGPT</th>
+                  <th style="text-align:left; padding:10px 12px; color:var(--amber); font-family:'Space Grotesk',sans-serif;">Nivel</th>
+                  <th style="text-align:left; padding:10px 12px; color:var(--amber); font-family:'Space Grotesk',sans-serif;">Claude</th>
+                  <th style="text-align:left; padding:10px 12px; color:var(--amber); font-family:'Space Grotesk',sans-serif;">ChatGPT</th>
+                  <th style="text-align:left; padding:10px 12px; color:var(--amber); font-family:'Space Grotesk',sans-serif;">Para qué sirve</th>
                 </tr>
               </thead>
               <tbody>
                 <tr style="border-bottom:1px solid var(--border);">
-                  <td style="padding:12px; color:var(--text);">Recién comienzo, quiero probar</td>
-                  <td style="padding:12px; text-align:center; color:var(--amber);">Nivel 1 — Chat</td>
-                  <td style="padding:12px; text-align:center; color:#10a37f;">Nivel 1 — Chat</td>
+                  <td style="padding:11px 12px; font-weight:700; white-space:nowrap; color:var(--text);">1 — Chat</td>
+                  <td style="padding:11px 12px; color:var(--muted);">claude.ai</td>
+                  <td style="padding:11px 12px; color:var(--muted);">chatgpt.com</td>
+                  <td style="padding:11px 12px; color:var(--muted);">Tarea puntual. Sin configurar nada. Sin memoria entre sesiones.</td>
                 </tr>
                 <tr style="border-bottom:1px solid var(--border);">
-                  <td style="padding:12px; color:var(--text);">Ya lo uso seguido, quiero que me recuerde</td>
-                  <td style="padding:12px; text-align:center; color:var(--amber);">Nivel 2 — Proyectos</td>
-                  <td style="padding:12px; text-align:center; color:#10a37f;">Nivel 2 — Proyectos</td>
-                </tr>
-                <tr style="border-bottom:1px solid var(--border);">
-                  <td style="padding:12px; color:var(--text);">Quiero que trabaje con mis archivos</td>
-                  <td style="padding:12px; text-align:center; color:var(--amber);">Nivel 3 — Terminal</td>
-                  <td style="padding:12px; text-align:center; color:#10a37f;">Nivel 3 — Codex</td>
+                  <td style="padding:11px 12px; font-weight:700; white-space:nowrap; color:var(--text);">2 — Proyectos</td>
+                  <td style="padding:11px 12px; color:var(--muted);">Projects</td>
+                  <td style="padding:11px 12px; color:var(--muted);">Projects</td>
+                  <td style="padding:11px 12px; color:var(--muted);">La IA ya sabe quién eres. Contexto fijo + documentos adjuntos permanentes.</td>
                 </tr>
                 <tr>
-                  <td style="padding:12px; color:var(--text);">Quiero integrarlo en un sistema propio</td>
-                  <td style="padding:12px; text-align:center; color:var(--amber);">Nivel 3 — API</td>
-                  <td style="padding:12px; text-align:center; color:#10a37f;">Nivel 4 — API</td>
+                  <td style="padding:11px 12px; font-weight:700; white-space:nowrap; color:var(--text);">3 — Avanzado</td>
+                  <td style="padding:11px 12px; color:var(--muted);">Claude Code · API</td>
+                  <td style="padding:11px 12px; color:var(--muted);">Codex · API</td>
+                  <td style="padding:11px 12px; color:var(--muted);">La IA trabaja con tus archivos, automatiza flujos e integra sistemas.</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div style="margin-top:16px; padding:14px 16px; background:var(--surface2); border-radius:8px; font-size:13px; color:var(--muted);">
-            Hoy terminaste el taller usando <strong style="color:var(--text);">Nivel 1</strong> de ambas herramientas. El siguiente paso natural es crear tu primer <strong style="color:var(--text);">Proyecto</strong> en Claude o ChatGPT con el contexto de tu empresa.
+          <div style="margin-top:14px; padding:12px 14px; background:var(--surface2); border-radius:8px; font-size:13px; color:var(--muted);">
+            Hoy usaste <strong style="color:var(--text);">Nivel 1</strong>. El siguiente paso natural es crear un Proyecto en Claude o ChatGPT con el contexto de tu empresa y tus documentos más usados.
+          </div>
+        </div>
+
+        <!-- ─── PUZZLE: NIVELES ─── -->
+        <div class="puzzle-block" style="margin-bottom:32px;">
+          <div class="quiz-label">Mini-puzzle — Niveles</div>
+          <div class="quiz-question">Relaciona cada situación con el nivel que resuelve el problema</div>
+          <div class="connect-columns" id="nivel-connect">
+            <div class="connect-col">
+              <div class="quiz-label" style="margin-bottom:8px;">Situación</div>
+              <button class="connect-tool" data-tool="n1" onclick="selectNivel(this)">Quiero redactar un correo rápido sin configurar nada</button>
+              <button class="connect-tool" data-tool="n2" onclick="selectNivel(this)">Cada semana explico quién soy y cómo trabajo desde cero</button>
+              <button class="connect-tool" data-tool="n3" onclick="selectNivel(this)">Quiero que la IA revise 50 contratos en una carpeta automáticamente</button>
+              <button class="connect-tool" data-tool="n4" onclick="selectNivel(this)">La IA necesita funcionar dentro de mi sistema de ventas</button>
+            </div>
+            <div class="connect-col">
+              <div class="quiz-label" style="margin-bottom:8px;">Nivel correcto</div>
+              <button class="connect-task" data-match="n2" onclick="matchNivelTask(this)">Nivel 2 — Proyectos</button>
+              <button class="connect-task" data-match="n4" onclick="matchNivelTask(this)">Nivel 3 — API / Automatización</button>
+              <button class="connect-task" data-match="n1" onclick="matchNivelTask(this)">Nivel 1 — Chat</button>
+              <button class="connect-task" data-match="n3" onclick="matchNivelTask(this)">Nivel 3 — Terminal / Claude Code</button>
+            </div>
+          </div>
+          <div class="puzzle-result hidden" id="nivel-result"></div>
+        </div>
+
+        <!-- ─── CIBERSEGURIDAD ─── -->
+        <h2 style="font-size:20px; margin-bottom:8px;">Seguridad al usar IA</h2>
+        <p style="font-size:14px; color:var(--muted); margin-bottom:16px; line-height:1.7;">Las herramientas de IA procesan lo que les mandas. No todas usan eso para entrenar modelos — pero si alguien accede al historial o al servidor, vería lo que pegaste. Regla básica: <strong style="color:var(--text);">no compartas lo que no publicarías en un correo abierto.</strong></p>
+
+        <div class="puzzle-block" style="margin-bottom:20px;">
+          <div class="quiz-label">Mini-puzzle — Seguridad</div>
+          <div class="quiz-question">Clasifica cada acción: ¿práctica segura o mala praxis?</div>
+          <div class="classify-list" id="sec-classify-list">
+            <div class="classify-item" data-correct="peligroso">
+              <span class="classify-stmt">Pegar el RFC, nombre completo y datos personales del cliente dentro del prompt</span>
+              <div class="classify-btns">
+                <button class="classify-btn btn-si" onclick="classifySec(this,'seguro')">✓ Seguro</button>
+                <button class="classify-btn btn-no" onclick="classifySec(this,'peligroso')">✗ Mala praxis</button>
+              </div>
+            </div>
+            <div class="classify-item" data-correct="seguro">
+              <span class="classify-stmt">Reemplazar nombres reales con genéricos antes de pegar: [Cliente], [Empleado]</span>
+              <div class="classify-btns">
+                <button class="classify-btn btn-si" onclick="classifySec(this,'seguro')">✓ Seguro</button>
+                <button class="classify-btn btn-no" onclick="classifySec(this,'peligroso')">✗ Mala praxis</button>
+              </div>
+            </div>
+            <div class="classify-item" data-correct="peligroso">
+              <span class="classify-stmt">Compartir contraseñas de cuentas para que la IA "acceda" a un sistema</span>
+              <div class="classify-btns">
+                <button class="classify-btn btn-si" onclick="classifySec(this,'seguro')">✓ Seguro</button>
+                <button class="classify-btn btn-no" onclick="classifySec(this,'peligroso')">✗ Mala praxis</button>
+              </div>
+            </div>
+            <div class="classify-item" data-correct="seguro">
+              <span class="classify-stmt">Pedir análisis de estructura de un contrato después de anonimizar los datos</span>
+              <div class="classify-btns">
+                <button class="classify-btn btn-si" onclick="classifySec(this,'seguro')">✓ Seguro</button>
+                <button class="classify-btn btn-no" onclick="classifySec(this,'peligroso')">✗ Mala praxis</button>
+              </div>
+            </div>
+            <div class="classify-item" data-correct="peligroso">
+              <span class="classify-stmt">Subir estados de cuenta bancarios con números y saldos reales a la versión gratuita</span>
+              <div class="classify-btns">
+                <button class="classify-btn btn-si" onclick="classifySec(this,'seguro')">✓ Seguro</button>
+                <button class="classify-btn btn-no" onclick="classifySec(this,'peligroso')">✗ Mala praxis</button>
+              </div>
+            </div>
+            <div class="classify-item" data-correct="seguro">
+              <span class="classify-stmt">Revisar en la política de privacidad si la herramienta usa tus datos para entrenamiento</span>
+              <div class="classify-btns">
+                <button class="classify-btn btn-si" onclick="classifySec(this,'seguro')">✓ Seguro</button>
+                <button class="classify-btn btn-no" onclick="classifySec(this,'peligroso')">✗ Mala praxis</button>
+              </div>
+            </div>
+          </div>
+          <div class="puzzle-result hidden" id="sec-result"></div>
+        </div>
+
+        <div class="card" style="margin-bottom:32px;">
+          <h3>Referencia rápida de seguridad</h3>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:14px;">
+            <div>
+              <div style="color:var(--error); font-weight:700; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px;">Nunca compartir</div>
+              <div style="font-size:13px; color:var(--muted); line-height:2;">Contraseñas o tokens de acceso<br>RFC, CURP o datos fiscales de clientes<br>Números de cuenta o tarjeta bancaria<br>Información bajo NDA sin anonimizar<br>Datos médicos o legales de terceros</div>
+            </div>
+            <div>
+              <div style="color:var(--success); font-weight:700; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px;">Buenas prácticas</div>
+              <div style="font-size:13px; color:var(--muted); line-height:2;">Anonimizar antes de pegar documentos<br>Usar versión Pro para archivos sensibles<br>Cerrar sesión en computadoras compartidas<br>Verificar que el output no tenga datos filtrados<br>Preferir Claude Enterprise para uso corporativo</div>
+            </div>
           </div>
         </div>
 
         <!-- ─── QUIZ ─── -->
         <div class="quiz-block">
           <div class="quiz-label">Pregunta del módulo</div>
-          <div class="quiz-question">Llevas 3 semanas usando ChatGPT para hacer resúmenes de ventas. Cada vez que abres una conversación nueva tienes que explicarle de nuevo quién eres y cómo es tu empresa. ¿Qué nivel deberías usar?</div>
+          <div class="quiz-question">Llevas 3 semanas usando ChatGPT para hacer resúmenes de ventas. Cada vez que abres una conversación nueva tienes que explicarle quién eres y cómo trabaja tu empresa. ¿Qué nivel resuelve esto?</div>
           <div class="quiz-options" id="q8">
-            <button class="quiz-option" onclick="answer('q8', this, false)">A. Nivel 1 — Chat. Es suficiente para resúmenes.</button>
-            <button class="quiz-option" onclick="answer('q8', this, true)">B. Nivel 2 — Proyectos. Así el contexto de tu empresa queda guardado y no lo repites cada vez.</button>
-            <button class="quiz-option" onclick="answer('q8', this, false)">C. Nivel 4 — API. Para automatizarlo completamente.</button>
-            <button class="quiz-option" onclick="answer('q8', this, false)">D. Nivel 3 — Codex. Para que lo haga solo.</button>
+            <button class="quiz-option" onclick="answer('q8', this, false)">A. Seguir en Nivel 1 — ya funciona aunque repita el contexto.</button>
+            <button class="quiz-option" onclick="answer('q8', this, true)">B. Subir a Nivel 2 — Proyectos. El contexto queda guardado permanentemente.</button>
+            <button class="quiz-option" onclick="answer('q8', this, false)">C. Ir directo al Nivel 3 — API para automatizarlo.</button>
+            <button class="quiz-option" onclick="answer('q8', this, false)">D. Cambiar de herramienta, ninguna recuerda el contexto.</button>
           </div>
           <div class="quiz-feedback" id="q8-feedback"></div>
         </div>
@@ -2851,17 +2800,17 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
         <!-- ─── PRÓXIMOS PASOS ─── -->
         <div class="highlight" style="margin-top:24px;">
           <p><strong>Tu camino de los próximos 30 días:</strong><br><br>
-          Semana 1 — Aplica lo de hoy desde el chat (Nivel 1). Un prompt. Un proceso real.<br>
-          Semana 2 — Crea tu primer Proyecto en Claude con las instrucciones de tu empresa.<br>
-          Semana 3 — Agrega documentos al proyecto: contrato base, políticas, catálogo.<br>
-          Semana 4 — Empieza a construir skills reales con la ficha que aprendiste hoy.</p>
+          Semana 1 — Un prompt real. Un proceso de tu trabajo. Nivel 1.<br>
+          Semana 2 — Crea tu primer Proyecto con el contexto de tu empresa.<br>
+          Semana 3 — Agrega documentos: contrato base, políticas, catálogo.<br>
+          Semana 4 — Construye una skill real con la ficha que aprendiste hoy.</p>
         </div>
 
         <!-- ─── CIERRE FINAL ─── -->
         <div class="completion-screen">
           <div class="completion-icon">⚡</div>
           <h2>Curso completo</h2>
-          <p>Sabes qué es la IA, cómo pedirle bien, qué herramienta usar para cada tarea, cómo guardar lo que funciona y hacia dónde crecer. Lo que sigue es aplicarlo — un proceso a la vez.</p>
+          <p>Sabes qué es la IA, cómo pedirle bien, qué herramienta usar, cómo guardar lo que funciona, cómo usarla con seguridad y hacia dónde crecer. Lo que sigue es aplicarlo — un proceso a la vez.</p>
           <button class="btn-next" onclick="goTo(1)">Repasar desde el inicio</button>
         </div>
 
@@ -3137,6 +3086,77 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       applyTheme(next);
     });
   })();
+
+  // ─── PUZZLE: NIVEL (M7) ───
+  var selectedNivel = null;
+  var nivelScore = 0;
+  function selectNivel(btn) {
+    if (btn.disabled) return;
+    document.querySelectorAll('#nivel-connect .connect-tool').forEach(function(b) { b.classList.remove('selected'); });
+    if (selectedNivel === btn) { selectedNivel = null; return; }
+    selectedNivel = btn;
+    btn.classList.add('selected');
+  }
+  function matchNivelTask(btn) {
+    if (!selectedNivel || btn.disabled) return;
+    if (selectedNivel.dataset.tool === btn.dataset.match) {
+      selectedNivel.classList.remove('selected');
+      selectedNivel.classList.add('matched');
+      selectedNivel.disabled = true;
+      btn.classList.add('matched');
+      btn.disabled = true;
+      selectedNivel = null;
+      nivelScore++;
+      if (nivelScore === 4) {
+        var result = document.getElementById('nivel-result');
+        result.classList.remove('hidden');
+        result.className = 'puzzle-result correct';
+        result.textContent = '¡Exacto! Cada situación tiene su nivel natural. Empezar en nivel 1 siempre es correcto — subes cuando sientes que el nivel anterior ya no te alcanza.';
+      }
+    } else {
+      var tool = selectedNivel; selectedNivel = null;
+      tool.classList.add('wrong-flash'); btn.classList.add('wrong-flash');
+      tool.classList.remove('selected');
+      setTimeout(function() { tool.classList.remove('wrong-flash'); btn.classList.remove('wrong-flash'); }, 600);
+    }
+  }
+
+  // ─── PUZZLE: SEGURIDAD (M7) ───
+  var classifySecDone = 0;
+  var classifySecTotal = 6;
+  function classifySec(btn, answer) {
+    var item = btn.closest('.classify-item');
+    if (item.classList.contains('done')) return;
+    var correct = item.dataset.correct;
+    var btns = item.querySelectorAll('.classify-btn');
+    btns.forEach(function(b) { b.disabled = true; });
+    item.classList.add('done');
+    if (answer === correct) {
+      btn.classList.add('correct'); item.classList.add('correct');
+    } else {
+      btn.classList.add('wrong'); item.classList.add('wrong');
+      btns.forEach(function(b) {
+        if ((correct === 'seguro' && b.classList.contains('btn-si')) ||
+            (correct === 'peligroso' && b.classList.contains('btn-no'))) {
+          b.classList.add('correct');
+        }
+      });
+    }
+    classifySecDone++;
+    if (classifySecDone === classifySecTotal) {
+      var result = document.getElementById('sec-result');
+      var secList = document.getElementById('sec-classify-list');
+      var wrong = secList.querySelectorAll('.classify-item.wrong').length;
+      result.classList.remove('hidden');
+      if (wrong === 0) {
+        result.className = 'puzzle-result correct';
+        result.textContent = '¡Perfecto! Tienes claro qué compartir y qué no. Ese criterio protege a tus clientes y a tu empresa.';
+      } else {
+        result.className = 'puzzle-result wrong';
+        result.textContent = (classifySecTotal - wrong) + ' de ' + classifySecTotal + ' correctas. Revisa las marcadas en rojo — cada error ahí es un riesgo real para los datos de tus clientes.';
+      }
+    }
+  }
 
   // ─── REVIEW CHECKLIST (M5) ───
   function updateReview() {
