@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IA Sin Miedo — Curso en línea · Lightning Pro Solutions</title>
+  <script>(function(){var t=localStorage.getItem('lps-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -39,7 +40,37 @@
 
     h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
 
-    /* ─── LOGIN ─── */
+    /* ─── THEME TOGGLE ─── */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 6px;
+      padding: 5px 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: border-color 0.2s, color 0.2s;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--muted); color: var(--text); }
+
+    /* ─── LIGHT MODE ─── */
+    [data-theme="light"] {
+      --black: #f5f5f5;
+      --black-mid: #eeeeee;
+      --surface: #ffffff;
+      --surface2: #f8f8f8;
+      --border: #e0e0e0;
+      --text: #111111;
+      --muted: #555555;
+    }
+    [data-theme="light"] body { background: #f5f5f5; color: #111111; }
+    [data-theme="light"] .top-bar { background: rgba(245,245,245,0.95); }
+    [data-theme="light"] .sidebar { background: #ffffff; }
+    [data-theme="light"] .copy-block { background: #eeeeee; }
+    [data-theme="light"] pre { background: #eeeeee; color: #111111; }
+
     /* ─── MAIN LAYOUT ─── */
 
     .top-bar {
@@ -401,6 +432,135 @@
       display: block;
     }
 
+    /* ─── PUZZLE COMPONENTS ─── */
+    .puzzle-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 32px;
+    }
+    .puzzle-result {
+      margin-top: 20px;
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+    .puzzle-result.correct { background: var(--success-dim); color: var(--success); border: 1px solid rgba(34,197,94,0.3); }
+    .puzzle-result.wrong { background: var(--error-dim); color: var(--error); border: 1px solid rgba(239,68,68,0.3); }
+    .puzzle-result.hidden { display: none; }
+    .puzzle-reset {
+      margin-top: 12px;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .puzzle-reset:hover { border-color: var(--muted); color: var(--text); }
+    .puzzle-reset.hidden { display: none; }
+
+    /* Clasificador */
+    .classify-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+    .classify-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 16px;
+      background: var(--black-mid);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      flex-wrap: wrap;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .classify-item.correct { border-color: rgba(34,197,94,0.4); background: var(--success-dim); }
+    .classify-item.wrong { border-color: rgba(239,68,68,0.4); background: var(--error-dim); }
+    .classify-stmt { font-size: 14px; color: var(--text); flex: 1; min-width: 180px; }
+    .classify-btns { display: flex; gap: 8px; flex-shrink: 0; }
+    .classify-btn {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      transition: all 0.15s;
+    }
+    .classify-btn:hover:not(:disabled) { color: var(--text); border-color: var(--muted); }
+    .classify-btn.correct { background: var(--success-dim); border-color: var(--success); color: var(--success); }
+    .classify-btn.wrong { background: var(--error-dim); border-color: var(--error); color: var(--error); }
+    .classify-btn:disabled { cursor: default; }
+
+    /* Ordenar */
+    .order-sequence { display: flex; gap: 8px; margin: 20px 0 14px; flex-wrap: wrap; }
+    .order-slot {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 12px;
+      background: var(--black-mid);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      flex: 1;
+      min-width: 80px;
+      transition: all 0.2s;
+    }
+    .order-slot.correct { border-style: solid; border-color: var(--success); background: var(--success-dim); }
+    .order-slot.wrong { border-style: solid; border-color: var(--error); background: var(--error-dim); }
+    .slot-num { font-size: 11px; font-weight: 700; color: var(--amber); flex-shrink: 0; }
+    .slot-fill { font-size: 12px; font-weight: 700; color: var(--text); letter-spacing: 0.04em; }
+    .order-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .order-chip {
+      padding: 8px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--amber);
+      cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 0.05em;
+      transition: all 0.15s;
+    }
+    .order-chip:hover:not(:disabled) { border-color: var(--amber); background: var(--amber-dim); }
+    .order-chip.placed { opacity: 0.3; cursor: default; }
+
+    /* Conectores */
+    .connect-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+    .connect-col { display: flex; flex-direction: column; gap: 10px; }
+    .connect-tool, .connect-task {
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--black-mid);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      text-align: left;
+      transition: all 0.15s;
+    }
+    .connect-tool { border-left: 3px solid var(--amber); }
+    .connect-task { font-size: 13px; font-weight: 500; font-family: 'Inter', sans-serif; color: var(--muted); }
+    .connect-tool:hover:not(:disabled), .connect-task:hover:not(:disabled) { border-color: var(--amber); background: var(--amber-dim); color: var(--text); }
+    .connect-tool.selected { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+    .connect-tool.matched, .connect-task.matched { background: var(--success-dim); border-color: var(--success); color: var(--success); cursor: default; }
+    .connect-tool.wrong-flash, .connect-task.wrong-flash { background: var(--error-dim); border-color: var(--error); color: var(--error); }
+    .connect-tool:disabled, .connect-task:disabled { cursor: default; }
+    @media (max-width: 540px) { .connect-columns { grid-template-columns: 1fr; } }
+
     /* ─── PROMPT CARDS ─── */
     .prompt-card {
       background: var(--black-mid);
@@ -725,6 +885,91 @@
       color: var(--muted);
       line-height: 1.65;
     }
+
+    /* ─── SKILL ACCORDION (M6) ─── */
+    .skill-details { margin-bottom: 16px; }
+    .skill-details > summary {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer; list-style: none;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px;
+      color: var(--text); user-select: none; gap: 12px;
+      transition: background 0.15s;
+    }
+    .skill-details[open] > summary { border-radius: 12px 12px 0 0; border-bottom: none; }
+    .skill-details > summary::-webkit-details-marker { display: none; }
+    .skill-details > summary::after { content: '+'; font-size: 18px; color: var(--muted); flex-shrink: 0; }
+    .skill-details[open] > summary::after { content: '−'; color: var(--amber); }
+    .skill-details > summary:hover { background: var(--black-mid); }
+    .skill-details > .prompt-card { margin-bottom: 0; border-radius: 0 0 12px 12px; border-top: none; }
+    .skill-details .prompt-header { display: none; }
+    .skill-summary-inner { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+
+    /* ─── TOOL SECTION HEADER ─── */
+    .tool-section-header {
+      display: flex; align-items: center; gap: 12px;
+      margin: 28px 0 16px;
+      font-family: 'Space Grotesk', sans-serif; font-size: 11px;
+      font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+    }
+    .tool-section-header::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ─── PROMPT PERSONALIZER (M4) ─── */
+    .prompt-personalizer { border-top: 1px solid var(--border); padding: 20px; background: rgba(0,0,0,0.2); }
+    [data-theme="light"] .prompt-personalizer { background: rgba(0,0,0,0.03); }
+    .personalizer-title {
+      font-family: 'Space Grotesk', sans-serif; font-size: 11px;
+      font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 14px;
+    }
+    .personalizer-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    @media (max-width: 600px) { .personalizer-fields { grid-template-columns: 1fr; } }
+    .personalizer-field label {
+      display: block; font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 5px;
+    }
+    .personalizer-field input,
+    .personalizer-field textarea {
+      width: 100%; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 12px; font-family: 'Inter', sans-serif;
+      font-size: 13px; color: var(--text); resize: vertical;
+      box-sizing: border-box; transition: border-color 0.2s;
+    }
+    .personalizer-field input::placeholder,
+    .personalizer-field textarea::placeholder { color: var(--muted); opacity: 0.6; }
+    .personalizer-field input:focus,
+    .personalizer-field textarea:focus { outline: none; border-color: var(--amber-border); }
+    .personalizer-field.full { grid-column: 1 / -1; }
+    .btn-generate {
+      background: var(--amber); border: none; border-radius: 6px;
+      padding: 9px 20px; font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px; font-weight: 700; color: #000; cursor: pointer; transition: opacity 0.2s;
+    }
+    .btn-generate:hover { opacity: 0.85; }
+    .generated-prompt { margin-top: 14px; border: 1px solid var(--amber-border); border-radius: 8px; overflow: hidden; display: none; }
+    .generated-prompt.visible { display: block; }
+    .generated-label {
+      padding: 8px 14px; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--amber);
+      background: rgba(245,158,11,0.06); border-bottom: 1px solid var(--amber-border);
+    }
+    .generated-text {
+      padding: 16px; font-family: 'Inter', monospace; font-size: 13px;
+      color: #ccc; line-height: 1.7; white-space: pre-wrap;
+      word-break: break-word; background: var(--surface);
+    }
+    [data-theme="light"] .generated-text { color: #333; }
+    .btn-copy-gen {
+      display: flex; align-items: center; justify-content: center;
+      background: var(--amber); border: none; padding: 10px 18px;
+      font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700;
+      color: #000; cursor: pointer; transition: opacity 0.2s; width: 100%;
+    }
+    .btn-copy-gen:hover { opacity: 0.85; }
+    .btn-copy-gen.copied { background: var(--success); color: #fff; }
   </style>
 </head>
 <body>
@@ -739,7 +984,10 @@
     <div class="progress-bar-wrap">
       <div class="progress-bar-fill" id="progress-fill"></div>
     </div>
-    <span class="progress-label" id="progress-label">Módulo 1 de 5</span>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span class="progress-label" id="progress-label">Módulo 1 de 5</span>
+      <button class="theme-toggle" id="courseThemeToggle" aria-label="Cambiar modo de color"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+    </div>
   </div>
 
   <!-- MOBILE TABS -->
@@ -781,16 +1029,54 @@
           <p>Copy-paste sin revisión no es eficiencia. Es riesgo.</p>
         </div>
 
-        <div class="quiz-block">
-          <div class="quiz-label">Pregunta 1 de 5</div>
-          <div class="quiz-question">¿Cuál de estas afirmaciones sobre la IA es FALSA?</div>
-          <div class="quiz-options" id="q1">
-            <button class="quiz-option" onclick="answer('q1', this, false)">A. La IA puede generar primeras versiones de correos y reportes muy rápido.</button>
-            <button class="quiz-option" onclick="answer('q1', this, false)">B. Es importante revisar lo que produce la IA antes de usarlo.</button>
-            <button class="quiz-option" onclick="answer('q1', this, true)">C. La IA siempre produce información correcta y verificada.</button>
-            <button class="quiz-option" onclick="answer('q1', this, false)">D. La IA puede analizar documentos largos como contratos o listas de gastos.</button>
+        <div class="puzzle-block">
+          <div class="quiz-label">Mini-puzzle</div>
+          <div class="quiz-question">Clasifica cada afirmación: ¿la IA SÍ puede o NO puede hacer esto?</div>
+          <div class="classify-list">
+            <div class="classify-item" data-correct="si">
+              <span class="classify-stmt">Generar primeras versiones de correos y resúmenes rápido</span>
+              <div class="classify-btns">
+                <button class="classify-btn btn-si" onclick="classify(this,'si')">✓ Sí puede</button>
+                <button class="classify-btn btn-no" onclick="classify(this,'no')">✗ No puede</button>
+              </div>
+            </div>
+            <div class="classify-item" data-correct="si">
+              <span class="classify-stmt">Analizar contratos y documentos largos</span>
+              <div class="classify-btns">
+                <button class="classify-btn btn-si" onclick="classify(this,'si')">✓ Sí puede</button>
+                <button class="classify-btn btn-no" onclick="classify(this,'no')">✗ No puede</button>
+              </div>
+            </div>
+            <div class="classify-item" data-correct="no">
+              <span class="classify-stmt">Garantizar que la información que produce es correcta</span>
+              <div class="classify-btns">
+                <button class="classify-btn btn-si" onclick="classify(this,'si')">✓ Sí puede</button>
+                <button class="classify-btn btn-no" onclick="classify(this,'no')">✗ No puede</button>
+              </div>
+            </div>
+            <div class="classify-item" data-correct="no">
+              <span class="classify-stmt">Conocer tu empresa sin que se lo expliques primero</span>
+              <div class="classify-btns">
+                <button class="classify-btn btn-si" onclick="classify(this,'si')">✓ Sí puede</button>
+                <button class="classify-btn btn-no" onclick="classify(this,'no')">✗ No puede</button>
+              </div>
+            </div>
+            <div class="classify-item" data-correct="si">
+              <span class="classify-stmt">Responder preguntas sobre tus procedimientos internos</span>
+              <div class="classify-btns">
+                <button class="classify-btn btn-si" onclick="classify(this,'si')">✓ Sí puede</button>
+                <button class="classify-btn btn-no" onclick="classify(this,'no')">✗ No puede</button>
+              </div>
+            </div>
+            <div class="classify-item" data-correct="no">
+              <span class="classify-stmt">Tomar decisiones finales sin revisión humana</span>
+              <div class="classify-btns">
+                <button class="classify-btn btn-si" onclick="classify(this,'si')">✓ Sí puede</button>
+                <button class="classify-btn btn-no" onclick="classify(this,'no')">✗ No puede</button>
+              </div>
+            </div>
           </div>
-          <div class="quiz-feedback" id="q1-feedback"></div>
+          <div class="puzzle-result hidden" id="classify-result"></div>
         </div>
 
         <div class="module-nav">
@@ -841,26 +1127,38 @@
           <p><strong style="color: var(--success);">Bueno:</strong> "Actúa como coordinador de ventas de una distribuidora. Contexto: ventas mayo $312,400 de un objetivo de $350,000. Crea un resumen ejecutivo de 5 puntos para el director. Tono directo, sin tecnicismos, usa bullets."</p>
         </div>
 
-        <div class="quiz-block">
-          <div class="quiz-label">Pregunta 2 de 5</div>
-          <div class="quiz-question">Lee este prompt. ¿Qué elemento de la fórmula le falta?<br><br><em style="color: var(--muted); font-style: italic;">"Eres un ejecutivo de cobranza. El cliente Restaurante Los Arcos tiene 31 días de atraso con $19,800 pendientes. Escríbeme un correo de seguimiento."</em></div>
-          <div class="quiz-options" id="q2">
-            <button class="quiz-option" onclick="answer('q2', this, false)">A. ROL — no dice desde qué posición responde.</button>
-            <button class="quiz-option" onclick="answer('q2', this, false)">B. CONTEXTO — no hay datos del cliente.</button>
-            <button class="quiz-option" onclick="answer('q2', this, false)">C. TAREA — no está claro qué debe producir.</button>
-            <button class="quiz-option" onclick="answer('q2', this, true)">D. CRITERIO — no especifica tono, longitud ni qué evitar.</button>
+        <div class="puzzle-block">
+          <div class="quiz-label">Mini-puzzle</div>
+          <div class="quiz-question">Haz clic en los 5 elementos en el orden correcto de la fórmula del prompt.</div>
+          <div class="order-sequence">
+            <div class="order-slot" data-pos="0"><span class="slot-num">1</span><span class="slot-fill"></span></div>
+            <div class="order-slot" data-pos="1"><span class="slot-num">2</span><span class="slot-fill"></span></div>
+            <div class="order-slot" data-pos="2"><span class="slot-num">3</span><span class="slot-fill"></span></div>
+            <div class="order-slot" data-pos="3"><span class="slot-num">4</span><span class="slot-fill"></span></div>
+            <div class="order-slot" data-pos="4"><span class="slot-num">5</span><span class="slot-fill"></span></div>
           </div>
-          <div class="quiz-feedback" id="q2-feedback"></div>
+          <div class="order-chips">
+            <button class="order-chip" data-val="CRITERIO" onclick="placeChip(this)">CRITERIO</button>
+            <button class="order-chip" data-val="TAREA" onclick="placeChip(this)">TAREA</button>
+            <button class="order-chip" data-val="CONTEXTO" onclick="placeChip(this)">CONTEXTO</button>
+            <button class="order-chip" data-val="ROL" onclick="placeChip(this)">ROL</button>
+            <button class="order-chip" data-val="FORMATO" onclick="placeChip(this)">FORMATO</button>
+          </div>
+          <div class="puzzle-result hidden" id="order-result"></div>
+          <button class="puzzle-reset hidden" id="order-reset" onclick="resetOrder()">Reintentar</button>
         </div>
 
         <div class="quiz-block">
           <div class="quiz-label">Pregunta 3 de 5</div>
-          <div class="quiz-question">¿Cuál de estos prompts está mejor construido?</div>
+          <div class="quiz-question">Lee este prompt. ¿Cuántos elementos de la fórmula puedes identificar?</div>
+          <div style="background:var(--black-mid);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin:16px 0;font-size:14px;color:var(--muted);line-height:1.7;font-style:italic;">
+            "Actúa como ejecutivo de cobranza de una distribuidora de material de oficina. Cliente: Restaurante Los Arcos, $19,800 pendientes, 31 días de atraso, contacto previo por WhatsApp sin respuesta. Escríbeme un correo formal de seguimiento. Tono firme pero profesional, sin sonar agresivo. Máximo 120 palabras. Termina con una fecha límite de pago."
+          </div>
           <div class="quiz-options" id="q3">
-            <button class="quiz-option" onclick="answer('q3', this, false)">A. "Hazme un correo de cobranza."</button>
-            <button class="quiz-option" onclick="answer('q3', this, false)">B. "Escríbeme algo para cobrarle a un cliente que me debe."</button>
-            <button class="quiz-option" onclick="answer('q3', this, true)">C. "Actúa como ejecutivo de cobranza. Cliente: Restaurante Los Arcos, $19,800 pendientes, 31 días de atraso. Escríbeme un correo formal. Tono firme pero sin sonar agresivo. Máximo 120 palabras. Termina con una fecha límite de pago."</button>
-            <button class="quiz-option" onclick="answer('q3', this, false)">D. "Ayúdame con un correo para cobrar dinero que me deben, por favor."</button>
+            <button class="quiz-option" onclick="answer('q3', this, false)">A. 2 — solo tiene rol y tarea.</button>
+            <button class="quiz-option" onclick="answer('q3', this, false)">B. 3 — rol, contexto y tarea.</button>
+            <button class="quiz-option" onclick="answer('q3', this, false)">C. 4 — le falta criterio.</button>
+            <button class="quiz-option" onclick="answer('q3', this, true)">D. 5 — tiene todos: rol, contexto, tarea, formato y criterio.</button>
           </div>
           <div class="quiz-feedback" id="q3-feedback"></div>
         </div>
@@ -906,28 +1204,24 @@
           <p><strong>Regla simple:</strong> Si tienes un documento real (contrato, factura, reporte) → Claude. Si necesitas redactar o resumir → ChatGPT. Si necesitas saber qué pasa en el mercado hoy → Gemini.</p>
         </div>
 
-        <div class="quiz-block">
-          <div class="quiz-label">Pregunta 4 de 5</div>
-          <div class="quiz-question">Tu empresa tiene un contrato de 12 páginas con un cliente. Quieres saber si tienes penalizaciones por las entregas tardías del mes pasado. ¿Qué herramienta usas?</div>
-          <div class="quiz-options" id="q4">
-            <button class="quiz-option" onclick="answer('q4', this, false)">A. ChatGPT — es la herramienta principal.</button>
-            <button class="quiz-option" onclick="answer('q4', this, true)">B. Claude — analiza documentos largos con más precisión.</button>
-            <button class="quiz-option" onclick="answer('q4', this, false)">C. Gemini — tiene información actualizada del mercado.</button>
-            <button class="quiz-option" onclick="answer('q4', this, false)">D. NotebookLM — para consultar procedimientos internos.</button>
+        <div class="puzzle-block">
+          <div class="quiz-label">Mini-puzzle</div>
+          <div class="quiz-question">Conecta cada herramienta con la tarea que mejor le corresponde.<br><span style="font-size:13px;color:var(--muted);font-weight:400;">Selecciona una herramienta y luego su tarea.</span></div>
+          <div class="connect-columns">
+            <div class="connect-col">
+              <button class="connect-tool" data-tool="ChatGPT" onclick="selectTool(this)">ChatGPT</button>
+              <button class="connect-tool" data-tool="Claude" onclick="selectTool(this)">Claude</button>
+              <button class="connect-tool" data-tool="Gemini" onclick="selectTool(this)">Gemini</button>
+              <button class="connect-tool" data-tool="NotebookLM" onclick="selectTool(this)">NotebookLM</button>
+            </div>
+            <div class="connect-col">
+              <button class="connect-task" data-match="Gemini" onclick="matchTask(this)">Información actual del mercado</button>
+              <button class="connect-task" data-match="Claude" onclick="matchTask(this)">Contratos y documentos largos</button>
+              <button class="connect-task" data-match="NotebookLM" onclick="matchTask(this)">Consultar procedimientos internos</button>
+              <button class="connect-task" data-match="ChatGPT" onclick="matchTask(this)">Correos, reportes y borradores</button>
+            </div>
           </div>
-          <div class="quiz-feedback" id="q4-feedback"></div>
-        </div>
-
-        <div class="quiz-block">
-          <div class="quiz-label">Pregunta 5 de 5</div>
-          <div class="quiz-question">Las ventas de un producto bajaron 23% en el último mes. Quieres entender si es una tendencia del mercado antes de tomar una decisión de inventario. ¿Qué usas?</div>
-          <div class="quiz-options" id="q5">
-            <button class="quiz-option" onclick="answer('q5', this, false)">A. Claude — es el mejor para análisis.</button>
-            <button class="quiz-option" onclick="answer('q5', this, false)">B. NotebookLM — tiene tus procedimientos.</button>
-            <button class="quiz-option" onclick="answer('q5', this, true)">C. Gemini — consulta información actual del mercado.</button>
-            <button class="quiz-option" onclick="answer('q5', this, false)">D. ChatGPT — para redactar el análisis.</button>
-          </div>
-          <div class="quiz-feedback" id="q5-feedback"></div>
+          <div class="puzzle-result hidden" id="connect-result"></div>
         </div>
 
         <div class="module-nav">
@@ -943,6 +1237,8 @@
         <p class="module-desc">Estos son los 6 prompts del taller. Cópialos, ábrelos en la herramienta indicada y adapta los datos a tu empresa. No los uses como receta — usa la fórmula para personalizarlos.</p>
 
         <img class="module-img" src="img/curso_m4_practica.png" alt="Documentos reales siendo procesados con IA">
+
+        <div class="tool-section-header">ChatGPT — Ejercicios 1 y 2</div>
 
         <!-- E1 -->
         <div class="prompt-card">
@@ -982,6 +1278,41 @@ Tono directo. Sin tecnicismos. Usa bullets.</div>
               <button class="copy-btn" onclick="copyPrompt('p1', this)">Copiar prompt</button>
             </div>
           </div>
+          <div class="prompt-personalizer" data-personalizer="p1">
+            <div class="personalizer-title">→ Escribe tus datos para generar tu prompt</div>
+            <div class="personalizer-fields">
+              <div class="personalizer-field">
+                <label>Tipo de negocio</label>
+                <input type="text" data-field="negocio" placeholder="distribuidora de material de oficina">
+              </div>
+              <div class="personalizer-field">
+                <label>Ciudad</label>
+                <input type="text" data-field="ciudad" placeholder="Hermosillo">
+              </div>
+              <div class="personalizer-field">
+                <label>Mes del reporte</label>
+                <input type="text" data-field="mes" placeholder="mayo">
+              </div>
+              <div class="personalizer-field">
+                <label>Ventas totales $</label>
+                <input type="text" data-field="ventas" placeholder="312,400">
+              </div>
+              <div class="personalizer-field">
+                <label>Objetivo del mes $</label>
+                <input type="text" data-field="objetivo" placeholder="350,000">
+              </div>
+              <div class="personalizer-field">
+                <label>Producto con caída (y %)</label>
+                <input type="text" data-field="producto_caida" placeholder="Cartuchos de tinta, bajó 23%">
+              </div>
+            </div>
+            <button class="btn-generate" onclick="generatePrompt('p1')">Generar mi prompt →</button>
+            <div class="generated-prompt" id="gen-p1">
+              <div class="generated-label">Tu prompt personalizado</div>
+              <div class="generated-text" id="gen-p1-text"></div>
+              <button class="btn-copy-gen" onclick="copyGenerated('p1', this)">Copiar prompt →</button>
+            </div>
+          </div>
         </div>
 
         <!-- E2 -->
@@ -1007,7 +1338,40 @@ Termina con una llamada a la acción clara y una fecha límite.</div>
             <span class="prompt-context">Cambia el nombre del cliente, monto y días según tu caso</span>
             <div class="prompt-footer-actions"><button class="copy-btn" onclick="copyPrompt('p2', this)">Copiar prompt</button></div>
           </div>
+          <div class="prompt-personalizer" data-personalizer="p2">
+            <div class="personalizer-title">→ Escribe tus datos para generar tu prompt</div>
+            <div class="personalizer-fields">
+              <div class="personalizer-field">
+                <label>Tipo de negocio</label>
+                <input type="text" data-field="negocio" placeholder="distribuidora de material de oficina">
+              </div>
+              <div class="personalizer-field">
+                <label>Nombre del cliente</label>
+                <input type="text" data-field="cliente" placeholder="Restaurante Los Arcos">
+              </div>
+              <div class="personalizer-field">
+                <label>Monto pendiente $</label>
+                <input type="text" data-field="monto" placeholder="19,800">
+              </div>
+              <div class="personalizer-field">
+                <label>Días de atraso</label>
+                <input type="text" data-field="dias" placeholder="31">
+              </div>
+              <div class="personalizer-field full">
+                <label>Último contacto (canal y cuándo)</label>
+                <input type="text" data-field="ultimo_contacto" placeholder="WhatsApp hace 8 días, sin respuesta">
+              </div>
+            </div>
+            <button class="btn-generate" onclick="generatePrompt('p2')">Generar mi prompt →</button>
+            <div class="generated-prompt" id="gen-p2">
+              <div class="generated-label">Tu prompt personalizado</div>
+              <div class="generated-text" id="gen-p2-text"></div>
+              <button class="btn-copy-gen" onclick="copyGenerated('p2', this)">Copiar prompt →</button>
+            </div>
+          </div>
         </div>
+
+        <div class="tool-section-header">Claude — Ejercicios 3 y 4</div>
 
         <!-- E3 -->
         <div class="prompt-card">
@@ -1040,6 +1404,25 @@ Sin introducción. Solo bullets.</div>
             <div class="prompt-footer-actions">
               <a class="download-btn" href="./recursos/contrato_arcoiris.pdf" download>⬇ PDF</a>
               <button class="copy-btn" onclick="copyPrompt('p3', this)">Copiar prompt</button>
+            </div>
+          </div>
+          <div class="prompt-personalizer" data-personalizer="p3">
+            <div class="personalizer-title">→ Describe tu situación para generar tu prompt</div>
+            <div class="personalizer-fields">
+              <div class="personalizer-field full">
+                <label>¿Qué situación ocurrió? (qué, cuándo, cuánto)</label>
+                <textarea data-field="situacion" rows="2" placeholder="En abril entregué con 3 días de retraso un pedido de $22,000. El colegio no ha reclamado pero tampoco firmó la renovación."></textarea>
+              </div>
+              <div class="personalizer-field full">
+                <label>¿Qué escenario te preocupa?</label>
+                <input type="text" data-field="escenario" placeholder="que no renueven el contrato o que reclamen la penalización">
+              </div>
+            </div>
+            <button class="btn-generate" onclick="generatePrompt('p3')">Generar mi prompt →</button>
+            <div class="generated-prompt" id="gen-p3">
+              <div class="generated-label">Tu prompt personalizado</div>
+              <div class="generated-text" id="gen-p3-text"></div>
+              <button class="btn-copy-gen" onclick="copyGenerated('p3', this)">Copiar prompt →</button>
             </div>
           </div>
         </div>
@@ -1076,7 +1459,32 @@ Sin introducción. Usa bullets.</div>
               <button class="copy-btn" onclick="copyPrompt('p4', this)">Copiar prompt</button>
             </div>
           </div>
+          <div class="prompt-personalizer" data-personalizer="p4">
+            <div class="personalizer-title">→ Escribe tus datos para generar tu prompt</div>
+            <div class="personalizer-fields">
+              <div class="personalizer-field">
+                <label>Mes</label>
+                <input type="text" data-field="mes" placeholder="mayo 2026">
+              </div>
+              <div class="personalizer-field">
+                <label>Ventas del mes $</label>
+                <input type="text" data-field="ventas_mes" placeholder="312,400">
+              </div>
+              <div class="personalizer-field full">
+                <label>Tu lista de gastos (concepto: monto)</label>
+                <textarea data-field="gastos_texto" rows="5" placeholder="Nómina: $87,500&#10;Renta bodega: $18,000&#10;Gasolina y reparto: $12,400&#10;Servicios: $8,200&#10;Inventario: $141,000"></textarea>
+              </div>
+            </div>
+            <button class="btn-generate" onclick="generatePrompt('p4')">Generar mi prompt →</button>
+            <div class="generated-prompt" id="gen-p4">
+              <div class="generated-label">Tu prompt personalizado</div>
+              <div class="generated-text" id="gen-p4-text"></div>
+              <button class="btn-copy-gen" onclick="copyGenerated('p4', this)">Copiar prompt →</button>
+            </div>
+          </div>
         </div>
+
+        <div class="tool-section-header">Gemini — Ejercicio 5</div>
 
         <!-- E5 -->
         <div class="prompt-card">
@@ -1099,7 +1507,40 @@ Información actual, no de hace un año. Máximo 5 bullets por pregunta.</div>
             <span class="prompt-context">Reemplaza los corchetes con tu industria y producto real</span>
             <div class="prompt-footer-actions"><button class="copy-btn" onclick="copyPrompt('p5', this)">Copiar prompt</button></div>
           </div>
+          <div class="prompt-personalizer" data-personalizer="p5">
+            <div class="personalizer-title">→ Escribe tus datos para generar tu prompt</div>
+            <div class="personalizer-fields">
+              <div class="personalizer-field">
+                <label>Tipo de negocio</label>
+                <input type="text" data-field="negocio" placeholder="distribuidora de material de oficina">
+              </div>
+              <div class="personalizer-field">
+                <label>Ciudad / Estado</label>
+                <input type="text" data-field="ciudad" placeholder="Hermosillo, Sonora">
+              </div>
+              <div class="personalizer-field">
+                <label>Producto o categoría</label>
+                <input type="text" data-field="producto" placeholder="cartuchos de tinta">
+              </div>
+              <div class="personalizer-field">
+                <label>% de caída</label>
+                <input type="text" data-field="pct_caida" placeholder="23">
+              </div>
+              <div class="personalizer-field full">
+                <label>Período de comparación</label>
+                <input type="text" data-field="periodo" placeholder="el último mes vs el mes anterior">
+              </div>
+            </div>
+            <button class="btn-generate" onclick="generatePrompt('p5')">Generar mi prompt →</button>
+            <div class="generated-prompt" id="gen-p5">
+              <div class="generated-label">Tu prompt personalizado</div>
+              <div class="generated-text" id="gen-p5-text"></div>
+              <button class="btn-copy-gen" onclick="copyGenerated('p5', this)">Copiar prompt →</button>
+            </div>
+          </div>
         </div>
+
+        <div class="tool-section-header">NotebookLM — Ejercicio 6</div>
 
         <!-- E6 -->
         <div class="prompt-card">
@@ -1122,6 +1563,29 @@ Nota: En NotebookLM primero subes el documento (PDF o texto). Luego le haces las
           <div class="prompt-footer">
             <span class="prompt-context">Adapta las preguntas a tus procesos reales</span>
             <div class="prompt-footer-actions"><button class="copy-btn" onclick="copyPrompt('p6', this)">Copiar prompt</button></div>
+          </div>
+          <div class="prompt-personalizer" data-personalizer="p6">
+            <div class="personalizer-title">→ Escribe tus preguntas reales</div>
+            <div class="personalizer-fields">
+              <div class="personalizer-field full">
+                <label>Pregunta 1 (sobre un procedimiento de tu empresa)</label>
+                <input type="text" data-field="pregunta1" placeholder="¿Qué hace el ejecutivo de ventas cuando un cliente pide algo que no hay en stock?">
+              </div>
+              <div class="personalizer-field full">
+                <label>Pregunta 2</label>
+                <input type="text" data-field="pregunta2" placeholder="¿Cuándo se suspende el crédito a un cliente? ¿Qué pasos se siguen?">
+              </div>
+              <div class="personalizer-field full">
+                <label>Pregunta 3</label>
+                <input type="text" data-field="pregunta3" placeholder="Un cliente quiere devolver su pedido de hace 5 días. ¿Se puede? ¿Qué condiciones aplican?">
+              </div>
+            </div>
+            <button class="btn-generate" onclick="generatePrompt('p6')">Generar mis preguntas →</button>
+            <div class="generated-prompt" id="gen-p6">
+              <div class="generated-label">Tus preguntas para NotebookLM</div>
+              <div class="generated-text" id="gen-p6-text"></div>
+              <button class="btn-copy-gen" onclick="copyGenerated('p6', this)">Copiar preguntas →</button>
+            </div>
           </div>
         </div>
 
@@ -1227,11 +1691,14 @@ Nota: En NotebookLM primero subes el documento (PDF o texto). Luego le haces las
         <div class="card">
           <h3>Las 5 preguntas de revisión</h3>
           <p>Antes de usar cualquier respuesta de IA, hazte estas preguntas:</p>
-          <p>1. ¿Qué dato importante falta o podría estar mal?<br>
-          2. ¿Qué frase suena genérica y no representa a mi empresa?<br>
-          3. ¿Hay algún monto, fecha o nombre que deba verificar?<br>
-          4. ¿Qué parte no firmaría yo con mi nombre?<br>
-          5. ¿Qué acción concreta queda pendiente después de este texto?</p>
+          <div id="review-list" style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
+            <label class="check-item"><input type="checkbox" onchange="updateReview()"> <span>¿Qué dato importante falta o podría estar mal?</span></label>
+            <label class="check-item"><input type="checkbox" onchange="updateReview()"> <span>¿Qué frase suena genérica y no representa a mi empresa?</span></label>
+            <label class="check-item"><input type="checkbox" onchange="updateReview()"> <span>¿Hay algún monto, fecha o nombre que deba verificar?</span></label>
+            <label class="check-item"><input type="checkbox" onchange="updateReview()"> <span>¿Qué parte no firmaría yo con mi nombre?</span></label>
+            <label class="check-item"><input type="checkbox" onchange="updateReview()"> <span>¿Qué acción concreta queda pendiente después de este texto?</span></label>
+          </div>
+          <div id="review-progress" style="margin-top:12px;font-size:13px;text-align:center;color:var(--muted);display:none;"></div>
         </div>
 
         <div class="highlight">
@@ -1503,6 +1970,8 @@ Criterios de revisión:
           <p style="color:var(--muted); font-size:15px; margin-bottom:24px;">Cada skill ya está completa. Reemplaza los campos entre <code style="background:var(--surface2); padding:2px 6px; border-radius:4px; font-size:13px; color:var(--text);">[CORCHETES]</code> con tu negocio real y guárdalas en <code style="background:var(--surface2); padding:2px 6px; border-radius:4px; font-size:13px; color:var(--text);">02_mis_skills/</code>.</p>
         </div>
 
+        <details class="skill-details">
+          <summary><div class="skill-summary-inner"><span>Skill 1 — Resumen ejecutivo de ventas</span><span class="prompt-tool-badge">ChatGPT</span></div></summary>
         <div class="prompt-card">
           <div class="prompt-header">
             <span class="prompt-title">Skill 1 — Resumen ejecutivo de ventas</span>
@@ -1570,7 +2039,10 @@ Mi_Proyecto_IA/02_mis_skills/skill_resumen_ventas.md</div>
             </div>
           </div>
         </div>
+        </details>
 
+        <details class="skill-details">
+          <summary><div class="skill-summary-inner"><span>Skill 2 — Correo de cobranza</span><span class="prompt-tool-badge">ChatGPT</span></div></summary>
         <div class="prompt-card">
           <div class="prompt-header">
             <span class="prompt-title">Skill 2 — Correo de cobranza</span>
@@ -1631,7 +2103,10 @@ Mi_Proyecto_IA/02_mis_skills/skill_cobranza.md</div>
             </div>
           </div>
         </div>
+        </details>
 
+        <details class="skill-details">
+          <summary><div class="skill-summary-inner"><span>Skill 3 — Análisis de riesgos de contrato</span><span class="prompt-tool-badge claude">Claude</span></div></summary>
         <div class="prompt-card">
           <div class="prompt-header">
             <span class="prompt-title">Skill 3 — Análisis de riesgos de contrato</span>
@@ -1690,7 +2165,10 @@ Mi_Proyecto_IA/02_mis_skills/skill_analisis_contrato.md</div>
             </div>
           </div>
         </div>
+        </details>
 
+        <details class="skill-details">
+          <summary><div class="skill-summary-inner"><span>Skill 4 — Revisión de gastos operativos</span><span class="prompt-tool-badge claude">Claude</span></div></summary>
         <div class="prompt-card">
           <div class="prompt-header">
             <span class="prompt-title">Skill 4 — Revisión de gastos operativos</span>
@@ -1749,7 +2227,10 @@ Mi_Proyecto_IA/02_mis_skills/skill_revision_gastos.md</div>
             </div>
           </div>
         </div>
+        </details>
 
+        <details class="skill-details">
+          <summary><div class="skill-summary-inner"><span>Skill 5 — Investigación de mercado actual</span><span class="prompt-tool-badge gemini">Gemini</span></div></summary>
         <div class="prompt-card">
           <div class="prompt-header">
             <span class="prompt-title">Skill 5 — Investigación de mercado actual</span>
@@ -1807,7 +2288,10 @@ Mi_Proyecto_IA/02_mis_skills/skill_investigacion_mercado.md</div>
             </div>
           </div>
         </div>
+        </details>
 
+        <details class="skill-details">
+          <summary><div class="skill-summary-inner"><span>Skill 6 — Consulta de procedimientos internos</span><span class="prompt-tool-badge notebooklm">NotebookLM</span></div></summary>
         <div class="prompt-card">
           <div class="prompt-header">
             <span class="prompt-title">Skill 6 — Consulta de procedimientos internos</span>
@@ -1865,6 +2349,7 @@ Mi_Proyecto_IA/02_mis_skills/skill_procedimientos_internos.md</div>
             </div>
           </div>
         </div>
+        </details>
 
         <!-- ─── AGENTES ─── -->
         <div style="margin-top:48px; padding-top:40px; border-top:1px solid var(--border); margin-bottom:8px;">
@@ -2509,6 +2994,237 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     if (done === total) {
       document.getElementById('checklist-bar').style.background = 'var(--success)';
     }
+  }
+
+  // ─── PUZZLE: CLASIFICADOR ───
+  var classifyDone = 0;
+  var classifyTotal = 6;
+  function classify(btn, answer) {
+    var item = btn.closest('.classify-item');
+    if (item.classList.contains('done')) return;
+    var correct = item.dataset.correct;
+    var btns = item.querySelectorAll('.classify-btn');
+    btns.forEach(function(b) { b.disabled = true; });
+    item.classList.add('done');
+    if (answer === correct) {
+      btn.classList.add('correct');
+      item.classList.add('correct');
+    } else {
+      btn.classList.add('wrong');
+      item.classList.add('wrong');
+      btns.forEach(function(b) {
+        if ((correct === 'si' && b.classList.contains('btn-si')) ||
+            (correct === 'no' && b.classList.contains('btn-no'))) {
+          b.classList.add('correct');
+        }
+      });
+    }
+    classifyDone++;
+    if (classifyDone === classifyTotal) {
+      var result = document.getElementById('classify-result');
+      var wrong = document.querySelectorAll('.classify-item.wrong').length;
+      result.classList.remove('hidden');
+      if (wrong === 0) {
+        result.className = 'puzzle-result correct';
+        result.textContent = '¡Perfecto! Tienes claro qué puede y qué no puede hacer la IA. Esa distinción es la base de todo.';
+      } else {
+        result.className = 'puzzle-result wrong';
+        result.textContent = (classifyTotal - wrong) + ' de ' + classifyTotal + ' correctas. Revisa las marcadas en rojo — entender los límites de la IA es tan importante como sus capacidades.';
+      }
+    }
+  }
+
+  // ─── PUZZLE: ORDENAR ───
+  var ORDER_CORRECT = ['ROL', 'CONTEXTO', 'TAREA', 'FORMATO', 'CRITERIO'];
+  var orderSelected = [];
+  function placeChip(btn) {
+    if (btn.disabled || orderSelected.length >= 5) return;
+    btn.disabled = true;
+    btn.classList.add('placed');
+    var pos = orderSelected.length;
+    orderSelected.push(btn.dataset.val);
+    var slot = document.querySelector('.order-slot[data-pos="' + pos + '"]');
+    slot.querySelector('.slot-fill').textContent = btn.dataset.val;
+    slot.classList.add('filled');
+    if (orderSelected.length === 5) {
+      var result = document.getElementById('order-result');
+      var resetBtn = document.getElementById('order-reset');
+      var allCorrect = true;
+      document.querySelectorAll('.order-slot').forEach(function(slot, i) {
+        if (orderSelected[i] === ORDER_CORRECT[i]) {
+          slot.classList.add('correct');
+        } else {
+          slot.classList.add('wrong');
+          allCorrect = false;
+        }
+      });
+      result.classList.remove('hidden');
+      resetBtn.classList.remove('hidden');
+      if (allCorrect) {
+        result.className = 'puzzle-result correct';
+        result.textContent = '¡Correcto! ROL → CONTEXTO → TAREA → FORMATO → CRITERIO. Con esos cinco elementos siempre obtienes respuestas útiles.';
+      } else {
+        result.className = 'puzzle-result wrong';
+        result.textContent = 'No del todo. El orden correcto es: ROL → CONTEXTO → TAREA → FORMATO → CRITERIO.';
+      }
+    }
+  }
+  function resetOrder() {
+    orderSelected = [];
+    document.querySelectorAll('.order-chip').forEach(function(c) { c.disabled = false; c.classList.remove('placed'); });
+    document.querySelectorAll('.order-slot').forEach(function(s) {
+      s.querySelector('.slot-fill').textContent = '';
+      s.classList.remove('filled', 'correct', 'wrong');
+    });
+    document.getElementById('order-result').classList.add('hidden');
+    document.getElementById('order-reset').classList.add('hidden');
+  }
+
+  // ─── PUZZLE: CONECTORES ───
+  var selectedTool = null;
+  var connectScore = 0;
+  function selectTool(btn) {
+    if (btn.disabled) return;
+    document.querySelectorAll('.connect-tool').forEach(function(b) { b.classList.remove('selected'); });
+    if (selectedTool === btn) { selectedTool = null; return; }
+    selectedTool = btn;
+    btn.classList.add('selected');
+  }
+  function matchTask(btn) {
+    if (!selectedTool || btn.disabled) return;
+    if (selectedTool.dataset.tool === btn.dataset.match) {
+      selectedTool.classList.remove('selected');
+      selectedTool.classList.add('matched');
+      selectedTool.disabled = true;
+      btn.classList.add('matched');
+      btn.disabled = true;
+      selectedTool = null;
+      connectScore++;
+      if (connectScore === 4) {
+        var result = document.getElementById('connect-result');
+        result.classList.remove('hidden');
+        result.className = 'puzzle-result correct';
+        result.textContent = '¡Perfecto! Cada herramienta tiene su tarea natural. Cuando eliges bien, ahorras tiempo y obtienes mejores resultados.';
+      }
+    } else {
+      var tool = selectedTool;
+      selectedTool = null;
+      tool.classList.add('wrong-flash');
+      btn.classList.add('wrong-flash');
+      tool.classList.remove('selected');
+      setTimeout(function() {
+        tool.classList.remove('wrong-flash');
+        btn.classList.remove('wrong-flash');
+      }, 600);
+    }
+  }
+
+  // ─── THEME ───
+  (function() {
+    var html = document.documentElement;
+    var btn = document.getElementById('courseThemeToggle');
+    var SVG_SUN = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
+    var SVG_MOON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    function applyTheme(t) {
+      if (t === 'light') { html.setAttribute('data-theme','light'); btn.innerHTML = SVG_MOON; }
+      else { html.removeAttribute('data-theme'); btn.innerHTML = SVG_SUN; }
+    }
+    var saved = localStorage.getItem('lps-theme') || 'dark';
+    applyTheme(saved);
+    btn.addEventListener('click', function() {
+      var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      localStorage.setItem('lps-theme', next);
+      applyTheme(next);
+    });
+  })();
+
+  // ─── REVIEW CHECKLIST (M5) ───
+  function updateReview() {
+    var boxes = document.querySelectorAll('#review-list input[type="checkbox"]');
+    var done = [].filter.call(boxes, function(b) { return b.checked; }).length;
+    var prog = document.getElementById('review-progress');
+    prog.style.display = 'block';
+    if (done === 5) {
+      prog.style.color = 'var(--success)';
+      prog.textContent = '✓ Revisión completa. El resultado está listo para usar.';
+    } else {
+      prog.style.color = 'var(--muted)';
+      prog.textContent = done + ' de 5 revisadas.';
+    }
+  }
+
+  // ─── PROMPT PERSONALIZER (M4) ───
+  var PROMPT_TEMPLATES = {
+    p1: function(f) {
+      var neg = f.negocio || '[tipo de negocio]';
+      var ciu = f.ciudad || '[ciudad]';
+      var mes = f.mes || '[mes]';
+      var ven = f.ventas || '[ventas totales]';
+      var obj = f.objetivo || '[objetivo]';
+      var pca = f.producto_caida || '[producto y % de caída]';
+      return 'Actúa como coordinador de ventas de ' + neg + ' en ' + ciu + '.\n\nContexto del mes de ' + mes + ':\n- Ventas totales: $' + ven + ' MXN\n- Objetivo: $' + obj + ' MXN\n- Producto con caída: ' + pca + ' vs mes anterior\n\nCrea:\n1. Resumen ejecutivo en 5 puntos\n2. Un párrafo de explicación para el director\n3. Una acción concreta para el siguiente mes\n\nTono directo. Sin tecnicismos. Usa bullets.';
+    },
+    p2: function(f) {
+      var neg = f.negocio || '[tipo de negocio]';
+      var cli = f.cliente || '[nombre del cliente]';
+      var mon = f.monto || '[monto]';
+      var dia = f.dias || '[N]';
+      var ult = f.ultimo_contacto || '[canal y cuándo], sin respuesta';
+      return 'Actúa como ejecutivo de cobranza de ' + neg + '.\n\nSituación:\n- Cliente: ' + cli + '\n- Monto pendiente: $' + mon + ' MXN\n- Días de atraso: ' + dia + ' días\n- Contacto previo: ' + ult + '\n\nEscríbeme un correo formal de seguimiento de cobranza.\nTono: firme pero profesional, sin sonar agresivo.\nNo menciones consecuencias legales todavía.\nMáximo 120 palabras.\nTermina con una llamada a la acción clara y una fecha límite.';
+    },
+    p3: function(f) {
+      var sit = f.situacion || '[describe qué ocurrió, cuándo y cuánto]';
+      var esc = f.escenario || '[qué escenario te preocupa]';
+      return 'Actúa como asesor legal y operativo.\n\n[El contrato está adjunto como archivo — Claude lo leerá automáticamente]\n\nAnaliza este contrato y respóndeme solo esto:\n1. ¿Cuánto podría reclamarme el cliente por lo que pasó?\n2. ¿Qué cláusulas me ponen en riesgo hoy?\n3. ¿Qué pasa si ' + esc + '?\n4. Una acción concreta que debo tomar esta semana\n\nSituación actual: ' + sit + '\n\nSin introducción. Solo bullets.';
+    },
+    p4: function(f) {
+      var mes = f.mes || '[mes]';
+      var ven = f.ventas_mes || '[ventas totales]';
+      var gas = f.gastos_texto || '[lista de gastos]';
+      return 'Actúa como auditor operativo.\n\nGASTOS ' + mes.toUpperCase() + ':\n' + gas + '\n\nVentas del mes: $' + ven + ' MXN\n\nRevisa esta lista y respóndeme:\n1. ¿Cuál es el margen operativo del mes?\n2. ¿Qué concepto llama la atención y por qué?\n3. ¿Hay algo que parece fuera de lugar o inusual?\n4. ¿Qué dato faltante necesitarías para un análisis más completo?\n5. Una acción concreta antes de que cierre el mes\n\nSin introducción. Usa bullets.';
+    },
+    p5: function(f) {
+      var neg = f.negocio || '[tipo de negocio]';
+      var ciu = f.ciudad || '[ciudad]';
+      var pro = f.producto || '[producto o categoría]';
+      var pct = f.pct_caida || '[X]';
+      var per = f.periodo || '[período]';
+      return 'Soy dueño de ' + neg + ' en ' + ciu + ', México.\n\nMis ventas de ' + pro + ' bajaron ' + pct + '% en ' + per + '. Necesito entender el contexto actual del mercado.\n\nResponde:\n1. ¿Qué está pasando con el mercado de ' + pro + ' en México hoy?\n2. ¿Están migrando los clientes hacia alguna alternativa?\n3. ¿Qué están haciendo los competidores para adaptarse?\n4. ¿Hay alguna tendencia reciente que explique esta caída?\n\nInformación actual, no de hace un año. Máximo 5 bullets por pregunta.';
+    },
+    p6: function(f) {
+      var p1 = f.pregunta1 || '¿Qué hace [puesto] cuando [situación]?';
+      var p2 = f.pregunta2 || '¿Cuándo se suspende [proceso]? ¿Qué pasos se siguen?';
+      var p3 = f.pregunta3 || '¿Se puede [acción]? ¿Qué condiciones aplican?';
+      return 'Preguntas para NotebookLM (después de subir tus procedimientos):\n\nPregunta 1:\n' + p1 + '\n\nPregunta 2:\n' + p2 + '\n\nPregunta 3:\n' + p3 + '\n\nNota: Primero sube el documento (PDF o texto) a NotebookLM. Luego hazle las preguntas una por una en el chat.';
+    }
+  };
+
+  function generatePrompt(id) {
+    var card = document.querySelector('[data-personalizer="' + id + '"]');
+    var fields = card.querySelectorAll('[data-field]');
+    var data = {};
+    fields.forEach(function(f) { data[f.dataset.field] = f.value.trim(); });
+    var result = PROMPT_TEMPLATES[id](data);
+    document.getElementById('gen-' + id + '-text').textContent = result;
+    var box = document.getElementById('gen-' + id);
+    box.classList.add('visible');
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function copyGenerated(id, btn) {
+    var text = document.getElementById('gen-' + id + '-text').textContent;
+    var orig = btn.textContent;
+    navigator.clipboard.writeText(text).then(function() {
+      btn.textContent = '¡Copiado!';
+      btn.classList.add('copied');
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+    }).catch(function() {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      btn.textContent = '¡Copiado!'; btn.classList.add('copied');
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+    });
   }
 
   // ─── COPY ───
