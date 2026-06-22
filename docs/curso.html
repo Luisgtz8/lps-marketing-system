@@ -4,7 +4,210 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IA Sin Miedo — Curso en línea · Lightning Pro Solutions</title>
-  <script>(function(){var t=localStorage.getItem('lps-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');})();</script>
+  <script>(function(){var t=localStorage.getItem('lps-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');})();
+  function showConfirm(pid) {
+    var box = document.getElementById('confirm-' + pid);
+    if (box) box.classList.remove('hidden');
+  }
+  function reactUseful(btn) {
+    btn.closest('.ex-react-row').innerHTML = '<span class="ex-react-ok">✓ Anotado como útil — es candidato para skill</span>';
+  }
+  function reactAdjust(btn) {
+    btn.closest('.ex-react-row').innerHTML = '<span class="ex-react-warn-txt">⚠️ Ajusta el prompt en M4 y vuelve a intentar</span>';
+  }
+
+  function confirmExercise(pid) {
+    var ta = document.getElementById('confirm-text-' + pid);
+    var hint = document.getElementById('confirm-hint-' + pid);
+    var done = document.getElementById('confirm-done-' + pid);
+    var text = ta ? ta.value.trim() : '';
+    var words = text.split(/\s+/).filter(function(w) { return w.length > 0; }).length;
+    if (words < 25) {
+      hint.style.color = 'var(--error)';
+      hint.textContent = words + ' palabras — necesitas al menos 25 para confirmar';
+      return;
+    }
+    hint.textContent = '';
+    ta.disabled = true;
+    done.classList.remove('hidden');
+    document.querySelector('#confirm-' + pid + ' .ex-confirm-btn').style.display = 'none';
+    markExerciseDone(pid);
+    // Micro-reflexión
+    var reactRow = document.createElement('div');
+    reactRow.className = 'ex-react-row';
+    reactRow.innerHTML = '<span class="ex-react-label">¿Fue útil la respuesta?</span>'
+      + '<button class="ex-react-btn" onclick="reactUseful(this)">✓ Fue útil</button>'
+      + '<button class="ex-react-btn ex-react-warn" onclick="reactAdjust(this)">⚠️ Ajustar</button>';
+    done.appendChild(reactRow);
+  }
+
+  // ─── ADMIN MODE ───
+  var IS_ADMIN = new URLSearchParams(window.location.search).get('admin') === '1'
+                || localStorage.getItem('lps-admin') === '1';
+
+  function initAdmin() {
+    if (!IS_ADMIN) return;
+    var panel = document.getElementById('admin-panel');
+    if (panel) panel.classList.add('visible');
+    // skip registration gate
+    var regGate = document.getElementById('reg-gate');
+    var courseScreen = document.getElementById('course-screen');
+    if (regGate && regGate.style.display !== 'none') {
+      regGate.style.display = 'none';
+      if (courseScreen) courseScreen.style.display = '';
+    }
+    setInterval(updateAdminPanel, 1000);
+  }
+
+  function toggleAdminPanel() {
+    var panel = document.getElementById('admin-panel');
+    var icon = document.getElementById('admin-toggle-icon');
+    panel.classList.toggle('minimized');
+    icon.textContent = panel.classList.contains('minimized') ? '▲' : '▼';
+  }
+
+  function updateAdminPanel() {
+    if (!IS_ADMIN) return;
+    var puzzlePts = ['classify','order','connect','nivel','sec'].reduce(function(s,k){return s+calcPuzzleScore(k);},0);
+    var quizPts = correctAnswers.size * 10;
+    var exPts = exercisesDone.size * 4;
+    var skillPts = skillsDone.size * 2;
+    var agentPts = Math.round(agentsDone.size * 2.25);
+    var total = puzzlePts + quizPts + exPts + skillPts + agentPts;
+    var scoreEl = document.getElementById('admin-score-display');
+    if (scoreEl) scoreEl.textContent = total + ' / 100  [P:' + puzzlePts + ' Q:' + quizPts + ' E:' + exPts + ' S:' + skillPts + ' A:' + agentPts + ']';
+
+    ['q3','q6','q8'].forEach(function(qid) {
+      var el = document.getElementById('adm-' + qid);
+      if (!el) return;
+      if (answeredQuestions.has(qid)) {
+        el.className = 'admin-row ' + (correctAnswers.has(qid) ? 'done' : 'wrong');
+        el.textContent = qid.toUpperCase() + ' — ' + (correctAnswers.has(qid) ? '✓ correcto (+10)' : '✗ incorrecto (0)');
+      } else {
+        el.className = 'admin-row';
+        el.textContent = qid.toUpperCase() + ' — pendiente';
+      }
+    });
+
+    ['p1','p2','p3','p4','p5','p6'].forEach(function(pid) {
+      var el = document.getElementById('adm-' + pid);
+      if (!el) return;
+      el.className = 'admin-row' + (exercisesDone.has(pid) ? ' done' : '');
+      el.textContent = pid.toUpperCase() + ' — ' + (exercisesDone.has(pid) ? '✓ confirmado (+4)' : 'pendiente');
+    });
+
+    var puzzleMap = { classify: 'M1 Clasificar', order: 'M2 Orden', connect: 'M3 Conectar', nivel: 'M7 Niveles', sec: 'M7 Seguridad' };
+    Object.keys(puzzleMap).forEach(function(key) {
+      var el = document.getElementById('adm-' + key);
+      if (!el) return;
+      if (puzzlesCompleted.has(key)) {
+        var pts = calcPuzzleScore(key);
+        var retries = puzzleRetries[key];
+        el.className = 'admin-row done';
+        el.textContent = puzzleMap[key] + ' — ✓ +' + pts + ' pts' + (retries > 0 ? ' (' + retries + ' reint.)' : '');
+      } else {
+        el.className = 'admin-row';
+        el.textContent = puzzleMap[key] + ' — pendiente';
+      }
+    });
+
+    var sEl = document.getElementById('adm-skills');
+    if (sEl) { sEl.className = 'admin-row' + (skillsDone.size === 6 ? ' done' : ''); sEl.textContent = 'Skills: ' + skillsDone.size + ' / 6 (+' + (skillsDone.size * 2) + ' pts)'; }
+    var aEl = document.getElementById('adm-agents');
+    if (aEl) { aEl.className = 'admin-row' + (agentsDone.size === 4 ? ' done' : ''); aEl.textContent = 'Agentes: ' + agentsDone.size + ' / 4 (+' + Math.round(agentsDone.size * 2.25) + ' pts)'; }
+  }
+
+  function adminSkipReg() {
+    var rg = document.getElementById('reg-gate');
+    var cs = document.getElementById('course-screen');
+    if (rg) rg.style.display = 'none';
+    if (cs) cs.style.display = '';
+  }
+  function adminMarkAllDone() {
+    ['p1','p2','p3','p4','p5','p6'].forEach(function(pid) { markExerciseDone(pid); });
+    ['skill-ej1','skill-ej2','skill-ej3','skill-ej4','skill-ej5','skill-ej6'].forEach(function(id) { markSkillDone(id); });
+    ['agente-eficiencia','agente-pdf','agente-brainstorming','agente-control'].forEach(function(id) { markAgentDone(id); });
+  }
+  function adminGoTo(mod) { goTo(mod); }
+  function adminShowResults() { goTo(7); setTimeout(function() { buildResults(); var el = document.getElementById('completion-results'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 200); }
+  function adminResetAll() {
+    if (!confirm('¿Resetear todo el progreso? Esto no se puede deshacer.')) return;
+    localStorage.removeItem('lps-reg');
+    localStorage.removeItem(PROGRESS_KEY);
+    answeredQuestions.clear(); correctAnswers.clear();
+    exercisesDone.clear(); skillsDone.clear(); agentsDone.clear();
+    puzzlesCompleted.clear();
+    puzzleRetries = { classify: 0, order: 0, connect: 0, nivel: 0, sec: 0 };
+    location.reload();
+  }
+
+  // ─── GALLERY SKILLS DATA ───
+  var GALLERY_PROMPTS = {
+    mindstorming: "Genera 20 ideas sobre [TEMA] desde ángulos muy distintos: lo obvio, lo contraintuitivo, lo que nadie haría, lo que ya probaron otros y lo que solo funciona en mi contexto. Sin filtro.\n\nDespués marca las 3 más interesantes y di por qué.",
+    abogado: "Actúa como un crítico riguroso. Analiza esta idea o plan y busca sus puntos débiles: suposiciones erróneas, riesgos no considerados, casos donde fallaría, razones por las que el mercado o el equipo lo rechazaría. Sé directo. No suavices.\n\nAl final, si hay algo que salvaría del plan, dilo también.\n\n[IDEA O PLAN A EVALUAR]",
+    lectorpdf: "Actúa como analista especializado en [TIPO DE DOCUMENTO: contratos, reportes, facturas, etc.]. Analiza el documento adjunto y respóndeme:\n\n1. Resumen en 5 puntos clave.\n2. Tres datos o cláusulas que debo revisar con cuidado.\n3. Una pregunta que el documento deja sin responder.\n4. Recomendación concreta basada en lo que dice.\n\nNo inventes información que no esté en el documento.",
+    riesgos: "Actúa como consultor de gestión de riesgos. Evalúa la siguiente decisión o plan y genera un checklist de riesgos organizados por área:\n\n- Riesgo operativo\n- Riesgo financiero\n- Riesgo humano / equipo\n- Riesgo legal\n- Riesgo de imagen\n\nPor cada riesgo: qué podría pasar, qué tan probable es (alto/medio/bajo) y qué haría para mitigarlo.\n\n[DECISIÓN O PLAN]",
+    correodificil: "Actúa como comunicador ejecutivo con experiencia en situaciones delicadas. Redacta un correo para la siguiente situación: [SITUACIÓN: notificar un retraso, rechazar una solicitud, cobrar sin dañar la relación, dar malas noticias].\n\nTono: directo, respetuoso, sin rodeos innecesarios. Máximo 150 palabras. Termina con el siguiente paso claro y una fecha límite si aplica.\n\nContexto: [CONTEXTO DE LA SITUACIÓN]",
+    resumidor: "Resume el siguiente texto en máximo 5 bullets para alguien que tiene 30 segundos para leer.\n\nCada bullet: máximo 20 palabras. Prioriza lo que requiere una decisión o acción. Si hay cifras importantes, inclúyelas. Al final: una sola acción recomendada.\n\n[TEXTO A RESUMIR]",
+    mejorador: "Toma el siguiente texto y mejóralo sin cambiar el mensaje central ni inventar información nueva.\n\nObjetivos: claridad, brevedad, tono profesional y directo. No debe sonar a IA.\n\nDevuelve: el texto mejorado y después una lista de 3 cambios principales que hiciste y por qué.\n\n[TEXTO ORIGINAL]",
+    comparador: "Actúa como asesor estratégico. Compara las siguientes opciones usando los criterios indicados. Por cada opción: ventajas, desventajas y en qué contexto funcionaría mejor. Al final: recomendación clara y el criterio más importante que guió esa decisión.\n\nCriterios de comparación: [CRITERIOS: precio, tiempo, riesgo, etc.]\n\nOpción 1: [DESCRIPCIÓN]\nOpción 2: [DESCRIPCIÓN]\nOpción 3 (opcional): [DESCRIPCIÓN]"
+  };
+
+  function toggleSgDetail(btn) {
+    var card = btn.closest('.sg-card');
+    var detail = card.querySelector('.sg-detail');
+    var open = detail.classList.toggle('open');
+    btn.textContent = open ? '×' : '+';
+    btn.classList.toggle('open', open);
+  }
+
+  function copyGallerySkill(key, btn) {
+    var prompt = GALLERY_PROMPTS[key];
+    if (!prompt) return;
+    navigator.clipboard.writeText(prompt).then(function() {
+      var orig = btn.textContent;
+      btn.textContent = '✓ Copiado';
+      btn.style.background = 'var(--success)';
+      btn.style.color = '#fff';
+      btn.style.borderColor = 'var(--success)';
+      setTimeout(function() {
+        btn.textContent = orig;
+        btn.style.background = '';
+        btn.style.color = '';
+        btn.style.borderColor = '';
+      }, 1600);
+    });
+  }
+
+  function buildAndCopySkill(btn) {
+    var ejercicio = (document.getElementById('sb-ejercicio') || {}).value || '';
+    var paraQue   = (document.getElementById('sb-para-que') || {}).value.trim();
+    var cuando    = (document.getElementById('sb-cuando') || {}).value.trim();
+    var info      = (document.getElementById('sb-info') || {}).value.trim();
+    var criterio  = (document.getElementById('sb-criterio') || {}).value.trim();
+    var fb = document.getElementById('sb-feedback');
+    if (!paraQue || !cuando || !info || !criterio) {
+      if (fb) { fb.style.color = 'var(--error)'; fb.textContent = 'Completa los 4 campos antes de copiar.'; }
+      return;
+    }
+    var skill = "NOMBRE DE LA SKILL:\n" + ejercicio + "\n\n"
+      + "Sirve para:\n" + paraQue + "\n\n"
+      + "Cuándo usarla:\n" + cuando + "\n\n"
+      + "Información que necesita:\n" + info + "\n\n"
+      + "Criterios de revisión:\n" + criterio + "\n\n"
+      + "Dónde se guarda:\n02_mis_skills/skill-" + ejercicio.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'') + ".md";
+    navigator.clipboard.writeText(skill).then(function() {
+      if (fb) { fb.style.color = 'var(--success)'; fb.textContent = '✓ Copiado — pégalo en un archivo .md'; }
+      setTimeout(function() { if (fb) fb.textContent = ''; }, 3000);
+    });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.shiftKey && e.key === 'A') { toggleAdminPanel(); }
+  });
+
+  document.addEventListener('DOMContentLoaded', function() { initAdmin(); restoreUI(); });
+</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -1029,6 +1232,44 @@
     }
 
     /* ─── MOBILE FIXES ─── */
+    /* ─── BÓVEDA NAV BUTTON ─── */
+    .boveda-nav-wrap { padding: 12px 12px 16px; border-top: 1px solid var(--border); margin-top: 6px; }
+    .boveda-nav-btn { width: 100%; padding: 10px 14px; background: linear-gradient(135deg, #F59E0B 0%, #B45309 100%); border: none; border-radius: 10px; color: #000; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; letter-spacing: .02em; transition: opacity .15s, transform .1s, box-shadow .15s; box-shadow: 0 2px 8px rgba(245,158,11,0.3); }
+    .boveda-nav-btn:hover { opacity: .9; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(245,158,11,0.45); }
+    /* ─── LA BÓVEDA HEADER ─── */
+    .boveda-header { background:var(--black-mid); border:1px solid var(--amber-border); border-radius:14px; padding:28px 28px 22px; margin:32px 0 20px; position:relative; overflow:hidden; }
+    .boveda-header::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(245,158,11,0.03) 18px,rgba(245,158,11,0.03) 19px); pointer-events:none; }
+    .boveda-top-row { margin-bottom:14px; }
+    .boveda-badge { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.08em; padding:4px 12px; border:1px solid var(--amber-border); border-radius:20px; color:var(--amber); background:rgba(245,158,11,0.08); text-transform:uppercase; }
+    .boveda-title { font-family:'Space Grotesk',sans-serif; font-size:32px; font-weight:700; color:var(--amber); margin:0 0 8px; letter-spacing:-.01em; }
+    .boveda-sub { font-size:14px; color:var(--muted); line-height:1.6; margin:0; }
+    .boveda-sub code { background:rgba(245,158,11,0.12); color:var(--amber); padding:1px 6px; border-radius:4px; font-size:13px; }
+    /* ─── SKILL GALLERY ─── */
+    .sg-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:20px; }
+    .sg-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:8px; transition:border-color .2s, box-shadow .2s; }
+    .sg-card:hover { border-color:var(--amber-border); box-shadow:0 0 0 2px rgba(245,158,11,0.1); }
+    .sg-top { display:flex; align-items:center; justify-content:space-between; }
+    .sg-icon { font-size:22px; }
+    .sg-cat { font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px; text-transform:uppercase; letter-spacing:.04em; }
+    .sg-cat-prod { background:rgba(139,92,246,0.12); color:#8b5cf6; }
+    .sg-cat-analisis { background:rgba(59,130,246,0.12); color:#3b82f6; }
+    .sg-cat-com { background:rgba(16,185,129,0.12); color:var(--success); }
+    .sg-title { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:700; color:var(--text); }
+    .sg-desc { font-size:13px; color:var(--muted); line-height:1.5; flex:1; }
+    .sg-copy-btn { margin-top:4px; padding:7px 14px; background:var(--surface2); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:12px; font-weight:600; cursor:pointer; transition:background .15s, border-color .15s; }
+    .sg-copy-btn:hover { background:var(--amber); border-color:var(--amber); color:#000; }
+    .sg-cta-card { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 20px; background:rgba(245,158,11,0.07); border:1px solid var(--amber-border); border-radius:12px; text-decoration:none; color:var(--text); transition:background .2s; margin-bottom:24px; }
+    .sg-cta-card:hover { background:rgba(245,158,11,0.14); }
+    .sg-cta-title { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:700; margin-bottom:4px; }
+    .sg-cta-sub { font-size:13px; color:var(--muted); }
+    .sg-cta-arrow { font-size:22px; color:var(--amber); flex-shrink:0; }
+    .sg-more-btn { width:22px; height:22px; border-radius:50%; border:1px solid var(--border); background:var(--surface2); color:var(--muted); font-size:15px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; line-height:1; flex-shrink:0; transition:background .15s, color .15s, border-color .15s; padding:0; }
+    .sg-more-btn:hover, .sg-more-btn.open { background:var(--amber); color:#000; border-color:var(--amber); }
+    .sg-detail { display:none; font-size:13px; color:var(--muted); line-height:1.65; padding-top:10px; border-top:1px solid var(--border); margin-top:6px; }
+    .sg-detail.open { display:block; }
+    /* ─── SAVE TIP BANNER ─── */
+    .save-tip-banner { display:flex; gap:12px; align-items:flex-start; padding:12px 16px; background:var(--surface2); border:1px solid var(--border); border-left:3px solid var(--amber); border-radius:8px; font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:24px; }
+    .save-tip-banner code { background:var(--surface); padding:1px 5px; border-radius:4px; font-size:12px; color:var(--text); }
     @media (max-width: 480px) {
       .reg-card { padding: 32px 24px; }
       .module-title { font-size: 26px !important; }
@@ -1118,7 +1359,8 @@
       font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 700;
       color: var(--text); margin: 0 0 5px;
     }
-    .results-header-text p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.5; }
+    .results-header-text p { font-size: 14px; color: var(--muted); margin: 0 0 6px; line-height: 1.5; }
+    .score-breakdown { font-size: 11px; color: var(--muted); opacity: 0.75; margin-top: 4px; }
 
     .results-body { padding: 24px 32px; display: flex; flex-direction: column; gap: 22px; }
     .results-section-title {
@@ -1154,8 +1396,211 @@
     .er-icon { font-size: 14px; flex-shrink: 0; }
 
     .results-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* ─── QUIZ GATE ─── */
+    .quiz-gate {
+      background: linear-gradient(135deg, var(--surface) 60%, rgba(245,158,11,0.06));
+      border: 1.5px solid var(--amber-border);
+      border-radius: 14px;
+      padding: 32px 24px;
+      text-align: center;
+      margin-bottom: 0;
+    }
+    .quiz-gate-icon { font-size: 30px; margin-bottom: 10px; }
+    .quiz-gate-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 18px; margin-bottom: 8px;
+    }
+    .quiz-gate-desc {
+      font-size: 13px; color: var(--muted); line-height: 1.7;
+      max-width: 380px; margin: 0 auto 20px;
+    }
+    .quiz-gate-btn {
+      background: var(--amber); color: #000; border: none;
+      border-radius: 8px; padding: 11px 28px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .quiz-gate-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .quiz-gate-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--amber);
+      background: rgba(245,158,11,0.1); border: 1px solid var(--amber-border);
+      border-radius: 20px; padding: 3px 10px; margin-bottom: 14px;
+    }
+    .quiz-hidden { display: none; }
+    .module-content.content-collapsed { display: none; }
+    .content-reveal-btn {
+      width: 100%; padding: 9px 16px; margin-bottom: 16px;
+      background: var(--surface2); border: 1px solid var(--amber-border);
+      border-radius: 8px; color: var(--amber); font-size: 13px;
+      font-weight: 600; cursor: pointer; display: none; text-align: left;
+      font-family: 'Inter', sans-serif;
+    }
+    .content-reveal-btn.visible { display: block; }
     @media (max-width: 500px) { .results-header { flex-direction: column; text-align: center; } }
 
+    /* ─── LEVEL MAP ─── */
+    .lm-section { margin: 40px 0 32px; }
+    .lm-header { text-align: center; margin-bottom: 32px; }
+    .lm-header-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--amber); margin-bottom: 8px; }
+    .lm-header h2 { font-size: 24px; margin-bottom: 6px; }
+    .lm-header p { font-size: 14px; color: var(--muted); }
+
+    .lm-levels { display: flex; flex-direction: column; gap: 0; position: relative; }
+
+    .lm-connector {
+      width: 2px; height: 28px;
+      background: linear-gradient(to bottom, var(--amber-border), var(--border));
+      margin: 0 auto;
+    }
+    .lm-connector.locked-conn { background: var(--border); }
+
+    .lm-card {
+      border-radius: 14px; padding: 20px 22px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      position: relative; overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .lm-card.lm-unlocked {
+      border-color: var(--amber);
+      background: linear-gradient(135deg, var(--surface) 70%, rgba(245,158,11,0.06));
+      box-shadow: 0 0 0 1px rgba(245,158,11,0.18), 0 4px 24px rgba(245,158,11,0.08);
+    }
+    .lm-card.lm-locked { opacity: 0.72; }
+    .lm-card.lm-locked:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .lm-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+      padding: 3px 9px; border-radius: 20px; margin-bottom: 12px;
+    }
+    .lm-badge.badge-unlocked { background: rgba(245,158,11,0.15); color: var(--amber); border: 1px solid var(--amber-border); }
+    .lm-badge.badge-locked   { background: rgba(136,136,136,0.1); color: var(--muted); border: 1px solid var(--border); }
+
+    .lm-level-row { display: flex; align-items: flex-start; gap: 14px; }
+    .lm-num {
+      flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px;
+    }
+    .lm-num.num-unlocked { background: var(--amber); color: #000; }
+    .lm-num.num-locked   { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+
+    .lm-body { flex: 1; }
+    .lm-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+    .lm-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; }
+    .lm-subtitle { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); padding: 2px 8px; background: var(--surface2); border-radius: 6px; }
+    .lm-tagline { font-size: 14px; color: var(--text); font-style: italic; margin-bottom: 10px; line-height: 1.5; }
+    .lm-skills-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .lm-skill-chip {
+      font-size: 11px; padding: 3px 9px; border-radius: 20px;
+      border: 1px solid var(--border); color: var(--muted); background: var(--surface2);
+    }
+    .lm-card.lm-unlocked .lm-skill-chip { border-color: var(--amber-border); color: var(--text); background: rgba(245,158,11,0.07); }
+    .lm-req { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .lm-req strong { color: var(--text); }
+
+    .lm-lock-overlay {
+      position: absolute; top: 12px; right: 16px;
+      font-size: 22px; opacity: 0.25;
+    }
+    .lm-cta-row { margin-top: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .lm-cta-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+      background: var(--amber); color: #000; border: none; cursor: pointer;
+      text-decoration: none; transition: opacity 0.15s;
+    }
+    .lm-cta-btn:hover { opacity: 0.88; }
+    .lm-cta-note { font-size: 12px; color: var(--muted); }
+
+    @media (max-width: 480px) {
+      .lm-level-row { gap: 10px; }
+      .lm-num { width: 32px; height: 32px; font-size: 13px; }
+      .lm-title { font-size: 15px; }
+    }
+
+
+  /* ─── EXERCISE CONFIRM ─── */
+  .ex-confirm {
+    border-top: 1px solid var(--border);
+    padding: 16px 18px 18px;
+    background: var(--surface2);
+  }
+  .ex-confirm.hidden { display: none; }
+  .ex-confirm-label {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.07em; color: var(--amber); margin-bottom: 10px;
+  }
+  .ex-confirm-textarea {
+    width: 100%; background: var(--black-mid); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text); font-size: 13px; line-height: 1.6;
+    padding: 10px 14px; resize: vertical; font-family: 'Inter', sans-serif;
+    min-height: 90px;
+  }
+  .ex-confirm-textarea:focus { outline: none; border-color: var(--amber-border); }
+  .ex-confirm-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 10px; gap: 12px; flex-wrap: wrap;
+  }
+  .ex-confirm-hint { font-size: 12px; color: var(--muted); }
+  .ex-confirm-btn {
+    background: var(--amber); color: #000; border: none; border-radius: 7px;
+    padding: 8px 18px; font-size: 13px; font-weight: 700; cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif; white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  .ex-confirm-btn:hover { opacity: 0.88; }
+  .ex-confirm-done {
+    margin-top: 10px; padding: 10px 14px;
+    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
+    border-radius: 8px; font-size: 13px; color: var(--success);
+  }
+  .ex-confirm-done.hidden { display: none; }
+  .ex-react-row { display:flex; align-items:center; gap:8px; margin-top:8px; flex-wrap:wrap; }
+  .ex-react-label { font-size:12px; color:var(--muted); }
+  .ex-react-btn { font-size:11px; padding:3px 10px; border-radius:20px; border:1px solid var(--border); background:var(--surface2); color:var(--text); cursor:pointer; transition:background .15s; }
+  .ex-react-btn:hover { background:var(--amber); color:#000; border-color:var(--amber); }
+  .ex-react-btn.ex-react-warn:hover { background:var(--amber); }
+  .ex-react-ok { font-size:12px; color:var(--success); }
+  .ex-react-warn-txt { font-size:12px; color:var(--amber); }
+
+  /* ─── ADMIN PANEL ─── */
+  #admin-panel {
+    position: fixed; bottom: 16px; right: 16px; z-index: 9999;
+    width: 300px; background: #0a0a0a; border: 1px solid #F59E0B;
+    border-radius: 12px; font-size: 12px; font-family: monospace;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    display: none;
+  }
+  #admin-panel.visible { display: block; }
+  #admin-panel.minimized .admin-body { display: none; }
+  .admin-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px; background: rgba(245,158,11,0.15);
+    border-radius: 12px 12px 0 0; cursor: pointer;
+    border-bottom: 1px solid rgba(245,158,11,0.2);
+  }
+  .admin-header-title { color: #F59E0B; font-weight: 700; font-size: 11px; letter-spacing: 0.08em; }
+  .admin-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; max-height: 60vh; overflow-y: auto; }
+  .admin-section-label { color: #F59E0B; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+  .admin-row { display: flex; justify-content: space-between; color: #888; padding: 2px 0; }
+  .admin-row.done { color: #22c55e; }
+  .admin-row.wrong { color: #ef4444; }
+  .admin-score-total { color: #F59E0B; font-size: 18px; font-weight: 700; text-align: center; padding: 8px 0; }
+  .admin-btn {
+    background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3);
+    color: #F59E0B; border-radius: 6px; padding: 5px 10px; font-size: 11px;
+    cursor: pointer; font-family: monospace; width: 100%; text-align: left;
+    margin-top: 2px;
+  }
+  .admin-btn:hover { background: rgba(245,158,11,0.25); }
+  .admin-btn.danger { color: #ef4444; border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.08); }
+  .admin-divider { border: none; border-top: 1px solid #222; margin: 4px 0; }
   </style>
 </head>
 <body>
@@ -1212,6 +1657,10 @@
         <div class="sidebar-label">Módulos</div>
         <div id="nav-items"></div>
       </div>
+      <div class="boveda-nav-wrap">
+        <button class="boveda-nav-btn" onclick="goTo(5);setTimeout(function(){var el=document.getElementById('boveda-section');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},220);">🔐 La Bóveda</button>
+        <a href="boveda.html" target="_blank" style="display:block;text-align:center;margin-top:6px;font-size:11px;color:var(--muted);text-decoration:none;">Compartir bóveda ↗</a>
+      </div>
     </nav>
 
     <!-- CONTENT -->
@@ -1243,7 +1692,7 @@
         <div class="puzzle-block">
           <div class="quiz-label">Mini-puzzle</div>
           <div class="quiz-question">Clasifica cada afirmación: ¿la IA SÍ puede o NO puede hacer esto?</div>
-          <div class="classify-list">
+          <div class="classify-list" id="m1-classify-list">
             <div class="classify-item" data-correct="si">
               <span class="classify-stmt">Generar primeras versiones de correos y resúmenes rápido</span>
               <div class="classify-btns">
@@ -1288,6 +1737,18 @@
             </div>
           </div>
           <div class="puzzle-result hidden" id="classify-result"></div>
+          <button class="puzzle-reset hidden" id="classify-reset" onclick="resetClassify()">Reintentar</button>
+        </div>
+
+        <div class="card" style="border-color:var(--amber-border);">
+          <h3 style="color:var(--amber);">Lo que vas a construir en este curso</h3>
+          <p style="font-size:14px; color:var(--muted); line-height:1.8;">
+            Módulo 2 — La fórmula para pedirle cosas a la IA (<strong style="color:var(--text);">prompt</strong>)<br>
+            Módulos 3 y 4 — Qué herramienta usar y 6 ejercicios reales con tu empresa<br>
+            Módulo 5 — Convertir prompts en instrucciones reutilizables (<strong style="color:var(--text);">skills</strong>)<br>
+            Módulo 6 — Configurar la IA para tareas específicas (<strong style="color:var(--text);">agentes</strong>)<br>
+            Módulo 7 — Qué sigue cuando dominas el chat
+          </p>
         </div>
 
         <div class="module-nav">
@@ -1297,11 +1758,17 @@
 
       <!-- ══════ MÓDULO 2 — FÓRMULA ══════ -->
       <div class="module" id="mod-2">
-        <div class="module-eyebrow">Módulo 2</div>
+<div class="module-content" id="mod-2-content">
+              <div class="module-eyebrow">Módulo 2</div>
         <h1 class="module-title">La fórmula del prompt</h1>
         <p class="module-desc">Un prompt bien construido siempre tiene 5 elementos. Si falta uno, la IA empieza a adivinar — y cuando adivina, se equivoca.</p>
 
         <img class="module-img" src="img/curso_m2_formula_prompt.png" alt="Prompt estructurado en 5 partes">
+
+        <div class="card" style="border-color:var(--amber-border); margin-bottom:24px;">
+          <h3 style="color:var(--amber); margin-bottom:6px;">¿Qué es un prompt?</h3>
+          <p style="font-size:14px; color:var(--muted); line-height:1.7;">Un <strong style="color:var(--text);">prompt</strong> es la instrucción que le das a la IA. Es como hablar con una persona muy capaz que no sabe nada de ti ni de tu empresa. Si le dices "hazme un reporte", adivina. Si le das contexto, tarea y formato, produce algo útil. Todo este módulo es sobre cómo construir esa instrucción.</p>
+        </div>
 
         <div class="formula-grid">
           <div class="formula-item">
@@ -1359,7 +1826,19 @@
           <button class="puzzle-reset hidden" id="order-reset" onclick="resetOrder()">Reintentar</button>
         </div>
 
-        <div class="quiz-block">
+        </div><!-- /mod-2-content -->
+
+        <button class="content-reveal-btn" id="reveal-mod-2" onclick="toggleContent(2)">📖 Ver contenido del módulo ↑</button>
+
+        <div class="quiz-gate" id="gate-q3">
+          <div class="quiz-gate-badge">📝 Evaluación</div>
+          <div class="quiz-gate-icon">🎯</div>
+          <div class="quiz-gate-title">Pregunta de evaluación</div>
+          <p class="quiz-gate-desc">Esta pregunta cuenta para tu calificación final. El contenido del módulo se ocultará mientras respondes — si necesitas revisarlo, hay un botón para abrirlo.</p>
+          <button class="quiz-gate-btn" onclick="startQuiz('q3', 2)">Comenzar quiz →</button>
+        </div>
+
+        <div class="quiz-block quiz-hidden" id="quiz-block-q3">
           <div class="quiz-label">Pregunta 3 de 5</div>
           <div class="quiz-question">Lee este prompt. ¿Cuántos elementos de la fórmula puedes identificar?</div>
           <div style="background:var(--black-mid);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin:16px 0;font-size:14px;color:var(--muted);line-height:1.7;font-style:italic;">
@@ -1372,7 +1851,7 @@
             <button class="quiz-option" onclick="answer('q3', this, true)">D. 5 — tiene todos: rol, contexto, tarea, formato y criterio.</button>
           </div>
           <div class="quiz-feedback" id="q3-feedback"></div>
-        </div>
+        </div><!-- /quiz-block-q3 -->
 
         <div class="module-nav">
           <button class="btn-prev" onclick="goTo(1)">← Anterior</button>
@@ -1397,7 +1876,7 @@
           <div class="tool-card primary">
             <span class="tool-badge badge-primary">Principal</span>
             <div class="tool-name">Claude</div>
-            <div class="tool-use">Análisis de documentos reales: contratos, facturas, listas de gastos, textos largos. Más cuidadoso con los datos.</div>
+            <div class="tool-use">Análisis de documentos reales: contratos, facturas, listas de gastos, textos largos. Lee el documento completo sin perder detalle y te avisa cuando no tiene certeza — no adivina.</div>
           </div>
           <div class="tool-card">
             <span class="tool-badge badge-secondary">Complemento</span>
@@ -1418,7 +1897,7 @@
         <div class="puzzle-block">
           <div class="quiz-label">Mini-puzzle</div>
           <div class="quiz-question">Conecta cada herramienta con la tarea que mejor le corresponde.<br><span style="font-size:13px;color:var(--muted);font-weight:400;">Selecciona una herramienta y luego su tarea.</span></div>
-          <div class="connect-columns">
+          <div class="connect-columns" id="m3-connect">
             <div class="connect-col">
               <button class="connect-tool" data-tool="ChatGPT" onclick="selectTool(this)">ChatGPT</button>
               <button class="connect-tool" data-tool="Claude" onclick="selectTool(this)">Claude</button>
@@ -1433,6 +1912,7 @@
             </div>
           </div>
           <div class="puzzle-result hidden" id="connect-result"></div>
+          <button class="puzzle-reset hidden" id="connect-reset" onclick="resetConnect()">Reintentar</button>
         </div>
 
         <div class="module-nav">
@@ -1443,7 +1923,8 @@
 
       <!-- ══════ MÓDULO 4 — PRÁCTICA ══════ -->
       <div class="module" id="mod-4">
-        <div class="module-eyebrow">Módulo 4</div>
+<div class="module-content" id="mod-4-content">
+              <div class="module-eyebrow">Módulo 4</div>
         <h1 class="module-title">Prompts de práctica</h1>
         <p class="module-desc">Estos son los 6 prompts del taller. Cópialos, ábrelos en la herramienta indicada y adapta los datos a tu empresa. No los uses como receta — usa la fórmula para personalizarlos.</p>
 
@@ -1575,6 +2056,15 @@ Tono directo. Sin tecnicismos. Usa bullets.</div>
               <button class="btn-copy-gen" onclick="copyGenerated('p1', this)">Copiar prompt →</button>
             </div>
           </div>
+          <div class="ex-confirm hidden" id="confirm-p1">
+            <div class="ex-confirm-label">Paso 2 — Pega aquí la respuesta de ChatGPT</div>
+            <textarea class="ex-confirm-textarea" id="confirm-text-p1" placeholder="Copia y pega aquí lo que te respondió la IA…" rows="5"></textarea>
+            <div class="ex-confirm-footer">
+              <span class="ex-confirm-hint" id="confirm-hint-p1">Mínimo 25 palabras para confirmar</span>
+              <button class="ex-confirm-btn" onclick="confirmExercise('p1')">Confirmar ejercicio ✓</button>
+            </div>
+            <div class="ex-confirm-done hidden" id="confirm-done-p1">✅ Ejercicio confirmado — guárdalo como <strong>01_Resumen_Ventas_Mayo.txt</strong> en tu carpeta 01_mis_ejercicios/</div>
+          </div>
         </div>
 
         <!-- E2 -->
@@ -1631,6 +2121,15 @@ Termina con una llamada a la acción clara y una fecha límite.</div>
               <button class="btn-copy-gen" onclick="copyGenerated('p2', this)">Copiar prompt →</button>
             </div>
           </div>
+          <div class="ex-confirm hidden" id="confirm-p2">
+            <div class="ex-confirm-label">Paso 2 — Pega aquí la respuesta de ChatGPT</div>
+            <textarea class="ex-confirm-textarea" id="confirm-text-p2" placeholder="Copia y pega aquí lo que te respondió la IA…" rows="5"></textarea>
+            <div class="ex-confirm-footer">
+              <span class="ex-confirm-hint" id="confirm-hint-p2">Mínimo 25 palabras para confirmar</span>
+              <button class="ex-confirm-btn" onclick="confirmExercise('p2')">Confirmar ejercicio ✓</button>
+            </div>
+            <div class="ex-confirm-done hidden" id="confirm-done-p2">✅ Ejercicio confirmado — guárdalo como <strong>02_Correo_Cobranza.txt</strong> en tu carpeta 01_mis_ejercicios/</div>
+          </div>
         </div>
 
         <div class="tool-section-header">Claude — Ejercicios 3 y 4</div>
@@ -1644,9 +2143,18 @@ Termina con una llamada a la acción clara y una fecha límite.</div>
           <div class="resource-banner" style="margin:0; border-radius:0; border-left:none; border-right:none; border-top:none;">
             <div class="resource-banner-info">
               <strong>Contrato de práctica incluido</strong>
-              Contrato Colegio Bilingüe Arcoíris. Descárgalo, ábrelo y súbelo directamente a Claude antes de pegar el prompt.
+              Descarga el PDF y súbelo a Claude.ai antes de copiar el prompt.
             </div>
             <a class="download-btn" href="./recursos/contrato_arcoiris.pdf" download>⬇ Descargar contrato_arcoiris.pdf</a>
+          </div>
+          <div style="background:var(--surface2); border-bottom:1px solid var(--border); padding:12px 18px;">
+            <div style="font-size:12px; font-weight:700; color:var(--amber); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Cómo subir el archivo a Claude</div>
+            <div style="display:flex; flex-direction:column; gap:6px; font-size:13px; color:var(--muted);">
+              <div><span style="display:inline-block; width:20px; height:20px; background:var(--amber); color:#000; border-radius:50%; text-align:center; line-height:20px; font-size:11px; font-weight:700; margin-right:8px;">1</span>Descarga el PDF con el botón de arriba.</div>
+              <div><span style="display:inline-block; width:20px; height:20px; background:var(--amber); color:#000; border-radius:50%; text-align:center; line-height:20px; font-size:11px; font-weight:700; margin-right:8px;">2</span>Abre <strong style="color:var(--text);">claude.ai</strong> en tu navegador e inicia una nueva conversación.</div>
+              <div><span style="display:inline-block; width:20px; height:20px; background:var(--amber); color:#000; border-radius:50%; text-align:center; line-height:20px; font-size:11px; font-weight:700; margin-right:8px;">3</span>Haz clic en el ícono de <strong style="color:var(--text);">clip (📎)</strong> en la barra de texto, busca el PDF descargado y selecciónalo.</div>
+              <div><span style="display:inline-block; width:20px; height:20px; background:var(--amber); color:#000; border-radius:50%; text-align:center; line-height:20px; font-size:11px; font-weight:700; margin-right:8px;">4</span>Cuando veas el archivo adjunto en el chat, copia y pega el prompt de abajo.</div>
+            </div>
           </div>
           <div class="prompt-body" id="p3">Actúa como asesor legal y operativo.
 
@@ -1687,6 +2195,15 @@ Sin introducción. Solo bullets.</div>
               <button class="btn-copy-gen" onclick="copyGenerated('p3', this)">Copiar prompt →</button>
             </div>
           </div>
+          <div class="ex-confirm hidden" id="confirm-p3">
+            <div class="ex-confirm-label">Paso 2 — Pega aquí la respuesta de Claude</div>
+            <textarea class="ex-confirm-textarea" id="confirm-text-p3" placeholder="Copia y pega aquí lo que te respondió la IA…" rows="5"></textarea>
+            <div class="ex-confirm-footer">
+              <span class="ex-confirm-hint" id="confirm-hint-p3">Mínimo 25 palabras para confirmar</span>
+              <button class="ex-confirm-btn" onclick="confirmExercise('p3')">Confirmar ejercicio ✓</button>
+            </div>
+            <div class="ex-confirm-done hidden" id="confirm-done-p3">✅ Ejercicio confirmado — guárdalo como <strong>03_Analisis_Contrato.txt</strong> en tu carpeta 01_mis_ejercicios/</div>
+          </div>
         </div>
 
         <!-- E4 -->
@@ -1698,9 +2215,18 @@ Sin introducción. Solo bullets.</div>
           <div class="resource-banner" style="margin:0; border-radius:0; border-left:none; border-right:none; border-top:none;">
             <div class="resource-banner-info">
               <strong>Hoja de gastos de práctica incluida</strong>
-              Gastos mayo 2026 de Distribuidora Noroeste. Descárgala y súbela a Claude antes de pegar el prompt.
+              Descarga el Excel y súbelo a Claude.ai antes de copiar el prompt.
             </div>
             <a class="download-btn" href="./recursos/gastos_mayo_2026.xlsx" download>⬇ Descargar gastos_mayo_2026.xlsx</a>
+          </div>
+          <div style="background:var(--surface2); border-bottom:1px solid var(--border); padding:12px 18px;">
+            <div style="font-size:12px; font-weight:700; color:var(--amber); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Cómo subir el archivo a Claude</div>
+            <div style="display:flex; flex-direction:column; gap:6px; font-size:13px; color:var(--muted);">
+              <div><span style="display:inline-block; width:20px; height:20px; background:var(--amber); color:#000; border-radius:50%; text-align:center; line-height:20px; font-size:11px; font-weight:700; margin-right:8px;">1</span>Descarga el Excel con el botón de arriba.</div>
+              <div><span style="display:inline-block; width:20px; height:20px; background:var(--amber); color:#000; border-radius:50%; text-align:center; line-height:20px; font-size:11px; font-weight:700; margin-right:8px;">2</span>Abre <strong style="color:var(--text);">claude.ai</strong> en tu navegador e inicia una nueva conversación.</div>
+              <div><span style="display:inline-block; width:20px; height:20px; background:var(--amber); color:#000; border-radius:50%; text-align:center; line-height:20px; font-size:11px; font-weight:700; margin-right:8px;">3</span>Haz clic en el ícono de <strong style="color:var(--text);">clip (📎)</strong>, busca el archivo Excel descargado y selecciónalo.</div>
+              <div><span style="display:inline-block; width:20px; height:20px; background:var(--amber); color:#000; border-radius:50%; text-align:center; line-height:20px; font-size:11px; font-weight:700; margin-right:8px;">4</span>Cuando veas el archivo adjunto en el chat, copia y pega el prompt de abajo.</div>
+            </div>
           </div>
           <div class="prompt-body" id="p4">Actúa como auditor operativo.
 
@@ -1743,6 +2269,15 @@ Sin introducción. Usa bullets.</div>
               <div class="generated-text" id="gen-p4-text"></div>
               <button class="btn-copy-gen" onclick="copyGenerated('p4', this)">Copiar prompt →</button>
             </div>
+          </div>
+          <div class="ex-confirm hidden" id="confirm-p4">
+            <div class="ex-confirm-label">Paso 2 — Pega aquí la respuesta de Claude</div>
+            <textarea class="ex-confirm-textarea" id="confirm-text-p4" placeholder="Copia y pega aquí lo que te respondió la IA…" rows="5"></textarea>
+            <div class="ex-confirm-footer">
+              <span class="ex-confirm-hint" id="confirm-hint-p4">Mínimo 25 palabras para confirmar</span>
+              <button class="ex-confirm-btn" onclick="confirmExercise('p4')">Confirmar ejercicio ✓</button>
+            </div>
+            <div class="ex-confirm-done hidden" id="confirm-done-p4">✅ Ejercicio confirmado — guárdalo como <strong>04_Revision_Gastos.txt</strong> en tu carpeta 01_mis_ejercicios/</div>
           </div>
         </div>
 
@@ -1800,6 +2335,15 @@ Información actual, no de hace un año. Máximo 5 bullets por pregunta.</div>
               <button class="btn-copy-gen" onclick="copyGenerated('p5', this)">Copiar prompt →</button>
             </div>
           </div>
+          <div class="ex-confirm hidden" id="confirm-p5">
+            <div class="ex-confirm-label">Paso 2 — Pega aquí la respuesta de Gemini</div>
+            <textarea class="ex-confirm-textarea" id="confirm-text-p5" placeholder="Copia y pega aquí lo que te respondió la IA…" rows="5"></textarea>
+            <div class="ex-confirm-footer">
+              <span class="ex-confirm-hint" id="confirm-hint-p5">Mínimo 25 palabras para confirmar</span>
+              <button class="ex-confirm-btn" onclick="confirmExercise('p5')">Confirmar ejercicio ✓</button>
+            </div>
+            <div class="ex-confirm-done hidden" id="confirm-done-p5">✅ Ejercicio confirmado — guárdalo como <strong>05_Mercado_Cartuchos.txt</strong> en tu carpeta 01_mis_ejercicios/</div>
+          </div>
         </div>
 
         <div class="tool-section-header">NotebookLM — Ejercicio 6</div>
@@ -1849,9 +2393,30 @@ Nota: En NotebookLM primero subes el documento (PDF o texto). Luego le haces las
               <button class="btn-copy-gen" onclick="copyGenerated('p6', this)">Copiar preguntas →</button>
             </div>
           </div>
+          <div class="ex-confirm hidden" id="confirm-p6">
+            <div class="ex-confirm-label">Paso 2 — Pega aquí la respuesta de NotebookLM</div>
+            <textarea class="ex-confirm-textarea" id="confirm-text-p6" placeholder="Copia y pega aquí lo que te respondió la IA…" rows="5"></textarea>
+            <div class="ex-confirm-footer">
+              <span class="ex-confirm-hint" id="confirm-hint-p6">Mínimo 25 palabras para confirmar</span>
+              <button class="ex-confirm-btn" onclick="confirmExercise('p6')">Confirmar ejercicio ✓</button>
+            </div>
+            <div class="ex-confirm-done hidden" id="confirm-done-p6">✅ Ejercicio confirmado — guárdalo como <strong>06_Consulta_Procedimientos.txt</strong> en tu carpeta 01_mis_ejercicios/</div>
+          </div>
         </div>
 
-        <div class="quiz-block">
+        </div><!-- /mod-4-content -->
+
+        <button class="content-reveal-btn" id="reveal-mod-4" onclick="toggleContent(4)">📖 Ver contenido del módulo ↑</button>
+
+        <div class="quiz-gate" id="gate-q6">
+          <div class="quiz-gate-badge">📝 Evaluación</div>
+          <div class="quiz-gate-icon">🎯</div>
+          <div class="quiz-gate-title">Pregunta de evaluación</div>
+          <p class="quiz-gate-desc">Esta pregunta cuenta para tu calificación final. Los ejercicios y prompts del módulo se ocultarán mientras respondes.</p>
+          <button class="quiz-gate-btn" onclick="startQuiz('q6', 4)">Comenzar quiz →</button>
+        </div>
+
+        <div class="quiz-block quiz-hidden" id="quiz-block-q6">
           <div class="quiz-label">Pregunta del módulo</div>
           <div class="quiz-question">Hiciste los 6 ejercicios. Ahora quieres guardar el prompt de cobranza para usarlo el próximo mes con otro cliente. ¿Cuál es el siguiente paso correcto?</div>
           <div class="quiz-options" id="q6">
@@ -1861,7 +2426,7 @@ Nota: En NotebookLM primero subes el documento (PDF o texto). Luego le haces las
             <button class="quiz-option" onclick="answer('q6', this, false)">D. Compartirlo con el equipo sin adaptarlo primero.</button>
           </div>
           <div class="quiz-feedback" id="q6-feedback"></div>
-        </div>
+        </div><!-- /quiz-block-q6 -->
 
         <div class="module-nav">
           <button class="btn-prev" onclick="goTo(3)">← Anterior</button>
@@ -1876,6 +2441,20 @@ Nota: En NotebookLM primero subes el documento (PDF o texto). Luego le haces las
         <p class="module-desc">Guardar lo que funciona y convertirlo en herramienta reutilizable. Así el equipo no empieza desde cero cada semana.</p>
 
         <img class="module-img" src="img/curso_m5_sistema.png" alt="Skills documentadas como archivos reutilizables">
+
+        <div class="card" style="border-color:var(--amber-border); margin-bottom:24px;">
+          <h3 style="color:var(--amber); margin-bottom:10px;">Dos conceptos nuevos en este módulo</h3>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div>
+              <div style="font-weight:700; font-size:14px; margin-bottom:3px;">Skill — instrucción reutilizable</div>
+              <div style="font-size:13px; color:var(--muted); line-height:1.6;">Un prompt que ya probaste, revisaste y documentaste para una tarea específica. En vez de escribirlo desde cero cada semana, lo guardas y lo reutilizas. Cualquier miembro del equipo puede usarlo sin saber cómo construirlo.</div>
+            </div>
+            <div>
+              <div style="font-weight:700; font-size:14px; margin-bottom:3px;">.md — archivo de texto plano</div>
+              <div style="font-size:13px; color:var(--muted); line-height:1.6;">Un archivo de texto simple (como .txt) que cualquier computadora puede abrir. La extensión .md significa Markdown — un formato ligero para dar estructura al texto con títulos, listas y negrita sin necesitar Word. Abre con cualquier editor de texto, Notion o VS Code.</div>
+            </div>
+          </div>
+        </div>
 
         <div class="highlight">
           <p><strong>El orden correcto:</strong><br>
@@ -2206,6 +2785,135 @@ Criterios de revisión:
           </div>
         </div>
 
+
+        <!-- ─── MINI EJERCICIO: CONVIERTE UN EJERCICIO EN SKILL ─── -->
+        <div class="card" style="border-color:var(--amber-border); margin-top:12px; margin-bottom:24px;">
+          <h3 style="color:var(--amber); margin-bottom:4px;">🧪 Tu turno — convierte un ejercicio en skill</h3>
+          <p style="font-size:14px; color:var(--muted); margin-bottom:18px;">Elige uno de los 6 resultados que pegaste en M4 y responde estas 4 preguntas. Al terminar copia el texto — ya tienes tu primera skill real.</p>
+
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div>
+              <label class="ficha-field" style="display:block; margin-bottom:5px;">¿Cuál ejercicio vas a convertir?</label>
+              <select id="sb-ejercicio" style="width:100%; padding:9px 12px; border:1px solid var(--border); border-radius:8px; background:var(--surface2); color:var(--text); font-size:14px;">
+                <option value="Resumen de ventas">Ejercicio 1 — Resumen de ventas</option>
+                <option value="Correo de cobranza">Ejercicio 2 — Correo de cobranza</option>
+                <option value="Análisis de contrato">Ejercicio 3 — Análisis de contrato</option>
+                <option value="Revisión de gastos">Ejercicio 4 — Revisión de gastos</option>
+                <option value="Contexto de mercado">Ejercicio 5 — Contexto de mercado</option>
+                <option value="Consulta de procedimientos">Ejercicio 6 — Consulta de procedimientos</option>
+              </select>
+            </div>
+            <div>
+              <label class="ficha-field" style="display:block; margin-bottom:5px;">¿Para qué sirve esta skill?</label>
+              <textarea id="sb-para-que" class="ex-confirm-textarea" placeholder="¿Qué tarea resuelve? ¿En qué momento del mes o la semana la usarías?" rows="2" style="resize:vertical;"></textarea>
+            </div>
+            <div>
+              <label class="ficha-field" style="display:block; margin-bottom:5px;">¿Cuándo la usarías?</label>
+              <textarea id="sb-cuando" class="ex-confirm-textarea" placeholder="Describe la situación exacta: al cierre del mes, cuando llega una queja, antes de la junta…" rows="2" style="resize:vertical;"></textarea>
+            </div>
+            <div>
+              <label class="ficha-field" style="display:block; margin-bottom:5px;">¿Qué información necesita?</label>
+              <textarea id="sb-info" class="ex-confirm-textarea" placeholder="Lista los datos que deberías darle a la IA cada vez que uses esta skill: montos, nombres, fechas, tipo de cliente…" rows="2" style="resize:vertical;"></textarea>
+            </div>
+            <div>
+              <label class="ficha-field" style="display:block; margin-bottom:5px;">¿Cómo sabes que el resultado fue bueno?</label>
+              <textarea id="sb-criterio" class="ex-confirm-textarea" placeholder="¿Qué tiene que cumplir la respuesta para que la uses sin editar mucho? Sé específico." rows="2" style="resize:vertical;"></textarea>
+            </div>
+          </div>
+
+          <div style="margin-top:16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <button class="copy-btn" onclick="buildAndCopySkill(this)" style="min-width:160px;">Copiar mi skill ↗</button>
+            <span id="sb-feedback" style="font-size:12px; color:var(--muted);"></span>
+          </div>
+          <p style="font-size:12px; color:var(--muted); margin-top:10px;">Después de copiar → pégala en un archivo de texto → guárdala como <code style="background:var(--surface2);padding:1px 5px;border-radius:4px;">skill-[nombre].md</code> en tu carpeta <code style="background:var(--surface2);padding:1px 5px;border-radius:4px;">02_mis_skills/</code></p>
+        </div>
+
+        <!-- ─── LA BÓVEDA ─── -->
+        <div class="boveda-header" id="boveda-section">
+          <div class="boveda-top-row">
+            <span class="boveda-badge">🔐 ACCESO: PARTICIPANTES DEL TALLER</span>
+          </div>
+          <h2 class="boveda-title">La Bóveda</h2>
+          <p class="boveda-sub">Skills probadas. Copia una y úsala hoy mismo en ChatGPT o Claude.<br>Reemplaza lo que está en <code>[CORCHETES]</code> con tu contexto real.</p>
+        </div>
+
+        <div class="sg-grid">
+
+          <div class="sg-card">
+            <div class="sg-top"><span class="sg-icon">🌪️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-prod">Productividad</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+            <div class="sg-title">Mindstorming</div>
+            <div class="sg-desc">20 ideas desde ángulos muy distintos — lo obvio, lo contraintuitivo y lo que nadie haría.</div>
+            <div class="sg-detail">Úsalo cuando estás atascado en una sola forma de ver un problema. Funciona para lanzar productos, nombrar negocios, diseñar campañas, resolver conflictos o encontrar nuevos clientes. La clave está en pedir 20 — la cantidad fuerza las ideas no obvias que normalmente se ignoran.</div>
+            <button class="sg-copy-btn" onclick="copyGallerySkill('mindstorming', this)">Copiar prompt</button>
+          </div>
+
+          <div class="sg-card">
+            <div class="sg-top"><span class="sg-icon">⚖️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+            <div class="sg-title">Abogado del diablo</div>
+            <div class="sg-desc">Cuestiona una idea o plan buscando sus puntos débiles, suposiciones erróneas y casos donde fallaría.</div>
+            <div class="sg-detail">Ideal antes de presentar una propuesta, invertir en algo nuevo, lanzar un producto o tomar una decisión importante. La IA actúa como un crítico que busca huecos en tu lógica. Te ahorra la vergüenza de que alguien más encuentre los problemas después.</div>
+            <button class="sg-copy-btn" onclick="copyGallerySkill('abogado', this)">Copiar prompt</button>
+          </div>
+
+          <div class="sg-card">
+            <div class="sg-top"><span class="sg-icon">📄</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+            <div class="sg-title">Lector de PDF</div>
+            <div class="sg-desc">Analiza cualquier documento adjunto: puntos clave, datos a revisar y recomendación concreta.</div>
+            <div class="sg-detail">Para contratos, reportes financieros, propuestas de proveedores, estados de cuenta o resoluciones legales. Adjuntas el archivo en Claude o ChatGPT y haces preguntas específicas en vez de leer todo. Ahorra entre 30 minutos y 2 horas por documento.</div>
+            <button class="sg-copy-btn" onclick="copyGallerySkill('lectorpdf', this)">Copiar prompt</button>
+          </div>
+
+          <div class="sg-card">
+            <div class="sg-top"><span class="sg-icon">🔍</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+            <div class="sg-title">Checklist de riesgos</div>
+            <div class="sg-desc">Evalúa una decisión o contrato buscando riesgos ocultos por área: operativo, financiero, legal, imagen.</div>
+            <div class="sg-detail">Úsalo antes de firmar un contrato, cambiar un proceso, contratar personal o entrar a una sociedad. La IA identifica los riesgos que no ves porque estás muy metido en la decisión. No reemplaza al abogado o contador — los complementa con una segunda opinión rápida.</div>
+            <button class="sg-copy-btn" onclick="copyGallerySkill('riesgos', this)">Copiar prompt</button>
+          </div>
+
+          <div class="sg-card">
+            <div class="sg-top"><span class="sg-icon">✉️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-com">Comunicación</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+            <div class="sg-title">Correo difícil</div>
+            <div class="sg-desc">Redacta mensajes delicados — retrasos, cobros, rechazos, malas noticias — sin perder la relación.</div>
+            <div class="sg-detail">Para situaciones donde el tono importa tanto como el contenido: cobrar sin dañar la relación, rechazar un cliente sin perderlo, notificar un retraso, dar malas noticias internas. Un correo mal redactado en estas situaciones puede costar más que el problema mismo.</div>
+            <button class="sg-copy-btn" onclick="copyGallerySkill('correodificil', this)">Copiar prompt</button>
+          </div>
+
+          <div class="sg-card">
+            <div class="sg-top"><span class="sg-icon">⚡</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-prod">Productividad</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+            <div class="sg-title">Resumidor ejecutivo</div>
+            <div class="sg-desc">Convierte cualquier texto largo en 5 bullets de 20 palabras cada uno, listos para dirección.</div>
+            <div class="sg-detail">Cuando recibes documentos largos que necesitas presentar a alguien que no tiene tiempo: tu jefe, un socio, un cliente. También para preparar briefings internos, resumir hilos de correo complicados o extraer lo esencial de una reunión.</div>
+            <button class="sg-copy-btn" onclick="copyGallerySkill('resumidor', this)">Copiar prompt</button>
+          </div>
+
+          <div class="sg-card">
+            <div class="sg-top"><span class="sg-icon">✏️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-com">Comunicación</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+            <div class="sg-title">Mejorador de redacción</div>
+            <div class="sg-desc">Mejora cualquier texto tuyo — más claro, más breve, más profesional — sin cambiar el mensaje.</div>
+            <div class="sg-detail">Cuando escribiste algo pero sientes que no suena bien, es muy largo o no va al grano. Útil para propuestas comerciales, correos a clientes importantes, publicaciones o cualquier texto que represente a tu empresa. El mensaje es tuyo — la IA solo lo afila.</div>
+            <button class="sg-copy-btn" onclick="copyGallerySkill('mejorador', this)">Copiar prompt</button>
+          </div>
+
+          <div class="sg-card">
+            <div class="sg-top"><span class="sg-icon">🧭</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+            <div class="sg-title">Comparador de opciones</div>
+            <div class="sg-desc">Evalúa 2 o 3 alternativas con criterios definidos y da una recomendación con argumento claro.</div>
+            <div class="sg-detail">Para decisiones con varias alternativas donde no sabes cuál elegir: proveedores, herramientas, estrategias de precio, planes de expansión. La IA no decide por ti — estructura el análisis para que puedas decidir con información clara en vez de intuición pura.</div>
+            <button class="sg-copy-btn" onclick="copyGallerySkill('comparador', this)">Copiar prompt</button>
+          </div>
+
+        </div>
+
+        <!-- CTA Sitio -->
+        <a href="https://www.lightningprosolutions.com/" target="_blank" class="sg-cta-card">
+          <div>
+            <div class="sg-cta-title">⚡ La bóveda completa — lightningprosolutions.com</div>
+            <div class="sg-cta-sub">Más skills · Prompts por industria · Plantillas descargables · Se actualiza constantemente</div>
+          </div>
+          <span class="sg-cta-arrow">→</span>
+        </a>
+
         <div class="module-nav">
           <button class="btn-prev" onclick="goTo(4)">← Anterior</button>
           <button class="btn-next" onclick="goTo(6)">Siguiente: Tu proyecto →</button>
@@ -2219,6 +2927,13 @@ Criterios de revisión:
         <p class="module-desc">Aquí están todas las piezas listas: 6 skills de los ejercicios de hoy y 4 agentes configurados. Copia, adapta los datos entre corchetes con tu negocio real y guarda cada uno en su carpeta. Al terminar tienes tu primer sistema de IA funcionando.</p>
 
         <img class="module-img" src="img/curso_m6_proyecto.png" alt="Carpeta completa con las 6 skills del proyecto">
+
+        <div class="card" style="border-color:var(--amber-border); margin-bottom:20px;">
+          <h3 style="color:var(--amber); margin-bottom:10px;">¿Qué es un agente?</h3>
+          <p style="font-size:14px; color:var(--muted); line-height:1.7;">Un <strong style="color:var(--text);">agente</strong> es una instrucción larga que le dice a la IA cómo comportarse durante toda una conversación: qué rol tiene, qué pasos sigue, qué nunca debe hacer. A diferencia de un prompt normal (que pide una sola cosa), el agente convierte a la IA en un colaborador especializado que ya sabe su trabajo antes de que le hables.</p>
+          <p style="font-size:13px; color:var(--muted); margin-top:8px; line-height:1.6;">Ejemplo: un agente de cobranza ya sabe que es firme pero profesional, que no inventa consecuencias legales y que siempre termina con una fecha límite — sin que tengas que decírselo cada vez.</p>
+          <p style="font-size:13px; margin-top:10px; padding:8px 12px; background:var(--surface2); border-radius:6px;"><strong>Nivel que necesitas:</strong> los agentes de este módulo funcionan en el <strong>chat normal</strong> (Level 1). Solo tienes que copiar la instrucción, pegarla al inicio de una conversación nueva y ya.</p>
+        </div>
 
         <!-- ─── PROGRESS TRACKER M6 ─── -->
         <div class="ex-tracker" style="margin-bottom:8px;">
@@ -2265,7 +2980,11 @@ Criterios de revisión:
         <!-- ─── 6 SKILLS DEL TALLER ─── -->
         <div style="margin-top:32px; margin-bottom:8px;">
           <h2 style="font-size:22px; margin-bottom:8px;">Tus 6 skills — una por ejercicio</h2>
-          <p style="color:var(--muted); font-size:15px; margin-bottom:24px;">Cada skill ya está completa. Reemplaza los campos entre <code style="background:var(--surface2); padding:2px 6px; border-radius:4px; font-size:13px; color:var(--text);">[CORCHETES]</code> con tu negocio real y guárdalas en <code style="background:var(--surface2); padding:2px 6px; border-radius:4px; font-size:13px; color:var(--text);">02_mis_skills/</code>.</p>
+          <p style="color:var(--muted); font-size:15px; margin-bottom:16px;">Cada skill ya está completa. Reemplaza los campos entre <code style="background:var(--surface2); padding:2px 6px; border-radius:4px; font-size:13px; color:var(--text);">[CORCHETES]</code> con tu negocio real y guárdalas en <code style="background:var(--surface2); padding:2px 6px; border-radius:4px; font-size:13px; color:var(--text);">02_mis_skills/</code>.</p>
+          <div class="save-tip-banner">
+            <span style="font-size:16px;">💾</span>
+            <div><strong>Cómo guardar:</strong> Copia → abre Bloc de notas o TextEdit → pega → Guardar como <code>skill-ventas.md</code> → carpeta <code>02_mis_skills/</code>. La próxima vez que necesites ese proceso, abres el archivo y ya tienes el contexto listo para darle a la IA.</div>
+          </div>
         </div>
 
         <details class="skill-details">
@@ -2920,7 +3639,8 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
 
       <!-- ══════ MÓDULO 7 — CHAT → APP → TERMINAL ══════ -->
       <div class="module" id="mod-7">
-        <div class="module-eyebrow">Módulo 7</div>
+<div class="module-content" id="mod-7-content">
+              <div class="module-eyebrow">Módulo 7</div>
         <h1 class="module-title">Del chat a la terminal</h1>
         <p class="module-desc">La misma IA tiene tres formas de acceso. Hoy usaste el nivel 1 — el chat. Conviene saber hasta dónde llega cada nivel, cuándo tiene sentido subir y qué nunca debes compartir con ninguna herramienta.</p>
 
@@ -2929,26 +3649,30 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
         <!-- ─── LAS 3 INTERFACES ─── -->
         <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:12px;">
           <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px; text-align:center;">
-            <div style="font-size:26px; margin-bottom:10px;">🌐</div>
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:6px;">Nivel 1 — Chat</div>
+            <div style="font-size:26px; margin-bottom:8px;">🌐</div>
             <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; margin-bottom:6px;">Sitio web</div>
             <div style="font-size:12px; color:var(--muted); line-height:1.6;">Sin instalación. Cualquier computadora. Para empezar ya.</div>
             <div style="margin-top:10px; font-size:11px; color:var(--amber);">claude.ai · chatgpt.com</div>
           </div>
           <div style="background:var(--surface); border:1px solid var(--amber-border); border-radius:12px; padding:18px; text-align:center;">
-            <div style="font-size:26px; margin-bottom:10px;">💻</div>
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--amber); margin-bottom:6px;">Nivel 2 — Proyectos</div>
+            <div style="font-size:26px; margin-bottom:8px;">💻</div>
             <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; margin-bottom:6px;">App descargable</div>
             <div style="font-size:12px; color:var(--muted); line-height:1.6;">En tu escritorio. Sin abrir browser. Atajos globales. Más rápida.</div>
             <div style="margin-top:10px; font-size:11px; color:var(--amber);">Claude Desktop · ChatGPT Desktop</div>
           </div>
           <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px; text-align:center;">
-            <div style="font-size:26px; margin-bottom:10px;">⌨️</div>
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:6px;">Nivel 3 — Avanzado</div>
+            <div style="font-size:26px; margin-bottom:8px;">⌨️</div>
             <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; margin-bottom:6px;">Terminal / CLI</div>
             <div style="font-size:12px; color:var(--muted); line-height:1.6;">Máximo control. La IA trabaja directo con tus archivos y sistemas.</div>
             <div style="margin-top:10px; font-size:11px; color:var(--amber);">Claude Code · OpenAI CLI</div>
           </div>
         </div>
         <div style="margin-bottom:32px; padding:12px 16px; background:var(--surface2); border-radius:8px; font-size:13px; color:var(--muted);">
-          Las tres interfaces conectan con el mismo modelo. Lo que cambia es <strong style="color:var(--text);">cuánto contexto puede ver</strong> y <strong style="color:var(--text);">qué puede hacer en tu computadora</strong>.
+          Las tres interfaces conectan con el mismo modelo. Lo que cambia es <strong style="color:var(--text);">cuánto contexto puede ver</strong> y <strong style="color:var(--text);">qué puede hacer en tu computadora</strong>.<br><br>
+          Los agentes que construiste en el Módulo 6 funcionan en <strong style="color:var(--text);">Nivel 1</strong> — solo necesitas copiar la instrucción al chat. El Nivel 3 requiere conocimientos de programación o contratar a alguien técnico; no es el siguiente paso natural para la mayoría de los equipos.
         </div>
 
         <!-- ─── TABLA UNIFICADA ─── -->
@@ -3012,6 +3736,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
             </div>
           </div>
           <div class="puzzle-result hidden" id="nivel-result"></div>
+          <button class="puzzle-reset hidden" id="nivel-reset" onclick="resetNivel()">Reintentar</button>
         </div>
 
         <!-- ─── CIBERSEGURIDAD ─── -->
@@ -3066,6 +3791,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
             </div>
           </div>
           <div class="puzzle-result hidden" id="sec-result"></div>
+          <button class="puzzle-reset hidden" id="sec-reset" onclick="resetSecClassify()">Reintentar</button>
         </div>
 
         <div class="card" style="margin-bottom:32px;">
@@ -3083,7 +3809,19 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
         </div>
 
         <!-- ─── QUIZ ─── -->
-        <div class="quiz-block">
+        </div><!-- /mod-7-content -->
+
+        <button class="content-reveal-btn" id="reveal-mod-7" onclick="toggleContent(7)">📖 Ver contenido del módulo ↑</button>
+
+        <div class="quiz-gate" id="gate-q8">
+          <div class="quiz-gate-badge">📝 Evaluación final</div>
+          <div class="quiz-gate-icon">🏁</div>
+          <div class="quiz-gate-title">Última pregunta de evaluación</div>
+          <p class="quiz-gate-desc">Esta es la última pregunta que cuenta para tu calificación. El contenido del módulo se ocultará mientras respondes.</p>
+          <button class="quiz-gate-btn" onclick="startQuiz('q8', 7)">Comenzar quiz →</button>
+        </div>
+
+        <div class="quiz-block quiz-hidden" id="quiz-block-q8">
           <div class="quiz-label">Pregunta del módulo</div>
           <div class="quiz-question">Llevas 3 semanas usando ChatGPT para hacer resúmenes de ventas. Cada vez que abres una conversación nueva tienes que explicarle quién eres y cómo trabaja tu empresa. ¿Qué nivel resuelve esto?</div>
           <div class="quiz-options" id="q8">
@@ -3093,10 +3831,161 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
             <button class="quiz-option" onclick="answer('q8', this, false)">D. Cambiar de herramienta, ninguna recuerda el contexto.</button>
           </div>
           <div class="quiz-feedback" id="q8-feedback"></div>
-        </div>
+        </div><!-- /quiz-block-q8 -->
+
+        <!-- ─── MAPA DE NIVELES ─── -->
+        <div class="lm-section">
+          <div class="lm-header">
+            <div class="lm-header-eyebrow">⚡ Lightning Pro Solutions</div>
+            <h2>El mapa del sistema</h2>
+            <p>5 niveles. Hoy terminaste el 1.<br>El resto está esperando.</p>
+          </div>
+
+          <div class="lm-levels">
+
+            <!-- NIVEL 1 — DESBLOQUEADO -->
+            <div class="lm-card lm-unlocked">
+              <div class="lm-badge badge-unlocked">✅ Desbloqueado</div>
+              <div class="lm-level-row">
+                <div class="lm-num num-unlocked">1</div>
+                <div class="lm-body">
+                  <div class="lm-title-row">
+                    <span class="lm-title">El Chat</span>
+                    <span class="lm-subtitle">IA Sin Miedo Básico</span>
+                  </div>
+                  <div class="lm-tagline">"Ya sabes cómo pedirle cosas a la IA. Y cómo revisar lo que produce."</div>
+                  <div class="lm-skills-row">
+                    <span class="lm-skill-chip">Fórmula de 5 elementos</span>
+                    <span class="lm-skill-chip">Elegir la herramienta correcta</span>
+                    <span class="lm-skill-chip">Skills documentadas</span>
+                    <span class="lm-skill-chip">Agentes en el chat</span>
+                    <span class="lm-skill-chip">Carpeta Mi_Proyecto_IA</span>
+                    <span class="lm-skill-chip">Seguridad básica</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lm-connector"></div>
+
+            <!-- NIVEL 2 — BLOQUEADO -->
+            <div class="lm-card lm-locked">
+              <div class="lm-lock-overlay">🔒</div>
+              <div class="lm-badge badge-locked">🔒 Bloqueado</div>
+              <div class="lm-level-row">
+                <div class="lm-num num-locked">2</div>
+                <div class="lm-body">
+                  <div class="lm-title-row">
+                    <span class="lm-title">La Memoria</span>
+                    <span class="lm-subtitle">IA con Contexto</span>
+                  </div>
+                  <div class="lm-tagline">"La IA ya sabe quién eres, cómo trabajas y qué documentos usas — antes de que escribas la primera palabra."</div>
+                  <div class="lm-skills-row">
+                    <span class="lm-skill-chip">Claude Projects</span>
+                    <span class="lm-skill-chip">Instrucciones del sistema</span>
+                    <span class="lm-skill-chip">Documentos permanentes</span>
+                    <span class="lm-skill-chip">Contexto de empresa guardado</span>
+                    <span class="lm-skill-chip">Sin repetir quién eres cada vez</span>
+                  </div>
+                  <div class="lm-req">Requisito: <strong>2 semanas usando el Nivel 1 con procesos reales</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lm-connector locked-conn"></div>
+
+            <!-- NIVEL 3 — BLOQUEADO -->
+            <div class="lm-card lm-locked">
+              <div class="lm-lock-overlay">🔒</div>
+              <div class="lm-badge badge-locked">🔒 Bloqueado</div>
+              <div class="lm-level-row">
+                <div class="lm-num num-locked">3</div>
+                <div class="lm-body">
+                  <div class="lm-title-row">
+                    <span class="lm-title">Los Conectores</span>
+                    <span class="lm-subtitle">IA Conectada</span>
+                  </div>
+                  <div class="lm-tagline">"La IA lee tus correos, revisa tu Drive y agenda reuniones — sin que muevas un dedo."</div>
+                  <div class="lm-skills-row">
+                    <span class="lm-skill-chip">Gmail + Drive + Calendar</span>
+                    <span class="lm-skill-chip">Análisis automático de documentos</span>
+                    <span class="lm-skill-chip">Primeras automatizaciones sin código</span>
+                    <span class="lm-skill-chip">Alertas y resúmenes diarios</span>
+                  </div>
+                  <div class="lm-req">Requisito: <strong>dominar Nivel 2 + tener procesos documentados</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lm-connector locked-conn"></div>
+
+            <!-- NIVEL 4 — BLOQUEADO -->
+            <div class="lm-card lm-locked">
+              <div class="lm-lock-overlay">🔒</div>
+              <div class="lm-badge badge-locked">🔒 Bloqueado</div>
+              <div class="lm-level-row">
+                <div class="lm-num num-locked">4</div>
+                <div class="lm-body">
+                  <div class="lm-title-row">
+                    <span class="lm-title">Los Agentes Autónomos</span>
+                    <span class="lm-subtitle">IA Operando Sola</span>
+                  </div>
+                  <div class="lm-tagline">"Tu empresa sigue trabajando a las 3am. Los agentes leen, deciden, redactan y notifican — sin que estés."</div>
+                  <div class="lm-skills-row">
+                    <span class="lm-skill-chip">Flujos de principio a fin</span>
+                    <span class="lm-skill-chip">Agentes que corren solos</span>
+                    <span class="lm-skill-chip">Actualización de CRM automática</span>
+                    <span class="lm-skill-chip">Seguimiento sin intervención humana</span>
+                    <span class="lm-skill-chip">n8n · Make · Zapier</span>
+                  </div>
+                  <div class="lm-req">Requisito: <strong>Nivel 3 activo + proceso completamente definido</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lm-connector locked-conn"></div>
+
+            <!-- NIVEL 5 — BLOQUEADO (jefe final) -->
+            <div class="lm-card lm-locked" style="border-color: rgba(239,68,68,0.25); background: linear-gradient(135deg, var(--surface) 60%, rgba(239,68,68,0.04));">
+              <div class="lm-lock-overlay" style="opacity:0.18;">🔒</div>
+              <div class="lm-badge badge-locked" style="border-color:rgba(239,68,68,0.3); color:#ef4444;">🔒 Zona avanzada</div>
+              <div class="lm-level-row">
+                <div class="lm-num num-locked" style="border-color:rgba(239,68,68,0.3);">5</div>
+                <div class="lm-body">
+                  <div class="lm-title-row">
+                    <span class="lm-title">El Sistema Completo</span>
+                    <span class="lm-subtitle">MCP · API · Infraestructura</span>
+                  </div>
+                  <div class="lm-tagline">"La IA habla directamente con tu CRM, tu inventario, tu base de datos. Sin intermediarios. Sin límites."</div>
+                  <div class="lm-skills-row">
+                    <span class="lm-skill-chip">MCP (Model Context Protocol)</span>
+                    <span class="lm-skill-chip">La IA lee y escribe en tus sistemas</span>
+                    <span class="lm-skill-chip">Tu propio asistente con tu marca</span>
+                    <span class="lm-skill-chip">Ventas · CRM · Inventario · Facturación</span>
+                    <span class="lm-skill-chip">Implementación con equipo técnico</span>
+                  </div>
+                  <div class="lm-req">Requisito: <strong>equipo técnico o acompañamiento especializado</strong></div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /lm-levels -->
+
+          <!-- CTA -->
+          <div style="margin-top:32px; padding:24px; background:var(--surface2); border:1px solid var(--amber-border); border-radius:14px; text-align:center;">
+            <div style="font-size:13px; color:var(--muted); margin-bottom:6px;">¿Listo para el siguiente nivel?</div>
+            <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; margin-bottom:4px;">El Nivel 2 empieza con una sola sesión.</div>
+            <div style="font-size:13px; color:var(--muted); margin-bottom:20px;">Configuramos tu primer Proyecto, subimos tus documentos clave y dejas de explicarte desde cero.</div>
+            <div class="lm-cta-row" style="justify-content:center;">
+              <a class="lm-cta-btn" href="https://wa.me/526623478040?text=Terminé%20el%20curso%20IA%20Sin%20Miedo%20y%20quiero%20saber%20más%20sobre%20el%20Nivel%202" target="_blank">Quiero desbloquear el Nivel 2 →</a>
+            </div>
+            <div style="font-size:11px; color:var(--muted); margin-top:10px;">Lightning Pro Solutions · Hermosillo, Sonora</div>
+          </div>
+
+        </div><!-- /lm-section -->
 
         <!-- ─── PRÓXIMOS PASOS ─── -->
-        <div class="highlight" style="margin-top:24px;">
+        <div class="highlight" style="margin-top:0;">
           <p><strong>Tu camino de los próximos 30 días:</strong><br><br>
           Semana 1 — Un prompt real. Un proceso de tu trabajo. Nivel 1.<br>
           Semana 2 — Crea tu primer Proyecto con el contexto de tu empresa.<br>
@@ -3200,7 +4089,122 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
   let exercisesDone = new Set();    // p1-p6 ejercicios M4
   let skillsDone    = new Set();    // skill-ej1..6 M6
   let agentsDone    = new Set();    // agente-* M6
+  let puzzlesCompleted = new Set(); // 'classify','order','connect','nivel','sec'
+  let puzzleRetries = { classify: 0, order: 0, connect: 0, nivel: 0, sec: 0 };
 
+  function calcPuzzleScore(key) {
+    if (!puzzlesCompleted.has(key)) return 0;
+    return Math.max(1, 5 - puzzleRetries[key] * 2);
+  }
+
+  var PROGRESS_KEY = 'lps-progress-v1';
+  var quizAnswers = {};   // { q3: btnIndex, q6: btnIndex, q8: btnIndex }
+
+  function saveProgress() {
+    try {
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify({
+        correctAnswers:   Array.from(correctAnswers),
+        answeredQuestions: Array.from(answeredQuestions),
+        quizAnswers:      quizAnswers,
+        exercisesDone:    Array.from(exercisesDone),
+        skillsDone:       Array.from(skillsDone),
+        agentsDone:       Array.from(agentsDone),
+        puzzlesCompleted: Array.from(puzzlesCompleted),
+        puzzleRetries:    puzzleRetries,
+        completedModules: Array.from(completedModules)
+      }));
+    } catch(e) {}
+  }
+
+  function loadProgress() {
+    try {
+      var raw = localStorage.getItem(PROGRESS_KEY);
+      if (!raw) return;
+      var d = JSON.parse(raw);
+      if (d.correctAnswers)    d.correctAnswers.forEach(function(id){ correctAnswers.add(id); });
+      if (d.answeredQuestions) d.answeredQuestions.forEach(function(id){ answeredQuestions.add(id); });
+      if (d.quizAnswers)       quizAnswers = d.quizAnswers;
+      if (d.exercisesDone)     d.exercisesDone.forEach(function(id){ exercisesDone.add(id); });
+      if (d.skillsDone)        d.skillsDone.forEach(function(id){ skillsDone.add(id); });
+      if (d.agentsDone)        d.agentsDone.forEach(function(id){ agentsDone.add(id); });
+      if (d.puzzlesCompleted)  d.puzzlesCompleted.forEach(function(id){ puzzlesCompleted.add(id); });
+      if (d.puzzleRetries)     Object.assign(puzzleRetries, d.puzzleRetries);
+      if (d.completedModules)  d.completedModules.forEach(function(id){ completedModules.add(id); });
+    } catch(e) {}
+  }
+
+  function restoreUI() {
+    // ── Ejercicios M4 ──
+    ALL_EX.forEach(function(pid) {
+      if (!exercisesDone.has(pid)) return;
+      var dot = document.getElementById('ex-dot-' + pid);
+      if (dot) dot.classList.add('done');
+      // Show confirm section in completed state (no textarea, just done msg)
+      var confirmBox = document.getElementById('confirm-' + pid);
+      if (confirmBox) {
+        confirmBox.classList.remove('hidden');
+        var ta  = confirmBox.querySelector('textarea');
+        var lbl = confirmBox.querySelector('.ex-confirm-label');
+        var btn = confirmBox.querySelector('.ex-confirm-btn');
+        var hint = confirmBox.querySelector('.ex-confirm-hint');
+        if (ta)   ta.style.display  = 'none';
+        if (lbl)  lbl.style.display = 'none';
+        if (btn)  btn.style.display = 'none';
+        if (hint) hint.style.display = 'none';
+      }
+      var doneEl = document.getElementById('confirm-done-' + pid);
+      if (doneEl) doneEl.classList.remove('hidden');
+    });
+    var exCounter = document.getElementById('ex-tracker-count');
+    if (exCounter) { exCounter.textContent = exercisesDone.size + ' / 6'; if (exercisesDone.size === 6) exCounter.classList.add('all'); }
+
+    // ── Skills M6 ──
+    ALL_SKILLS.forEach(function(id) {
+      if (!skillsDone.has(id)) return;
+      var dot = document.getElementById('ex-dot-' + id);
+      if (dot) dot.classList.add('done');
+    });
+    var skCounter = document.getElementById('skill-tracker-count');
+    if (skCounter) { skCounter.textContent = skillsDone.size + ' / 6'; if (skillsDone.size === 6) skCounter.classList.add('all'); }
+
+    // ── Agentes M6 ──
+    ALL_AGENTS.forEach(function(id) {
+      if (!agentsDone.has(id)) return;
+      var dot = document.getElementById('ex-dot-' + id);
+      if (dot) dot.classList.add('done');
+    });
+    var agCounter = document.getElementById('agent-tracker-count');
+    if (agCounter) { agCounter.textContent = agentsDone.size + ' / 4'; if (agentsDone.size === 4) agCounter.classList.add('all'); }
+
+    // ── Quizzes ──
+    ['q3','q6','q8'].forEach(function(qid) {
+      if (!answeredQuestions.has(qid)) return;
+      // Hide gate, show quiz block
+      var gate = document.getElementById('gate-' + qid);
+      if (gate) gate.style.display = 'none';
+      var quizBlock = document.getElementById('quiz-block-' + qid);
+      if (quizBlock) quizBlock.classList.remove('quiz-hidden');
+      // Restore button states
+      var container = document.getElementById(qid);
+      if (!container) return;
+      var options = Array.from(container.querySelectorAll('.quiz-option'));
+      options.forEach(function(opt) { opt.disabled = true; opt.classList.add('disabled'); });
+      var isCorrect = correctAnswers.has(qid);
+      var correctIdx = ANSWERS[qid].correct;
+      if (options[correctIdx]) options[correctIdx].classList.add('correct');
+      var wrongIdx = quizAnswers[qid];
+      if (!isCorrect && wrongIdx !== undefined && options[wrongIdx]) options[wrongIdx].classList.add('wrong');
+      // Restore feedback
+      var feedback = document.getElementById(qid + '-feedback');
+      if (feedback) {
+        var data = ANSWERS[qid];
+        feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'wrong');
+        feedback.textContent = isCorrect ? '✓ ' + data.feedback.ok : '✗ ' + data.feedback.err;
+      }
+    });
+  }
+
+  loadProgress();
   buildNav();
   goTo(1);
 
@@ -3234,7 +4238,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     // Build results when arriving at last module
     if (n === 7) buildResults();
     // Mark previous as done
-    if (currentModule !== n) completedModules.add(currentModule);
+    if (currentModule !== n) { completedModules.add(currentModule); saveProgress(); }
 
     document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active', 'done'));
@@ -3270,20 +4274,37 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     const feedback = document.getElementById(qid + '-feedback');
     const data = ANSWERS[qid];
 
-    options.forEach((opt, i) => {
+    options.forEach(opt => {
       opt.disabled = true;
-      if (i === data.correct) {
-        opt.classList.add('correct');
-      } else {
-        opt.classList.add('disabled');
-      }
+      opt.classList.add('disabled');
     });
 
-    if (!isCorrect) btn.classList.add('wrong');
+    if (isCorrect) {
+      btn.classList.remove('disabled');
+      btn.classList.add('correct');
+      correctAnswers.add(qid);
+    } else {
+      btn.classList.remove('disabled');
+      btn.classList.add('wrong');
+    }
 
     feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'wrong');
     feedback.textContent = isCorrect ? '✓ ' + data.feedback.ok : '✗ ' + data.feedback.err;
-    if (isCorrect) correctAnswers.add(qid);
+
+    quizAnswers[qid] = Array.from(options).indexOf(btn);
+    saveProgress();
+
+    // Re-expand module content after 1.4s so user reads feedback first
+    if (activeQuizMod) {
+      var _mod = activeQuizMod;
+      activeQuizMod = null;
+      setTimeout(function() {
+        var content = document.getElementById('mod-' + _mod + '-content');
+        if (content) content.classList.remove('content-collapsed');
+        var revealBtn = document.getElementById('reveal-mod-' + _mod);
+        if (revealBtn) revealBtn.classList.remove('visible');
+      }, 1400);
+    }
   }
 
   // ─── CHECKLIST ───
@@ -3326,6 +4347,8 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     }
     classifyDone++;
     if (classifyDone === classifyTotal) {
+      puzzlesCompleted.add('classify'); saveProgress();
+      document.getElementById('classify-reset').classList.remove('hidden');
       var result = document.getElementById('classify-result');
       var wrong = document.querySelectorAll('.classify-item.wrong').length;
       result.classList.remove('hidden');
@@ -3352,6 +4375,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     slot.querySelector('.slot-fill').textContent = btn.dataset.val;
     slot.classList.add('filled');
     if (orderSelected.length === 5) {
+      puzzlesCompleted.add('order'); saveProgress();
       var result = document.getElementById('order-result');
       var resetBtn = document.getElementById('order-reset');
       var allCorrect = true;
@@ -3375,6 +4399,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     }
   }
   function resetOrder() {
+    if (puzzlesCompleted.has('order')) { puzzleRetries.order++; saveProgress(); }
     orderSelected = [];
     document.querySelectorAll('.order-chip').forEach(function(c) { c.disabled = false; c.classList.remove('placed'); });
     document.querySelectorAll('.order-slot').forEach(function(s) {
@@ -3383,6 +4408,72 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     });
     document.getElementById('order-result').classList.add('hidden');
     document.getElementById('order-reset').classList.add('hidden');
+  }
+  function resetClassify() {
+    if (puzzlesCompleted.has('classify')) { puzzleRetries.classify++; saveProgress(); }
+    classifyDone = 0;
+    document.querySelectorAll('#m1-classify-list .classify-item').forEach(function(item) {
+      item.classList.remove('done', 'correct', 'wrong');
+      item.querySelectorAll('.classify-btn').forEach(function(b) { b.disabled = false; b.classList.remove('correct', 'wrong'); });
+    });
+    document.getElementById('classify-result').classList.add('hidden');
+    document.getElementById('classify-reset').classList.add('hidden');
+  }
+  function resetConnect() {
+    if (puzzlesCompleted.has('connect')) { puzzleRetries.connect++; saveProgress(); }
+    selectedTool = null; connectScore = 0;
+    document.querySelectorAll('#m3-connect .connect-tool, #m3-connect .connect-task').forEach(function(b) {
+      b.disabled = false; b.classList.remove('selected', 'matched', 'wrong-flash');
+    });
+    document.getElementById('connect-result').classList.add('hidden');
+    document.getElementById('connect-reset').classList.add('hidden');
+  }
+  function resetNivel() {
+    if (puzzlesCompleted.has('nivel')) { puzzleRetries.nivel++; saveProgress(); }
+    selectedNivel = null; nivelScore = 0;
+    document.querySelectorAll('#nivel-connect .connect-tool, #nivel-connect .connect-task').forEach(function(b) {
+      b.disabled = false; b.classList.remove('selected', 'matched', 'wrong-flash');
+    });
+    document.getElementById('nivel-result').classList.add('hidden');
+    document.getElementById('nivel-reset').classList.add('hidden');
+  }
+  function resetSecClassify() {
+    if (puzzlesCompleted.has('sec')) { puzzleRetries.sec++; saveProgress(); }
+    classifySecDone = 0;
+    document.querySelectorAll('#sec-classify-list .classify-item').forEach(function(item) {
+      item.classList.remove('done', 'correct', 'wrong');
+      item.querySelectorAll('.classify-btn').forEach(function(b) { b.disabled = false; b.classList.remove('correct', 'wrong'); });
+    });
+    document.getElementById('sec-result').classList.add('hidden');
+    document.getElementById('sec-reset').classList.add('hidden');
+  }
+
+  // ─── QUIZ GATE ───
+  var activeQuizMod = null;
+  function startQuiz(qid, modNum) {
+    activeQuizMod = modNum;
+    var content = document.getElementById('mod-' + modNum + '-content');
+    if (content) content.classList.add('content-collapsed');
+    var revealBtn = document.getElementById('reveal-mod-' + modNum);
+    if (revealBtn) revealBtn.classList.add('visible');
+    var gate = document.getElementById('gate-' + qid);
+    if (gate) gate.style.display = 'none';
+    var quizBlock = document.getElementById('quiz-block-' + qid);
+    if (quizBlock) quizBlock.classList.remove('quiz-hidden');
+    setTimeout(function() {
+      if (quizBlock) quizBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 80);
+  }
+  function toggleContent(modNum) {
+    var content = document.getElementById('mod-' + modNum + '-content');
+    var btn = document.getElementById('reveal-mod-' + modNum);
+    if (content.classList.contains('content-collapsed')) {
+      content.classList.remove('content-collapsed');
+      btn.textContent = '↑ Ocultar contenido del módulo';
+    } else {
+      content.classList.add('content-collapsed');
+      btn.textContent = '📖 Ver contenido del módulo ↑';
+    }
   }
 
   // ─── PUZZLE: CONECTORES ───
@@ -3406,6 +4497,8 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       selectedTool = null;
       connectScore++;
       if (connectScore === 4) {
+        puzzlesCompleted.add('connect'); saveProgress();
+        document.getElementById('connect-reset').classList.remove('hidden');
         var result = document.getElementById('connect-result');
         result.classList.remove('hidden');
         result.className = 'puzzle-result correct';
@@ -3468,6 +4561,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       counter.textContent = count + ' / 6';
       if (count === 6) counter.classList.add('all');
     }
+    saveProgress();
   }
 
   function markSkillDone(id) {
@@ -3480,6 +4574,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       counter.textContent = skillsDone.size + ' / 6';
       if (skillsDone.size === 6) counter.classList.add('all');
     }
+    saveProgress();
   }
 
   function markAgentDone(id) {
@@ -3492,6 +4587,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       counter.textContent = agentsDone.size + ' / 4';
       if (agentsDone.size === 4) counter.classList.add('all');
     }
+    saveProgress();
   }
 
   function checkSkippedOnExit() {
@@ -3552,51 +4648,59 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     var hasSkippedSkills  = skillsDoneN < 6;
     var hasSkippedAgents  = agentsDoneN < 4;
 
-    // Determine grade
+    // ── 100-point scoring ──
+    var puzzlePts = ['classify','order','connect','nivel','sec'].reduce(function(s,k){return s+calcPuzzleScore(k);},0);
+    var quizPts   = correctAnswers.size * 10;
+    var exPts     = exercisesDone.size * 4;
+    var skillPts  = skillsDone.size * 2;
+    var agentPts  = Math.round(agentsDone.size * 2.25);
+    var totalScore = puzzlePts + quizPts + exPts + skillPts + agentPts;
+
     var grade, badgeClass, ringClass, headline, msg;
     var hasSkipped = exSkipped.length > 0;
-    var pct = answeredQ > 0 ? Math.round((correctQ / totalQ) * 100) : null;
-
     var anySkipped = hasSkipped || hasSkippedSkills || hasSkippedAgents;
-    if (anySkipped) {
-      grade = 'Incompleto';
-      badgeClass = 'badge-amber';
-      ringClass = '';
-      var missing = [];
-      if (hasSkipped)       missing.push(exSkipped.length + ' ejercicio' + (exSkipped.length > 1 ? 's' : '') + ' (M4)');
-      if (hasSkippedSkills) missing.push((6 - skillsDoneN) + ' skill' + (6 - skillsDoneN > 1 ? 's' : '') + ' (M6)');
-      if (hasSkippedAgents) missing.push((4 - agentsDoneN) + ' agente' + (4 - agentsDoneN > 1 ? 's' : '') + ' (M6)');
-      headline = 'Faltaron: ' + missing.join(', ');
-      msg = 'La práctica es la parte más importante. Regresa a completar lo que faltó — copiar y adaptar cada pieza toma solo unos minutos.';
-    } else if (pct === null) {
-      grade = 'Sin calificar';
-      badgeClass = 'badge-amber';
-      ringClass = '';
-      headline = 'No respondiste las preguntas del curso';
-      msg = 'Hiciste todos los ejercicios. Responde las preguntas en cada módulo para ver tu calificación.';
-    } else if (pct >= 80) {
-      grade = 'Aprobado';
-      badgeClass = 'badge-success';
-      ringClass = 'ring-success';
-      headline = correctQ + ' de ' + totalQ + ' respuestas correctas';
-      msg = 'Completaste el taller y dominas los conceptos. Lo que sigue es aplicarlo — un proceso a la vez.';
-    } else if (pct >= 60) {
-      grade = 'Aprobado con repaso';
-      badgeClass = 'badge-amber';
-      ringClass = '';
-      headline = correctQ + ' de ' + totalQ + ' respuestas correctas';
-      msg = 'Completaste el taller. Hay módulos donde vale la pena repasar antes de seguir.';
+
+    // Missing items text
+    var missingParts = [];
+    if (hasSkipped)       missingParts.push(exSkipped.length + ' ejercicio' + (exSkipped.length > 1 ? 's' : '') + ' M4');
+    if (hasSkippedSkills) missingParts.push((6 - skillsDoneN) + ' skill' + ((6-skillsDoneN)>1?'s':'') + ' M6');
+    if (hasSkippedAgents) missingParts.push((4 - agentsDoneN) + ' agente' + ((4-agentsDoneN)>1?'s':'') + ' M6');
+
+    if (totalScore === 0) {
+      grade = 'Sin empezar'; badgeClass = 'badge-amber'; ringClass = '';
+      headline = 'Completa el curso para ver tu calificación';
+      msg = 'Navega por los módulos, responde las preguntas y confirma los ejercicios.';
+    } else if (totalScore >= 90) {
+      grade = 'Excelente'; badgeClass = 'badge-success'; ringClass = 'ring-success';
+      headline = totalScore + ' / 100 puntos';
+      msg = 'Dominio completo. Hiciste los puzzles, respondiste bien y completaste la práctica. Lo que sigue es aplicarlo.';
+    } else if (totalScore >= 75) {
+      grade = 'Aprobado'; badgeClass = 'badge-success'; ringClass = 'ring-success';
+      headline = totalScore + ' / 100 puntos';
+      msg = 'Buen resultado. Completaste el taller y los conceptos están claros.';
+    } else if (totalScore >= 60) {
+      grade = 'Aprobado con repaso'; badgeClass = 'badge-amber'; ringClass = '';
+      headline = totalScore + ' / 100 puntos';
+      msg = 'Completaste el taller. ' + (anySkipped ? 'Faltaron ' + missingParts.join(', ') + '.' : 'Vale la pena repasar los módulos con preguntas incorrectas.');
     } else {
-      grade = 'Necesita refuerzo';
-      badgeClass = 'badge-error';
-      ringClass = 'ring-error';
-      headline = correctQ + ' de ' + totalQ + ' respuestas correctas';
-      msg = 'Te recomendamos repasar desde el módulo 1 antes de aplicarlo en tu empresa.';
+      grade = 'Necesita refuerzo'; badgeClass = 'badge-error'; ringClass = 'ring-error';
+      headline = totalScore + ' / 100 puntos';
+      msg = anySkipped
+        ? 'Faltaron: ' + missingParts.join(', ') + '. La práctica aporta más de la mitad del puntaje.'
+        : 'Te recomendamos repasar desde el módulo 1 antes de aplicarlo en tu empresa.';
     }
 
-    // Score display: quiz score if answered, else practice completion
-    var scoreNum = pct !== null ? correctQ : donePractice;
-    var scoreDen = pct !== null ? totalQ   : totalPractice;
+    // Score breakdown tooltip text
+    var breakdownParts = [
+      'Puzzles ' + puzzlePts + '/25',
+      'Preguntas ' + quizPts + '/30',
+      'Ejercicios ' + exPts + '/24',
+      'Skills ' + skillPts + '/12',
+      'Agentes ' + agentPts + '/9'
+    ];
+
+    var scoreNum = totalScore;
+    var scoreDen = 100;
 
     // Quiz chips
     var quizChips = QUIZ_META.map(function(m) {
@@ -3652,6 +4756,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
             + '<span class="results-badge ' + badgeClass + '">' + grade + '</span>'
             + '<h3>' + headline + '</h3>'
             + '<p>' + msg + '</p>'
+            + '<div class="score-breakdown">' + breakdownParts.join(' · ') + '</div>'
           + '</div>'
         + '</div>'
         + '<div class="results-body">'
@@ -3706,6 +4811,8 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       selectedNivel = null;
       nivelScore++;
       if (nivelScore === 4) {
+        puzzlesCompleted.add('nivel'); saveProgress();
+        document.getElementById('nivel-reset').classList.remove('hidden');
         var result = document.getElementById('nivel-result');
         result.classList.remove('hidden');
         result.className = 'puzzle-result correct';
@@ -3742,6 +4849,8 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     }
     classifySecDone++;
     if (classifySecDone === classifySecTotal) {
+      puzzlesCompleted.add('sec'); saveProgress();
+      document.getElementById('sec-reset').classList.remove('hidden');
       var result = document.getElementById('sec-result');
       var secList = document.getElementById('sec-classify-list');
       var wrong = secList.querySelectorAll('.classify-item.wrong').length;
@@ -3832,6 +4941,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
 
   function copyGenerated(id, btn) {
     markExerciseDone(id);
+    if (/^p[1-6]$/.test(id)) showConfirm(id);
     var text = document.getElementById('gen-' + id + '-text').textContent;
     var orig = btn.textContent;
     navigator.clipboard.writeText(text).then(function() {
@@ -3849,7 +4959,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
 
   // ─── COPY ───
   function copyPrompt(id, btn) {
-    if (/^p[1-6]$/.test(id))       markExerciseDone(id);
+    if (/^p[1-6]$/.test(id))       { markExerciseDone(id); showConfirm(id); }
     if (/^skill-ej[1-6]$/.test(id)) markSkillDone(id);
     if (/^agente-/.test(id))        markAgentDone(id);
     const text = document.getElementById(id).textContent;
@@ -3880,5 +4990,48 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
   }
 </script>
 
+<div id="admin-panel">
+  <div class="admin-header" onclick="toggleAdminPanel()">
+    <span class="admin-header-title">⚡ ADMIN — TEST MODE</span>
+    <span id="admin-toggle-icon" style="color:#F59E0B;">▼</span>
+  </div>
+  <div class="admin-body" id="admin-body">
+    <div class="admin-score-total" id="admin-score-display">— / 100</div>
+    <hr class="admin-divider">
+    <div class="admin-section-label">Quizzes (30 pts)</div>
+    <div class="admin-row" id="adm-q3">Q3 — pendiente</div>
+    <div class="admin-row" id="adm-q6">Q6 — pendiente</div>
+    <div class="admin-row" id="adm-q8">Q8 — pendiente</div>
+    <hr class="admin-divider">
+    <div class="admin-section-label">Puzzles (25 pts)</div>
+    <div class="admin-row" id="adm-classify">M1 Clasificar — pendiente</div>
+    <div class="admin-row" id="adm-order">M2 Orden — pendiente</div>
+    <div class="admin-row" id="adm-connect">M3 Conectar — pendiente</div>
+    <div class="admin-row" id="adm-nivel">M7 Niveles — pendiente</div>
+    <div class="admin-row" id="adm-sec">M7 Seguridad — pendiente</div>
+    <hr class="admin-divider">
+    <div class="admin-section-label">Ejercicios M4 (24 pts)</div>
+    <div class="admin-row" id="adm-p1">E1 — pendiente</div>
+    <div class="admin-row" id="adm-p2">E2 — pendiente</div>
+    <div class="admin-row" id="adm-p3">E3 — pendiente</div>
+    <div class="admin-row" id="adm-p4">E4 — pendiente</div>
+    <div class="admin-row" id="adm-p5">E5 — pendiente</div>
+    <div class="admin-row" id="adm-p6">E6 — pendiente</div>
+    <hr class="admin-divider">
+    <div class="admin-section-label">Skills + Agentes (21 pts)</div>
+    <div class="admin-row" id="adm-skills">Skills: 0 / 6</div>
+    <div class="admin-row" id="adm-agents">Agentes: 0 / 4</div>
+    <hr class="admin-divider">
+    <div class="admin-section-label">Acciones</div>
+    <button class="admin-btn" onclick="adminSkipReg()">⏭ Saltar registro</button>
+    <button class="admin-btn" onclick="adminMarkAllDone()">✅ Marcar todo como hecho</button>
+    <button class="admin-btn" onclick="adminGoTo(1)">→ Ir a Módulo 1</button>
+    <button class="admin-btn" onclick="adminGoTo(4)">→ Ir a Módulo 4 (ejercicios)</button>
+    <button class="admin-btn" onclick="adminGoTo(7)">→ Ir a Módulo 7 (final)</button>
+    <button class="admin-btn" onclick="adminShowResults()">🏁 Ver resultados finales</button>
+    <button class="admin-btn danger" onclick="adminResetAll()">🗑 Reset completo</button>
+    <div style="color:#444;font-size:10px;margin-top:8px;">Ctrl+Shift+A para ocultar/mostrar</div>
+  </div>
+</div>
 </body>
 </html>

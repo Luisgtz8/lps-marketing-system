@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Bóveda — Prompts listos para usar · Lightning Pro Solutions</title>
+  <meta name="description" content="8 prompts probados para ChatGPT y Claude. Gratis. Mindstorming, abogado del diablo, lector de PDF, checklist de riesgos y más.">
+  <link rel="canonical" href="https://www.lightningprosolutions.com/boveda.html">
+  <meta property="og:title" content="La Bóveda — 8 prompts listos para usar">
+  <meta property="og:description" content="Prompts probados para ChatGPT y Claude. Gratis. Mindstorming, abogado del diablo, lector de PDF, checklist de riesgos y más.">
+  <meta property="og:url" content="https://www.lightningprosolutions.com/boveda.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.lightningprosolutions.com/img/email-ia-sin-miedo.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>(function(){var t=localStorage.getItem('lps-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --amber: #F59E0B;
+      --amber-dim: rgba(245,158,11,0.12);
+      --amber-border: rgba(245,158,11,0.35);
+      --black-mid: #0f0f0f;
+      --surface: #111111;
+      --surface2: #161616;
+      --border: #222222;
+      --text: #e8e8e8;
+      --muted: #888888;
+      --success: #22c55e;
+      --error: #ef4444;
+    }
+    [data-theme="light"] {
+      --black-mid: #eeeeee;
+      --surface: #ffffff;
+      --surface2: #f8f8f8;
+      --border: #e0e0e0;
+      --text: #111111;
+      --muted: #555555;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: var(--text); min-height: 100vh; }
+    [data-theme="light"] body { background: #f2f2f2; }
+
+    /* ── NAV ── */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    [data-theme="light"] nav { background: rgba(242,242,242,0.95); }
+    .nav-inner { max-width: 900px; margin: 0 auto; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; color: var(--text); }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .btn-nav { display: inline-block; background: #22c55e; color: #000 !important; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; padding: 8px 18px; border-radius: 6px; text-decoration: none; transition: opacity .2s; }
+    .btn-nav:hover { opacity: .88; }
+    .btn-nav-outline { display: inline-block; border: 1px solid var(--border); color: var(--muted) !important; font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 6px; text-decoration: none; transition: border-color .2s, color .2s; }
+    .btn-nav-outline:hover { border-color: var(--muted); color: var(--text) !important; }
+    .theme-toggle { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .2s, color .2s; }
+    .theme-toggle:hover { border-color: var(--muted); color: var(--text); }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+
+    /* ── BÓVEDA HEADER ── */
+    .boveda-header { background: var(--black-mid); border: 1px solid var(--amber-border); border-radius: 16px; padding: 36px 32px 28px; margin-bottom: 28px; position: relative; overflow: hidden; }
+    .boveda-header::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(245,158,11,0.03) 18px,rgba(245,158,11,0.03) 19px); pointer-events: none; }
+    .boveda-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .08em; padding: 4px 12px; border: 1px solid var(--amber-border); border-radius: 20px; color: var(--amber); background: rgba(245,158,11,0.08); text-transform: uppercase; margin-bottom: 16px; }
+    .boveda-title { font-family: 'Space Grotesk', sans-serif; font-size: 42px; font-weight: 700; color: var(--amber); margin-bottom: 10px; letter-spacing: -.02em; }
+    .boveda-sub { font-size: 15px; color: var(--muted); line-height: 1.65; max-width: 560px; }
+    .boveda-sub code { background: rgba(245,158,11,0.12); color: var(--amber); padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+    .boveda-count { position: absolute; top: 28px; right: 28px; font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 700; color: var(--amber); opacity: .5; letter-spacing: .06em; }
+
+    /* ── GRID ── */
+    .sg-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 24px; }
+    .sg-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 8px; transition: border-color .2s, box-shadow .2s; }
+    .sg-card:hover { border-color: var(--amber-border); box-shadow: 0 0 0 2px rgba(245,158,11,0.1); }
+    .sg-top { display: flex; align-items: center; justify-content: space-between; }
+    .sg-icon { font-size: 24px; }
+    .sg-cat { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: .04em; }
+    .sg-cat-prod { background: rgba(139,92,246,0.12); color: #8b5cf6; }
+    .sg-cat-analisis { background: rgba(59,130,246,0.12); color: #3b82f6; }
+    .sg-cat-com { background: rgba(16,185,129,0.12); color: var(--success); }
+    .sg-title { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); }
+    .sg-desc { font-size: 13px; color: var(--muted); line-height: 1.55; flex: 1; }
+    .sg-more-btn { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .15s, color .15s, border-color .15s; padding: 0; line-height: 1; }
+    .sg-more-btn:hover, .sg-more-btn.open { background: var(--amber); color: #000; border-color: var(--amber); }
+    .sg-detail { display: none; font-size: 13px; color: var(--muted); line-height: 1.65; padding-top: 10px; border-top: 1px solid var(--border); margin-top: 4px; }
+    .sg-detail.open { display: block; }
+    .sg-copy-btn { margin-top: 4px; padding: 9px 14px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 12px; font-weight: 600; cursor: pointer; transition: background .15s, border-color .15s; }
+    .sg-copy-btn:hover { background: var(--amber); border-color: var(--amber); color: #000; }
+
+    /* ── CTA CARD ── */
+    .sg-cta-card { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; background: rgba(245,158,11,0.07); border: 1px solid var(--amber-border); border-radius: 12px; text-decoration: none; color: var(--text); transition: background .2s; margin-bottom: 48px; }
+    .sg-cta-card:hover { background: rgba(245,158,11,0.13); }
+    .sg-cta-title { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+    .sg-cta-sub { font-size: 13px; color: var(--muted); }
+    .sg-cta-arrow { font-size: 24px; color: var(--amber); flex-shrink: 0; }
+
+    /* ── CURSO CTA ── */
+    .curso-cta { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 36px 32px; text-align: center; }
+    .curso-cta h2 { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; margin-bottom: 10px; }
+    .curso-cta p { font-size: 15px; color: var(--muted); max-width: 480px; margin: 0 auto 24px; line-height: 1.6; }
+    .btn-curso { display: inline-block; background: linear-gradient(135deg, #F59E0B 0%, #B45309 100%); color: #000; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; padding: 14px 32px; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 16px rgba(245,158,11,0.35); transition: opacity .2s, transform .15s; }
+    .btn-curso:hover { opacity: .88; transform: translateY(-2px); }
+    .btn-wa { display: inline-block; margin-left: 12px; border: 1px solid var(--border); color: var(--muted); font-size: 14px; font-weight: 600; padding: 13px 24px; border-radius: 10px; text-decoration: none; transition: border-color .2s, color .2s; }
+    .btn-wa:hover { border-color: var(--muted); color: var(--text); }
+
+    @media (max-width: 640px) {
+      .sg-grid { grid-template-columns: 1fr; }
+      .boveda-title { font-size: 32px; }
+      .boveda-count { display: none; }
+      .curso-cta { padding: 28px 20px; }
+      .btn-wa { display: block; margin: 12px auto 0; text-align: center; }
+      .nav-right .btn-nav-outline { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <svg width="18" height="18" viewBox="-4 1 22 22" fill="none" aria-hidden="true"><defs><linearGradient id="bolt-bv" x1="9" y1="0" x2="5" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FEF3C7"/><stop offset="50%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#B45309"/></linearGradient></defs><g transform="rotate(20,7,12)"><path d="M9 0L2 14H7L5 24L12 10H7L9 0Z" fill="url(#bolt-bv)"/><path d="M8.5 1L3 12H6.5L8.5 1Z" fill="white" fill-opacity="0.22"/></g></svg>
+        Lightning Pro
+      </a>
+      <div class="nav-right">
+        <a href="index.html" class="btn-nav-outline">← Sitio principal</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar modo de color">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </button>
+        <a href="curso.html" class="btn-nav">Entrar al curso →</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <div class="boveda-header">
+      <span class="boveda-count">8 SKILLS</span>
+      <div class="boveda-badge">🔐 Acceso libre · Sin registro</div>
+      <h1 class="boveda-title">La Bóveda</h1>
+      <p class="boveda-sub">Prompts probados para ChatGPT y Claude. Copia uno, reemplaza lo que está en <code>[CORCHETES]</code> con tu contexto y úsalo ahora mismo.</p>
+    </div>
+
+    <!-- GRID -->
+    <div class="sg-grid">
+
+      <div class="sg-card">
+        <div class="sg-top"><span class="sg-icon">🌪️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-prod">Productividad</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-title">Mindstorming</div>
+        <div class="sg-desc">20 ideas desde ángulos muy distintos — lo obvio, lo contraintuitivo y lo que nadie haría.</div>
+        <div class="sg-detail">Úsalo cuando estás atascado en una sola forma de ver un problema. Funciona para lanzar productos, nombrar negocios, diseñar campañas, resolver conflictos o encontrar nuevos clientes. La clave está en pedir 20 — la cantidad fuerza las ideas no obvias que normalmente se ignoran.</div>
+        <button class="sg-copy-btn" onclick="copyGallerySkill('mindstorming', this)">Copiar prompt</button>
+      </div>
+
+      <div class="sg-card">
+        <div class="sg-top"><span class="sg-icon">⚖️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-title">Abogado del diablo</div>
+        <div class="sg-desc">Cuestiona una idea o plan buscando sus puntos débiles, suposiciones erróneas y casos donde fallaría.</div>
+        <div class="sg-detail">Ideal antes de presentar una propuesta, invertir en algo nuevo, lanzar un producto o tomar una decisión importante. La IA actúa como un crítico que busca huecos en tu lógica. Te ahorra la vergüenza de que alguien más encuentre los problemas después.</div>
+        <button class="sg-copy-btn" onclick="copyGallerySkill('abogado', this)">Copiar prompt</button>
+      </div>
+
+      <div class="sg-card">
+        <div class="sg-top"><span class="sg-icon">📄</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-title">Lector de PDF</div>
+        <div class="sg-desc">Analiza cualquier documento adjunto: puntos clave, datos a revisar y recomendación concreta.</div>
+        <div class="sg-detail">Para contratos, reportes financieros, propuestas de proveedores, estados de cuenta o resoluciones legales. Adjuntas el archivo en Claude o ChatGPT y haces preguntas específicas en vez de leer todo. Ahorra entre 30 minutos y 2 horas por documento.</div>
+        <button class="sg-copy-btn" onclick="copyGallerySkill('lectorpdf', this)">Copiar prompt</button>
+      </div>
+
+      <div class="sg-card">
+        <div class="sg-top"><span class="sg-icon">🔍</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-title">Checklist de riesgos</div>
+        <div class="sg-desc">Evalúa una decisión o contrato buscando riesgos ocultos por área: operativo, financiero, legal, imagen.</div>
+        <div class="sg-detail">Úsalo antes de firmar un contrato, cambiar un proceso, contratar personal o entrar a una sociedad. La IA identifica los riesgos que no ves porque estás muy metido en la decisión. No reemplaza al abogado o contador — los complementa con una segunda opinión rápida.</div>
+        <button class="sg-copy-btn" onclick="copyGallerySkill('riesgos', this)">Copiar prompt</button>
+      </div>
+
+      <div class="sg-card">
+        <div class="sg-top"><span class="sg-icon">✉️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-com">Comunicación</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-title">Correo difícil</div>
+        <div class="sg-desc">Redacta mensajes delicados — retrasos, cobros, rechazos, malas noticias — sin perder la relación.</div>
+        <div class="sg-detail">Para situaciones donde el tono importa tanto como el contenido: cobrar sin dañar la relación, rechazar a un cliente sin perderlo, notificar un retraso, dar malas noticias internas. Un correo mal redactado en estas situaciones puede costar más que el problema mismo.</div>
+        <button class="sg-copy-btn" onclick="copyGallerySkill('correodificil', this)">Copiar prompt</button>
+      </div>
+
+      <div class="sg-card">
+        <div class="sg-top"><span class="sg-icon">⚡</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-prod">Productividad</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-title">Resumidor ejecutivo</div>
+        <div class="sg-desc">Convierte cualquier texto largo en 5 bullets de 20 palabras cada uno, listos para dirección.</div>
+        <div class="sg-detail">Cuando recibes documentos largos que necesitas presentar a alguien que no tiene tiempo: tu jefe, un socio, un cliente. También para preparar briefings internos, resumir hilos de correo complicados o extraer lo esencial de una reunión.</div>
+        <button class="sg-copy-btn" onclick="copyGallerySkill('resumidor', this)">Copiar prompt</button>
+      </div>
+
+      <div class="sg-card">
+        <div class="sg-top"><span class="sg-icon">✏️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-com">Comunicación</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-title">Mejorador de redacción</div>
+        <div class="sg-desc">Mejora cualquier texto tuyo — más claro, más breve, más profesional — sin cambiar el mensaje.</div>
+        <div class="sg-detail">Cuando escribiste algo pero sientes que no suena bien, es muy largo o no va al grano. Útil para propuestas comerciales, correos a clientes importantes, publicaciones o cualquier texto que represente a tu empresa. El mensaje es tuyo — la IA solo lo afila.</div>
+        <button class="sg-copy-btn" onclick="copyGallerySkill('mejorador', this)">Copiar prompt</button>
+      </div>
+
+      <div class="sg-card">
+        <div class="sg-top"><span class="sg-icon">🧭</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-title">Comparador de opciones</div>
+        <div class="sg-desc">Evalúa 2 o 3 alternativas con criterios definidos y da una recomendación con argumento claro.</div>
+        <div class="sg-detail">Para decisiones con varias alternativas donde no sabes cuál elegir: proveedores, herramientas, estrategias de precio, planes de expansión. La IA no decide por ti — estructura el análisis para que puedas decidir con información clara en vez de intuición pura.</div>
+        <button class="sg-copy-btn" onclick="copyGallerySkill('comparador', this)">Copiar prompt</button>
+      </div>
+
+    </div>
+
+    <!-- CTA SITIO -->
+    <a href="index.html" class="sg-cta-card">
+      <div>
+        <div class="sg-cta-title">⚡ lightningprosolutions.com</div>
+        <div class="sg-cta-sub">La bóveda crece · Talleres para equipos · Consultoría en IA · Hermosillo, Sonora</div>
+      </div>
+      <span class="sg-cta-arrow">→</span>
+    </a>
+
+    <!-- CTA CURSO -->
+    <div class="curso-cta">
+      <h2>Esto es solo el inicio.</h2>
+      <p>En el taller aprendes a guardar lo que funciona y convertirlo en una herramienta que cualquier persona en tu equipo puede usar. El reporte del lunes, el correo de cobranza del viernes, el análisis del contrato nuevo — todos listos con un clic, sin explicarle nada a la IA cada vez.</p>
+      <a href="curso.html" class="btn-curso">Ver el curso →</a>
+      <a href="https://wa.me/526623478040?text=Hola%2C%20vi%20La%20B%C3%B3veda%20y%20me%20interesa%20el%20taller" class="btn-wa" target="_blank" rel="noopener">Preguntar por WhatsApp</a>
+    </div>
+
+  </div>
+
+  <script>
+    var GALLERY_PROMPTS = {
+      mindstorming: "Genera 20 ideas sobre [TEMA] desde ángulos muy distintos: lo obvio, lo contraintuitivo, lo que nadie haría, lo que ya probaron otros y lo que solo funciona en mi contexto. Sin filtro.\n\nDespués marca las 3 más interesantes y di por qué.",
+      abogado: "Actúa como un crítico riguroso. Analiza esta idea o plan y busca sus puntos débiles: suposiciones erróneas, riesgos no considerados, casos donde fallaría, razones por las que el mercado o el equipo lo rechazaría. Sé directo. No suavices.\n\nAl final, si hay algo que salvaría del plan, dilo también.\n\n[IDEA O PLAN A EVALUAR]",
+      lectorpdf: "Actúa como analista especializado en [TIPO DE DOCUMENTO: contratos, reportes, facturas, etc.]. Analiza el documento adjunto y respóndeme:\n\n1. Resumen en 5 puntos clave.\n2. Tres datos o cláusulas que debo revisar con cuidado.\n3. Una pregunta que el documento deja sin responder.\n4. Recomendación concreta basada en lo que dice.\n\nNo inventes información que no esté en el documento.",
+      riesgos: "Actúa como consultor de gestión de riesgos. Evalúa la siguiente decisión o plan y genera un checklist de riesgos organizados por área:\n\n- Riesgo operativo\n- Riesgo financiero\n- Riesgo humano / equipo\n- Riesgo legal\n- Riesgo de imagen\n\nPor cada riesgo: qué podría pasar, qué tan probable es (alto/medio/bajo) y qué haría para mitigarlo.\n\n[DECISIÓN O PLAN]",
+      correodificil: "Actúa como comunicador ejecutivo con experiencia en situaciones delicadas. Redacta un correo para la siguiente situación: [SITUACIÓN: notificar un retraso, rechazar una solicitud, cobrar sin dañar la relación, dar malas noticias].\n\nTono: directo, respetuoso, sin rodeos innecesarios. Máximo 150 palabras. Termina con el siguiente paso claro y una fecha límite si aplica.\n\nContexto: [CONTEXTO DE LA SITUACIÓN]",
+      resumidor: "Resume el siguiente texto en máximo 5 bullets para alguien que tiene 30 segundos para leer.\n\nCada bullet: máximo 20 palabras. Prioriza lo que requiere una decisión o acción. Si hay cifras importantes, inclúyelas. Al final: una sola acción recomendada.\n\n[TEXTO A RESUMIR]",
+      mejorador: "Toma el siguiente texto y mejóralo sin cambiar el mensaje central ni inventar información nueva.\n\nObjetivos: claridad, brevedad, tono profesional y directo. No debe sonar a IA.\n\nDevuelve: el texto mejorado y después una lista de 3 cambios principales que hiciste y por qué.\n\n[TEXTO ORIGINAL]",
+      comparador: "Actúa como asesor estratégico. Compara las siguientes opciones usando los criterios indicados. Por cada opción: ventajas, desventajas y en qué contexto funcionaría mejor. Al final: recomendación clara y el criterio más importante que guió esa decisión.\n\nCriterios de comparación: [CRITERIOS: precio, tiempo, riesgo, etc.]\n\nOpción 1: [DESCRIPCIÓN]\nOpción 2: [DESCRIPCIÓN]\nOpción 3 (opcional): [DESCRIPCIÓN]"
+    };
+
+    function toggleSgDetail(btn) {
+      var card = btn.closest('.sg-card');
+      var detail = card.querySelector('.sg-detail');
+      var open = detail.classList.toggle('open');
+      btn.textContent = open ? '×' : '+';
+      btn.classList.toggle('open', open);
+    }
+
+    function copyGallerySkill(key, btn) {
+      var prompt = GALLERY_PROMPTS[key];
+      if (!prompt) return;
+      navigator.clipboard.writeText(prompt).then(function() {
+        var orig = btn.textContent;
+        btn.textContent = '✓ Copiado';
+        btn.style.background = 'var(--success)';
+        btn.style.color = '#fff';
+        btn.style.borderColor = 'var(--success)';
+        setTimeout(function() {
+          btn.textContent = orig;
+          btn.style.background = '';
+          btn.style.color = '';
+          btn.style.borderColor = '';
+        }, 1600);
+      });
+    }
+
+    // Theme toggle
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      var light = document.documentElement.getAttribute('data-theme') === 'light';
+      if (light) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.removeItem('lps-theme');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('lps-theme', 'light');
+      }
+    });
+  </script>
+</body>
+</html>

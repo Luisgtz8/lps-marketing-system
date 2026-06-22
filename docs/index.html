@@ -217,6 +217,18 @@
       color: var(--green);
     }
 
+    .bolt-icon {
+      display: inline-block;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+      color: var(--green);
+    }
+
+    .theme-icon {
+      display: block;
+    }
+
     .nav-links {
       display: flex;
       align-items: center;
@@ -250,6 +262,26 @@
     .btn-nav:hover {
       opacity: 0.9;
       transform: translateY(-1px);
+    }
+
+    .btn-nav-boveda {
+      display: inline-block;
+      background: linear-gradient(135deg, #F59E0B 0%, #B45309 100%);
+      color: #000 !important;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 9px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      letter-spacing: .01em;
+      transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 10px rgba(245,158,11,0.35);
+    }
+    .btn-nav-boveda:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(245,158,11,0.5);
     }
 
     /* HERO */
@@ -1553,13 +1585,16 @@
   <!-- NAV -->
   <nav>
     <div class="nav-inner">
-      <a href="/" class="nav-logo"><span class="bolt">⚡</span> Lightning Pro</a>
+      <a href="/" class="nav-logo"><svg class="bolt-icon" width="19" height="19" viewBox="-4 1 22 22" fill="none" aria-hidden="true"><defs><linearGradient id="bolt-nav" x1="9" y1="0" x2="5" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FEF3C7"/><stop offset="50%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#B45309"/></linearGradient></defs><g transform="rotate(20,7,12)"><path d="M9 0L2 14H7L5 24L12 10H7L9 0Z" fill="url(#bolt-nav)"/><path d="M8.5 1L3 12H6.5L8.5 1Z" fill="white" fill-opacity="0.22"/></g></svg> Lightning Pro</a>
       <ul class="nav-links">
         <li class="nav-text-links-item"><a href="#talleres">Talleres</a></li>
         <li class="nav-text-links-item"><a href="#proyectos">Proyectos</a></li>
         <li class="nav-text-links-item"><a href="curso.html">Curso</a></li>
         <li>
-          <button class="theme-toggle" id="themeToggle" aria-label="Cambiar modo de color">☀️</button>
+          <button class="theme-toggle" id="themeToggle" aria-label="Cambiar modo de color"><svg class="theme-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+        </li>
+        <li>
+          <a href="boveda.html" class="btn-nav-boveda">🔐 La Bóveda</a>
         </li>
         <li>
           <a href="https://wa.me/526623478040?text=Hola%2C%20me%20interesa%20el%20taller%20de%20IA" class="btn-nav" target="_blank" rel="noopener">Contactar</a>
@@ -1736,12 +1771,6 @@
             <span>Presencial o remoto</span>
             <span>Sin requisito previo</span>
             <span>Enfocado en tareas reales del equipo</span>
-          </div>
-          <div class="taller-price-block">
-            <div>
-              <span class="taller-price">$10,000</span><span class="taller-currency"> MXN + IVA</span>
-            </div>
-            <p class="taller-note">Por grupo, no por persona</p>
           </div>
           <a href="https://wa.me/526623478040?text=Quiero%20info%20del%20taller%20IA%20Sin%20Miedo%20B%C3%A1sico" class="btn-outline-green" target="_blank" rel="noopener">Solicitar propuesta</a>
         </div>
@@ -1927,7 +1956,7 @@ en producción.</h2>
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
-      <span class="footer-brand"><span class="bolt">⚡</span> Lightning Pro · Hermosillo, Sonora</span>
+      <span class="footer-brand"><svg class="bolt-icon" width="13" height="13" viewBox="-4 1 22 22" fill="none" aria-hidden="true"><defs><linearGradient id="bolt-footer" x1="9" y1="0" x2="5" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FEF3C7"/><stop offset="50%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#B45309"/></linearGradient></defs><g transform="rotate(20,7,12)"><path d="M9 0L2 14H7L5 24L12 10H7L9 0Z" fill="url(#bolt-footer)"/><path d="M8.5 1L3 12H6.5L8.5 1Z" fill="white" fill-opacity="0.22"/></g></svg> Lightning Pro · Hermosillo, Sonora</span>
       <span class="footer-contact">WhatsApp 6623478040</span>
     </div>
   </footer>
@@ -2057,14 +2086,17 @@ en producción.</h2>
       var btn = document.getElementById('themeToggle');
       var html = document.documentElement;
 
+      var SVG_SUN = '<svg class="theme-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
+      var SVG_MOON = '<svg class="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+
       function applyTheme(theme) {
         if (theme === 'light') {
           html.setAttribute('data-theme', 'light');
-          btn.textContent = '🌙';
+          btn.innerHTML = SVG_MOON;
           btn.title = 'Modo oscuro';
         } else {
           html.removeAttribute('data-theme');
-          btn.textContent = '☀️';
+          btn.innerHTML = SVG_SUN;
           btn.title = 'Modo claro';
         }
       }
