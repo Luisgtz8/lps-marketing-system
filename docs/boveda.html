@@ -314,6 +314,42 @@
           <button class="adv-copy-btn" onclick="copyAdv('/superpowers:writing-skills', this)">/superpowers:writing-skills</button>
         </div>
 
+
+        <div class="adv-card">
+          <div class="adv-top"><span class="adv-cmd">/codex:review</span><span class="adv-origin adv-origin-codex">Codex</span></div>
+          <div class="adv-name">Revisión de código</div>
+          <div class="adv-desc">Codex revisa el estado actual del repo contra git — detecta problemas de implementación, errores y oportunidades de mejora.</div>
+          <button class="adv-copy-btn" onclick="copyAdv('/codex:review', this)">/codex:review</button>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-top"><span class="adv-cmd">/codex:adversarial-review</span><span class="adv-origin adv-origin-codex">Codex</span></div>
+          <div class="adv-name">Revisión adversarial</div>
+          <div class="adv-desc">Codex cuestiona activamente las decisiones de diseño y los tradeoffs — no solo busca bugs, desafía el enfoque completo.</div>
+          <button class="adv-copy-btn" onclick="copyAdv('/codex:adversarial-review', this)">/codex:adversarial-review</button>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-top"><span class="adv-cmd">/codex:status</span><span class="adv-origin adv-origin-codex">Codex</span></div>
+          <div class="adv-name">Estado de jobs</div>
+          <div class="adv-desc">Muestra todos los jobs activos y recientes de Codex en el repositorio — ID, fase, tiempo transcurrido y siguiente paso.</div>
+          <button class="adv-copy-btn" onclick="copyAdv('/codex:status', this)">/codex:status</button>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-top"><span class="adv-cmd">/codex:result</span><span class="adv-origin adv-origin-codex">Codex</span></div>
+          <div class="adv-name">Ver resultado</div>
+          <div class="adv-desc">Muestra el output completo de un job terminado — veredicto, hallazgos, rutas de archivos y pasos siguientes.</div>
+          <button class="adv-copy-btn" onclick="copyAdv('/codex:result', this)">/codex:result</button>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-top"><span class="adv-cmd">/codex:cancel</span><span class="adv-origin adv-origin-codex">Codex</span></div>
+          <div class="adv-name">Cancelar job</div>
+          <div class="adv-desc">Cancela un job de Codex que está corriendo en background. Pasa el job-id o cancela el activo por defecto.</div>
+          <button class="adv-copy-btn" onclick="copyAdv('/codex:cancel', this)">/codex:cancel</button>
+        </div>
+
       </div>
     </div>
 
