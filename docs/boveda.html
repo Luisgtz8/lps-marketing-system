@@ -86,6 +86,14 @@
     .sg-detail.open { display: block; }
     .sg-copy-btn { margin-top: 4px; padding: 9px 14px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 12px; font-weight: 600; cursor: pointer; transition: background .15s, border-color .15s; }
     .sg-copy-btn:hover { background: var(--amber); border-color: var(--amber); color: #000; }
+    .sg-tool { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; border: 1px solid; white-space: nowrap; letter-spacing: 0.02em; }
+    .sg-tool-both  { color: #6ee7b7; border-color: rgba(110,231,183,0.35); background: rgba(110,231,183,0.08); }
+    .sg-tool-claude { color: #c084fc; border-color: rgba(192,132,252,0.35); background: rgba(192,132,252,0.08); }
+    .sg-tool-gpt   { color: #86efac; border-color: rgba(134,239,172,0.35); background: rgba(134,239,172,0.08); }
+    .sg-slash { display:inline-flex; align-items:center; gap:5px; margin-top:8px; background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.2); border-radius:6px; padding:4px 9px; font-family:monospace; font-size:12px; color:var(--amber); font-weight:600; user-select:all; cursor:default; }
+    .sg-slash-label { font-size:10px; font-weight:400; color:var(--muted); font-family:inherit; margin-right:2px; }
+    
+    
 
     /* ── CTA CARD ── */
     .sg-cta-card { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; background: rgba(245,158,11,0.07); border: 1px solid var(--amber-border); border-radius: 12px; text-decoration: none; color: var(--text); transition: background .2s; margin-bottom: 48px; }
@@ -145,66 +153,74 @@
     <div class="sg-grid">
 
       <div class="sg-card">
-        <div class="sg-top"><span class="sg-icon">🌪️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-prod">Productividad</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-top"><span class="sg-icon">🌪️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-prod">Productividad</span><span class="sg-tool sg-tool-both">GPT · Claude</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
         <div class="sg-title">Mindstorming</div>
         <div class="sg-desc">20 ideas desde ángulos muy distintos — lo obvio, lo contraintuitivo y lo que nadie haría.</div>
         <div class="sg-detail">Úsalo cuando estás atascado en una sola forma de ver un problema. Funciona para lanzar productos, nombrar negocios, diseñar campañas, resolver conflictos o encontrar nuevos clientes. La clave está en pedir 20 — la cantidad fuerza las ideas no obvias que normalmente se ignoran.</div>
+        <div class="sg-slash"><span class="sg-slash-label">activar con</span>/mindstorming</div>
         <button class="sg-copy-btn" onclick="copyGallerySkill('mindstorming', this)">Copiar prompt</button>
       </div>
 
       <div class="sg-card">
-        <div class="sg-top"><span class="sg-icon">⚖️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-top"><span class="sg-icon">⚖️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><span class="sg-tool sg-tool-both">GPT · Claude</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
         <div class="sg-title">Abogado del diablo</div>
         <div class="sg-desc">Cuestiona una idea o plan buscando sus puntos débiles, suposiciones erróneas y casos donde fallaría.</div>
         <div class="sg-detail">Ideal antes de presentar una propuesta, invertir en algo nuevo, lanzar un producto o tomar una decisión importante. La IA actúa como un crítico que busca huecos en tu lógica. Te ahorra la vergüenza de que alguien más encuentre los problemas después.</div>
+        <div class="sg-slash"><span class="sg-slash-label">activar con</span>/abogado</div>
         <button class="sg-copy-btn" onclick="copyGallerySkill('abogado', this)">Copiar prompt</button>
       </div>
 
       <div class="sg-card">
-        <div class="sg-top"><span class="sg-icon">📄</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-top"><span class="sg-icon">📄</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><span class="sg-tool sg-tool-claude">Claude · GPT+</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
         <div class="sg-title">Lector de PDF</div>
         <div class="sg-desc">Analiza cualquier documento adjunto: puntos clave, datos a revisar y recomendación concreta.</div>
         <div class="sg-detail">Para contratos, reportes financieros, propuestas de proveedores, estados de cuenta o resoluciones legales. Adjuntas el archivo en Claude o ChatGPT y haces preguntas específicas en vez de leer todo. Ahorra entre 30 minutos y 2 horas por documento.</div>
+        <div class="sg-slash"><span class="sg-slash-label">activar con</span>/lector-pdf</div>
         <button class="sg-copy-btn" onclick="copyGallerySkill('lectorpdf', this)">Copiar prompt</button>
       </div>
 
       <div class="sg-card">
-        <div class="sg-top"><span class="sg-icon">🔍</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-top"><span class="sg-icon">🔍</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><span class="sg-tool sg-tool-both">GPT · Claude</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
         <div class="sg-title">Checklist de riesgos</div>
         <div class="sg-desc">Evalúa una decisión o contrato buscando riesgos ocultos por área: operativo, financiero, legal, imagen.</div>
         <div class="sg-detail">Úsalo antes de firmar un contrato, cambiar un proceso, contratar personal o entrar a una sociedad. La IA identifica los riesgos que no ves porque estás muy metido en la decisión. No reemplaza al abogado o contador — los complementa con una segunda opinión rápida.</div>
+        <div class="sg-slash"><span class="sg-slash-label">activar con</span>/riesgos</div>
         <button class="sg-copy-btn" onclick="copyGallerySkill('riesgos', this)">Copiar prompt</button>
       </div>
 
       <div class="sg-card">
-        <div class="sg-top"><span class="sg-icon">✉️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-com">Comunicación</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-top"><span class="sg-icon">✉️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-com">Comunicación</span><span class="sg-tool sg-tool-both">GPT · Claude</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
         <div class="sg-title">Correo difícil</div>
         <div class="sg-desc">Redacta mensajes delicados — retrasos, cobros, rechazos, malas noticias — sin perder la relación.</div>
         <div class="sg-detail">Para situaciones donde el tono importa tanto como el contenido: cobrar sin dañar la relación, rechazar a un cliente sin perderlo, notificar un retraso, dar malas noticias internas. Un correo mal redactado en estas situaciones puede costar más que el problema mismo.</div>
+        <div class="sg-slash"><span class="sg-slash-label">activar con</span>/correo-dificil</div>
         <button class="sg-copy-btn" onclick="copyGallerySkill('correodificil', this)">Copiar prompt</button>
       </div>
 
       <div class="sg-card">
-        <div class="sg-top"><span class="sg-icon">⚡</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-prod">Productividad</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-top"><span class="sg-icon">⚡</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-prod">Productividad</span><span class="sg-tool sg-tool-both">GPT · Claude</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
         <div class="sg-title">Resumidor ejecutivo</div>
         <div class="sg-desc">Convierte cualquier texto largo en 5 bullets de 20 palabras cada uno, listos para dirección.</div>
         <div class="sg-detail">Cuando recibes documentos largos que necesitas presentar a alguien que no tiene tiempo: tu jefe, un socio, un cliente. También para preparar briefings internos, resumir hilos de correo complicados o extraer lo esencial de una reunión.</div>
+        <div class="sg-slash"><span class="sg-slash-label">activar con</span>/resumidor</div>
         <button class="sg-copy-btn" onclick="copyGallerySkill('resumidor', this)">Copiar prompt</button>
       </div>
 
       <div class="sg-card">
-        <div class="sg-top"><span class="sg-icon">✏️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-com">Comunicación</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-top"><span class="sg-icon">✏️</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-com">Comunicación</span><span class="sg-tool sg-tool-both">GPT · Claude</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
         <div class="sg-title">Mejorador de redacción</div>
         <div class="sg-desc">Mejora cualquier texto tuyo — más claro, más breve, más profesional — sin cambiar el mensaje.</div>
         <div class="sg-detail">Cuando escribiste algo pero sientes que no suena bien, es muy largo o no va al grano. Útil para propuestas comerciales, correos a clientes importantes, publicaciones o cualquier texto que represente a tu empresa. El mensaje es tuyo — la IA solo lo afila.</div>
+        <div class="sg-slash"><span class="sg-slash-label">activar con</span>/mejorador</div>
         <button class="sg-copy-btn" onclick="copyGallerySkill('mejorador', this)">Copiar prompt</button>
       </div>
 
       <div class="sg-card">
-        <div class="sg-top"><span class="sg-icon">🧭</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
+        <div class="sg-top"><span class="sg-icon">🧭</span><div style="display:flex;align-items:center;gap:7px;"><span class="sg-cat sg-cat-analisis">Análisis</span><span class="sg-tool sg-tool-both">GPT · Claude</span><button class="sg-more-btn" onclick="toggleSgDetail(this)" title="Saber más">+</button></div></div>
         <div class="sg-title">Comparador de opciones</div>
         <div class="sg-desc">Evalúa 2 o 3 alternativas con criterios definidos y da una recomendación con argumento claro.</div>
         <div class="sg-detail">Para decisiones con varias alternativas donde no sabes cuál elegir: proveedores, herramientas, estrategias de precio, planes de expansión. La IA no decide por ti — estructura el análisis para que puedas decidir con información clara en vez de intuición pura.</div>
+        <div class="sg-slash"><span class="sg-slash-label">activar con</span>/comparador</div>
         <button class="sg-copy-btn" onclick="copyGallerySkill('comparador', this)">Copiar prompt</button>
       </div>
 
