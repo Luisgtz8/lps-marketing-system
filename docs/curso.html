@@ -153,6 +153,15 @@
     comparador: "Actúa como asesor estratégico. Compara las siguientes opciones usando los criterios indicados. Por cada opción: ventajas, desventajas y en qué contexto funcionaría mejor. Al final: recomendación clara y el criterio más importante que guió esa decisión.\n\nCriterios de comparación: [CRITERIOS: precio, tiempo, riesgo, etc.]\n\nOpción 1: [DESCRIPCIÓN]\nOpción 2: [DESCRIPCIÓN]\nOpción 3 (opcional): [DESCRIPCIÓN]"
   };
 
+  function copyAdv(cmd, btn) {
+    navigator.clipboard.writeText(cmd).then(function() {
+      var orig = btn.textContent;
+      btn.textContent = '✓ copiado';
+      btn.classList.add('copied');
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
+    });
+  }
+
   function toggleSgDetail(btn) {
     var card = btn.closest('.sg-card');
     var detail = card.querySelector('.sg-detail');
@@ -1258,6 +1267,26 @@
     .sg-desc { font-size:13px; color:var(--muted); line-height:1.5; flex:1; }
     .sg-copy-btn { margin-top:4px; padding:7px 14px; background:var(--surface2); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:12px; font-weight:600; cursor:pointer; transition:background .15s, border-color .15s; }
     .sg-copy-btn:hover { background:var(--amber); border-color:var(--amber); color:#000; }
+
+    .adv-section { margin-top:40px; }
+    .adv-header { display:flex; align-items:center; gap:12px; margin-bottom:6px; }
+    .adv-badge { font-size:10px; font-weight:700; letter-spacing:0.1em; padding:3px 10px; border-radius:20px; background:rgba(192,132,252,0.12); border:1px solid rgba(192,132,252,0.3); color:#c084fc; white-space:nowrap; }
+    .adv-title { font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:700; color:var(--text); }
+    .adv-sub { font-size:12px; color:var(--muted); margin-bottom:18px; line-height:1.6; }
+    .adv-sub code { background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:1px 5px; font-size:11px; color:#c084fc; }
+    .adv-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+    .adv-card { background:var(--surface); border:1px solid rgba(192,132,252,0.2); border-radius:12px; padding:14px 14px 12px; display:flex; flex-direction:column; gap:7px; }
+    .adv-card:hover { border-color:rgba(192,132,252,0.45); }
+    .adv-top { display:flex; align-items:center; justify-content:space-between; gap:6px; }
+    .adv-origin { font-size:9px; font-weight:700; padding:2px 7px; border-radius:20px; border:1px solid; white-space:nowrap; flex-shrink:0; }
+    .adv-origin-claude { color:#c084fc; border-color:rgba(192,132,252,0.35); background:rgba(192,132,252,0.08); }
+    .adv-origin-codex  { color:#86efac; border-color:rgba(134,239,172,0.35); background:rgba(134,239,172,0.08); }
+    .adv-cmd { font-family:monospace; font-size:10px; font-weight:700; color:#c084fc; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .adv-name { font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:700; color:var(--text); }
+    .adv-desc { font-size:11px; color:var(--muted); line-height:1.5; flex:1; }
+    .adv-copy-btn { margin-top:2px; padding:6px 10px; background:rgba(192,132,252,0.08); border:1px solid rgba(192,132,252,0.25); border-radius:7px; color:#c084fc; font-size:10px; font-weight:600; cursor:pointer; font-family:monospace; transition:background .15s,border-color .15s; text-align:left; }
+    .adv-copy-btn:hover { background:rgba(192,132,252,0.2); border-color:#c084fc; }
+    .adv-copy-btn.copied { color:#22c55e; border-color:rgba(34,197,94,0.4); background:rgba(34,197,94,0.08); }
     .sg-cta-card { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 20px; background:rgba(245,158,11,0.07); border:1px solid var(--amber-border); border-radius:12px; text-decoration:none; color:var(--text); transition:background .2s; margin-bottom:24px; }
     .sg-cta-card:hover { background:rgba(245,158,11,0.14); }
     .sg-cta-title { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:700; margin-bottom:4px; }
@@ -2903,6 +2932,103 @@ Criterios de revisión:
             <button class="sg-copy-btn" onclick="copyGallerySkill('comparador', this)">Copiar prompt</button>
           </div>
 
+        </div>
+
+
+        <!-- ADVANCED — Claude Code / Codex -->
+        <div class="adv-section">
+          <div class="adv-header">
+            <span class="adv-badge">⚙️ NIVEL AVANZADO</span>
+            <span class="adv-title">Skills y Agentes — Claude Code</span>
+          </div>
+          <p class="adv-sub">Comandos reales que se activan con <code>/</code> en <strong>Claude Code</strong>. No son prompts — son flujos de trabajo completos.</p>
+          <div class="adv-grid">
+
+            <div class="adv-card">
+              <div class="adv-top"><span class="adv-cmd">/superpowers:brainstorming</span><span class="adv-origin adv-origin-claude">Claude</span></div>
+              <div class="adv-name">Brainstorming estructurado</div>
+              <div class="adv-desc">Explora ideas, aclara requisitos y genera un diseño aprobado antes de ejecutar nada.</div>
+              <button class="adv-copy-btn" onclick="copyAdv('/superpowers:brainstorming', this)">/superpowers:brainstorming</button>
+            </div>
+
+            <div class="adv-card">
+              <div class="adv-top"><span class="adv-cmd">/superpowers:systematic-debugging</span><span class="adv-origin adv-origin-claude">Claude</span></div>
+              <div class="adv-name">Depuración sistemática</div>
+              <div class="adv-desc">Encuentra la causa raíz antes de cualquier fix. Prohíbe parches que enmascaran el problema.</div>
+              <button class="adv-copy-btn" onclick="copyAdv('/superpowers:systematic-debugging', this)">/superpowers:systematic-debugging</button>
+            </div>
+
+            <div class="adv-card">
+              <div class="adv-top"><span class="adv-cmd">/superpowers:writing-plans</span><span class="adv-origin adv-origin-claude">Claude</span></div>
+              <div class="adv-name">Escribir planes</div>
+              <div class="adv-desc">Plan de implementación detallado — archivos, pasos, pruebas — antes de tocar código.</div>
+              <button class="adv-copy-btn" onclick="copyAdv('/superpowers:writing-plans', this)">/superpowers:writing-plans</button>
+            </div>
+
+            <div class="adv-card">
+              <div class="adv-top"><span class="adv-cmd">/superpowers:executing-plans</span><span class="adv-origin adv-origin-claude">Claude</span></div>
+              <div class="adv-name">Ejecutar planes</div>
+              <div class="adv-desc">Carga un plan, lo revisa críticamente y lo ejecuta con checkpoints de revisión.</div>
+              <button class="adv-copy-btn" onclick="copyAdv('/superpowers:executing-plans', this)">/superpowers:executing-plans</button>
+            </div>
+
+            <div class="adv-card">
+              <div class="adv-top"><span class="adv-cmd">/superpowers:dispatching-parallel-agents</span><span class="adv-origin adv-origin-claude">Claude</span></div>
+              <div class="adv-name">Agentes en paralelo</div>
+              <div class="adv-desc">2+ tareas independientes → un agente por tarea simultáneamente. Tiempo total dividido.</div>
+              <button class="adv-copy-btn" onclick="copyAdv('/superpowers:dispatching-parallel-agents', this)">/superpowers:dispatching-parallel-agents</button>
+            </div>
+
+            <div class="adv-card">
+              <div class="adv-top"><span class="adv-cmd">/superpowers:verification-before-completion</span><span class="adv-origin adv-origin-claude">Claude</span></div>
+              <div class="adv-name">Verificar antes de terminar</div>
+              <div class="adv-desc">Exige evidencia real antes de cualquier declaración de "listo". Sin verificación, no hay confirmación.</div>
+              <button class="adv-copy-btn" onclick="copyAdv('/superpowers:verification-before-completion', this)">/superpowers:verification-before-completion</button>
+            </div>
+
+            <div class="adv-card">
+              <div class="adv-top"><span class="adv-cmd">/superpowers:writing-skills</span><span class="adv-origin adv-origin-claude">Claude</span></div>
+              <div class="adv-name">Crear nuevas skills</div>
+              <div class="adv-desc">Convierte cualquier proceso repetitivo en una skill activable con <code>/</code>.</div>
+              <button class="adv-copy-btn" onclick="copyAdv('/superpowers:writing-skills', this)">/superpowers:writing-skills</button>
+            </div>
+
+            <div class="adv-card">
+              <div class="adv-top"><span class="adv-cmd">/codex:rescue</span><span class="adv-origin adv-origin-codex">Codex</span></div>
+              <div class="adv-name">Codex Rescue</div>
+              <div class="adv-desc">Cuando Claude está atascado, delega a Codex/GPT. Segunda opinión independiente.</div>
+              <button class="adv-copy-btn" onclick="copyAdv('/codex:rescue', this)">/codex:rescue</button>
+            </div>
+
+            <div class="adv-card">
+              <div class="adv-top"><span class="adv-cmd">/codex:review</span><span class="adv-origin adv-origin-codex">Codex</span></div>
+              <div class="adv-name">Revisión de código</div>
+              <div class="adv-desc">Codex revisa el repo contra git — detecta problemas de implementación y oportunidades de mejora.</div>
+              <button class="adv-copy-btn" onclick="copyAdv('/codex:review', this)">/codex:review</button>
+            </div>
+
+            <div class="adv-card">
+              <div class="adv-top"><span class="adv-cmd">/codex:adversarial-review</span><span class="adv-origin adv-origin-codex">Codex</span></div>
+              <div class="adv-name">Revisión adversarial</div>
+              <div class="adv-desc">Codex cuestiona activamente las decisiones de diseño — no solo bugs, desafía el enfoque.</div>
+              <button class="adv-copy-btn" onclick="copyAdv('/codex:adversarial-review', this)">/codex:adversarial-review</button>
+            </div>
+
+            <div class="adv-card">
+              <div class="adv-top"><span class="adv-cmd">/codex:status</span><span class="adv-origin adv-origin-codex">Codex</span></div>
+              <div class="adv-name">Estado de jobs</div>
+              <div class="adv-desc">Muestra todos los jobs activos y recientes — ID, fase, tiempo y siguiente paso.</div>
+              <button class="adv-copy-btn" onclick="copyAdv('/codex:status', this)">/codex:status</button>
+            </div>
+
+            <div class="adv-card">
+              <div class="adv-top"><span class="adv-cmd">/codex:result</span><span class="adv-origin adv-origin-codex">Codex</span></div>
+              <div class="adv-name">Ver resultado</div>
+              <div class="adv-desc">Output completo de un job terminado — veredicto, hallazgos, rutas y pasos siguientes.</div>
+              <button class="adv-copy-btn" onclick="copyAdv('/codex:result', this)">/codex:result</button>
+            </div>
+
+          </div>
         </div>
 
         <!-- CTA Sitio -->
