@@ -4234,7 +4234,11 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       if (feedback) {
         var data = ANSWERS[qid];
         feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'wrong');
-        feedback.textContent = isCorrect ? '✓ ' + data.feedback.ok : '✗ ' + data.feedback.err;
+        if (isCorrect) {
+          feedback.textContent = '✓ ' + data.feedback.ok;
+        } else {
+          feedback.innerHTML = '✗ ' + data.feedback.err + '<br><span style="display:block;margin-top:8px;color:var(--success);">✓ ' + data.feedback.ok + '</span>';
+        }
       }
     });
   }
@@ -4321,10 +4325,21 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     } else {
       btn.classList.remove('disabled');
       btn.classList.add('wrong');
+      // Highlight the correct option so the student can see which one was right
+      var correctBtn = Array.from(options)[data.correct];
+      if (correctBtn) {
+        correctBtn.classList.remove('disabled');
+        correctBtn.classList.add('correct');
+      }
     }
 
-    feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'wrong');
-    feedback.textContent = isCorrect ? '✓ ' + data.feedback.ok : '✗ ' + data.feedback.err;
+    if (isCorrect) {
+      feedback.className = 'quiz-feedback correct';
+      feedback.textContent = '✓ ' + data.feedback.ok;
+    } else {
+      feedback.className = 'quiz-feedback wrong';
+      feedback.innerHTML = '✗ ' + data.feedback.err + '<br><span style="display:block;margin-top:8px;color:var(--success);">✓ ' + data.feedback.ok + '</span>';
+    }
 
     quizAnswers[qid] = Array.from(options).indexOf(btn);
     saveProgress();
