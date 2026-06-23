@@ -2515,58 +2515,14 @@ Nota: En NotebookLM primero subes el documento (PDF o texto). Luego le haces las
         <img class="module-img" src="img/curso_m5_sistema.png" alt="Skills documentadas como archivos reutilizables">
 
         <div class="card" style="border-color:var(--amber-border); margin-bottom:24px;">
-          <h3 style="color:var(--amber); margin-bottom:10px;">Dos conceptos nuevos en este módulo</h3>
-          <div style="display:flex; flex-direction:column; gap:12px;">
-            <div>
-              <div style="font-weight:700; font-size:14px; margin-bottom:3px;">Skill — instrucción reutilizable</div>
-              <div style="font-size:13px; color:var(--muted); line-height:1.6;">Un prompt que ya probaste, revisaste y documentaste para una tarea específica. En vez de escribirlo desde cero cada semana, lo guardas y lo reutilizas. Cualquier miembro del equipo puede usarlo sin saber cómo construirlo.</div>
-            </div>
-            <div>
-              <div style="font-weight:700; font-size:14px; margin-bottom:3px;">.md — archivo de texto plano</div>
-              <div style="font-size:13px; color:var(--muted); line-height:1.6;">Un archivo de texto simple (como .txt) que cualquier computadora puede abrir. La extensión .md significa Markdown — un formato ligero para dar estructura al texto con títulos, listas y negrita sin necesitar Word. Abre con cualquier editor de texto, Notion o VS Code.</div>
-            </div>
+          <h3 style="color:var(--amber); margin-bottom:12px;">De prompt a skill — el ciclo</h3>
+          <div style="display:flex; flex-direction:column; gap:10px; font-size:13px; margin-bottom:18px;">
+            <div style="display:flex; align-items:baseline; gap:8px;"><span style="color:var(--amber); font-weight:700; min-width:90px;">Prompt</span><span style="color:var(--muted);">Instrucción para pedir algo. Sin estructura, la IA adivina.</span></div>
+            <div style="display:flex; align-items:baseline; gap:8px;"><span style="color:var(--amber); font-weight:700; min-width:90px;">Skill</span><span style="color:var(--muted);">Prompt probado y documentado. Lo guardas una vez, lo usa todo el equipo sin volver a explicarle nada a la IA.</span></div>
+            <div style="display:flex; align-items:baseline; gap:8px;"><span style="color:var(--amber); font-weight:700; min-width:90px;">Agente</span><span style="color:var(--muted);">Flujo que usa skills, capacidades y accesos para ejecutar un proceso de principio a fin.</span></div>
           </div>
-        </div>
-
-        <div class="highlight">
-          <p><strong>El orden correcto:</strong><br>
-          Tarea repetitiva → Prompt bien estructurado → Resultado revisado → Prompt guardado → <strong>Skill reutilizable</strong> → Conector o automatización cuando haga sentido.</p>
-        </div>
-
-        <div class="card">
-          <h3>Prompt vs skill vs agente</h3>
-          <div style="overflow-x:auto; margin-top:12px;">
-            <table style="width:100%; border-collapse:collapse; font-size:14px;">
-              <thead>
-                <tr style="border-bottom:1px solid var(--border);">
-                  <th style="text-align:left; padding:8px 12px; color:var(--amber); font-family:'Space Grotesk',sans-serif;">Concepto</th>
-                  <th style="text-align:left; padding:8px 12px; color:var(--amber); font-family:'Space Grotesk',sans-serif;">Qué significa</th>
-                  <th style="text-align:left; padding:8px 12px; color:var(--amber); font-family:'Space Grotesk',sans-serif;">Ejemplo</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="border-bottom:1px solid var(--border);">
-                  <td style="padding:10px 12px; font-weight:600;">Prompt</td>
-                  <td style="padding:10px 12px; color:var(--muted);">Una instrucción para pedir una respuesta</td>
-                  <td style="padding:10px 12px; color:var(--muted);">"Hazme un correo de cobranza"</td>
-                </tr>
-                <tr style="border-bottom:1px solid var(--border);">
-                  <td style="padding:10px 12px; font-weight:600;">Prompt bueno</td>
-                  <td style="padding:10px 12px; color:var(--muted);">Instrucción con los 5 elementos</td>
-                  <td style="padding:10px 12px; color:var(--muted);">"Actúa como ejecutivo de cobranza…"</td>
-                </tr>
-                <tr style="border-bottom:1px solid var(--border);">
-                  <td style="padding:10px 12px; font-weight:600;">Skill</td>
-                  <td style="padding:10px 12px; color:var(--muted);">Forma documentada de repetir una tarea con calidad</td>
-                  <td style="padding:10px 12px; color:var(--muted);">Skill de cobranza, resumen semanal, revisión de contrato</td>
-                </tr>
-                <tr>
-                  <td style="padding:10px 12px; font-weight:600;">Agente</td>
-                  <td style="padding:10px 12px; color:var(--muted);">Sistema que usa instrucciones y herramientas para completar un flujo</td>
-                  <td style="padding:10px 12px; color:var(--muted);">Agente que revisa leads y prepara seguimientos</td>
-                </tr>
-              </tbody>
-            </table>
+          <div style="padding:10px 14px; background:var(--surface2); border-radius:8px; font-size:12px; color:var(--muted);">
+            Tarea repetitiva → prompt estructurado → resultado revisado → <strong style="color:var(--text);">skill guardada</strong> → automatización cuando tenga sentido.
           </div>
         </div>
 
@@ -2614,16 +2570,6 @@ Nota: En NotebookLM primero subes el documento (PDF o texto). Luego le haces las
           <div id="review-progress" style="margin-top:12px;font-size:13px;text-align:center;color:var(--muted);display:none;"></div>
         </div>
 
-        <div class="highlight">
-          <p><strong>Para tu próxima semana:</strong><br>
-          Elige una sola tarea repetitiva. Usa IA para el primer borrador. Revisa con criterio. Guarda lo que funcionó con la ficha de arriba.<br><br>
-          No intentes cambiar todo de golpe. Un proceso a la vez.</p>
-        </div>
-
-        <div class="card">
-          <h3>Cómo adaptar un prompt de internet</h3>
-          <p>Un prompt de internet no conoce tu negocio, tu cliente, tu tono ni tus reglas internas. Úsalo como punto de partida, no como receta. Identifica qué rol le asigna, qué contexto usa y qué partes no aplican. Después adáptalo con la fórmula de 5 elementos.</p>
-        </div>
 
         <!-- Plantilla skill con copy -->
         <div class="prompt-card">
@@ -2708,155 +2654,13 @@ Amenazar, sonar automático, inventar datos o forzar cierre.</div>
           </div>
         </div>
 
-        <!-- Ejemplo skill resumen ejecutivo -->
-        <div class="prompt-card">
-          <div class="prompt-header">
-            <span class="prompt-title">Ejemplo de skill — Resumen ejecutivo mensual</span>
-            <span class="prompt-tool-badge">ChatGPT</span>
-          </div>
-          <div class="prompt-body" id="skill-resumen">NOMBRE DE LA SKILL:
-Resumen ejecutivo mensual.
 
-Sirve para:
-Convertir datos de ventas, operación o gastos en un resumen para dirección.
 
-Cuándo usarla:
-Antes de juntas semanales o mensuales.
 
-Información que necesita:
-- Periodo
-- Resultado principal
-- Objetivo
-- Variación contra periodo anterior
-- Riesgos
-- Acción sugerida
-
-Prompt base:
-Actúa como gerente operativo. Con la información siguiente, crea un resumen ejecutivo en máximo 5 bullets, una explicación breve y una acción concreta para la siguiente semana. No inventes datos. Si falta información importante, dilo al final.
-
-Formato de salida:
-- 5 bullets
-- Explicación breve
-- Acción recomendada
-- Datos faltantes
-
-Criterios de revisión:
-- Se entiende en 30 segundos
-- No usa tecnicismos innecesarios
-- Distingue datos de opinión
-- Propone una acción concreta</div>
-          <div class="prompt-footer">
-            <span class="prompt-context">Usa para preparar juntas directivas o reportes de área</span>
-            <button class="copy-btn" onclick="copyPrompt('skill-resumen', this)">Copiar skill</button>
-          </div>
+        <div class="highlight">
+          <p><strong>Para tu próxima semana:</strong><br>
+          Elige una tarea que se repite. Usa IA para el primer borrador. Revisa. Guarda lo que funcionó con la ficha de arriba. Un proceso a la vez.</p>
         </div>
-
-        <div class="card">
-          <h3>Plugins y conectores</h3>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;">
-            <div>
-              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; color:var(--amber); margin-bottom:8px;">Plugin = capacidad</div>
-              <div style="font-size:13px; color:var(--muted); line-height:1.7;">Agrega una función dentro de la herramienta.<br><br>Ejemplos: leer PDFs, analizar hojas de cálculo, generar imágenes, buscar en internet, crear presentaciones.</div>
-            </div>
-            <div>
-              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; color:var(--amber); margin-bottom:8px;">Conector = acceso</div>
-              <div style="font-size:13px; color:var(--muted); line-height:1.7;">Permiso para que la IA trabaje con una cuenta o sistema.<br><br>Ejemplos: Google Drive, Gmail, Calendar, CRM, Meta, Dropbox.</div>
-            </div>
-          </div>
-          <div style="margin-top:16px; padding:14px 16px; background:var(--surface2); border-radius:8px; border:1px solid var(--border); font-size:13px;">
-            <strong>Agente</strong> = flujo que usa capacidades (plugins) y accesos (conectores) para completar una tarea de principio a fin.
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>Cuándo sí conectar herramientas</h3>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;">
-            <div>
-              <div style="color:var(--success); font-weight:600; font-size:13px; margin-bottom:8px;">SÍ conviene cuando:</div>
-              <div style="font-size:13px; color:var(--muted); line-height:1.8;">La tarea se repite<br>La fuente de información está definida<br>Hay una persona responsable<br>El resultado tiene formato claro<br>Hay una regla de revisión humana</div>
-            </div>
-            <div>
-              <div style="color:var(--error); font-weight:600; font-size:13px; margin-bottom:8px;">NO conviene cuando:</div>
-              <div style="font-size:13px; color:var(--muted); line-height:1.8;">Nadie sabe quién usa el resultado<br>Los datos están desordenados<br>No hay criterio para validar<br>Se quiere conectar "por moda"<br>Se espera que la IA arregle un proceso que nadie entiende</div>
-            </div>
-          </div>
-          <div class="highlight" style="margin-top:16px; margin-bottom:0;">
-            <p>"Si el proceso está desordenado, conectar herramientas solo acelera el desorden."</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>Glosario práctico</h3>
-          <div style="margin-top:8px;">
-            <details>
-              <summary>Prompt</summary>
-              <div class="accordion-body">Instrucción que le das a la IA. Sin estructura, la IA adivina. Con los 5 elementos (rol, contexto, tarea, formato, criterio) produce algo útil.</div>
-            </details>
-            <details>
-              <summary>Skill</summary>
-              <div class="accordion-body">Prompt documentado y validado para una tarea específica. Incluye el contexto que necesita, el formato de salida, los criterios de revisión y un ejemplo de resultado aceptable. Es la memoria operativa del equipo — se guarda, se comparte y se mejora con el tiempo.</div>
-            </details>
-            <details>
-              <summary>Plugin</summary>
-              <div class="accordion-body">Extensión que agrega una <strong>capacidad</strong> a la herramienta de IA, sin conectar cuentas externas. Ejemplos: leer PDFs adjuntos, interpretar Excel, generar imágenes, buscar en internet, crear presentaciones.</div>
-            </details>
-            <details>
-              <summary>Conector</summary>
-              <div class="accordion-body">Permiso que le das a la IA para trabajar con una cuenta o sistema externo. Da <strong>acceso</strong>, no capacidades nuevas. Ejemplos por área:<br>· Administración: Google Drive, Sheets, Dropbox<br>· Comunicación: Gmail, Outlook, Slack<br>· Ventas: CRM, WhatsApp Business, HubSpot<br>· Marketing: Meta Ads, Canva, Analytics</div>
-            </details>
-            <details>
-              <summary>Agente</summary>
-              <div class="accordion-body">Sistema que combina instrucciones (skills), capacidades (plugins) y accesos (conectores) para ejecutar un flujo de principio a fin. No es magia — es la unión de todo lo anterior aplicada a un proceso claro. Ejemplo: revisa Gmail → identifica leads → redacta mensaje → lo guarda en el CRM → notifica al vendedor.</div>
-            </details>
-            <details>
-              <summary>Automatización</summary>
-              <div class="accordion-body">Flujo que se ejecuta solo cuando ocurre algo (correo nuevo, fecha, formulario enviado). La IA puede ser parte de una automatización, pero no toda automatización usa IA. Herramientas: n8n, Zapier, Make. Regla: primero el proceso tiene que estar claro. Si el proceso es un desorden, automatizarlo solo acelera el desorden.</div>
-            </details>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>Preguntas frecuentes</h3>
-          <div style="margin-top:8px;">
-            <details>
-              <summary>¿Cuál herramienta de IA es mejor?</summary>
-              <div class="accordion-body">Depende de la tarea. ChatGPT para comunicación y reportes. Claude para documentos largos y datos sensibles. Gemini para información actual del mercado. NotebookLM para consultar tus propios documentos. La pregunta correcta es "¿qué tarea quiero resolver?", no "¿cuál es mejor?"</div>
-            </details>
-            <details>
-              <summary>¿Puedo copiar prompts de internet?</summary>
-              <div class="accordion-body">Sí, como punto de partida. Un prompt de internet no conoce tu negocio, tus clientes ni tu tono. Sirve para entender la estructura — no para usarse directamente. Primero se entiende, luego se adapta con la fórmula, después se prueba con datos reales.</div>
-            </details>
-            <details>
-              <summary>¿Qué pasa si la IA inventa información?</summary>
-              <div class="accordion-body">Se llama alucinación: la IA rellena los huecos con información plausible pero falsa cuando no tiene suficiente contexto. La solución es dar más contexto y revisar el resultado con las 5 preguntas de este módulo antes de usarlo.</div>
-            </details>
-            <details>
-              <summary>¿La IA reemplaza empleados?</summary>
-              <div class="accordion-body">El primer paso no es reemplazar — es quitar carga repetitiva: primeros borradores, resumir documentos, preparar seguimientos. El criterio, la validación y la responsabilidad siguen siendo humanos. Un equipo que usa IA bien produce más en el mismo tiempo.</div>
-            </details>
-            <details>
-              <summary>¿Necesito pagar muchas suscripciones?</summary>
-              <div class="accordion-body">No al inicio. ChatGPT y Claude tienen versiones gratuitas funcionales. Gemini y NotebookLM son gratuitas. Pagar más herramientas antes de saber usarlas bien solo aumenta el gasto. Primero domina el método con lo que tienes.</div>
-            </details>
-            <details>
-              <summary>¿Cuándo conviene agregar un plugin?</summary>
-              <div class="accordion-body">Cuando la tarea que ya sabes hacer con prompts requiere procesar un archivo real (PDF, Excel, imagen). Los plugins extienden lo que puedes pedir, pero no reemplazan saber pedir bien. Primero el prompt, luego el plugin si hace falta.</div>
-            </details>
-            <details>
-              <summary>¿Cuándo conviene agregar un conector?</summary>
-              <div class="accordion-body">Cuando la tarea ya la haces bien con prompts y skills, se repite constantemente, y los datos viven en un sistema externo (CRM, Gmail, Drive). Un conector tiene sentido solo si el flujo ya está validado — conectar un proceso que no funciona solo lo acelera en la dirección equivocada.</div>
-            </details>
-            <details>
-              <summary>¿Cuándo tiene sentido construir un agente?</summary>
-              <div class="accordion-body">Cuando tienes: proceso claro y documentado, prompts validados para cada paso, conectores definidos, y alguien responsable de revisar el resultado. Un agente no inventa el proceso — lo ejecuta. Si el proceso no existe o nadie lo entiende, el agente reproduce el caos más rápido.</div>
-            </details>
-            <details>
-              <summary>¿Qué hago mañana con lo que aprendí hoy?</summary>
-              <div class="accordion-body">Elige una sola tarea repetitiva. Escribe el prompt con la fórmula de 5 elementos. Úsalo con datos reales. Revisa el resultado. Corrige lo que no representa a tu empresa. Guarda la versión que funcionó con la ficha de skill. Si esa tarea vuelve la próxima semana, ya tienes el sistema listo.</div>
-            </details>
-          </div>
-        </div>
-
 
         <!-- ─── MINI EJERCICIO: CONVIERTE UN EJERCICIO EN SKILL ─── -->
         <div class="card" style="border-color:var(--amber-border); margin-top:12px; margin-bottom:24px;">
@@ -3978,7 +3782,67 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
         </div>
 
         <!-- ─── QUIZ ─── -->
-        </div><!-- /mod-7-content -->
+        
+        <!-- ─── PLUGINS Y CONECTORES (movido de M5) ─── -->
+        <div class="card" style="margin-top:32px;">
+          <h3>Plugins y conectores — qué son y cuándo usarlos</h3>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;">
+            <div>
+              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; color:var(--amber); margin-bottom:8px;">Plugin = capacidad</div>
+              <div style="font-size:13px; color:var(--muted); line-height:1.7;">Agrega una función dentro de la herramienta.<br><br>Ejemplos: leer PDFs, analizar hojas de cálculo, generar imágenes, buscar en internet, crear presentaciones.</div>
+            </div>
+            <div>
+              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; color:var(--amber); margin-bottom:8px;">Conector = acceso</div>
+              <div style="font-size:13px; color:var(--muted); line-height:1.7;">Permiso para que la IA trabaje con una cuenta o sistema externo.<br><br>Ejemplos: Google Drive, Gmail, Calendar, CRM, Meta, Dropbox.</div>
+            </div>
+          </div>
+          <div style="margin-top:16px; padding:14px 16px; background:var(--surface2); border-radius:8px; border:1px solid var(--border); font-size:13px;">
+            <strong>Agente</strong> = flujo que usa capacidades (plugins) y accesos (conectores) para completar una tarea de principio a fin.
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">
+            <div>
+              <div style="color:var(--success); font-weight:600; font-size:13px; margin-bottom:8px;">SÍ conviene conectar cuando:</div>
+              <div style="font-size:13px; color:var(--muted); line-height:1.8;">La tarea se repite<br>La fuente de información está definida<br>Hay una persona responsable<br>El resultado tiene formato claro</div>
+            </div>
+            <div>
+              <div style="color:var(--error); font-weight:600; font-size:13px; margin-bottom:8px;">NO conviene cuando:</div>
+              <div style="font-size:13px; color:var(--muted); line-height:1.8;">Los datos están desordenados<br>No hay criterio para validar<br>Se quiere conectar "por moda"<br>Se espera que la IA arregle un proceso roto</div>
+            </div>
+          </div>
+          <div class="highlight" style="margin-top:16px; margin-bottom:0;">
+            <p>"Si el proceso está desordenado, conectar herramientas solo acelera el desorden."</p>
+          </div>
+        </div>
+
+        <!-- ─── GLOSARIO ─── -->
+        <div class="card" style="margin-top:20px;">
+          <h3>Glosario práctico</h3>
+          <div style="margin-top:8px;">
+            <details><summary>Prompt</summary><div class="accordion-body">Instrucción que le das a la IA. Sin estructura, la IA adivina. Con los 5 elementos (rol, contexto, tarea, formato, criterio) produce algo útil.</div></details>
+            <details><summary>Skill</summary><div class="accordion-body">Prompt documentado y validado para una tarea específica. Incluye el contexto que necesita, el formato de salida, los criterios de revisión y un ejemplo de resultado aceptable. Es la memoria operativa del equipo.</div></details>
+            <details><summary>Plugin</summary><div class="accordion-body">Extensión que agrega una <strong>capacidad</strong> a la herramienta de IA, sin conectar cuentas externas. Ejemplos: leer PDFs adjuntos, interpretar Excel, generar imágenes, buscar en internet.</div></details>
+            <details><summary>Conector</summary><div class="accordion-body">Permiso que le das a la IA para trabajar con una cuenta o sistema externo. Da <strong>acceso</strong>, no capacidades nuevas. Ejemplos: Google Drive, Gmail, Slack, CRM, WhatsApp Business.</div></details>
+            <details><summary>Agente</summary><div class="accordion-body">Sistema que combina instrucciones (skills), capacidades (plugins) y accesos (conectores) para ejecutar un flujo de principio a fin. No inventa el proceso — lo ejecuta. Ejemplo: revisa Gmail → identifica leads → redacta mensaje → guarda en CRM → notifica al vendedor.</div></details>
+            <details><summary>Automatización</summary><div class="accordion-body">Flujo que se ejecuta solo cuando ocurre algo (correo nuevo, fecha, formulario enviado). La IA puede ser parte de una automatización, pero no toda automatización usa IA. Herramientas: n8n, Zapier, Make.</div></details>
+          </div>
+        </div>
+
+        <!-- ─── FAQ ─── -->
+        <div class="card" style="margin-top:20px;">
+          <h3>Preguntas frecuentes</h3>
+          <div style="margin-top:8px;">
+            <details><summary>¿Cuál herramienta de IA es mejor?</summary><div class="accordion-body">Depende de la tarea. ChatGPT para comunicación y reportes. Claude para documentos largos y datos sensibles. Gemini para información actual del mercado. NotebookLM para consultar tus propios documentos.</div></details>
+            <details><summary>¿Puedo copiar prompts de internet?</summary><div class="accordion-body">Sí, como punto de partida. Sirve para entender la estructura — no para usarse directamente. Primero se entiende, luego se adapta con la fórmula, después se prueba con datos reales.</div></details>
+            <details><summary>¿Qué pasa si la IA inventa información?</summary><div class="accordion-body">Se llama alucinación: la IA rellena los huecos con información plausible pero falsa. La solución es dar más contexto y revisar el resultado con las 5 preguntas de M5 antes de usarlo.</div></details>
+            <details><summary>¿La IA reemplaza empleados?</summary><div class="accordion-body">El primer paso no es reemplazar — es quitar carga repetitiva: primeros borradores, resumir documentos, preparar seguimientos. El criterio y la responsabilidad siguen siendo humanos.</div></details>
+            <details><summary>¿Necesito pagar muchas suscripciones?</summary><div class="accordion-body">No al inicio. ChatGPT y Claude tienen versiones gratuitas funcionales. Gemini y NotebookLM son gratuitas. Primero domina el método con lo que tienes.</div></details>
+            <details><summary>¿Cuándo conviene agregar un plugin o conector?</summary><div class="accordion-body">Cuando la tarea ya la haces bien con prompts y skills, se repite constantemente, y los datos viven en un sistema externo. Un conector tiene sentido solo si el flujo ya está validado.</div></details>
+            <details><summary>¿Cuándo tiene sentido construir un agente?</summary><div class="accordion-body">Cuando tienes: proceso claro y documentado, prompts validados para cada paso, conectores definidos, y alguien responsable de revisar el resultado. Si el proceso no existe o nadie lo entiende, el agente reproduce el caos más rápido.</div></details>
+            <details><summary>¿Qué hago mañana con lo que aprendí hoy?</summary><div class="accordion-body">Elige una sola tarea repetitiva. Escribe el prompt con la fórmula de 5 elementos. Úsalo con datos reales. Revisa. Corrige. Guarda la versión que funcionó con la ficha de skill. La próxima semana ya tienes el sistema listo.</div></details>
+          </div>
+        </div>
+
+</div><!-- /mod-7-content -->
 
         <button class="content-reveal-btn" id="reveal-mod-7" onclick="toggleContent(7)">📖 Ver contenido del módulo ↑</button>
 
