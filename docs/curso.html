@@ -1646,8 +1646,37 @@
         <input id="reg-nombre" type="text" placeholder="Ana Torres" required autocomplete="name">
       </div>
       <div class="reg-field">
-        <label for="reg-giro">Giro o empresa</label>
-        <input id="reg-giro" type="text" placeholder="Despacho contable, consultora, restaurante…" required>
+        <label for="reg-empresa">Empresa</label>
+        <input id="reg-empresa" type="text" placeholder="Nombre de tu empresa" required autocomplete="organization">
+      </div>
+      <div class="reg-field">
+        <label for="reg-giro">Giro</label>
+        <select id="reg-giro" required>
+          <option value="" disabled selected>Selecciona tu industria…</option>
+          <option value="manufactura">Manufactura / Maquila</option>
+          <option value="distribucion">Distribución / Comercio</option>
+          <option value="despacho-legal">Despacho legal</option>
+          <option value="despacho-contable">Despacho contable / Fiscal</option>
+          <option value="consultoria">Consultoría / Agencia</option>
+          <option value="servicios">Servicios / Restaurante</option>
+          <option value="gobierno">Gobierno / Municipio</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+      <div class="reg-field">
+        <label for="reg-dept">Departamento</label>
+        <select id="reg-dept" required>
+          <option value="" disabled selected>¿En qué área trabajas?</option>
+          <option value="direccion">Dirección / Gerencia</option>
+          <option value="ventas">Ventas / Comercial</option>
+          <option value="marketing">Marketing</option>
+          <option value="contabilidad">Contabilidad / Finanzas</option>
+          <option value="legal">Legal / Jurídico</option>
+          <option value="rh">Recursos Humanos</option>
+          <option value="operaciones">Operaciones / Calidad</option>
+          <option value="sistemas">Sistemas / TI</option>
+          <option value="otro">Otro</option>
+        </select>
       </div>
       <div class="reg-field">
         <label for="reg-whatsapp">WhatsApp</label>
@@ -4148,13 +4177,15 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
   async function submitReg(e) {
     e.preventDefault();
     var nombre   = document.getElementById('reg-nombre').value.trim();
-    var giro     = document.getElementById('reg-giro').value.trim();
+    var empresa  = document.getElementById('reg-empresa').value.trim();
+    var giro     = document.getElementById('reg-giro').value;
+    var dept     = document.getElementById('reg-dept').value;
     var whatsapp = document.getElementById('reg-whatsapp').value.trim();
     var errEl    = document.getElementById('reg-error');
     var btn      = document.getElementById('reg-submit');
 
-    if (!nombre || !giro || !whatsapp) {
-      errEl.textContent = 'Completa los tres campos para continuar.';
+    if (!nombre || !empresa || !giro || !dept || !whatsapp) {
+      errEl.textContent = 'Completa todos los campos para continuar.';
       errEl.classList.remove('hidden'); return;
     }
     errEl.classList.add('hidden');
@@ -4170,18 +4201,18 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
           'Authorization': 'Bearer ' + SB_ANON,
           'Prefer': 'return=minimal'
         },
-        body: JSON.stringify({ nombre, giro, whatsapp })
+        body: JSON.stringify({ nombre, empresa, giro, departamento: dept, whatsapp })
       });
 
       if (!res.ok && res.status !== 201) throw new Error('status ' + res.status);
 
-      localStorage.setItem('lps-curso-reg', JSON.stringify({ nombre, giro, whatsapp }));
+      localStorage.setItem('lps-curso-reg', JSON.stringify({ nombre, empresa, giro, departamento: dept, whatsapp }));
       var gate = document.getElementById('reg-gate');
       gate.classList.add('fade-out');
       setTimeout(function() { gate.style.display = 'none'; }, 420);
     } catch (err) {
       // Si Supabase falla, igualmente dejar entrar (no bloquear el curso)
-      localStorage.setItem('lps-curso-reg', JSON.stringify({ nombre, giro, whatsapp }));
+      localStorage.setItem('lps-curso-reg', JSON.stringify({ nombre, empresa, giro, departamento: dept, whatsapp }));
       document.getElementById('reg-gate').style.display = 'none';
     }
   }
