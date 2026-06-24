@@ -4,10 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-Two unrelated deliverables live side-by-side:
+Three deliverables live side-by-side. The first two are unrelated to each other; the third is the backend for the course inside the static site.
 
-1. **Daily Telegram follow-up reminder** (Python) — `reminder.py`, `message_templates.py`, scheduled by `.github/workflows/daily_reminder.yml`. Pulls prospects from a Supabase table `lps_prospects`, filters to ones needing follow-up, and posts a formatted message to Telegram.
-2. **Lightning Pro landing page** (static site) — `docs/` is published via GitHub Pages. It is plain HTML/CSS, no build step. Note: the directory was renamed from `landing/` to `docs/` specifically so GitHub Pages would serve it (see commit `ab1a9e1`); do not rename it back.
+1. **Daily Telegram follow-up reminder** (Python) — `reminder.py`, `message_templates.py`, scheduled by `.github/workflows/daily_reminder.yml`. Pulls prospects from a Supabase table `lps_prospects`, filters to ones needing follow-up, and posts a formatted message to Telegram. **Self-contained — do not couple anything new to it.** It uses its own separate Supabase project.
+2. **Lightning Pro landing page + course** (static site) — `docs/` is published via GitHub Pages. Plain HTML/CSS, no build step. Note: the directory was renamed from `landing/` to `docs/` specifically so GitHub Pages would serve it (see commit `ab1a9e1`); do not rename it back. `docs/curso.html` is the gated course; `docs/privacidad.html` is the LFPDPPP privacy notice.
+3. **Backend API** (`api/`, TypeScript Vercel Functions + Neon Postgres) — auth (email magic link), one-time Stripe paywall gating `curso.html`, server-side course progress, and a WhatsApp bot. Deploys to Vercel (separate from GitHub Pages, which still serves the static site); the frontend calls it cross-origin at `api.lightningprosolutions.com`. Schema in `migrations/`. **The old client-side Supabase gate on `curso.html` was removed — `curso_registros` is dead; do not reintroduce embedded anon keys.** See `DEPLOY.md` for provisioning.
 
 Spanish is the language for prospect data, user-facing copy, and message templates. Keep new copy in Spanish unless explicitly asked otherwise.
 
