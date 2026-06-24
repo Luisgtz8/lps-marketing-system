@@ -1,0 +1,49 @@
+// Auth helpers: token generation, hashing, session resolution.
+import { randomBytes, createHash } from 'node:crypto';
+import type { VercelRequest } from '@vercel/node';
+import { sql } from './db.js';
+
+// Opaque random token (URL-safe). 32 bytes ≈ 256 bits of entropy.
+export function newToken(): string {
+  return randomBytes(32).toString('base64url');
+}
+
+// We store only the hash; the raw token lives in the email link / bearer header.
+export function hashToken(token: string): string {
+  return createHash('sha256').update(token).digest('hex');
+}
+
+export interface SessionUser {
+  id: string;
+  email: string;
+  nombre: string | null;
+  is_admin: boolean;
+}
+
+/**
+ * Resolve the bearer token on a request to a user + active session.
+ * Returns null if missing/invalid/expired/revoked.
+ */
+export async function getSessionUser(req: VercelRequest): Promise<SessionUser | null> {
+  const header = req.headers.authorization;
+  if (!header || !header.startsWith('Bearer ')) return null;
+  const token = header.slice('Bearer '.length).trim();
+  if (!token) return null;
+
+  const rows = await sql`
+    select u.id, u.email, u.nombre, u.is_admin
+    from sessions s
+    join users u on u.id = s.user_id
+    where s.token_hash = ${hashToken(token)}
+      and s.revoked_at is null
+      and s.expires_at > now()
+    limit 1
+  `;
+  return (rows[0] as SessionUser) ?? null;
+}
+
+// Basic RFC-5322-ish email sanity check (not exhaustive — Postgres citext +
+// the magic-link round-trip are the real validation).
+export function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
