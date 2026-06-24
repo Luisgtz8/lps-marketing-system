@@ -62,8 +62,8 @@
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Sprint Operativo",
-            "description": "Taller avanzado para equipos que ya usan IA y quieren el siguiente nivel: bases de datos inteligentes, dashboards en tiempo real, conexiones entre herramientas y primeros agentes autónomos.",
+            "name": "IA en Operación — Nivel Avanzado",
+            "description": "Taller avanzado para equipos que ya usan IA y quieren ir más lejos: sistemas de información propios, reportes que se actualizan solos, herramientas conectadas entre sí y asistentes que trabajan de forma autónoma.",
             "provider": {"@type": "LocalBusiness", "name": "Lightning Pro Solutions"}
           }
         }
@@ -122,6 +122,9 @@
   }
   </script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <script>
+    (function(){var t=localStorage.getItem('lps-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');})();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -214,6 +217,18 @@
       color: var(--green);
     }
 
+    .bolt-icon {
+      display: inline-block;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+      color: var(--green);
+    }
+
+    .theme-icon {
+      display: block;
+    }
+
     .nav-links {
       display: flex;
       align-items: center;
@@ -247,6 +262,26 @@
     .btn-nav:hover {
       opacity: 0.9;
       transform: translateY(-1px);
+    }
+
+    .btn-nav-boveda {
+      display: inline-block;
+      background: linear-gradient(135deg, #F59E0B 0%, #B45309 100%);
+      color: #000 !important;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 9px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      letter-spacing: .01em;
+      transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 10px rgba(245,158,11,0.35);
+    }
+    .btn-nav-boveda:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(245,158,11,0.5);
     }
 
     /* HERO */
@@ -303,12 +338,13 @@
 
     .hero-eyebrow {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 600;
       letter-spacing: 1.5px;
       text-transform: uppercase;
       color: var(--green);
       margin-bottom: 20px;
+      opacity: 0.9;
     }
 
     .hero-h1 {
@@ -449,7 +485,7 @@
 
     /* PROBLEMA / SOLUCIÓN */
     .problem {
-      padding: 60px 0;
+      padding: 60px 0 32px;
       background: var(--black-mid);
     }
 
@@ -531,6 +567,165 @@
 
     .solution-arrow::before {
       content: "→ ";
+      color: var(--green);
+    }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .method-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .method-card {
+      background: #111;
+      border: 1px solid #252525;
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .method-card.good {
+      background: #1a1200;
+      border-color: rgba(245,158,11,0.55);
+    }
+
+    .method-card h3 {
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+
+    .method-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .method-list li {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .method-list li::before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .method-card.bad .method-list li::before {
+      content: "×";
+      color: #c0413a;
+    }
+
+    .method-card.good .method-list li::before {
+      content: "✓";
+    }
+
+    .system-diagram {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .system-step {
+      background: #111;
+      border: 1px solid #252525;
+      border-radius: 10px;
+      padding: 18px;
+      min-height: 132px;
+      position: relative;
+    }
+
+    .system-step::after {
+      content: "→";
+      position: absolute;
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .system-step:last-child::after {
+      display: none;
+    }
+
+    .system-step span {
+      display: block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+
+    .system-step strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .system-step p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .structure-board {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      margin: 34px 0 40px;
+      align-items: stretch;
+    }
+
+    .folder-tree,
+    .prompt-stack {
+      background: #111;
+      border: 1px solid #252525;
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .folder-tree pre {
+      color: #f7c56b;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      margin-top: 14px;
+    }
+
+    .prompt-stack-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .prompt-piece {
+      border: 1px solid rgba(245,158,11,0.25);
+      background: rgba(245,158,11,0.07);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+      color: #d8d8d8;
+    }
+
+    .prompt-piece strong {
       color: var(--green);
     }
 
@@ -702,6 +897,7 @@
       margin: -32px -32px 24px -32px;
       height: 200px;
       object-fit: cover;
+      object-position: center top;
       border-radius: 12px 12px 0 0;
       display: block;
     }
@@ -738,10 +934,9 @@
       display: block;
     }
 
-    /* TESTIMONIAL */
     /* EXPEDIENTE */
     .expediente {
-      padding: 72px 0;
+      padding: 72px 0 0;
       background: var(--black-mid);
       border-top: 1px solid var(--border);
     }
@@ -752,31 +947,76 @@
       padding: 0 48px;
     }
 
-    .expediente-list {
-      margin-top: 48px;
+    .expediente-scroll-wrap {
+      margin-top: 40px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .expediente-scroll-wrap::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 24px;
+      width: 80px;
+      background: linear-gradient(to right, transparent, var(--black-mid));
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .expediente-scroll {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 8px 48px 32px;
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #2a2a2a transparent;
+    }
+
+    .expediente-scroll:active {
+      cursor: grabbing;
+    }
+
+    .expediente-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .expediente-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .expediente-scroll::-webkit-scrollbar-thumb {
+      background: #2a2a2a;
+      border-radius: 4px;
+    }
+
+    .exp-card {
+      flex: 0 0 360px;
+      scroll-snap-align: start;
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 12px;
+      padding: 28px 24px;
       display: flex;
       flex-direction: column;
+      gap: 0;
+      transition: border-color 0.2s;
     }
 
-    .exp-entry {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 48px;
-      padding: 32px 0;
-      border-bottom: 1px solid var(--border);
-      align-items: start;
-    }
-
-    .exp-entry:first-child {
-      border-top: 1px solid var(--border);
+    .exp-card:hover {
+      border-color: #2a2a2a;
     }
 
     .exp-client {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       line-height: 1.2;
     }
 
@@ -793,14 +1033,15 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 9px;
+      margin-top: 0;
     }
 
     .exp-points li {
-      font-size: 15px;
+      font-size: 14px;
       color: var(--muted);
-      line-height: 1.55;
-      padding-left: 18px;
+      line-height: 1.5;
+      padding-left: 16px;
       position: relative;
     }
 
@@ -809,12 +1050,23 @@
       position: absolute;
       left: 0;
       color: var(--green);
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .exp-points li strong {
       color: var(--text);
       font-weight: 500;
+    }
+
+    .exp-img {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 20px;
+      object-fit: cover;
+      object-position: center top;
+      max-height: 180px;
+      border: 1px solid var(--border);
+      display: block;
     }
 
     /* keep old proyectos grid for fallback - hidden */
@@ -993,15 +1245,17 @@
       font-family: 'Space Grotesk', sans-serif;
       font-size: 16px;
       font-weight: 700;
-      padding: 16px 32px;
+      padding: 16px 36px;
       border-radius: 8px;
-      transition: opacity 0.2s, transform 0.2s;
+      transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
       margin-bottom: 20px;
+      box-shadow: 0 0 32px rgba(245,158,11,0.45), 0 4px 20px rgba(245,158,11,0.3);
     }
 
     .btn-primary-large:hover {
-      opacity: 0.9;
+      opacity: 0.92;
       transform: translateY(-2px);
+      box-shadow: 0 0 48px rgba(245,158,11,0.6), 0 6px 28px rgba(245,158,11,0.4);
     }
 
     .cta-note {
@@ -1070,6 +1324,25 @@
         padding: 0 24px;
       }
 
+      .method-inner {
+        padding: 0 24px;
+      }
+
+      .method-grid,
+      .system-diagram,
+      .structure-board {
+        grid-template-columns: 1fr;
+      }
+
+      .system-step::after {
+        content: "↓";
+        right: auto;
+        top: auto;
+        left: 24px;
+        bottom: -18px;
+        transform: none;
+      }
+
       .talleres-inner {
         padding: 0 24px;
       }
@@ -1086,9 +1359,12 @@
         padding: 0 24px;
       }
 
-      .exp-entry {
-        grid-template-columns: 1fr;
-        gap: 16px;
+      .expediente-scroll {
+        padding: 8px 24px 32px;
+      }
+
+      .exp-card {
+        flex: 0 0 300px;
       }
 
       .about-inner {
@@ -1101,6 +1377,13 @@
         padding: 0 24px;
       }
 
+      .para-quien-inner {
+        padding: 0 24px !important;
+      }
+      .para-quien-inner .reveal[style*="grid-template-columns:repeat(5"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+
       .footer-inner {
         padding: 0 24px;
         flex-direction: column;
@@ -1108,6 +1391,494 @@
         text-align: center;
       }
     }
+
+    /* ─── THEME TOGGLE BUTTON ─── */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 6px;
+      padding: 7px 11px;
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--muted);
+      color: var(--text);
+    }
+
+    /* ─── LIGHT MODE ─── */
+    [data-theme="light"] {
+      --black: #f9f9f9;
+      --black-mid: #f0f0f0;
+      --surface: #e8e8e8;
+      --border: #d5d5d5;
+      --text: #111111;
+      --muted: #555555;
+    }
+
+    [data-theme="light"] body {
+      background: #f9f9f9;
+      color: #111111;
+    }
+
+    [data-theme="light"] nav {
+      background: rgba(249, 249, 249, 0.92);
+    }
+
+    [data-theme="light"] .hero-panel {
+      background: #ffffff;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    [data-theme="light"] .hero-panel p {
+      color: #555;
+    }
+
+    [data-theme="light"] .check-list li {
+      color: #111;
+    }
+
+    [data-theme="light"] .logos-names {
+      color: #666;
+    }
+
+    [data-theme="light"] .method-card {
+      background: #ffffff;
+      border-color: #e0e0e0;
+    }
+
+    [data-theme="light"] .method-card.good {
+      background: #fffbeb;
+    }
+
+    [data-theme="light"] .method-list li {
+      color: #555;
+    }
+
+    [data-theme="light"] .system-step {
+      background: #ffffff;
+      border-color: #e0e0e0;
+    }
+
+    [data-theme="light"] .system-step strong {
+      color: #111;
+    }
+
+    [data-theme="light"] .system-step p {
+      color: #555;
+    }
+
+    [data-theme="light"] .folder-tree,
+    [data-theme="light"] .prompt-stack {
+      background: #ffffff;
+      border-color: #e0e0e0;
+    }
+
+    [data-theme="light"] .prompt-piece {
+      color: #333;
+    }
+
+    [data-theme="light"] .taller-card {
+      background: #ffffff;
+      border-color: #ddd;
+    }
+
+    [data-theme="light"] .taller-card.featured {
+      background: #fffbeb;
+    }
+
+    [data-theme="light"] .taller-badge {
+      background: #ebebeb;
+      color: #444;
+    }
+
+    [data-theme="light"] .taller-desc,
+    [data-theme="light"] .taller-meta span,
+    [data-theme="light"] .taller-note,
+    [data-theme="light"] .taller-currency {
+      color: #555;
+    }
+
+    [data-theme="light"] .btn-outline {
+      color: #111;
+      border-color: #ccc;
+    }
+
+    [data-theme="light"] .btn-outline:hover {
+      border-color: #555;
+      color: #000;
+    }
+
+    [data-theme="light"] .exp-card {
+      background: #ffffff;
+      border-color: #e8e8e8;
+    }
+
+    [data-theme="light"] .exp-card:hover {
+      border-color: #ccc;
+    }
+
+    [data-theme="light"] .exp-client {
+      color: #111;
+    }
+
+    [data-theme="light"] .exp-points li {
+      color: #555;
+    }
+
+    [data-theme="light"] .exp-points li strong {
+      color: #111;
+    }
+
+    [data-theme="light"] blockquote {
+      color: #666 !important;
+    }
+
+    [data-theme="light"] .chip {
+      background: #f0f0f0;
+      border-color: #ddd;
+      color: #444;
+    }
+
+    [data-theme="light"] .about-bio {
+      color: #555;
+    }
+
+    [data-theme="light"] .exp-img,
+    [data-theme="light"] .talleres-img,
+    [data-theme="light"] .about-img {
+      border-color: var(--border);
+    }
+
+    [data-theme="light"] .expediente-scroll-wrap::after {
+      background: linear-gradient(to right, transparent, #f0f0f0);
+    }
+
+    [data-theme="light"] .expediente-scroll {
+      scrollbar-color: #ccc transparent;
+    }
+
+    /* inline-styled dark elements */
+    [data-theme="light"] .para-quien-inner div[style*="background:#111"] {
+      background: #ffffff !important;
+      border-color: #ddd !important;
+    }
+
+    [data-theme="light"] .para-quien-inner p[style*="color:#e8e8e8"] {
+      color: #111 !important;
+    }
+
+    [data-theme="light"] [style*="color:#888"] {
+      color: #555 !important;
+    }
+
+    [data-theme="light"] [style*="color:#a0a0a0"] {
+      color: #666 !important;
+    }
+
+    [data-theme="light"] [style*="color:#e8e8e8"],
+    [data-theme="light"] [style*="color: #e8e8e8"] {
+      color: #111 !important;
+    }
+
+    /* COLLAPSIBLE METHOD DETAIL */
+    .method-expand-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 24px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .method-expand-btn:hover {
+      border-color: var(--green);
+      color: var(--text);
+    }
+    .method-expand-arrow {
+      color: var(--green);
+      transition: transform 0.25s;
+    }
+    .method-expand-btn[aria-expanded="true"] .method-expand-arrow {
+      display: inline-block;
+      transform: rotate(180deg);
+    }
+    .method-collapsible {
+      animation: fadeSlideDown 0.3s ease;
+    }
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 1 A 1 */
+    .uno-a-uno {
+      padding: 72px 0;
+      background: var(--black-mid);
+      border-top: 1px solid var(--border);
+    }
+    .uno-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+    .uno-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .uno-card {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .uno-card.featured {
+      background: #1a1200;
+      border: 2px solid var(--green);
+    }
+    .uno-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0;
+    }
+    .uno-list li {
+      font-size: 14px;
+      color: var(--muted);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .uno-list li::before {
+      content: "·";
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    /* LO QUE CONSTRUIMOS */
+    .servicios {
+      padding: 72px 0;
+      background: var(--black);
+      border-top: 1px solid var(--border);
+    }
+    .servicios-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+    .servicios-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+    .servicio-card {
+      background: #111;
+      border: 1px solid #252525;
+      border-radius: 16px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .servicio-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--amber), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .servicio-card:hover { border-color: #3a3a3a; transform: translateY(-3px); }
+    .servicio-card:hover::before { opacity: 1; }
+    .servicio-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: rgba(245,158,11,0.1);
+      border: 1px solid rgba(245,158,11,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .servicio-card:hover .servicio-icon-wrap {
+      background: rgba(245,158,11,0.18);
+      border-color: rgba(245,158,11,0.4);
+    }
+    .servicio-icon { font-size: 26px; line-height: 1; }
+    .servicio-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .servicio-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+      flex: 1;
+    }
+    .servicio-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 4px;
+    }
+    .servicio-tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: #888;
+      border: 1px solid #2e2e2e;
+      border-radius: 20px;
+      padding: 4px 10px;
+      white-space: nowrap;
+    }
+
+    /* LIGHT MODE — nuevas secciones */
+    [data-theme="light"] .uno-card {
+      background: #ffffff;
+      border-color: #e0e0e0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.04);
+    }
+    [data-theme="light"] .uno-card.featured {
+      background: #fffbeb;
+      border-color: rgba(245,158,11,0.4);
+    }
+    [data-theme="light"] .uno-list li {
+      color: #555;
+    }
+    [data-theme="light"] .servicio-card {
+      background: #ffffff;
+      border-color: #e0e0e0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.04);
+    }
+    [data-theme="light"] .servicio-card:hover { border-color: #c0c0c0; }
+    [data-theme="light"] .servicio-name { color: #111; }
+    [data-theme="light"] .servicio-desc { color: #555; }
+    [data-theme="light"] .method-expand-btn {
+      border-color: #ddd;
+      color: #666;
+    }
+    [data-theme="light"] .method-expand-btn:hover {
+      border-color: var(--green);
+      color: #111;
+    }
+
+    /* RESPONSIVE — nuevas secciones */
+    @media (max-width: 768px) {
+      .uno-inner,
+      .servicios-inner {
+        padding: 0 24px;
+      }
+      .uno-grid { grid-template-columns: 1fr; }
+      .servicios-grid { grid-template-columns: 1fr 1fr; }
+    }
+    /* ─── HAMBURGER / MOBILE MENU ─── */
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 6px;
+      padding: 8px 10px;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-hamburger:hover { border-color: var(--muted); color: var(--text); }
+    .nav-hamburger span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 2px;
+      transition: transform 0.25s, opacity 0.25s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav-mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: rgba(8,8,8,0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 24px 20px;
+    }
+    .nav-mobile-menu.open { display: flex; }
+    .nav-mobile-menu a {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    .nav-mobile-menu a:hover { color: var(--text); }
+    .nav-mobile-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding-top: 16px;
+      flex-wrap: wrap;
+    }
+    .nav-mobile-actions .btn-nav,
+    .nav-mobile-actions .btn-nav-boveda { font-size: 14px; }
+    [data-theme="light"] .nav-mobile-menu { background: rgba(249,249,249,0.98); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none !important; }
+      .nav-hamburger { display: flex; }
+    }
+
+    /* ─── TALLERES 1A1 CTA ─── */
+    .talleres-cta-1a1 {
+      margin-top: 40px;
+      padding: 28px 32px;
+      border: 1px solid #1f1f1f;
+      border-radius: 12px;
+      background: #0a0a0a;
+      text-align: center;
+    }
+    .talleres-cta-1a1 p {
+      color: #888;
+      font-size: 15px;
+      margin: 0 0 16px;
+      line-height: 1.6;
+    }
+    [data-theme="light"] .talleres-cta-1a1 { background: #f0f0f0; border-color: #d5d5d5; }
   </style>
 </head>
 <body>
@@ -1115,14 +1886,38 @@
   <!-- NAV -->
   <nav>
     <div class="nav-inner">
-      <a href="/" class="nav-logo"><span class="bolt">⚡</span> Lightning Pro</a>
+      <a href="/" class="nav-logo"><svg class="bolt-icon" width="19" height="19" viewBox="-4 1 22 22" fill="none" aria-hidden="true"><defs><linearGradient id="bolt-nav" x1="9" y1="0" x2="5" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FEF3C7"/><stop offset="50%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#B45309"/></linearGradient></defs><g transform="rotate(20,7,12)"><path d="M9 0L2 14H7L5 24L12 10H7L9 0Z" fill="url(#bolt-nav)"/><path d="M8.5 1L3 12H6.5L8.5 1Z" fill="white" fill-opacity="0.22"/></g></svg> Lightning Pro</a>
       <ul class="nav-links">
         <li class="nav-text-links-item"><a href="#talleres">Talleres</a></li>
+        <li class="nav-text-links-item"><a href="#uno-a-uno">1 a 1</a></li>
+        <li class="nav-text-links-item"><a href="#servicios">Servicios</a></li>
         <li class="nav-text-links-item"><a href="#proyectos">Proyectos</a></li>
+        <li class="nav-text-links-item"><a href="curso.html" target="_blank" rel="noopener">Curso</a></li>
+        <li>
+          <button class="theme-toggle" id="themeToggle" aria-label="Cambiar modo de color"><svg class="theme-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+        </li>
+        <li>
+          <a href="boveda.html" class="btn-nav-boveda">🔐 La Bóveda</a>
+        </li>
         <li>
           <a href="https://wa.me/526623478040?text=Hola%2C%20me%20interesa%20el%20taller%20de%20IA" class="btn-nav" target="_blank" rel="noopener">Contactar</a>
         </li>
       </ul>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile-menu" id="navMobileMenu" aria-hidden="true">
+      <a href="#talleres">Talleres</a>
+      <a href="#uno-a-uno">1 a 1</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="curso.html" target="_blank" rel="noopener">Curso</a>
+      <div class="nav-mobile-actions">
+        <button class="theme-toggle" id="themeToggleMobile" aria-label="Cambiar modo de color"><svg class="theme-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+        <a href="boveda.html" class="btn-nav-boveda">🔐 La Bóveda</a>
+        <a href="https://wa.me/526623478040?text=Hola%2C%20me%20interesa%20el%20taller%20de%20IA" class="btn-nav" target="_blank" rel="noopener">Contactar</a>
+      </div>
     </div>
   </nav>
 
@@ -1136,8 +1931,8 @@
     <div class="hero-inner">
       <div class="hero-left">
         <p class="hero-eyebrow reveal">TALLERES DE IA PARA EQUIPOS · HERMOSILLO, SONORA</p>
-        <h1 class="hero-h1 reveal">Tu equipo trabaja con IA <span class="accent">desde hoy.</span></h1>
-        <p class="hero-sub reveal">Sin teoría. Sin tecnicismos. Tu equipo sale usando herramientas de IA ese mismo día.</p>
+        <h1 class="hero-h1 reveal">Deja de usar IA para <span class="accent">preguntas sueltas.</span></h1>
+        <p class="hero-sub reveal">Tu equipo aprende a trabajar con estructura: contexto, carpetas, prompts y asistentes que mejoran conforme se usan.</p>
         <div class="hero-btns reveal">
           <a href="https://wa.me/526623478040?text=Hola%2C%20quiero%20agendar%20un%20taller%20de%20IA%20para%20mi%20equipo" class="btn-primary" target="_blank" rel="noopener">Apartar fecha →</a>
           <a href="#talleres" class="btn-outline">Ver talleres</a>
@@ -1146,53 +1941,107 @@
       <div class="hero-panel reveal">
         <img src="img/1.taller.webp" alt="Equipo trabajando con IA" class="hero-panel-img">
         <p class="panel-label">EL CAMBIO</p>
-        <p style="font-size:13px;color:#a0a0a0;margin:0 0 16px;line-height:1.6;">Antes pasabas una hora escribiendo ese correo, buscando ese dato o armando ese reporte. Hoy tienes asistentes digitales que ya saben cómo trabajas, cómo escribes y qué esperas. Tú orquestas. Ellos ejecutan.</p>
+        <p style="font-size:13px;color:#a0a0a0;margin:0 0 16px;line-height:1.6;">El taller no es una lista de trucos. Es aprender a preparar la información para que la IA entienda tu negocio, recuerde tus reglas y produzca trabajo útil sin empezar desde cero cada vez.</p>
         <ul class="check-list">
-          <li><span class="check">✓</span> Antes: correo de cobranza desde cero. Hoy: un asistente que conoce tu tono y tu cliente.</li>
-          <li><span class="check">✓</span> Antes: buscar en carpetas. Hoy: le preguntas al sistema y responde en segundos.</li>
-          <li><span class="check">✓</span> Antes: revisar contratos a mano. Hoy: análisis estructurado con criterio en minutos.</li>
-          <li><span class="check">✓</span> Cada empleado con su propio equipo de asistentes digitales que aprenden cómo trabaja.</li>
-          <li><span class="check">✓</span> Entre más los usas, más saben de ti. El sistema mejora solo.</li>
+          <li><span class="check">✓</span> De preguntas aisladas a procesos reutilizables.</li>
+          <li><span class="check">✓</span> De archivos sueltos a carpetas con contexto claro.</li>
+          <li><span class="check">✓</span> De prompts improvisados a instrucciones con rol, datos y salida.</li>
+          <li><span class="check">✓</span> De respuestas vagas a resultados que se pueden revisar y mejorar.</li>
+          <li><span class="check">✓</span> Cada uso deja una mejor versión del sistema.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- LOGOS STRIP -->
-  <section class="logos-strip">
-    <div class="logos-strip-inner">
-      <p class="logos-label reveal">EMPRESAS QUE YA CAPACITARON A SU EQUIPO</p>
-      <p class="logos-names reveal">Despachos fiscales · Consultorías gubernamentales · Agencias inmobiliarias · Empresas de logística · Empresas de servicios · Sector construcción</p>
+
+  <!-- PARA QUIÉN ES -->
+  <section style="padding: 64px 0; background: var(--black-mid); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="para-quien-inner" style="max-width: 860px; margin: 0 auto; padding: 0 48px;">
+      <p class="section-label reveal" style="text-align:center;">¿ESTO ES PARA MÍ?</p>
+      <h2 class="reveal" style="font-size:clamp(22px,3vw,32px);font-weight:700;text-align:center;margin:12px 0 40px;letter-spacing:-0.5px;">Si tu equipo trabaja desde una computadora, este taller es para ti.</h2>
+
+      <div class="reveal" style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;">
+        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
+          <div style="font-size:28px;margin-bottom:10px;">⚖️</div>
+          <p style="font-size:13px;font-weight:600;color:#e8e8e8;line-height:1.4;">Despachos legales y contables</p>
+        </div>
+        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
+          <div style="font-size:28px;margin-bottom:10px;">🏢</div>
+          <p style="font-size:13px;font-weight:600;color:#e8e8e8;line-height:1.4;">Consultorías y asesorías</p>
+        </div>
+        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
+          <div style="font-size:28px;margin-bottom:10px;">🏛️</div>
+          <p style="font-size:13px;font-weight:600;color:#e8e8e8;line-height:1.4;">Organismos de gobierno</p>
+        </div>
+        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
+          <div style="font-size:28px;margin-bottom:10px;">📊</div>
+          <p style="font-size:13px;font-weight:600;color:#e8e8e8;line-height:1.4;">Áreas de ventas y administración</p>
+        </div>
+        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
+          <div style="font-size:28px;margin-bottom:10px;">📣</div>
+          <p style="font-size:13px;font-weight:600;color:#e8e8e8;line-height:1.4;">Agencias y empresas de servicios</p>
+        </div>
+      </div>
+
+      <p class="reveal" style="text-align:center;color:#888;font-size:15px;margin-top:28px;">No se necesita experiencia técnica. Si tu trabajo vive en correos, documentos, reportes y reuniones — es exactamente para ti.</p>
     </div>
   </section>
 
   <!-- PROBLEMA / SOLUCIÓN -->
   <section class="problem">
-    <div class="problem-inner">
+    <div class="method-inner">
       <div class="reveal">
-        <h2 class="problem-headline">La mayoría usa IA como chat. Nosotros te enseñamos a construir un sistema que mejora entre más lo usas.</h2>
-        <ul class="problem-task-list">
-          <li><strong>ChatGPT</strong> — Deja de empezar desde cero cada vez. Aprende a crear proyectos, alimentar memorias de contexto y estructurar instrucciones para que la herramienta conozca tu negocio, tu tono y tus procesos.</li>
-          <li><strong>Claude</strong> — No es un chat. Es un analista. Sube tus contratos, facturas y reportes y obten análisis estructurados que puedes auditar, corregir y reutilizar.</li>
-          <li><strong>Gemini</strong> — Conéctalo a información real y actual. Lo que los demás no pueden responderte porque su conocimiento ya venció, Gemini lo encuentra hoy.</li>
-          <li><strong>NotebookLM</strong> — Convierte los documentos internos de tu empresa en una base de conocimiento consultable. Tu equipo deja de preguntar por WhatsApp y empieza a consultar un sistema que ya sabe todo lo que tú sabes.</li>
-          <li>Sales con una estructura lista para escalar.</li>
-        </ul>
+        <p class="section-label">EL MÉTODO</p>
+        <h2 class="section-h2" style="max-width:760px;margin-bottom:16px;">La IA funciona mejor cuando tiene estructura.</h2>
+        <p style="color:#888;font-size:16px;line-height:1.7;max-width:760px;">La mayoría empieza con una pregunta suelta. En el taller les enseño a construir un sistema: información ordenada, contexto reutilizable, prompts con arquitectura y criterio para revisar resultados.</p>
       </div>
-      <div class="reveal">
-        <h3 class="solution-headline">¿Por qué no lo usan ya?</h3>
-        <div class="solution-groups">
-          <div class="solution-group">
-            <span class="solution-block">× No saben qué herramienta usar</span>
-            <span class="solution-arrow">Salen con criterio propio para elegir la correcta</span>
-          </div>
-          <div class="solution-group">
-            <span class="solution-block">× No saben cómo revisar resultados</span>
-            <span class="solution-arrow">Aprenden a validar con ojo crítico, no a confiar ciegamente</span>
-          </div>
-          <div class="solution-group">
-            <span class="solution-block">× No saben cómo integrarlo sin romper su flujo</span>
-            <span class="solution-arrow">Lo aplican en su trabajo real ese mismo día, sin cambiar sistemas</span>
+
+      <div class="method-grid reveal">
+        <div class="method-card bad">
+          <h3>Lo que hace quien no sabe</h3>
+          <ul class="method-list">
+            <li>Pregunta una cosa aislada y copia lo primero que sale.</li>
+            <li>No le da contexto del negocio, cliente, tono ni objetivo.</li>
+            <li>Sube archivos sin orden y luego no sabe qué se usó.</li>
+            <li>Confía ciegamente o descarta la IA porque se equivocó.</li>
+            <li>Mañana vuelve a empezar desde cero.</li>
+          </ul>
+        </div>
+        <div class="method-card good">
+          <h3>Lo que les enseño a hacer</h3>
+          <ul class="method-list">
+            <li>Crear carpetas y archivos `.md` con la información vigente.</li>
+            <li>Dar instrucciones estables: rol, contexto, datos, criterio y salida.</li>
+            <li>Separar fuente oficial, ejemplos, pendientes e histórico.</li>
+            <li>Revisar respuestas con criterio humano antes de usarlas.</li>
+            <li>Convertir tareas repetidas en asistentes reutilizables.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="structure-board reveal">
+        <div class="folder-tree">
+          <span class="taller-badge green">ESTRUCTURA</span>
+          <h3 class="taller-name" style="margin-top:14px;">Así ordenamos la información</h3>
+          <p class="taller-desc">La IA deja de adivinar cuando tiene fuentes, reglas y ejemplos bien separados.</p>
+          <pre>empresa/
+├─ AGENTS.md
+├─ fuente_unica.md
+├─ procesos/
+├─ clientes/
+├─ prompts/
+└─ historico/</pre>
+        </div>
+        <div class="prompt-stack">
+          <span class="taller-badge green">PROMPT</span>
+          <h3 class="taller-name" style="margin-top:14px;">Así pedimos trabajo útil</h3>
+          <p class="taller-desc">Un buen prompt funciona como una orden de trabajo clara, no como una ocurrencia.</p>
+          <div class="prompt-stack-list">
+            <div class="prompt-piece"><strong>Rol:</strong> qué tipo de asistente eres.</div>
+            <div class="prompt-piece"><strong>Contexto:</strong> qué debe saber del negocio.</div>
+            <div class="prompt-piece"><strong>Datos:</strong> archivos, casos y ejemplos.</div>
+            <div class="prompt-piece"><strong>Criterio:</strong> qué revisar antes de responder.</div>
+            <div class="prompt-piece"><strong>Salida:</strong> tabla, correo, reporte o plan.</div>
           </div>
         </div>
       </div>
@@ -1204,34 +2053,116 @@
     <div class="talleres-inner">
       <p class="section-label reveal">TALLERES</p>
       <h2 class="section-h2 section-h2-center reveal">Elige el formato para tu equipo</h2>
-      <img src="img/2.reunion.webp" alt="Taller IA en acción" class="talleres-img reveal">
+
       <div class="talleres-grid">
         <div class="taller-card reveal">
           <span class="taller-badge">BÁSICO</span>
           <h3 class="taller-name">IA Sin Miedo</h3>
-          <p class="taller-desc">El punto de entrada. Tu equipo aprende a darle estructura a cada herramienta para que conozca el negocio, el tono y los procesos — y mejore entre más la usen. Sin prerequisitos técnicos. Sin jerga innecesaria.</p>
+          <p class="taller-desc">El punto de entrada. Tu equipo aprende a usar IA con contexto, carpetas, prompts claros y revisión humana. Salen con una forma de trabajar que pueden repetir al día siguiente, no solo con ejemplos bonitos.</p>
           <div class="taller-meta">
             <span>Presencial o remoto</span>
             <span>Sin requisito previo</span>
-          </div>
-          <div class="taller-price-block">
-            <div>
-              <span class="taller-price">$10,000</span><span class="taller-currency"> MXN + IVA</span>
-            </div>
-            <p class="taller-note">Por grupo, no por persona</p>
+            <span>Enfocado en tareas reales del equipo</span>
           </div>
           <a href="https://wa.me/526623478040?text=Quiero%20info%20del%20taller%20IA%20Sin%20Miedo%20B%C3%A1sico" class="btn-outline-green" target="_blank" rel="noopener">Solicitar propuesta</a>
         </div>
         <div class="taller-card featured reveal">
-          <span class="taller-badge green">SPRINT OPERATIVO</span>
-          <h3 class="taller-name">Sprint Operativo</h3>
-          <p class="taller-desc">Para equipos que ya usan las herramientas y quieren ir al siguiente nivel. Crean bases de datos inteligentes, dashboards que se actualizan en tiempo real, conexiones entre herramientas y sus primeros agentes autónomos. El objetivo: automatizar operaciones completas, no tareas sueltas.</p>
+          <span class="taller-badge green">NIVEL AVANZADO</span>
+          <h3 class="taller-name">IA en Operación</h3>
+          <p class="taller-desc">Para equipos que ya usan IA y quieren convertirla en operación: asistentes, reportes, bases de conocimiento, flujos entre herramientas y procesos que no dependen de estar copiando y pegando.</p>
           <div class="taller-meta">
             <span>Presencial o remoto</span>
-            <span>Requiere haber hecho IA Sin Miedo o equivalente</span>
+            <span>Requiere haber tomado IA Sin Miedo o similar</span>
+            <span>Orientado a sistemas, no a prompts sueltos</span>
           </div>
-          <a href="https://wa.me/526623478040?text=Quiero%20un%20diagn%C3%B3stico%20para%20el%20Sprint%20Operativo" class="btn-green" target="_blank" rel="noopener">Solicitar diagnóstico</a>
+          <a href="https://wa.me/526623478040?text=Quiero%20informaci%C3%B3n%20del%20taller%20avanzado%20de%20IA" class="btn-green" target="_blank" rel="noopener">Solicitar información</a>
         </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 1 A 1 -->
+  <section class="uno-a-uno" id="uno-a-uno">
+    <div class="uno-inner">
+      <p class="section-label reveal">1 A 1</p>
+      <h2 class="section-h2 reveal">Para tu caso específico.</h2>
+      <div class="uno-grid">
+        <div class="uno-card reveal">
+          <span class="taller-badge">MENTORÍA</span>
+          <h3 class="taller-name">Mentoría 1 a 1</h3>
+          <p class="taller-desc">Aprende a tu ritmo con sesiones individuales. Trabajamos con tus herramientas, tus archivos y tus tareas reales.</p>
+          <ul class="uno-list">
+            <li>Diagnóstico de tu situación actual</li>
+            <li>Sesiones semanales o quincenales</li>
+            <li>Seguimiento y tareas entre sesiones</li>
+          </ul>
+          <a href="https://wa.me/526623478040?text=Quiero%20info%20de%20mentor%C3%ADa%201%20a%201" class="btn-outline-green" target="_blank" rel="noopener">Solicitar mentoría</a>
+        </div>
+        <div class="uno-card featured reveal">
+          <span class="taller-badge green">CONSULTORÍA</span>
+          <h3 class="taller-name">Consultoría 1 a 1</h3>
+          <p class="taller-desc">Te construimos el sistema. Nosotros diseñamos, implementamos y capacitamos a tu equipo para que lo opere.</p>
+          <ul class="uno-list">
+            <li>Diagnóstico y diseño del sistema</li>
+            <li>Implementación directa en tu negocio</li>
+            <li>Capacitación a tu equipo incluida</li>
+          </ul>
+          <a href="https://wa.me/526623478040?text=Quiero%20info%20de%20consultor%C3%ADa%201%20a%201" class="btn-green" target="_blank" rel="noopener">Solicitar consultoría</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LO QUE CONSTRUIMOS -->
+  <section class="servicios" id="servicios">
+    <div class="servicios-inner">
+      <p class="section-label reveal">LO QUE CONSTRUIMOS</p>
+      <h2 class="section-h2 reveal">Sistemas que trabajan mientras tú te enfocas en lo importante.</h2>
+      <div class="servicios-grid">
+        <div class="servicio-card reveal">
+          <div class="servicio-icon-wrap"><div class="servicio-icon">💬</div></div>
+          <h3 class="servicio-name">Chatbots y Asistentes</h3>
+          <p class="servicio-desc">Un asistente entrenado con tu negocio que atiende, califica y agenda por ti las 24 horas. Conectado a WhatsApp, tu web o por voz.</p>
+          <div class="servicio-tags">
+            <span class="servicio-tag">Bot de WhatsApp</span>
+            <span class="servicio-tag">Atención 24/7</span>
+            <span class="servicio-tag">Agenda automática</span>
+          </div>
+        </div>
+        <div class="servicio-card reveal">
+          <div class="servicio-icon-wrap"><div class="servicio-icon">🎯</div></div>
+          <h3 class="servicio-name">CRM y Seguimiento</h3>
+          <p class="servicio-desc">Pipeline visual con historial completo, alertas cuando un prospecto lleva días sin respuesta y notificaciones automáticas por etapa.</p>
+          <div class="servicio-tags">
+            <span class="servicio-tag">Pipeline visual</span>
+            <span class="servicio-tag">Alertas automáticas</span>
+            <span class="servicio-tag">Historial completo</span>
+          </div>
+        </div>
+        <div class="servicio-card reveal">
+          <div class="servicio-icon-wrap"><div class="servicio-icon">⚡</div></div>
+          <h3 class="servicio-name">Sitios Web</h3>
+          <p class="servicio-desc">Landing pages y sitios que convierten. Conectados a tus herramientas y optimizados para que el contacto llegue solo, sin fricciones.</p>
+          <div class="servicio-tags">
+            <span class="servicio-tag">Landing pages</span>
+            <span class="servicio-tag">Funnels que venden</span>
+            <span class="servicio-tag">Integrado a tus tools</span>
+          </div>
+        </div>
+        <div class="servicio-card reveal">
+          <div class="servicio-icon-wrap"><div class="servicio-icon">🛠️</div></div>
+          <h3 class="servicio-name">Plataformas a la Medida</h3>
+          <p class="servicio-desc">Dashboards, reportes automáticos y flujos internos construidos exactamente para como trabaja tu equipo, no al revés.</p>
+          <div class="servicio-tags">
+            <span class="servicio-tag">Dashboards</span>
+            <span class="servicio-tag">Reportes automáticos</span>
+            <span class="servicio-tag">Flujos internos</span>
+          </div>
+        </div>
+      </div>
+      <div class="reveal" style="text-align:center;margin-top:48px;">
+        <a href="https://wa.me/526623478040?text=Quiero%20hablar%20de%20un%20proyecto" class="btn-green" target="_blank" rel="noopener">Hablar de tu proyecto →</a>
       </div>
     </div>
   </section>
@@ -1241,145 +2172,110 @@
     <div class="expediente-inner">
       <p class="section-label reveal">EXPEDIENTE</p>
       <h2 class="section-h2 reveal">Lo que hemos construido.</h2>
+    </div>
+    <div class="expediente-scroll-wrap">
+      <div class="expediente-scroll" id="expScroll">
 
-      <div class="exp-entry reveal">
-        <div>
+        <div class="exp-card reveal">
           <p class="exp-client">Despacho Fiscal</p>
-          <p class="exp-sector">Legal · Baja California</p>
-        </div>
-        <div>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 14px;">"En un mes de trabajo regular recupero entre 25 y 40 horas que antes destinaba a redacción, búsqueda y ordenamiento. Esas horas las reinvierto en lo que ningún sistema sustituye: la estrategia y la atención al cliente."</blockquote>
+          <p class="exp-sector" style="margin-bottom:16px;">Legal · Baja California</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">"En un mes recupero entre 25 y 40 horas que antes destinaba a redacción y búsqueda. Las reinvierto en lo que ningún sistema sustituye: la estrategia y la atención al cliente."</blockquote>
           <ul class="exp-points">
-            <li>Abogado litigante fiscal — Mexicali, Baja California</li>
-            <li>Un recurso de revocación que tomaba 22–28 horas: hoy lo resuelve en 8–10</li>
-            <li>Análisis de resoluciones, adminiculación probatoria y redacción de escritos con IA</li>
-            <li>La estrategia y el criterio jurídico siguen siendo suyos — la IA ejecuta</li>
+            <li>Un proceso que tomaba 22–28 horas: hoy lo resuelve en 8–10</li>
+            <li>Usa IA para analizar documentos legales, cruzar información y redactar escritos</li>
+            <li>El criterio jurídico sigue siendo suyo — la IA hace el trabajo pesado</li>
           </ul>
           <img src="img/6.despacho.webp" alt="Despacho fiscal usando IA" class="exp-img">
         </div>
-      </div>
 
-      <div class="exp-entry reveal">
-        <div>
+        <div class="exp-card reveal">
           <p class="exp-client">Consultoría Gubernamental</p>
-          <p class="exp-sector">Auditoría · Sonora</p>
-        </div>
-        <div>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 14px;">Se construyó una estructura de agentes con todos los requerimientos normativos de la auditoría. Se cargaron leyes, reglamentos y normativas actualizadas. Se alimentó con los documentos reales: contratos, estados de cuenta, licitaciones. La IA analizó. El despacho decidió. Sin inventar nada.</blockquote>
+          <p class="exp-sector" style="margin-bottom:16px;">Auditoría · Sonora</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Se cargaron leyes, reglamentos y documentos reales. La IA analizó. El despacho decidió. Sin inventar nada.</blockquote>
           <ul class="exp-points">
-            <li>Auditoría financiera externa a organismo descentralizado municipal — Sonora</li>
-            <li>961 transacciones y $86.4M en pagos cruzados contra contratos, banco y contabilidad</li>
-            <li>Detección de procedimientos irregulares, desvíos de recursos y sobrepagos a proveedores</li>
-            <li>5 hallazgos formalizados con $13.8M en irregularidades — sustentados en normativa vigente</li>
-            <li>Semanas de revisión manual comprimidas en días combinando IA con experiencia del despacho</li>
+            <li>Auditoría financiera a organismo municipal — Sonora</li>
+            <li>961 transacciones y $86.4M revisados con IA</li>
+            <li>$13.8M en irregularidades formalizadas y sustentadas en normativa</li>
+            <li>Semanas de revisión manual comprimidas en días</li>
           </ul>
           <img src="img/7.consultoria.webp" alt="Auditoría con IA" class="exp-img">
         </div>
-      </div>
 
-      <div class="exp-entry reveal">
-        <div>
+        <div class="exp-card reveal">
           <p class="exp-client">Agencia Inmobiliaria</p>
-          <p class="exp-sector">Bienes raíces · Arizona &amp; Sonora</p>
-        </div>
-        <div>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 14px;">El primer callcenter con inteligencia artificial que desarrollamos. Hacía y recibía llamadas, agendaba citas sin empalmes y notificaba al asesor — todo sin intervención humana.</blockquote>
+          <p class="exp-sector" style="margin-bottom:16px;">Bienes raíces · Arizona &amp; Sonora</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">El asistente hacía y recibía llamadas, agendaba citas y avisaba al asesor — todo sin que nadie tuviera que estar al teléfono.</blockquote>
           <ul class="exp-points">
-            <li>Agente conversacional conectado al inventario de propiedades, Google Calendar y CRM en tiempo real</li>
-            <li>Publicidad pagada en Meta que redirigía automáticamente a WhatsApp — el agente atendía 24/7</li>
-            <li>Agenda citas sin conflictos de horario gracias al acceso en tiempo real al calendario</li>
-            <li>Departamento de Foreclosures: agente que detectaba propiedades en proceso y contactaba al dueño — llamada y correo — antes que cualquier competidor</li>
-            <li>Al confirmar la cita, el agente notificaba al asesor de ventas automáticamente</li>
+            <li>Asistente de voz que atendía por teléfono y WhatsApp las 24 horas</li>
+            <li>Agendaba citas automáticamente sin conflictos de horario</li>
+            <li>Detectaba propiedades en proceso legal y contactaba al dueño antes que la competencia</li>
           </ul>
-          <img src="img/3.whatsapp.webp" alt="Agente WhatsApp en acción" class="exp-img">
+          <img src="img/3.whatsapp.webp" alt="Asistente de voz con IA" class="exp-img">
         </div>
-      </div>
 
-      <div class="exp-entry reveal">
-        <div>
-          <p class="exp-client">Plataforma Proptech</p>
-          <p class="exp-sector">Tecnología inmobiliaria · Sonora</p>
-        </div>
-        <div>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 14px;">Antes el asesor buscaba propiedad por propiedad en cada portal. Hoy el cliente describe lo que quiere, el sistema filtra y el asesor solo da clic en contactar.</blockquote>
+        <div class="exp-card reveal">
+          <p class="exp-client">Óptica de Lujo</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Retail · Varias sucursales · Hermosillo</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Antes eran seis sistemas distintos. Hoy corren como uno solo — cada venta, cliente y gasto trazado en tiempo real.</blockquote>
           <ul class="exp-points">
-            <li>Dashboard que conecta todos los portales inmobiliarios del noroeste en un solo lugar</li>
-            <li>Actualización automática diaria a las 8:30 AM — nuevas propiedades, salidas de mercado y cambios de precio en tiempo real</li>
-            <li>Búsqueda por características del cliente: el sistema filtra y entrega solo las opciones que aplican</li>
-            <li>Contacto directo al captador con un clic — sin salir del Dashboard ni buscar portal por portal</li>
-            <li>Elimina el riesgo de promover propiedades que ya no están disponibles</li>
+            <li>Un solo sistema para tiendas físicas y tienda en línea</li>
+            <li>Gerentes ven ventas, inventario y clientes frecuentes en tiempo real</li>
+            <li>Asistentes de IA que crean contenido para redes y analizan resultados de marketing</li>
           </ul>
-          <img src="img/5.dashboard.webp" alt="Dashboard inmobiliario" class="exp-img">
+          <img src="img/11.dhagen.webp" alt="Óptica de lujo con sistema integrado" class="exp-img" onerror="this.style.display='none'">
         </div>
-      </div>
 
-      <div class="exp-entry reveal">
-        <div>
+        <div class="exp-card reveal">
+          <p class="exp-client">Plataforma Inmobiliaria</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Tecnología · Sonora</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Antes el asesor buscaba propiedad por propiedad en cada portal. Hoy el cliente describe lo que quiere, el sistema filtra y el asesor solo da clic en contactar.</blockquote>
+          <ul class="exp-points">
+            <li>Panel que une todos los portales inmobiliarios del noroeste en un solo lugar</li>
+            <li>Se actualiza solo cada mañana — propiedades nuevas, precios y disponibilidad al día</li>
+            <li>El asesor filtra por lo que busca el cliente y contacta al vendedor con un clic</li>
+            <li>Elimina el riesgo de ofrecer propiedades que ya no están disponibles</li>
+          </ul>
+          <img src="img/5.dashboard.webp" alt="Plataforma inmobiliaria" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
+          <p class="exp-client">Academia de Artes Marciales</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Deporte · Sonora</p>
+          <ul class="exp-points" style="margin-top:0;">
+            <li>Asistente por WhatsApp que responde preguntas y comunica precios</li>
+            <li>Agenda clases de prueba automáticamente sin intervención del equipo</li>
+            <li>Recordatorios automáticos a alumnos con mensualidades vencidas</li>
+            <li>El equipo dejó de contestar los mismos mensajes — el asistente opera 24/7</li>
+          </ul>
+          <img src="img/10.artesmarciales.webp" alt="Academia de artes marciales con IA" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
           <p class="exp-client">Empresa de Acabados</p>
-          <p class="exp-sector">Construcción · Sonora</p>
-        </div>
-        <div>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 14px;">Sin presupuesto de publicidad. En lugar de pautar en redes, creamos un sistema que llega directamente a las empresas que necesitan el servicio — antes de que ellas lo busquen.</blockquote>
+          <p class="exp-sector" style="margin-bottom:16px;">Construcción · Sonora</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Sin presupuesto de publicidad. En lugar de pautar en redes, creamos un sistema que llega directamente a las empresas que necesitan el servicio — antes de que ellas lo busquen.</blockquote>
           <ul class="exp-points">
-            <li>Sitio web con identidad de marca creada desde cero</li>
-            <li>Sistema de scraping diario que identifica empresas potenciales por sector e industria</li>
-            <li>Envío automatizado de correos masivos personalizados por tipo de cliente — sin intervención manual</li>
-            <li>Cada correo incluye CTA directo a WhatsApp para contacto inmediato con el asesor de ventas</li>
-            <li>Marketing de precisión sin depender de presupuesto publicitario en redes sociales</li>
+            <li>Sitio web con identidad de marca creada desde cero con IA</li>
+            <li>Sistema que identifica automáticamente empresas que pueden necesitar el servicio</li>
+            <li>Envía correos personalizados por tipo de cliente sin intervención manual</li>
+            <li>Marketing que llega directo al cliente sin depender de publicidad en redes</li>
           </ul>
           <img src="img/8.acabados.webp" alt="Empresa de acabados" class="exp-img">
         </div>
-      </div>
 
-      <div class="exp-entry reveal">
-        <div>
+        <div class="exp-card reveal">
           <p class="exp-client">Empresa de Logística</p>
-          <p class="exp-sector">Fletes y acarreos · Sonora</p>
-        </div>
-        <div>
-          <ul class="exp-points">
+          <p class="exp-sector" style="margin-bottom:16px;">Fletes y acarreos · Sonora</p>
+          <ul class="exp-points" style="margin-top:0;">
             <li>Identidad de marca creada desde cero con IA</li>
-            <li>Publicidad básica automatizada en Meta</li>
-            <li>Sistema de respuestas automáticas configurado en Meta y WhatsApp Business</li>
+            <li>Publicidad automatizada en redes sociales</li>
+            <li>Asistente automático configurado en Meta y WhatsApp Business</li>
             <li>Presencia digital operando sin intervención manual del equipo</li>
           </ul>
           <img src="img/9.logistica.webp" alt="Empresa de logística" class="exp-img">
         </div>
-      </div>
 
-      <div class="exp-entry reveal">
-        <div>
-          <p class="exp-client">Óptica de Lujo</p>
-          <p class="exp-sector">Retail · Varias sucursales · Hermosillo</p>
-        </div>
-        <div>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 14px;">Seis sistemas distintos — punto de venta, inventario, CRM, ecommerce, marketing y finanzas — corriendo como uno solo. Cada venta, cada cliente y cada peso de marketing trazado en tiempo real, en todas las sucursales y en dhagen.mx.</blockquote>
-          <ul class="exp-points">
-            <li>Plataforma <strong>Optiflow</strong>: sistema integral a la medida que unifica operaciones físicas y ecommerce en un solo panel</li>
-            <li>Verificación de inventario con <strong>visión computacional</strong>; segmentación RFM de clientes y conciliación de caja en tiempo real para gerentes</li>
-            <li>Flota de agentes IA: outreach B2B a cuentas corporativas, generación de contenido SEO y departamento virtual de marketing que planea campañas y analiza performance</li>
-            <li>Ecommerce con checkout via <strong>Stripe y Bitcoin Lightning</strong>, sistema de afiliados integrado, inventario y precios sincronizados con tiendas físicas</li>
-          </ul>
-          <img src="img/11.dhagen.webp" alt="Óptica de lujo con plataforma de retail integrada" class="exp-img" onerror="this.style.display='none'">
-        </div>
       </div>
-
-      <div class="exp-entry reveal">
-        <div>
-          <p class="exp-client">Academia de Artes Marciales</p>
-          <p class="exp-sector">Deporte · Sonora</p>
-        </div>
-        <div>
-          <ul class="exp-points">
-            <li>Chatbot vía <strong>WhatsApp Business</strong> que responde preguntas frecuentes y comunica precios</li>
-            <li>Agenda clases de prueba automáticamente sin intervención del equipo</li>
-            <li>Recordatorios automáticos de mensualidades vencidas a alumnos con atraso</li>
-            <li>El equipo deja de contestar los mismos mensajes — el agente opera 24/7</li>
-          </ul>
-          <img src="img/10.artesmarciales.webp" alt="Academia de artes marciales con IA" class="exp-img">
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -1393,15 +2289,12 @@ Stack real
 en producción.</h2>
         <p class="about-bio reveal">El instructor es la cara de Lightning — y detrás hay un equipo técnico con el talento para hacer todo realidad. Lo que nos diferencia no es solo el stack: es la capacidad de sentarnos con un cliente, entender cómo opera su negocio y detectar dónde la IA genera impacto real. Sin venderle tecnología que no necesita. Sin abrumarlo con términos que no le sirven. El resultado siempre es un plan concreto, ejecutable y diseñado para escalar con el equipo que ya tiene.</p>
         <div class="chips reveal">
-          <span class="chip">Agentes IA</span>
-          <span class="chip">WhatsApp API</span>
-          <span class="chip">n8n</span>
-          <span class="chip">Claude API</span>
-          <span class="chip">Meta API</span>
-          <span class="chip">Web Scraping</span>
-          <span class="chip">Django</span>
-          <span class="chip">PostgreSQL</span>
-          <span class="chip">MCP</span>
+          <span class="chip">Talleres para equipos</span>
+          <span class="chip">Sistemas de IA a la medida</span>
+          <span class="chip">Asistentes por WhatsApp</span>
+          <span class="chip">Automatización de procesos</span>
+          <span class="chip">Análisis de documentos con IA</span>
+          <span class="chip">Norte de México y EUA</span>
         </div>
       </div>
       <div class="about-stats">
@@ -1411,8 +2304,8 @@ en producción.</h2>
           <span class="about-stat-label">años construyendo sistemas de IA en producción</span>
         </div>
         <div class="about-stat reveal">
-          <span class="about-stat-number">2,600+</span>
-          <span class="about-stat-label">propiedades gestionadas con sistemas propios</span>
+          <span class="about-stat-number">12+</span>
+          <span class="about-stat-label">sistemas de IA implementados en negocios reales</span>
         </div>
         <div class="about-stat reveal">
           <span class="about-stat-number">8+</span>
@@ -1441,7 +2334,7 @@ en producción.</h2>
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
-      <span class="footer-brand"><span class="bolt">⚡</span> Lightning Pro · Hermosillo, Sonora</span>
+      <span class="footer-brand"><svg class="bolt-icon" width="13" height="13" viewBox="-4 1 22 22" fill="none" aria-hidden="true"><defs><linearGradient id="bolt-footer" x1="9" y1="0" x2="5" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FEF3C7"/><stop offset="50%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#B45309"/></linearGradient></defs><g transform="rotate(20,7,12)"><path d="M9 0L2 14H7L5 24L12 10H7L9 0Z" fill="url(#bolt-footer)"/><path d="M8.5 1L3 12H6.5L8.5 1Z" fill="white" fill-opacity="0.22"/></g></svg> Lightning Pro · Hermosillo, Sonora</span>
       <span class="footer-contact">WhatsApp 6623478040</span>
     </div>
   </footer>
@@ -1476,7 +2369,7 @@ en producción.</h2>
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         /* static grid */
-        ctx.strokeStyle = 'rgba(255,255,255,0.028)';
+        ctx.strokeStyle = document.documentElement.getAttribute('data-theme') === 'light' ? 'rgba(0,0,0,0.07)' : 'rgba(255,255,255,0.028)';
         ctx.lineWidth = 1;
         for (var gx = 0; gx <= canvas.width; gx += CELL) {
           ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, canvas.height); ctx.stroke();
@@ -1563,6 +2456,112 @@ en producción.</h2>
           el.classList.add('pre-animate');
           observer.observe(el);
         }
+      });
+    })();
+
+    /* ── Theme toggle ── */
+    (function () {
+      var btn = document.getElementById('themeToggle');
+      var html = document.documentElement;
+
+      var SVG_SUN = '<svg class="theme-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
+      var SVG_MOON = '<svg class="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+
+      function applyTheme(theme) {
+        if (theme === 'light') {
+          html.setAttribute('data-theme', 'light');
+          btn.innerHTML = SVG_MOON;
+          btn.title = 'Modo oscuro';
+        } else {
+          html.removeAttribute('data-theme');
+          btn.innerHTML = SVG_SUN;
+          btn.title = 'Modo claro';
+        }
+      }
+
+      var saved = localStorage.getItem('lps-theme') || 'dark';
+      applyTheme(saved);
+
+      btn.addEventListener('click', function () {
+        var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        localStorage.setItem('lps-theme', next);
+        applyTheme(next);
+      });
+    })();
+
+    /* ── Hamburger menu ── */
+    (function () {
+      var btn = document.getElementById('navHamburger');
+      var menu = document.getElementById('navMobileMenu');
+      if (!btn || !menu) return;
+
+      function closeMenu() {
+        btn.classList.remove('open');
+        menu.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+      }
+
+      btn.addEventListener('click', function () {
+        var isOpen = menu.classList.contains('open');
+        if (isOpen) { closeMenu(); }
+        else {
+          btn.classList.add('open');
+          menu.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+          menu.setAttribute('aria-hidden', 'false');
+        }
+      });
+
+      menu.querySelectorAll('a[href^="#"]').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+      });
+    })();
+
+    /* ── Theme toggle mobile sync ── */
+    (function () {
+      var btnMobile = document.getElementById('themeToggleMobile');
+      var html = document.documentElement;
+      if (!btnMobile) return;
+
+      var SVG_SUN = '<svg class="theme-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
+      var SVG_MOON = '<svg class="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+
+      function syncMobileBtn() {
+        if (html.getAttribute('data-theme') === 'light') {
+          btnMobile.innerHTML = SVG_MOON;
+        } else {
+          btnMobile.innerHTML = SVG_SUN;
+        }
+      }
+      syncMobileBtn();
+
+      btnMobile.addEventListener('click', function () {
+        var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        localStorage.setItem('lps-theme', next);
+        var mainToggle = document.getElementById('themeToggle');
+        if (mainToggle) mainToggle.click();
+        syncMobileBtn();
+      });
+    })();
+
+    /* ── Drag to scroll — expediente horizontal ── */
+    (function () {
+      var el = document.getElementById('expScroll');
+      if (!el) return;
+      var isDown = false, startX, scrollLeft;
+      el.addEventListener('mousedown', function (e) {
+        isDown = true;
+        startX = e.pageX - el.offsetLeft;
+        scrollLeft = el.scrollLeft;
+      });
+      el.addEventListener('mouseleave', function () { isDown = false; });
+      el.addEventListener('mouseup', function () { isDown = false; });
+      el.addEventListener('mousemove', function (e) {
+        if (!isDown) return;
+        e.preventDefault();
+        var x = e.pageX - el.offsetLeft;
+        el.scrollLeft = scrollLeft - (x - startX) * 1.2;
       });
     })();
   </script>
