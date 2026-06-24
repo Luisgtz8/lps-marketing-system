@@ -1271,6 +1271,9 @@
       color: var(--text, #f0f0f0); margin: 0 0 8px;
     }
     .reg-sent-body { font-size: 14px; color: var(--muted, #888); line-height: 1.6; margin: 0; }
+    .reg-paywall { text-align: center; padding: 12px 0 4px; }
+    .reg-paywall.hidden { display: none; }
+    .reg-paywall .reg-submit { margin-top: 20px; }
 
     /* ─── MOBILE FIXES ─── */
     /* ─── BÓVEDA NAV BUTTON ─── */
@@ -1731,6 +1734,12 @@
       <p class="reg-sent-icon">📧</p>
       <p class="reg-sent-title">Revisa tu correo</p>
       <p class="reg-sent-body">Te enviamos un enlace de acceso. Ábrelo desde este dispositivo para entrar al curso. Expira en 15 minutos.</p>
+    </div>
+    <div id="reg-paywall" class="reg-paywall hidden">
+      <p class="reg-sent-icon">🔓</p>
+      <p class="reg-sent-title">Acceso completo al curso</p>
+      <p class="reg-sent-body">Un solo pago. Acceso de por vida a los 7 módulos, ejercicios y recursos.</p>
+      <button type="button" class="reg-submit" id="pay-btn" onclick="startCheckout()">Comprar curso →</button>
     </div>
     <p class="reg-privacy">Tus datos se guardan de forma privada y no se comparten con terceros. Consulta nuestro <a href="https://www.lightningprosolutions.com/privacidad.html">aviso de privacidad</a>.</p>
   </div>
@@ -4160,32 +4169,66 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     }
   }
 
-  // Step 3 — gate: if we have a valid session and access, open the course.
+  // Step 3 — gate: returns 'open' (paid), 'paywall' (logged in, unpaid),
+  // or 'login' (no/invalid session).
   async function checkAccess() {
     var token = getSession();
-    if (!token) return false;
+    if (!token) return 'login';
     try {
       var res = await fetch(API_BASE + '/api/me', {
         headers: { 'Authorization': 'Bearer ' + token }
       });
-      if (res.status === 401) { clearSession(); return false; }
+      if (res.status === 401) { clearSession(); return 'login'; }
       if (!res.ok) throw new Error('me ' + res.status);
       var me = await res.json();
       window.LPS_USER = me.user;
       window.LPS_PAID = me.paid;
       window.LPS_PROGRESS = me.progress;
-      return me.paid === true;
+      return me.paid === true ? 'open' : 'paywall';
     } catch (err) {
-      // Network error: don't hard-block someone who already logged in offline.
-      return true;
+      // Network error: don't hard-block someone who already logged in.
+      return 'open';
+    }
+  }
+
+  // Swap the gate card content for the paywall (logged in but not paid).
+  function showPaywall() {
+    var form = document.getElementById('reg-form');
+    var sent = document.getElementById('reg-sent');
+    var pay  = document.getElementById('reg-paywall');
+    if (form) form.style.display = 'none';
+    if (sent) sent.classList.add('hidden');
+    if (pay) pay.classList.remove('hidden');
+    var sub = document.querySelector('#reg-gate .reg-sub');
+    if (sub) sub.textContent = 'Ya casi. Desbloquea el acceso completo al curso.';
+  }
+
+  async function startCheckout() {
+    var token = getSession();
+    if (!token) return;
+    var btn = document.getElementById('pay-btn');
+    btn.disabled = true; btn.textContent = 'Redirigiendo…';
+    try {
+      var res = await fetch(API_BASE + '/api/checkout', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      var data = await res.json();
+      if (data.url) { window.location.href = data.url; return; }
+      throw new Error(data.error || 'checkout');
+    } catch (err) {
+      btn.disabled = false; btn.textContent = 'Comprar curso →';
+      regError('No pudimos iniciar el pago. Inténtalo de nuevo.');
     }
   }
 
   // Orchestrate the gate on load.
   (async function initGate() {
     await consumeTokenFromUrl();
-    var ok = await checkAccess();
-    if (ok) openCourse();
+    var state = await checkAccess();
+    if (state === 'open') openCourse();
+    else if (state === 'paywall') showPaywall();
+    // 'login' → leave the registration form visible (default).
   })();
 
   const MODULES = [

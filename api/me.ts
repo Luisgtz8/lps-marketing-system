@@ -9,8 +9,8 @@ import { sql } from './_lib/db.js';
 import { cors, json } from './_lib/http.js';
 import { getSessionUser } from './_lib/auth.js';
 
-// Flip to false when Phase 3 lands so the gate enforces payment.
-const PAYWALL_ENABLED = false;
+// Phase 3: paywall is live — access requires entitlements.paid.
+const PAYWALL_ENABLED = true;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (cors(req, res)) return;
