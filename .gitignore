@@ -10,3 +10,8 @@ venv/
 .coverage
 htmlcov/
 *.log
+.vercel
+
+# Node / Vercel Functions backend
+node_modules/
+.env*.local
