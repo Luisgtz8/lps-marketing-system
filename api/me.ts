@@ -1,15 +1,15 @@
-// GET /api/me — current user + paywall status + progress.
+// GET /api/me — current user + access status + progress.
 // Auth: Bearer session token.
 //
-// Phase 2: `paid` is forced true (course is free until the Stripe paywall
-// ships in Phase 3, where this flips to entitlements.paid). Progress is empty
-// until Phase 4 wires the writes; the shape is stable from here.
+// Access is granted manually: a prospect contacts you, you send a payment
+// link, and after they pay you flip entitlements.paid via /api/admin/access.
+// `paid` here reflects that flag.
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sql } from './_lib/db.js';
 import { cors, json } from './_lib/http.js';
 import { getSessionUser } from './_lib/auth.js';
 
-// Phase 3: paywall is live — access requires entitlements.paid.
+// Access requires entitlements.paid (set manually after payment).
 const PAYWALL_ENABLED = true;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

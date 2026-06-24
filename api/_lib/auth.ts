@@ -1,5 +1,5 @@
 // Auth helpers: token generation, hashing, session resolution.
-import { randomBytes, createHash } from 'node:crypto';
+import { randomBytes, createHash, timingSafeEqual } from 'node:crypto';
 import type { VercelRequest } from '@vercel/node';
 import { sql } from './db.js';
 
@@ -46,4 +46,17 @@ export async function getSessionUser(req: VercelRequest): Promise<SessionUser | 
 // the magic-link round-trip are the real validation).
 export function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// Admin auth: a shared secret in `Authorization: Bearer <ADMIN_TOKEN>`.
+// Used for the manual "grant access after payment" flow. Timing-safe compare.
+export function isAdminRequest(req: VercelRequest): boolean {
+  const expected = process.env.ADMIN_TOKEN;
+  const header = req.headers.authorization;
+  if (!expected || !header || !header.startsWith('Bearer ')) return false;
+  const given = header.slice('Bearer '.length).trim();
+  const a = Buffer.from(given);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
 }

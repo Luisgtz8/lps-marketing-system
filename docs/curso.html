@@ -1737,9 +1737,9 @@
     </div>
     <div id="reg-paywall" class="reg-paywall hidden">
       <p class="reg-sent-icon">🔓</p>
-      <p class="reg-sent-title">Acceso completo al curso</p>
-      <p class="reg-sent-body">Un solo pago. Acceso de por vida a los 7 módulos, ejercicios y recursos.</p>
-      <button type="button" class="reg-submit" id="pay-btn" onclick="startCheckout()">Comprar curso →</button>
+      <p class="reg-sent-title">Tu acceso está casi listo</p>
+      <p class="reg-sent-body">Escríbeme por WhatsApp para activar tu acceso al curso completo. Te explico cómo funciona y te envío el enlace de pago.</p>
+      <a class="reg-submit" id="pay-btn" href="https://wa.me/526623478040?text=Hola%2C%20quiero%20acceso%20al%20curso%20IA%20Sin%20Miedo" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;text-align:center;">Escribirme por WhatsApp →</a>
     </div>
     <p class="reg-privacy">Tus datos se guardan de forma privada y no se comparten con terceros. Consulta nuestro <a href="https://www.lightningprosolutions.com/privacidad.html">aviso de privacidad</a>.</p>
   </div>
@@ -4210,26 +4210,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     if (sent) sent.classList.add('hidden');
     if (pay) pay.classList.remove('hidden');
     var sub = document.querySelector('#reg-gate .reg-sub');
-    if (sub) sub.textContent = 'Ya casi. Desbloquea el acceso completo al curso.';
-  }
-
-  async function startCheckout() {
-    var token = getSession();
-    if (!token) return;
-    var btn = document.getElementById('pay-btn');
-    btn.disabled = true; btn.textContent = 'Redirigiendo…';
-    try {
-      var res = await fetch(API_BASE + '/api/checkout', {
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + token }
-      });
-      var data = await res.json();
-      if (data.url) { window.location.href = data.url; return; }
-      throw new Error(data.error || 'checkout');
-    } catch (err) {
-      btn.disabled = false; btn.textContent = 'Comprar curso →';
-      regError('No pudimos iniciar el pago. Inténtalo de nuevo.');
-    }
+    if (sub) sub.textContent = 'Ya casi. Escríbeme para activar tu acceso.';
   }
 
   // Orchestrate the gate on load.
