@@ -62,7 +62,10 @@ async function getProgress(res: VercelResponse, userId: string) {
 
 async function putProgress(res: VercelResponse, userId: string, body: unknown) {
   const b = (body ?? {}) as Record<string, any>;
-  const arr = (v: any): any[] => (Array.isArray(v) ? v : []);
+  // Cap array sizes — the course has a fixed, small number of items; anything
+  // larger is malformed/abusive. Prevents row-bloat from a crafted client.
+  const CAP = 64;
+  const arr = (v: any): any[] => (Array.isArray(v) ? v.slice(0, CAP) : []);
   const obj = (v: any): Record<string, any> => (v && typeof v === 'object' ? v : {});
 
   const correctAnswers = new Set(arr(b.correctAnswers));

@@ -55,7 +55,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       `;
     }
 
-    // Issue single-use token (store only its hash).
+    // Invalidate any outstanding links for this user, then issue a fresh
+    // single-use token (store only its hash). A new request supersedes old ones.
+    await sql`
+      update magic_link_tokens set consumed_at = now()
+      where user_id = ${userId} and consumed_at is null
+    `;
     const token = newToken();
     await sql`
       insert into magic_link_tokens (user_id, token_hash, expires_at)

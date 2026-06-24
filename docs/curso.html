@@ -4194,8 +4194,10 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       }
       return me.paid === true ? 'open' : 'paywall';
     } catch (err) {
-      // Network error: don't hard-block someone who already logged in.
-      return 'open';
+      // Fail closed: never grant access without a confirmed paid:true. A
+      // network/CORS/500 error must not open the gate. We have a token, so
+      // send them to the paywall state rather than the login form.
+      return 'paywall';
     }
   }
 

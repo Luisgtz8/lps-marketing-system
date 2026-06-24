@@ -10,8 +10,10 @@ import { sql } from '../_lib/db.js';
 import { sendText } from '../_lib/whatsapp.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Fail closed: if CRON_SECRET isn't configured, refuse — otherwise anyone
+  // could trigger WhatsApp sends (cost + spam). Vercel cron sends this header.
   const secret = process.env.CRON_SECRET;
-  if (secret && req.headers.authorization !== `Bearer ${secret}`) {
+  if (!secret || req.headers.authorization !== `Bearer ${secret}`) {
     return res.status(401).end();
   }
 

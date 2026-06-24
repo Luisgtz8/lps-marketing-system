@@ -66,11 +66,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (userId) await sql`update whatsapp_contacts set user_id = ${userId} where id = ${contact.id}`;
       }
 
-      // Log inbound.
-      await sql`
+      // Log inbound idempotently — Meta retries webhooks. If this exact
+      // provider message id was already stored, skip side effects (no dup reply).
+      const logged = await sql`
         insert into whatsapp_messages (user_id, contact_id, direction, wa_message_id, body, raw)
         values (${userId}, ${contact.id}, 'inbound', ${msg.id ?? null}, ${body}, ${JSON.stringify(msg)})
+        on conflict (wa_message_id) where wa_message_id is not null do nothing
+        returning id
       `;
+      if (logged.length === 0) continue;   // already processed this message
 
       // Opt-out keyword.
       if (OPT_OUT_WORDS.has(body.toLowerCase())) {
