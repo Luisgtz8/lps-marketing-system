@@ -4184,6 +4184,14 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       window.LPS_USER = me.user;
       window.LPS_PAID = me.paid;
       window.LPS_PROGRESS = me.progress;
+      // Merge server progress into local state. If the DOM already rendered,
+      // re-run restoreUI so the merged progress is reflected.
+      if (me.progress) {
+        mergeServerProgress(me.progress);
+        if (document.readyState !== 'loading' && typeof restoreUI === 'function') {
+          try { restoreUI(); } catch (e) {}
+        }
+      }
       return me.paid === true ? 'open' : 'paywall';
     } catch (err) {
       // Network error: don't hard-block someone who already logged in.
@@ -4269,20 +4277,53 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
   var PROGRESS_KEY = 'lps-progress-v1';
   var quizAnswers = {};   // { q3: btnIndex, q6: btnIndex, q8: btnIndex }
 
+  function progressBlob() {
+    return {
+      correctAnswers:   Array.from(correctAnswers),
+      answeredQuestions: Array.from(answeredQuestions),
+      quizAnswers:      quizAnswers,
+      exercisesDone:    Array.from(exercisesDone),
+      skillsDone:       Array.from(skillsDone),
+      agentsDone:       Array.from(agentsDone),
+      puzzlesCompleted: Array.from(puzzlesCompleted),
+      puzzleRetries:    puzzleRetries,
+      completedModules: Array.from(completedModules)
+    };
+  }
+
+  var _syncTimer = null;
+  function syncProgressToServer() {
+    var token = getSession();
+    if (!token) return;            // not logged in → localStorage only
+    if (_syncTimer) clearTimeout(_syncTimer);
+    _syncTimer = setTimeout(function() {
+      fetch(API_BASE + '/api/progress', {
+        method: 'PUT',
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify(progressBlob())
+      }).catch(function(){ /* offline cache covers it; retries on next save */ });
+    }, 1200);
+  }
+
   function saveProgress() {
-    try {
-      localStorage.setItem(PROGRESS_KEY, JSON.stringify({
-        correctAnswers:   Array.from(correctAnswers),
-        answeredQuestions: Array.from(answeredQuestions),
-        quizAnswers:      quizAnswers,
-        exercisesDone:    Array.from(exercisesDone),
-        skillsDone:       Array.from(skillsDone),
-        agentsDone:       Array.from(agentsDone),
-        puzzlesCompleted: Array.from(puzzlesCompleted),
-        puzzleRetries:    puzzleRetries,
-        completedModules: Array.from(completedModules)
-      }));
-    } catch(e) {}
+    try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(progressBlob())); } catch(e) {}
+    syncProgressToServer();
+  }
+
+  // Merge a server progress blob into local Sets/objects (union — never lose
+  // local-only progress made while offline), then persist locally.
+  function mergeServerProgress(d) {
+    if (!d) return;
+    if (d.correctAnswers)    d.correctAnswers.forEach(function(id){ correctAnswers.add(id); });
+    if (d.answeredQuestions) d.answeredQuestions.forEach(function(id){ answeredQuestions.add(id); });
+    if (d.quizAnswers)       Object.keys(d.quizAnswers).forEach(function(k){ if (quizAnswers[k] === undefined) quizAnswers[k] = d.quizAnswers[k]; });
+    if (d.exercisesDone)     d.exercisesDone.forEach(function(id){ exercisesDone.add(id); });
+    if (d.skillsDone)        d.skillsDone.forEach(function(id){ skillsDone.add(id); });
+    if (d.agentsDone)        d.agentsDone.forEach(function(id){ agentsDone.add(id); });
+    if (d.puzzlesCompleted)  d.puzzlesCompleted.forEach(function(id){ puzzlesCompleted.add(id); });
+    if (d.puzzleRetries)     Object.keys(d.puzzleRetries).forEach(function(k){ if (puzzleRetries[k] === undefined || d.puzzleRetries[k] > puzzleRetries[k]) puzzleRetries[k] = d.puzzleRetries[k]; });
+    if (d.completedModules)  d.completedModules.forEach(function(id){ completedModules.add(id); });
+    try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(progressBlob())); } catch(e) {}
   }
 
   function loadProgress() {
