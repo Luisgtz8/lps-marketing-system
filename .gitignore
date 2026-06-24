@@ -10,3 +10,7 @@ venv/
 .coverage
 htmlcov/
 *.log
+
+# Local dev tools (no van al repo)
+docs/serve.py
+skills-lock.json
