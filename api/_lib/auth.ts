@@ -48,8 +48,8 @@ export function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-// Admin auth: a shared secret in `Authorization: Bearer <ADMIN_TOKEN>`.
-// Used for the manual "grant access after payment" flow. Timing-safe compare.
+// Admin auth (fallback): a shared secret in `Authorization: Bearer <ADMIN_TOKEN>`.
+// Kept as a break-glass option; the primary path is a user session with is_admin.
 export function isAdminRequest(req: VercelRequest): boolean {
   const expected = process.env.ADMIN_TOKEN;
   const header = req.headers.authorization;
@@ -59,4 +59,17 @@ export function isAdminRequest(req: VercelRequest): boolean {
   const b = Buffer.from(expected);
   if (a.length !== b.length) return false;
   return timingSafeEqual(a, b);
+}
+
+/**
+ * Authorize an admin request. Primary path: a logged-in user whose session
+ * has is_admin=true (auth por usuario). Fallback: the shared ADMIN_TOKEN.
+ * Returns the SessionUser when authorized via session, `true` when authorized
+ * via the token, or null when not authorized.
+ */
+export async function requireAdmin(req: VercelRequest): Promise<SessionUser | true | null> {
+  const user = await getSessionUser(req);
+  if (user && user.is_admin) return user;
+  if (isAdminRequest(req)) return true;
+  return null;
 }

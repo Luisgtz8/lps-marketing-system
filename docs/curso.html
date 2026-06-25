@@ -20,13 +20,6 @@
     var ta = document.getElementById('confirm-text-' + pid);
     var hint = document.getElementById('confirm-hint-' + pid);
     var done = document.getElementById('confirm-done-' + pid);
-    var text = ta ? ta.value.trim() : '';
-    var words = text.split(/\s+/).filter(function(w) { return w.length > 0; }).length;
-    if (words < 25) {
-      hint.style.color = 'var(--error)';
-      hint.textContent = words + ' palabras — necesitas al menos 25 para confirmar';
-      return;
-    }
     hint.textContent = '';
     ta.disabled = true;
     done.classList.remove('hidden');
@@ -1271,6 +1264,10 @@
       color: var(--text, #f0f0f0); margin: 0 0 8px;
     }
     .reg-sent-body { font-size: 14px; color: var(--muted, #888); line-height: 1.6; margin: 0; }
+    .reg-spinner { width: 36px; height: 36px; margin: 4px auto 14px; border: 3px solid var(--border, #222); border-top-color: var(--amber, #f59e0b); border-radius: 50%; animation: reg-spin 0.8s linear infinite; }
+    @keyframes reg-spin { to { transform: rotate(360deg); } }
+    .course-logout { background: none; border: 1px solid var(--border); border-radius: 7px; color: var(--muted); font-size: 12px; font-weight: 600; padding: 5px 11px; cursor: pointer; font-family: 'Inter', sans-serif; transition: border-color .15s, color .15s; }
+    .course-logout:hover { border-color: var(--amber-border); color: var(--text); }
     .reg-paywall { text-align: center; padding: 12px 0 4px; }
     .reg-paywall.hidden { display: none; }
     .reg-paywall .reg-submit { margin-top: 20px; }
@@ -1741,6 +1738,23 @@
       <p class="reg-sent-body">Escríbeme por WhatsApp para activar tu acceso al curso completo. Te explico cómo funciona y te envío el enlace de pago.</p>
       <a class="reg-submit" id="pay-btn" href="https://wa.me/526623478040?text=Hola%2C%20quiero%20acceso%20al%20curso%20IA%20Sin%20Miedo" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;text-align:center;">Escribirme por WhatsApp →</a>
     </div>
+    <div id="reg-verifying" class="reg-sent hidden">
+      <div class="reg-spinner"></div>
+      <p class="reg-sent-title">Verificando…</p>
+      <p class="reg-sent-body">Un momento, estamos confirmando tu acceso.</p>
+    </div>
+    <div id="reg-expired" class="reg-sent hidden">
+      <p class="reg-sent-icon">⏱️</p>
+      <p class="reg-sent-title">El enlace expiró</p>
+      <p class="reg-sent-body">Los enlaces de acceso duran 15 minutos y se usan una sola vez. Pide uno nuevo.</p>
+      <button type="button" class="reg-submit" onclick="backToForm()">Enviar nuevo enlace →</button>
+    </div>
+    <div id="reg-neterror" class="reg-sent hidden">
+      <p class="reg-sent-icon">📡</p>
+      <p class="reg-sent-title">Problema de conexión</p>
+      <p class="reg-sent-body">No pudimos confirmar tu acceso. Revisa tu internet e inténtalo de nuevo.</p>
+      <button type="button" class="reg-submit" onclick="location.reload()">Reintentar</button>
+    </div>
     <p class="reg-privacy">Tus datos se guardan de forma privada y no se comparten con terceros. Consulta nuestro <a href="https://www.lightningprosolutions.com/privacidad.html">aviso de privacidad</a>.</p>
   </div>
 </div>
@@ -1757,6 +1771,7 @@
     <div style="display:flex;align-items:center;gap:12px;">
       <span class="progress-label" id="progress-label">Módulo 1 de 5</span>
       <button class="theme-toggle" id="courseThemeToggle" aria-label="Cambiar modo de color"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+      <button class="course-logout" onclick="logout()" title="Cerrar sesión">Salir</button>
     </div>
   </div>
 
@@ -2039,8 +2054,8 @@
       <div class="module" id="mod-4">
 <div class="module-content" id="mod-4-content">
               <div class="module-eyebrow">Módulo 4</div>
-        <h1 class="module-title">Prompts de práctica</h1>
-        <p class="module-desc">Estos son los 6 prompts del taller. Cópialos, ábrelos en la herramienta indicada y adapta los datos a tu empresa. No los uses como receta — usa la fórmula para personalizarlos.</p>
+        <h1 class="module-title">Manos a la obra: tus primeros 6 prompts</h1>
+        <p class="module-desc">Hasta aquí entendiste cómo funciona. Ahora lo usas tú. Empieza por el primero — en 5 minutos tienes un resumen de ventas hecho, y de paso aprendes la fórmula que lleva todo buen prompt: <strong style="color:var(--text);">ROL, CONTEXTO, TAREA, FORMATO y CRITERIO</strong>. Aprende esos 5 y vas a poder armar cualquier prompt que tu negocio necesite. La IA propone; tú revisas y decides.</p>
 
         <img class="module-img" src="img/curso_m4_practica.png" alt="Documentos reales siendo procesados con IA">
 
@@ -2070,7 +2085,7 @@
 
         <!-- ─── SETUP DE CARPETA ─── -->
         <div class="card" style="border-color:var(--amber-border); margin-bottom:24px;">
-          <h3 style="color:var(--amber); margin-bottom:14px;">Antes de empezar — crea tu carpeta ahora</h3>
+          <h3 style="color:var(--amber); margin-bottom:14px;">Guarda lo que funciona (opcional, 2 min)</h3>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
             <div>
               <div style="font-size:11px; font-family:'Space Grotesk',sans-serif; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Estructura de carpetas</div>
@@ -2095,12 +2110,12 @@
           </div>
         </div>
 
-        <div class="tool-section-header">ChatGPT — Ejercicios 1 y 2</div>
+        <div class="tool-section-header">ChatGPT — empieza por aquí (ejercicios 1 y 2 · esenciales)</div>
 
         <!-- E1 -->
         <div class="prompt-card">
           <div class="prompt-header">
-            <span class="prompt-title">Ejercicio 1 — Resumen ejecutivo de ventas</span>
+            <span class="prompt-title">Ejercicio 1 — Un mes de ventas, explicado en claro</span>
             <span class="prompt-tool-badge">ChatGPT</span>
           </div>
           <div class="resource-banner" style="margin:0; border-radius:0; border-left:none; border-right:none; border-top:none;">
@@ -2174,8 +2189,8 @@ Tono directo. Sin tecnicismos. Usa bullets.</div>
             <div class="ex-confirm-label">Paso 2 — Pega aquí la respuesta de ChatGPT</div>
             <textarea class="ex-confirm-textarea" id="confirm-text-p1" placeholder="Copia y pega aquí lo que te respondió la IA…" rows="5"></textarea>
             <div class="ex-confirm-footer">
-              <span class="ex-confirm-hint" id="confirm-hint-p1">Mínimo 25 palabras para confirmar</span>
-              <button class="ex-confirm-btn" onclick="confirmExercise('p1')">Confirmar ejercicio ✓</button>
+              <span class="ex-confirm-hint" id="confirm-hint-p1">Opcional: pega la respuesta si quieres revisarla. O solo marca que ya lo hiciste.</span>
+              <button class="ex-confirm-btn" onclick="confirmExercise('p1')">Ya lo hice ✓</button>
             </div>
             <div class="ex-confirm-done hidden" id="confirm-done-p1">✅ Ejercicio confirmado — guárdalo como <strong>01_Resumen_Ventas_Mayo.txt</strong> en tu carpeta 01_mis_ejercicios/</div>
           </div>
@@ -2184,7 +2199,7 @@ Tono directo. Sin tecnicismos. Usa bullets.</div>
         <!-- E2 -->
         <div class="prompt-card">
           <div class="prompt-header">
-            <span class="prompt-title">Ejercicio 2 — Correo de cobranza</span>
+            <span class="prompt-title">Ejercicio 2 — El correo de cobranza que sí mandas</span>
             <span class="prompt-tool-badge">ChatGPT</span>
           </div>
           <div class="prompt-body" id="p2">Actúa como ejecutivo de cobranza de una distribuidora de material de oficina.
@@ -2239,19 +2254,19 @@ Termina con una llamada a la acción clara y una fecha límite.</div>
             <div class="ex-confirm-label">Paso 2 — Pega aquí la respuesta de ChatGPT</div>
             <textarea class="ex-confirm-textarea" id="confirm-text-p2" placeholder="Copia y pega aquí lo que te respondió la IA…" rows="5"></textarea>
             <div class="ex-confirm-footer">
-              <span class="ex-confirm-hint" id="confirm-hint-p2">Mínimo 25 palabras para confirmar</span>
-              <button class="ex-confirm-btn" onclick="confirmExercise('p2')">Confirmar ejercicio ✓</button>
+              <span class="ex-confirm-hint" id="confirm-hint-p2">Opcional: pega la respuesta si quieres revisarla. O solo marca que ya lo hiciste.</span>
+              <button class="ex-confirm-btn" onclick="confirmExercise('p2')">Ya lo hice ✓</button>
             </div>
             <div class="ex-confirm-done hidden" id="confirm-done-p2">✅ Ejercicio confirmado — guárdalo como <strong>02_Correo_Cobranza.txt</strong> en tu carpeta 01_mis_ejercicios/</div>
           </div>
         </div>
 
-        <div class="tool-section-header">Claude — Ejercicios 3 y 4</div>
+        <div class="tool-section-header">Claude — lee tus documentos pesados (ejercicios 3 y 4 · extra)</div>
 
         <!-- E3 -->
         <div class="prompt-card">
           <div class="prompt-header">
-            <span class="prompt-title">Ejercicio 3 — Análisis de contrato</span>
+            <span class="prompt-title">Ejercicio 3 — Un contrato leído sin que se te escape la letra chica</span>
             <span class="prompt-tool-badge claude">Claude</span>
           </div>
           <div class="resource-banner" style="margin:0; border-radius:0; border-left:none; border-right:none; border-top:none;">
@@ -2313,8 +2328,8 @@ Sin introducción. Solo bullets.</div>
             <div class="ex-confirm-label">Paso 2 — Pega aquí la respuesta de Claude</div>
             <textarea class="ex-confirm-textarea" id="confirm-text-p3" placeholder="Copia y pega aquí lo que te respondió la IA…" rows="5"></textarea>
             <div class="ex-confirm-footer">
-              <span class="ex-confirm-hint" id="confirm-hint-p3">Mínimo 25 palabras para confirmar</span>
-              <button class="ex-confirm-btn" onclick="confirmExercise('p3')">Confirmar ejercicio ✓</button>
+              <span class="ex-confirm-hint" id="confirm-hint-p3">Opcional: pega la respuesta si quieres revisarla. O solo marca que ya lo hiciste.</span>
+              <button class="ex-confirm-btn" onclick="confirmExercise('p3')">Ya lo hice ✓</button>
             </div>
             <div class="ex-confirm-done hidden" id="confirm-done-p3">✅ Ejercicio confirmado — guárdalo como <strong>03_Analisis_Contrato.txt</strong> en tu carpeta 01_mis_ejercicios/</div>
           </div>
@@ -2323,7 +2338,7 @@ Sin introducción. Solo bullets.</div>
         <!-- E4 -->
         <div class="prompt-card">
           <div class="prompt-header">
-            <span class="prompt-title">Ejercicio 4 — Revisión de gastos</span>
+            <span class="prompt-title">Ejercicio 4 — Tus gastos del mes, con los focos señalados</span>
             <span class="prompt-tool-badge claude">Claude</span>
           </div>
           <div class="resource-banner" style="margin:0; border-radius:0; border-left:none; border-right:none; border-top:none;">
@@ -2388,19 +2403,19 @@ Sin introducción. Usa bullets.</div>
             <div class="ex-confirm-label">Paso 2 — Pega aquí la respuesta de Claude</div>
             <textarea class="ex-confirm-textarea" id="confirm-text-p4" placeholder="Copia y pega aquí lo que te respondió la IA…" rows="5"></textarea>
             <div class="ex-confirm-footer">
-              <span class="ex-confirm-hint" id="confirm-hint-p4">Mínimo 25 palabras para confirmar</span>
-              <button class="ex-confirm-btn" onclick="confirmExercise('p4')">Confirmar ejercicio ✓</button>
+              <span class="ex-confirm-hint" id="confirm-hint-p4">Opcional: pega la respuesta si quieres revisarla. O solo marca que ya lo hiciste.</span>
+              <button class="ex-confirm-btn" onclick="confirmExercise('p4')">Ya lo hice ✓</button>
             </div>
             <div class="ex-confirm-done hidden" id="confirm-done-p4">✅ Ejercicio confirmado — guárdalo como <strong>04_Revision_Gastos.txt</strong> en tu carpeta 01_mis_ejercicios/</div>
           </div>
         </div>
 
-        <div class="tool-section-header">Gemini — Ejercicio 5</div>
+        <div class="tool-section-header">Gemini — el que está conectado a internet (ejercicio 5 · extra)</div>
 
         <!-- E5 -->
         <div class="prompt-card">
           <div class="prompt-header">
-            <span class="prompt-title">Ejercicio 5 — Contexto del mercado</span>
+            <span class="prompt-title">Ejercicio 5 — Qué está pasando en tu mercado, hoy</span>
             <span class="prompt-tool-badge gemini">Gemini</span>
           </div>
           <div class="prompt-body" id="p5">Soy dueño de [tipo de negocio] en México.
@@ -2453,19 +2468,19 @@ Información actual, no de hace un año. Máximo 5 bullets por pregunta.</div>
             <div class="ex-confirm-label">Paso 2 — Pega aquí la respuesta de Gemini</div>
             <textarea class="ex-confirm-textarea" id="confirm-text-p5" placeholder="Copia y pega aquí lo que te respondió la IA…" rows="5"></textarea>
             <div class="ex-confirm-footer">
-              <span class="ex-confirm-hint" id="confirm-hint-p5">Mínimo 25 palabras para confirmar</span>
-              <button class="ex-confirm-btn" onclick="confirmExercise('p5')">Confirmar ejercicio ✓</button>
+              <span class="ex-confirm-hint" id="confirm-hint-p5">Opcional: pega la respuesta si quieres revisarla. O solo marca que ya lo hiciste.</span>
+              <button class="ex-confirm-btn" onclick="confirmExercise('p5')">Ya lo hice ✓</button>
             </div>
-            <div class="ex-confirm-done hidden" id="confirm-done-p5">✅ Ejercicio confirmado — guárdalo como <strong>05_Mercado_Cartuchos.txt</strong> en tu carpeta 01_mis_ejercicios/</div>
+            <div class="ex-confirm-done hidden" id="confirm-done-p5">✅ Ejercicio confirmado — guárdalo como <strong>05_Mercado_Gemini.txt</strong> en tu carpeta 01_mis_ejercicios/</div>
           </div>
         </div>
 
-        <div class="tool-section-header">NotebookLM — Ejercicio 6</div>
+        <div class="tool-section-header">NotebookLM — pregúntale a tus documentos (ejercicio 6 · extra)</div>
 
         <!-- E6 -->
         <div class="prompt-card">
           <div class="prompt-header">
-            <span class="prompt-title">Ejercicio 6 — Consulta de procedimientos</span>
+            <span class="prompt-title">Ejercicio 6 — Pregúntale a tus propios documentos</span>
             <span class="prompt-tool-badge notebooklm">NotebookLM</span>
           </div>
           <div class="prompt-body" id="p6">Preguntas para hacerle a NotebookLM después de subir tus procedimientos internos:
@@ -2511,8 +2526,8 @@ Nota: En NotebookLM primero subes el documento (PDF o texto). Luego le haces las
             <div class="ex-confirm-label">Paso 2 — Pega aquí la respuesta de NotebookLM</div>
             <textarea class="ex-confirm-textarea" id="confirm-text-p6" placeholder="Copia y pega aquí lo que te respondió la IA…" rows="5"></textarea>
             <div class="ex-confirm-footer">
-              <span class="ex-confirm-hint" id="confirm-hint-p6">Mínimo 25 palabras para confirmar</span>
-              <button class="ex-confirm-btn" onclick="confirmExercise('p6')">Confirmar ejercicio ✓</button>
+              <span class="ex-confirm-hint" id="confirm-hint-p6">Opcional: pega la respuesta si quieres revisarla. O solo marca que ya lo hiciste.</span>
+              <button class="ex-confirm-btn" onclick="confirmExercise('p6')">Ya lo hice ✓</button>
             </div>
             <div class="ex-confirm-done hidden" id="confirm-done-p6">✅ Ejercicio confirmado — guárdalo como <strong>06_Consulta_Procedimientos.txt</strong> en tu carpeta 01_mis_ejercicios/</div>
           </div>
@@ -4085,7 +4100,9 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
   // The course gate is now backed by the API: the user requests a magic link,
   // clicks it (?#token=...), we exchange it for a session bearer token stored
   // in localStorage, and /api/me decides access. No secrets live in this page.
-  var API_BASE = 'https://api.lightningprosolutions.com';
+  // Mismo dominio que el sitio — el API se sirve en /api/* vía los rewrites
+  // de vercel.json. Ruta relativa, sin subdominio ni DNS extra.
+  var API_BASE = '';
   var SESSION_KEY = 'lps-session';
 
   function getSession() { return localStorage.getItem(SESSION_KEY); }
@@ -4137,8 +4154,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       if (!res.ok) throw new Error('status ' + res.status);
       // Always show the "check your email" state (the API never reveals if the
       // email existed). The link in the email returns with #token=...
-      document.getElementById('reg-form').style.display = 'none';
-      document.getElementById('reg-sent').classList.remove('hidden');
+      showGateState('reg-sent', 'Casi listo.');
     } catch (err) {
       btn.disabled = false;
       btn.textContent = 'Enviar enlace de acceso →';
@@ -4146,13 +4162,28 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
     }
   }
 
+  // Helpers para alternar los estados visibles del gate.
+  function hideAllGateStates() {
+    ['reg-form','reg-sent','reg-paywall','reg-verifying','reg-expired','reg-neterror']
+      .forEach(function(id){ var el = document.getElementById(id); if (el) { el.classList.add('hidden'); if (id==='reg-form') el.style.display='none'; } });
+  }
+  function showGateState(id, subText) {
+    hideAllGateStates();
+    var el = document.getElementById(id);
+    if (el) { el.classList.remove('hidden'); if (id==='reg-form') el.style.display=''; }
+    var sub = document.querySelector('#reg-gate .reg-sub');
+    if (sub && subText != null) sub.textContent = subText;
+  }
+
   // Step 2 — on load, if the URL carries #token=..., exchange it for a session.
+  // Returns 'ok' | 'expired' | 'none'.
   async function consumeTokenFromUrl() {
     var m = (window.location.hash || '').match(/token=([^&]+)/);
-    if (!m) return false;
+    if (!m) return 'none';
     var token = decodeURIComponent(m[1]);
     // Clean the token out of the URL immediately.
     history.replaceState(null, '', window.location.pathname + window.location.search);
+    showGateState('reg-verifying', 'Verificando tu acceso…');
     try {
       var res = await fetch(API_BASE + '/api/auth/verify', {
         method: 'POST',
@@ -4162,15 +4193,13 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       if (!res.ok) throw new Error('verify ' + res.status);
       var data = await res.json();
       setSession(data.token);
-      return true;
+      return 'ok';
     } catch (err) {
-      regError('El enlace expiró o ya se usó. Pide uno nuevo.');
-      return false;
+      return 'expired';
     }
   }
 
-  // Step 3 — gate: returns 'open' (paid), 'paywall' (logged in, unpaid),
-  // or 'login' (no/invalid session).
+  // Step 3 — gate: returns 'open' | 'paywall' | 'login' | 'neterror'.
   async function checkAccess() {
     var token = getSession();
     if (!token) return 'login';
@@ -4184,6 +4213,7 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       window.LPS_USER = me.user;
       window.LPS_PAID = me.paid;
       window.LPS_PROGRESS = me.progress;
+      window.LPS_IS_ADMIN = me.user && me.user.is_admin === true;
       // Merge server progress into local state. If the DOM already rendered,
       // re-run restoreUI so the merged progress is reflected.
       if (me.progress) {
@@ -4194,32 +4224,45 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
       }
       return me.paid === true ? 'open' : 'paywall';
     } catch (err) {
-      // Fail closed: never grant access without a confirmed paid:true. A
-      // network/CORS/500 error must not open the gate. We have a token, so
-      // send them to the paywall state rather than the login form.
-      return 'paywall';
+      // Tenemos sesión pero no pudimos confirmar: error de red/servidor.
+      // No abrimos (fail-closed) pero distinguimos del paywall real.
+      return 'neterror';
     }
   }
 
   // Swap the gate card content for the paywall (logged in but not paid).
   function showPaywall() {
-    var form = document.getElementById('reg-form');
-    var sent = document.getElementById('reg-sent');
-    var pay  = document.getElementById('reg-paywall');
-    if (form) form.style.display = 'none';
-    if (sent) sent.classList.add('hidden');
-    if (pay) pay.classList.remove('hidden');
-    var sub = document.querySelector('#reg-gate .reg-sub');
-    if (sub) sub.textContent = 'Ya casi. Escríbeme para activar tu acceso.';
+    showGateState('reg-paywall', 'Ya casi. Escríbeme para activar tu acceso.');
+  }
+
+  // Cerrar sesión: revoca en el servidor + limpia local + recarga al gate.
+  async function logout() {
+    var token = getSession();
+    clearSession();
+    try {
+      if (token) await fetch(API_BASE + '/api/auth/logout', {
+        method: 'POST', headers: { 'Authorization': 'Bearer ' + token }
+      });
+    } catch (e) {}
+    location.reload();
+  }
+
+  // Botón "Enviar nuevo enlace" (enlace expirado) → vuelve al formulario.
+  function backToForm() {
+    showGateState('reg-form', 'Escribe tus datos para acceder al curso. Te enviaremos un enlace de acceso a tu correo.');
+    var btn = document.getElementById('reg-submit');
+    if (btn) { btn.disabled = false; btn.textContent = 'Enviar enlace de acceso →'; }
   }
 
   // Orchestrate the gate on load.
   (async function initGate() {
-    await consumeTokenFromUrl();
+    var tok = await consumeTokenFromUrl();
+    if (tok === 'expired') { showGateState('reg-expired'); return; }
     var state = await checkAccess();
     if (state === 'open') openCourse();
     else if (state === 'paywall') showPaywall();
-    // 'login' → leave the registration form visible (default).
+    else if (state === 'neterror') showGateState('reg-neterror');
+    else showGateState('reg-form'); // 'login'
   })();
 
   const MODULES = [
