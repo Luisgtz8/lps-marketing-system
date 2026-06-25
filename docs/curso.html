@@ -1003,6 +1003,9 @@
     .ex-done-btn.done { background: var(--success-dim); border-color: var(--success); color: var(--success); cursor: default; }
     /* ─── SCORE ─── */
     .score-pill { display:inline-flex; align-items:center; gap:8px; font-family:'Space Grotesk',sans-serif; font-weight:600; }
+    .quiz-q { font-size: 16px; margin-bottom: 14px; }
+    .next-btn { background: var(--amber); border: none; color: #000; font-weight: 700; border-radius: 8px; padding: 11px 20px; font-size: 14px; cursor: pointer; }
+    .next-btn:hover { opacity: 0.9; }
   </style>
 </head>
 <body>
@@ -1025,6 +1028,63 @@
     </nav>
     <main class="content-area">
       <!-- modules inserted by later tasks -->
+<section class="module active" id="mod-1">
+  <div class="module-eyebrow">Parte I · Módulo 1</div>
+  <h1 class="module-title">¿Qué es un LLM?</h1>
+  <p class="module-desc">La versión sin tecnicismos: qué hace por dentro un modelo de lenguaje y por qué eso explica tanto sus aciertos como sus errores.</p>
+  <p>Un <strong>LLM</strong> (modelo grande de lenguaje, como ChatGPT o Claude) hace una sola cosa, muy bien: <strong>predice la siguiente palabra</strong>. Leyó cantidades enormes de texto y aprendió qué palabra suele seguir a otra. Cuando le escribes, va eligiendo palabra por palabra la continuación más probable.</p>
+  <p>Piensa en el autocompletado de tu teléfono — pero con esteroides. No "entiende" como una persona; reconoce patrones a una escala gigantesca. Por eso suena tan natural… y por eso a veces <strong>inventa</strong> con total seguridad datos, fechas o citas que no existen (a esto se le llama "alucinar").</p>
+  <p>La conclusión práctica para tu negocio: la IA es una herramienta que <strong>propone</strong>. Tú revisas y decides. Nunca uses una respuesta sin revisarla.</p>
+  <div class="quiz-block">
+    <h3 class="quiz-q">¿Por qué la IA puede dar información incorrecta con tanta seguridad?</h3>
+    <div class="quiz-options" id="q1">
+      <button class="quiz-option" onclick="answer('q1', this, false)">Porque está conectada a internet y copia páginas con errores.</button>
+      <button class="quiz-option" onclick="answer('q1', this, false)">Porque a veces se le acaba la memoria.</button>
+      <button class="quiz-option" onclick="answer('q1', this, true)">Porque predice la palabra más probable, no verifica si es verdad.</button>
+    </div>
+    <div class="quiz-feedback" id="q1-feedback"></div>
+  </div>
+  <div class="module-nav"><button class="next-btn" onclick="goTo(2)">Siguiente módulo →</button></div>
+</section>
+
+<section class="module" id="mod-2">
+  <div class="module-eyebrow">Parte I · Módulo 2</div>
+  <h1 class="module-title">El dinero y la disrupción</h1>
+  <p class="module-desc">Por qué esto no es una moda pasajera — y qué significa para tu trabajo y el de tu equipo.</p>
+  <p>Detrás de la IA hay una de las mayores olas de inversión de la historia reciente: cientos de miles de millones de dólares de las empresas más grandes del mundo. Cuando entra ese dinero, el mercado se mueve rápido.</p>
+  <p>Ya estamos viendo el efecto: <strong>despidos y reestructuraciones</strong> en áreas donde la IA automatiza tareas repetitivas, y al mismo tiempo una demanda enorme de gente que <strong>sabe usarla</strong>. No es que "la IA reemplace personas" — es que <strong>las personas que usan IA reemplazan a las que no</strong>.</p>
+  <p>La habilidad del futuro no es programar. Es saberle <strong>pedir bien las cosas</strong> a la IA y revisar su trabajo con criterio. Eso es exactamente lo que aprendes en este curso. Quien lo domina se vuelve indispensable; quien lo ignora se queda atrás.</p>
+  <div class="quiz-block">
+    <h3 class="quiz-q">¿Cuál es la habilidad más valiosa frente a la IA, según este módulo?</h3>
+    <div class="quiz-options" id="q2">
+      <button class="quiz-option" onclick="answer('q2', this, false)">Aprender a programar lo antes posible.</button>
+      <button class="quiz-option" onclick="answer('q2', this, true)">Saber pedirle bien las cosas y revisar su trabajo con criterio.</button>
+      <button class="quiz-option" onclick="answer('q2', this, false)">Comprar la herramienta de IA más cara del mercado.</button>
+    </div>
+    <div class="quiz-feedback" id="q2-feedback"></div>
+  </div>
+  <div class="module-nav"><button class="next-btn" onclick="goTo(3)">Siguiente módulo →</button></div>
+</section>
+
+<section class="module" id="mod-3">
+  <div class="module-eyebrow">Parte II · Módulo 3</div>
+  <h1 class="module-title">Prompts, contexto y tokens</h1>
+  <p class="module-desc">Tres palabras que vas a escuchar siempre. En cuanto las entiendes, todo lo demás se vuelve fácil.</p>
+  <p><strong>Prompt</strong> es simplemente <em>lo que le pides</em> a la IA: tu instrucción. Un buen prompt es claro y específico.</p>
+  <p><strong>Contexto</strong> es todo lo que la IA "tiene presente" mientras te responde: tu pregunta, los mensajes anteriores de la conversación y los documentos que le pegaste. Si no está en el contexto, la IA no lo sabe. Por eso, mientras más contexto útil le das, mejor responde.</p>
+  <p><strong>Tokens</strong> son las piezas en que la IA parte el texto (más o menos, trozos de palabras). Importan por dos razones: hay un <strong>límite</strong> de cuánto contexto cabe, y el costo se mide en tokens. No necesitas contarlos — solo saber que textos enormes pueden no caber completos.</p>
+  <div class="quiz-block">
+    <h3 class="quiz-q">Le pegas un contrato de 80 páginas y la IA "olvida" el principio. ¿Por qué?</h3>
+    <div class="quiz-options" id="q3">
+      <button class="quiz-option" onclick="answer('q3', this, false)">Porque los prompts solo aceptan preguntas cortas.</button>
+      <button class="quiz-option" onclick="answer('q3', this, true)">Porque hay un límite de tokens y un texto tan largo puede no caber completo en el contexto.</button>
+      <button class="quiz-option" onclick="answer('q3', this, false)">Porque la IA no puede leer documentos, solo texto que escribes a mano.</button>
+    </div>
+    <div class="quiz-feedback" id="q3-feedback"></div>
+  </div>
+  <div class="module-nav"><button class="next-btn" onclick="goTo(4)">Siguiente módulo →</button></div>
+</section>
+
       <footer style="margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;">
         Lightning Pro Solutions · Curso IA Aplicada
       </footer>
@@ -1044,7 +1104,11 @@
   ];
 
   // ANSWERS filled in Task 4 (quizzes). Declared here so restoreUI can read it.
-  var ANSWERS = {};
+  var ANSWERS = {
+    q1: { correct: 2, feedback: { ok: 'La IA predice la palabra más probable según patrones — no comprueba si es cierto. Por eso siempre revisas antes de usar.', err: 'No es por internet ni por memoria: la IA predice texto probable, no verifica la verdad. Por eso puede inventar con seguridad.' } },
+    q2: { correct: 1, feedback: { ok: 'Exacto. El valor está en pedir bien y revisar con criterio — eso es lo que este curso te enseña.', err: 'No. No necesitas programar ni comprar lo más caro: la habilidad clave es pedir bien y revisar con criterio.' } },
+    q3: { correct: 1, feedback: { ok: 'Correcto. Hay un límite de tokens (contexto); un texto enorme puede no caber completo y la IA "pierde" partes.', err: 'No. La IA sí lee documentos largos; el problema es el límite de tokens: un texto enorme puede no caber completo en el contexto.' } }
+  };
 
   // ─── STATE ───
   let currentModule = 1;
@@ -1142,7 +1206,7 @@
   })();
 
   // Reassigned by content tasks:
-  var QUIZ_IDS = [];   // set in Task 4
+  var QUIZ_IDS = ['q1','q2','q3'];   // set in Task 4
   var EX_IDS   = [];   // set in Tasks 5 & 7
 
   // ─── QUIZ ───
