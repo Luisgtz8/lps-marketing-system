@@ -1130,9 +1130,9 @@
   <div class="os-panel" id="ospanel-win">
     <div class="install-step"><div class="install-num">1</div><div class="install-body">
       <h4>Abre la terminal</h4>
-      <p>Presiona estas dos teclas juntas, escribe <code>cmd</code> y pulsa Enter:</p>
+      <p>Presiona estas dos teclas juntas:</p>
       <div class="key-combo"><kbd>⊞ Win</kbd><span class="plus">+</span><kbd>R</kbd></div>
-      <p>Se abre una ventana negra: esa es la terminal. (También puedes usar la app "Terminal de Windows" desde el menú Inicio.)</p>
+      <p>Se abre el cuadro <strong>Ejecutar</strong>. Escribe <code>cmd</code> y pulsa Enter — eso abre la ventana de comandos (la terminal). 💡 Aún mejor: abre la app <strong>Terminal de Windows</strong> desde el menú Inicio; es la opción más cómoda para Claude Code.</p>
     </div></div>
     <div class="install-step"><div class="install-num">2</div><div class="install-body">
       <h4>Instala Node.js (lo necesita Claude Code)</h4>
@@ -1196,7 +1196,7 @@
       <h4>Instala Node.js</h4>
       <p>En distribuciones basadas en Debian/Ubuntu:</p>
       <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">sudo apt update && sudo apt install -y nodejs npm</pre></div>
-      <div class="install-warning">⚠️ Otras distros usan otro gestor (<code>dnf</code>, <code>pacman</code>). Si la versión de Node es vieja, instala la LTS con <strong>nvm</strong> (nodejs.org explica cómo).</div>
+      <div class="install-warning">⚠️ Otras distros usan otro gestor (<code>dnf</code>, <code>pacman</code>). Claude Code requiere <strong>Node 18 o superior</strong>; si <code>node --version</code> muestra un número menor, instala la LTS con <strong>nvm</strong> (nodejs.org explica cómo).</div>
     </div></div>
     <div class="install-step"><div class="install-num">3</div><div class="install-body">
       <h4>Verifica Node</h4>
@@ -1440,8 +1440,8 @@
   function detectOS() {
     var p = (navigator.userAgent + ' ' + (navigator.platform || '')).toLowerCase();
     if (p.indexOf('win') !== -1) return 'win';
-    if (p.indexOf('mac') !== -1 || p.indexOf('iphone') !== -1 || p.indexOf('ipad') !== -1) return 'mac';
-    if (p.indexOf('linux') !== -1 || p.indexOf('android') !== -1) return 'linux';
+    if (p.indexOf('mac') !== -1) return 'mac';
+    if (p.indexOf('linux') !== -1) return 'linux';
     return 'win';
   }
 
