@@ -78,7 +78,9 @@
   </div>
 
   <script>
-    var API_BASE = 'https://api.lightningprosolutions.com';
+    // Mismo dominio que el sitio — el API se sirve en /api/* vía los rewrites
+    // de vercel.json. Ruta relativa, sin subdominio ni DNS extra.
+    var API_BASE = '';
     var TOKEN_KEY = 'lps-admin-token';
 
     function token() { return localStorage.getItem(TOKEN_KEY) || ''; }
