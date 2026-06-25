@@ -1257,6 +1257,23 @@
     .reg-privacy {
       font-size: 11px; color: var(--muted, #888); text-align: center; margin-top: 16px; line-height: 1.5;
     }
+    .reg-privacy a { color: var(--amber, #f59e0b); text-decoration: underline; }
+    .reg-optin {
+      display: flex; align-items: flex-start; gap: 9px; margin: 4px 0 18px;
+      font-size: 12.5px; color: var(--muted, #888); line-height: 1.45; cursor: pointer;
+    }
+    .reg-optin input { margin-top: 2px; accent-color: var(--amber, #f59e0b); flex-shrink: 0; }
+    .reg-sent { text-align: center; padding: 12px 0 4px; }
+    .reg-sent.hidden { display: none; }
+    .reg-sent-icon { font-size: 40px; margin: 0 0 12px; }
+    .reg-sent-title {
+      font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 800;
+      color: var(--text, #f0f0f0); margin: 0 0 8px;
+    }
+    .reg-sent-body { font-size: 14px; color: var(--muted, #888); line-height: 1.6; margin: 0; }
+    .reg-paywall { text-align: center; padding: 12px 0 4px; }
+    .reg-paywall.hidden { display: none; }
+    .reg-paywall .reg-submit { margin-top: 20px; }
 
     /* ─── MOBILE FIXES ─── */
     /* ─── BÓVEDA NAV BUTTON ─── */
@@ -1659,8 +1676,12 @@
   <div class="reg-card">
     <div class="reg-logo">⚡</div>
     <h2 class="reg-title">IA Sin Miedo Básico</h2>
-    <p class="reg-sub">Escribe tus datos para acceder al curso. Solo los usamos para recordarte y enviarte recursos.</p>
+    <p class="reg-sub">Escribe tus datos para acceder al curso. Te enviaremos un enlace de acceso a tu correo.</p>
     <form id="reg-form" onsubmit="submitReg(event)" novalidate>
+      <div class="reg-field">
+        <label for="reg-email">Correo</label>
+        <input id="reg-email" type="email" placeholder="ana@empresa.com" required autocomplete="email">
+      </div>
       <div class="reg-field">
         <label for="reg-nombre">Nombre</label>
         <input id="reg-nombre" type="text" placeholder="Ana Torres" required autocomplete="name">
@@ -1702,10 +1723,25 @@
         <label for="reg-whatsapp">WhatsApp</label>
         <input id="reg-whatsapp" type="tel" placeholder="662 123 4567" required autocomplete="tel">
       </div>
+      <label class="reg-optin">
+        <input id="reg-wa-optin" type="checkbox">
+        <span>Quiero recibir mensajes por WhatsApp con recordatorios y recursos del curso.</span>
+      </label>
       <div class="reg-error hidden" id="reg-error"></div>
-      <button type="submit" class="reg-submit" id="reg-submit">Entrar al curso →</button>
+      <button type="submit" class="reg-submit" id="reg-submit">Enviar enlace de acceso →</button>
     </form>
-    <p class="reg-privacy">Tus datos se guardan de forma privada y no se comparten con terceros.</p>
+    <div id="reg-sent" class="reg-sent hidden">
+      <p class="reg-sent-icon">📧</p>
+      <p class="reg-sent-title">Revisa tu correo</p>
+      <p class="reg-sent-body">Te enviamos un enlace de acceso. Ábrelo desde este dispositivo para entrar al curso. Expira en 15 minutos.</p>
+    </div>
+    <div id="reg-paywall" class="reg-paywall hidden">
+      <p class="reg-sent-icon">🔓</p>
+      <p class="reg-sent-title">Tu acceso está casi listo</p>
+      <p class="reg-sent-body">Escríbeme por WhatsApp para activar tu acceso al curso completo. Te explico cómo funciona y te envío el enlace de pago.</p>
+      <a class="reg-submit" id="pay-btn" href="https://wa.me/526623478040?text=Hola%2C%20quiero%20acceso%20al%20curso%20IA%20Sin%20Miedo" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;text-align:center;">Escribirme por WhatsApp →</a>
+    </div>
+    <p class="reg-privacy">Tus datos se guardan de forma privada y no se comparten con terceros. Consulta nuestro <a href="https://www.lightningprosolutions.com/privacidad.html">aviso de privacidad</a>.</p>
   </div>
 </div>
 
@@ -4045,63 +4081,146 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
 </div>
 
 <script>
-  // ─── SUPABASE CONFIG ───
-  const SB_URL  = 'https://kxbkaozzdwehpaaqbxit.supabase.co';
-  const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt4Ymthb3p6ZHdlaHBhYXFieGl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAxMDMwMDksImV4cCI6MjA2NTY3OTAwOX0.aHWAqa4VuhKVSeDO9J1GhOn9e_WAj9jbm6W_hVPVLHM';
+  // ─── BACKEND AUTH (magic link) ───
+  // The course gate is now backed by the API: the user requests a magic link,
+  // clicks it (?#token=...), we exchange it for a session bearer token stored
+  // in localStorage, and /api/me decides access. No secrets live in this page.
+  var API_BASE = 'https://api.lightningprosolutions.com';
+  var SESSION_KEY = 'lps-session';
 
-  // ─── REGISTRATION GATE ───
-  (function() {
-    var saved = localStorage.getItem('lps-curso-reg');
-    if (saved) {
-      document.getElementById('reg-gate').style.display = 'none';
-      return;
-    }
-  })();
+  function getSession() { return localStorage.getItem(SESSION_KEY); }
+  function setSession(t) { localStorage.setItem(SESSION_KEY, t); }
+  function clearSession() { localStorage.removeItem(SESSION_KEY); }
 
+  function openCourse() {
+    var gate = document.getElementById('reg-gate');
+    if (!gate) return;
+    gate.classList.add('fade-out');
+    setTimeout(function() { gate.style.display = 'none'; }, 420);
+  }
+
+  function regError(msg) {
+    var errEl = document.getElementById('reg-error');
+    if (!errEl) return;
+    errEl.textContent = msg;
+    errEl.classList.remove('hidden');
+  }
+
+  // Step 1 — request the magic link. Captures the profile fields from the form.
   async function submitReg(e) {
     e.preventDefault();
+    var email    = (document.getElementById('reg-email').value || '').trim();
     var nombre   = document.getElementById('reg-nombre').value.trim();
     var empresa  = document.getElementById('reg-empresa').value.trim();
     var giro     = document.getElementById('reg-giro').value;
     var dept     = document.getElementById('reg-dept').value;
     var whatsapp = document.getElementById('reg-whatsapp').value.trim();
-    var errEl    = document.getElementById('reg-error');
+    var waOptin  = document.getElementById('reg-wa-optin').checked;
     var btn      = document.getElementById('reg-submit');
 
-    if (!nombre || !empresa || !giro || !dept || !whatsapp) {
-      errEl.textContent = 'Completa todos los campos para continuar.';
-      errEl.classList.remove('hidden'); return;
+    if (!email || !nombre || !empresa || !giro || !dept || !whatsapp) {
+      regError('Completa todos los campos para continuar.'); return;
     }
-    errEl.classList.add('hidden');
+    document.getElementById('reg-error').classList.add('hidden');
     btn.disabled = true;
-    btn.textContent = 'Guardando…';
+    btn.textContent = 'Enviando…';
 
     try {
-      var res = await fetch(SB_URL + '/rest/v1/curso_registros', {
+      var res = await fetch(API_BASE + '/api/auth/request', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SB_ANON,
-          'Authorization': 'Bearer ' + SB_ANON,
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify({ nombre, empresa, giro, departamento: dept, whatsapp })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email, nombre: nombre, empresa: empresa, giro: giro,
+          departamento: dept, whatsapp: whatsapp, wa_optin: waOptin
+        })
       });
-
-      if (!res.ok && res.status !== 201) throw new Error('status ' + res.status);
-
-      localStorage.setItem('lps-curso-reg', JSON.stringify({ nombre, empresa, giro, departamento: dept, whatsapp }));
-      var gate = document.getElementById('reg-gate');
-      gate.classList.add('fade-out');
-      setTimeout(function() { gate.style.display = 'none'; }, 420);
+      if (!res.ok) throw new Error('status ' + res.status);
+      // Always show the "check your email" state (the API never reveals if the
+      // email existed). The link in the email returns with #token=...
+      document.getElementById('reg-form').style.display = 'none';
+      document.getElementById('reg-sent').classList.remove('hidden');
     } catch (err) {
-      // Si Supabase falla, igualmente dejar entrar (no bloquear el curso)
-      localStorage.setItem('lps-curso-reg', JSON.stringify({ nombre, empresa, giro, departamento: dept, whatsapp }));
-      document.getElementById('reg-gate').style.display = 'none';
+      btn.disabled = false;
+      btn.textContent = 'Enviar enlace de acceso →';
+      regError('No pudimos enviar el enlace. Revisa tu correo e inténtalo de nuevo.');
     }
   }
 
-  const PASSWORD = 'curso';
+  // Step 2 — on load, if the URL carries #token=..., exchange it for a session.
+  async function consumeTokenFromUrl() {
+    var m = (window.location.hash || '').match(/token=([^&]+)/);
+    if (!m) return false;
+    var token = decodeURIComponent(m[1]);
+    // Clean the token out of the URL immediately.
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+    try {
+      var res = await fetch(API_BASE + '/api/auth/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: token })
+      });
+      if (!res.ok) throw new Error('verify ' + res.status);
+      var data = await res.json();
+      setSession(data.token);
+      return true;
+    } catch (err) {
+      regError('El enlace expiró o ya se usó. Pide uno nuevo.');
+      return false;
+    }
+  }
+
+  // Step 3 — gate: returns 'open' (paid), 'paywall' (logged in, unpaid),
+  // or 'login' (no/invalid session).
+  async function checkAccess() {
+    var token = getSession();
+    if (!token) return 'login';
+    try {
+      var res = await fetch(API_BASE + '/api/me', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (res.status === 401) { clearSession(); return 'login'; }
+      if (!res.ok) throw new Error('me ' + res.status);
+      var me = await res.json();
+      window.LPS_USER = me.user;
+      window.LPS_PAID = me.paid;
+      window.LPS_PROGRESS = me.progress;
+      // Merge server progress into local state. If the DOM already rendered,
+      // re-run restoreUI so the merged progress is reflected.
+      if (me.progress) {
+        mergeServerProgress(me.progress);
+        if (document.readyState !== 'loading' && typeof restoreUI === 'function') {
+          try { restoreUI(); } catch (e) {}
+        }
+      }
+      return me.paid === true ? 'open' : 'paywall';
+    } catch (err) {
+      // Fail closed: never grant access without a confirmed paid:true. A
+      // network/CORS/500 error must not open the gate. We have a token, so
+      // send them to the paywall state rather than the login form.
+      return 'paywall';
+    }
+  }
+
+  // Swap the gate card content for the paywall (logged in but not paid).
+  function showPaywall() {
+    var form = document.getElementById('reg-form');
+    var sent = document.getElementById('reg-sent');
+    var pay  = document.getElementById('reg-paywall');
+    if (form) form.style.display = 'none';
+    if (sent) sent.classList.add('hidden');
+    if (pay) pay.classList.remove('hidden');
+    var sub = document.querySelector('#reg-gate .reg-sub');
+    if (sub) sub.textContent = 'Ya casi. Escríbeme para activar tu acceso.';
+  }
+
+  // Orchestrate the gate on load.
+  (async function initGate() {
+    await consumeTokenFromUrl();
+    var state = await checkAccess();
+    if (state === 'open') openCourse();
+    else if (state === 'paywall') showPaywall();
+    // 'login' → leave the registration form visible (default).
+  })();
 
   const MODULES = [
     { id: 1, label: '¿Qué es la IA?', time: '8 min' },
@@ -4141,20 +4260,53 @@ Cuando estés listo, di: "[ESCRIBE AQUÍ LA FRASE DE ARRANQUE DE TU AGENTE]"</di
   var PROGRESS_KEY = 'lps-progress-v1';
   var quizAnswers = {};   // { q3: btnIndex, q6: btnIndex, q8: btnIndex }
 
+  function progressBlob() {
+    return {
+      correctAnswers:   Array.from(correctAnswers),
+      answeredQuestions: Array.from(answeredQuestions),
+      quizAnswers:      quizAnswers,
+      exercisesDone:    Array.from(exercisesDone),
+      skillsDone:       Array.from(skillsDone),
+      agentsDone:       Array.from(agentsDone),
+      puzzlesCompleted: Array.from(puzzlesCompleted),
+      puzzleRetries:    puzzleRetries,
+      completedModules: Array.from(completedModules)
+    };
+  }
+
+  var _syncTimer = null;
+  function syncProgressToServer() {
+    var token = getSession();
+    if (!token) return;            // not logged in → localStorage only
+    if (_syncTimer) clearTimeout(_syncTimer);
+    _syncTimer = setTimeout(function() {
+      fetch(API_BASE + '/api/progress', {
+        method: 'PUT',
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify(progressBlob())
+      }).catch(function(){ /* offline cache covers it; retries on next save */ });
+    }, 1200);
+  }
+
   function saveProgress() {
-    try {
-      localStorage.setItem(PROGRESS_KEY, JSON.stringify({
-        correctAnswers:   Array.from(correctAnswers),
-        answeredQuestions: Array.from(answeredQuestions),
-        quizAnswers:      quizAnswers,
-        exercisesDone:    Array.from(exercisesDone),
-        skillsDone:       Array.from(skillsDone),
-        agentsDone:       Array.from(agentsDone),
-        puzzlesCompleted: Array.from(puzzlesCompleted),
-        puzzleRetries:    puzzleRetries,
-        completedModules: Array.from(completedModules)
-      }));
-    } catch(e) {}
+    try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(progressBlob())); } catch(e) {}
+    syncProgressToServer();
+  }
+
+  // Merge a server progress blob into local Sets/objects (union — never lose
+  // local-only progress made while offline), then persist locally.
+  function mergeServerProgress(d) {
+    if (!d) return;
+    if (d.correctAnswers)    d.correctAnswers.forEach(function(id){ correctAnswers.add(id); });
+    if (d.answeredQuestions) d.answeredQuestions.forEach(function(id){ answeredQuestions.add(id); });
+    if (d.quizAnswers)       Object.keys(d.quizAnswers).forEach(function(k){ if (quizAnswers[k] === undefined) quizAnswers[k] = d.quizAnswers[k]; });
+    if (d.exercisesDone)     d.exercisesDone.forEach(function(id){ exercisesDone.add(id); });
+    if (d.skillsDone)        d.skillsDone.forEach(function(id){ skillsDone.add(id); });
+    if (d.agentsDone)        d.agentsDone.forEach(function(id){ agentsDone.add(id); });
+    if (d.puzzlesCompleted)  d.puzzlesCompleted.forEach(function(id){ puzzlesCompleted.add(id); });
+    if (d.puzzleRetries)     Object.keys(d.puzzleRetries).forEach(function(k){ if (puzzleRetries[k] === undefined || d.puzzleRetries[k] > puzzleRetries[k]) puzzleRetries[k] = d.puzzleRetries[k]; });
+    if (d.completedModules)  d.completedModules.forEach(function(id){ completedModules.add(id); });
+    try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(progressBlob())); } catch(e) {}
   }
 
   function loadProgress() {
