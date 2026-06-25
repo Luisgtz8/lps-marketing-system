@@ -1006,6 +1006,32 @@
     .quiz-q { font-size: 16px; margin-bottom: 14px; }
     .next-btn { background: var(--amber); border: none; color: #000; font-weight: 700; border-radius: 8px; padding: 11px 20px; font-size: 14px; cursor: pointer; }
     .next-btn:hover { opacity: 0.9; }
+    /* ─── OS TABS ─── */
+    .os-tabs { display: flex; gap: 8px; margin: 20px 0 0; }
+    .os-tab { flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); border-radius: 10px 10px 0 0; padding: 12px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .os-tab.active { background: var(--surface); border-bottom-color: var(--surface); color: var(--text); border-top: 2px solid var(--amber); }
+    .os-panel { display: none; border: 1px solid var(--border); border-top: none; border-radius: 0 0 12px 12px; padding: 22px; background: var(--surface); }
+    .os-panel.active { display: block; }
+    /* ─── INSTALL STEP ─── */
+    .install-step { display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .install-step:last-child { border-bottom: none; }
+    .install-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--amber); color: #000; font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .install-body { flex: 1; }
+    .install-body h4 { font-size: 15px; margin-bottom: 6px; }
+    /* ─── KEY COMBO ─── */
+    .key-combo { display: inline-flex; align-items: center; gap: 6px; margin: 8px 0; }
+    .key-combo kbd { font-family: ui-monospace, monospace; font-size: 13px; background: var(--surface2); border: 1px solid var(--border); border-bottom-width: 3px; border-radius: 6px; padding: 4px 10px; color: var(--text); }
+    .key-combo .plus { color: var(--muted); font-weight: 700; }
+    /* ─── TERMINAL MOCK ─── */
+    .terminal-mock { background: #0c0c0c; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 10px 0; }
+    [data-theme="light"] .terminal-mock { background: #1e1e1e; }
+    .terminal-bar { display: flex; gap: 6px; padding: 8px 12px; background: #1a1a1a; }
+    .terminal-bar span { width: 11px; height: 11px; border-radius: 50%; }
+    .terminal-bar .r { background: #ff5f57; } .terminal-bar .y { background: #febc2e; } .terminal-bar .g { background: #28c840; }
+    .terminal-body { padding: 14px 16px; font-family: ui-monospace, monospace; font-size: 13px; line-height: 1.6; color: #d6d6d6; white-space: pre-wrap; }
+    .terminal-body .prompt { color: #28c840; }
+    .terminal-body .comment { color: #777; }
+    .install-warning { margin-top: 10px; border-left: 3px solid var(--amber); background: var(--amber-dim); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 13px; }
   </style>
 </head>
 <body>
@@ -1083,6 +1109,135 @@
     <div class="quiz-feedback" id="q3-feedback"></div>
   </div>
   <div class="module-nav"><button class="next-btn" onclick="goTo(4)">Siguiente módulo →</button></div>
+</section>
+
+
+<section class="module" id="mod-4">
+  <div class="module-eyebrow">Parte II · Módulo 4</div>
+  <h1 class="module-title">Las herramientas</h1>
+  <p class="module-desc">Cuatro herramientas que vas a usar. La estrella es Claude Code — aquí está cómo instalarla, paso a paso, en tu sistema.</p>
+
+  <h2 style="margin:24px 0 6px;">1. Claude Code (modo pro)</h2>
+  <p>Es la versión más potente: la IA trabaja en tu computadora desde la <strong>terminal</strong> (esa ventana de texto donde se escriben comandos). Suena técnico, pero la instalación es copiar y pegar. Elige tu sistema:</p>
+
+  <div class="os-tabs">
+    <button class="os-tab" id="ostab-win"   onclick="showOS('win')">🪟 Windows</button>
+    <button class="os-tab" id="ostab-mac"   onclick="showOS('mac')">🍎 Mac</button>
+    <button class="os-tab" id="ostab-linux" onclick="showOS('linux')">🐧 Linux</button>
+  </div>
+
+  <!-- WINDOWS -->
+  <div class="os-panel" id="ospanel-win">
+    <div class="install-step"><div class="install-num">1</div><div class="install-body">
+      <h4>Abre la terminal</h4>
+      <p>Presiona estas dos teclas juntas, escribe <code>cmd</code> y pulsa Enter:</p>
+      <div class="key-combo"><kbd>⊞ Win</kbd><span class="plus">+</span><kbd>R</kbd></div>
+      <p>Se abre una ventana negra: esa es la terminal. (También puedes usar la app "Terminal de Windows" desde el menú Inicio.)</p>
+    </div></div>
+    <div class="install-step"><div class="install-num">2</div><div class="install-body">
+      <h4>Instala Node.js (lo necesita Claude Code)</h4>
+      <p>Ve a <strong>nodejs.org</strong>, descarga la versión <strong>LTS</strong> para Windows y abre el instalador. Dale "Siguiente" en todo y "Finalizar" — los valores por defecto están bien.</p>
+      <div class="install-warning">⚠️ Cuando termine de instalar Node.js, <strong>cierra y vuelve a abrir la terminal</strong> para que reconozca los comandos nuevos.</div>
+    </div></div>
+    <div class="install-step"><div class="install-num">3</div><div class="install-body">
+      <h4>Verifica que Node quedó instalado</h4>
+      <p>Escribe esto y pulsa Enter. Debe responder con un número de versión (algo como <code>v24.x.x</code>):</p>
+      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">node --version</pre></div>
+    </div></div>
+    <div class="install-step"><div class="install-num">4</div><div class="install-body">
+      <h4>Instala Claude Code</h4>
+      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">npm install -g @anthropic-ai/claude-code</pre></div>
+    </div></div>
+    <div class="install-step"><div class="install-num">5</div><div class="install-body">
+      <h4>Arráncalo</h4>
+      <p>Escribe <code>claude</code> y pulsa Enter. La primera vez te pedirá iniciar sesión con tu cuenta.</p>
+      <div class="terminal-mock"><div class="terminal-bar"><span class="r"></span><span class="y"></span><span class="g"></span></div><div class="terminal-body"><span class="prompt">C:\Users\tu-usuario></span> claude
+<span class="comment"># ¡Listo! Claude Code abre y te pide iniciar sesión.</span></div></div>
+    </div></div>
+  </div>
+
+  <!-- MAC -->
+  <div class="os-panel" id="ospanel-mac">
+    <div class="install-step"><div class="install-num">1</div><div class="install-body">
+      <h4>Abre la terminal</h4>
+      <p>Presiona estas dos teclas, escribe <code>Terminal</code> y pulsa Enter:</p>
+      <div class="key-combo"><kbd>⌘ Cmd</kbd><span class="plus">+</span><kbd>Espacio</kbd></div>
+      <p>Eso abre el buscador Spotlight; al escribir "Terminal" aparece la app. Ábrela.</p>
+    </div></div>
+    <div class="install-step"><div class="install-num">2</div><div class="install-body">
+      <h4>Instala Node.js (lo necesita Claude Code)</h4>
+      <p>Ve a <strong>nodejs.org</strong>, descarga la versión <strong>LTS</strong> para macOS y abre el instalador (<code>.pkg</code>). Dale "Continuar" en todo.</p>
+      <div class="install-warning">⚠️ Al terminar, <strong>cierra y vuelve a abrir la terminal</strong>.</div>
+    </div></div>
+    <div class="install-step"><div class="install-num">3</div><div class="install-body">
+      <h4>Verifica Node</h4>
+      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">node --version</pre></div>
+    </div></div>
+    <div class="install-step"><div class="install-num">4</div><div class="install-body">
+      <h4>Instala Claude Code</h4>
+      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">npm install -g @anthropic-ai/claude-code</pre></div>
+      <div class="install-warning">Si ves un error de permisos, antepón <code>sudo</code> y te pedirá tu contraseña de Mac.</div>
+    </div></div>
+    <div class="install-step"><div class="install-num">5</div><div class="install-body">
+      <h4>Arráncalo</h4>
+      <div class="terminal-mock"><div class="terminal-bar"><span class="r"></span><span class="y"></span><span class="g"></span></div><div class="terminal-body"><span class="prompt">tu-mac:~ usuario$</span> claude
+<span class="comment"># ¡Listo! Inicia sesión cuando lo pida.</span></div></div>
+    </div></div>
+  </div>
+
+  <!-- LINUX -->
+  <div class="os-panel" id="ospanel-linux">
+    <div class="install-step"><div class="install-num">1</div><div class="install-body">
+      <h4>Abre la terminal</h4>
+      <div class="key-combo"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Alt</kbd><span class="plus">+</span><kbd>T</kbd></div>
+      <p>En la mayoría de las distribuciones esto abre la terminal directamente.</p>
+    </div></div>
+    <div class="install-step"><div class="install-num">2</div><div class="install-body">
+      <h4>Instala Node.js</h4>
+      <p>En distribuciones basadas en Debian/Ubuntu:</p>
+      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">sudo apt update && sudo apt install -y nodejs npm</pre></div>
+      <div class="install-warning">⚠️ Otras distros usan otro gestor (<code>dnf</code>, <code>pacman</code>). Si la versión de Node es vieja, instala la LTS con <strong>nvm</strong> (nodejs.org explica cómo).</div>
+    </div></div>
+    <div class="install-step"><div class="install-num">3</div><div class="install-body">
+      <h4>Verifica Node</h4>
+      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">node --version</pre></div>
+    </div></div>
+    <div class="install-step"><div class="install-num">4</div><div class="install-body">
+      <h4>Instala Claude Code</h4>
+      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">sudo npm install -g @anthropic-ai/claude-code</pre></div>
+    </div></div>
+    <div class="install-step"><div class="install-num">5</div><div class="install-body">
+      <h4>Arráncalo</h4>
+      <div class="terminal-mock"><div class="terminal-bar"><span class="r"></span><span class="y"></span><span class="g"></span></div><div class="terminal-body"><span class="prompt">usuario@equipo:~$</span> claude
+<span class="comment"># ¡Listo! Inicia sesión cuando lo pida.</span></div></div>
+    </div></div>
+  </div>
+
+  <h3 style="margin:26px 0 6px;">El archivo CLAUDE.md (en 30 segundos)</h3>
+  <p>Dentro de tu proyecto puedes crear un archivo llamado <code>CLAUDE.md</code>. Ahí escribes, en español normal, las reglas de tu negocio: cómo se llama tu empresa, qué tono usar, qué nunca hacer. Claude Code lo lee solo en cada sesión, así no repites el contexto cada vez.</p>
+
+  <h3 style="margin:22px 0 6px;">Agentes y skills (panorama)</h3>
+  <p>Una <strong>skill</strong> es un prompt que guardaste y reutilizas (ej. "resume así mis reportes de ventas"). Un <strong>agente</strong> es la IA configurada para una tarea específica con sus propias instrucciones. No los construimos a fondo hoy — solo que sepas que existen y que es a donde lleva este camino.</p>
+
+  <h2 style="margin:30px 0 6px;">2. ChatGPT (rápido)</h2>
+  <p>El más conocido. Excelente para redactar, resumir y conversar. Lo usas en el navegador o su app. Para análisis de documentos largos y trabajo cuidadoso, Claude suele ir un paso adelante.</p>
+
+  <h2 style="margin:24px 0 6px;">3. Las apps nativas de Claude</h2>
+  <p>La app de Claude puede conectarse a herramientas que ya usas y actuar sobre ellas:</p>
+  <ul style="margin:8px 0 8px 20px;">
+    <li><strong>Gmail</strong> — redactar correos y dejarlos <em>en borrador</em> para que tú los revises antes de enviar.</li>
+    <li><strong>Google Calendar</strong> — consultar tu agenda y crear eventos.</li>
+  </ul>
+  <p>La idea es siempre la misma: la IA prepara, tú apruebas.</p>
+
+  <div class="exercise">
+    <div class="exercise-title">✋ Ejercicio: tu primer borrador en Gmail</div>
+    <p>Copia este prompt, pégalo en la app de Claude (con Gmail conectado) y revisa el borrador que deja. Ajusta los datos entre corchetes.</p>
+    <div class="copy-block"><div class="copy-block-bar"><span>prompt</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">Redacta un correo breve y profesional para [nombre del cliente] recordándole el pago pendiente de [monto] con fecha límite [fecha]. Tono cordial pero firme, máximo 120 palabras. Déjalo en borrador, no lo envíes.</pre></div>
+    <button class="ex-done-btn" id="ex-btn-ex-tools" onclick="markEx('ex-tools', this)">Marcar como hecho</button>
+  </div>
+
+  <div class="module-nav"><button class="next-btn" onclick="goTo(5)">Siguiente módulo →</button></div>
 </section>
 
       <footer style="margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;">
@@ -1207,7 +1362,7 @@
 
   // Reassigned by content tasks:
   var QUIZ_IDS = ['q1','q2','q3'];   // set in Task 4
-  var EX_IDS   = [];   // set in Tasks 5 & 7
+  var EX_IDS = ['ex-tools'];   // extended in Task 7
 
   // ─── QUIZ ───
   function answer(qid, btn, isCorrect) {
@@ -1272,6 +1427,24 @@
     return score;
   }
 
+  // ─── OS TABS (Module 4) ───
+  function showOS(os) {
+    ['win','mac','linux'].forEach(function(k){
+      var tab = document.getElementById('ostab-' + k);
+      var pan = document.getElementById('ospanel-' + k);
+      var on = (k === os);
+      if (tab) tab.classList.toggle('active', on);
+      if (pan) pan.classList.toggle('active', on);
+    });
+  }
+  function detectOS() {
+    var p = (navigator.userAgent + ' ' + (navigator.platform || '')).toLowerCase();
+    if (p.indexOf('win') !== -1) return 'win';
+    if (p.indexOf('mac') !== -1 || p.indexOf('iphone') !== -1 || p.indexOf('ipad') !== -1) return 'mac';
+    if (p.indexOf('linux') !== -1 || p.indexOf('android') !== -1) return 'linux';
+    return 'win';
+  }
+
   function restoreUI() {
     // Quizzes
     QUIZ_IDS.forEach(function(qid){
@@ -1305,6 +1478,7 @@
   loadProgress();
   buildNav();
   goTo(1);
+  showOS(detectOS());
   document.addEventListener('DOMContentLoaded', function(){ restoreUI(); });
 </script>
 </body>
