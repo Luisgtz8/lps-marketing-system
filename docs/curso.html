@@ -991,6 +991,18 @@
       .quiz-result-row { gap: 5px; }
       .qr-chip { padding: 5px 8px; font-size: 11px; }
     }
+
+    /* ─── COPY BLOCK ─── */
+    .copy-block { position: relative; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; margin: 16px 0; overflow: hidden; }
+    .copy-block-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+    .copy-block-code { margin: 0; padding: 14px 16px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; line-height: 1.55; white-space: pre-wrap; word-break: break-word; color: var(--text); }
+    /* ─── EXERCISE ─── */
+    .exercise { border: 1px solid var(--amber-border); background: var(--amber-dim); border-radius: 12px; padding: 18px 20px; margin: 20px 0; }
+    .exercise-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+    .ex-done-btn { margin-top: 12px; background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 8px 16px; font-size: 13px; cursor: pointer; }
+    .ex-done-btn.done { background: var(--success-dim); border-color: var(--success); color: var(--success); cursor: default; }
+    /* ─── SCORE ─── */
+    .score-pill { display:inline-flex; align-items:center; gap:8px; font-family:'Space Grotesk',sans-serif; font-weight:600; }
   </style>
 </head>
 <body>
@@ -1129,9 +1141,100 @@
     });
   })();
 
-  // restoreUI is extended in Tasks 4 & 5. Stub here keeps init safe.
+  // Reassigned by content tasks:
+  var QUIZ_IDS = [];   // set in Task 4
+  var EX_IDS   = [];   // set in Tasks 5 & 7
+
+  // ─── QUIZ ───
+  function answer(qid, btn, isCorrect) {
+    if (answeredQuestions.has(qid)) return;
+    answeredQuestions.add(qid);
+    var container = document.getElementById(qid);
+    var options = container.querySelectorAll('.quiz-option');
+    var feedback = document.getElementById(qid + '-feedback');
+    var data = ANSWERS[qid];
+    options.forEach(function(opt){ opt.disabled = true; opt.classList.add('disabled'); });
+    if (isCorrect) {
+      btn.classList.remove('disabled'); btn.classList.add('correct');
+      correctAnswers.add(qid);
+    } else {
+      btn.classList.remove('disabled'); btn.classList.add('wrong');
+      var correctBtn = options[data.correct];
+      if (correctBtn) { correctBtn.classList.remove('disabled'); correctBtn.classList.add('correct'); }
+    }
+    if (isCorrect) {
+      feedback.className = 'quiz-feedback correct';
+      feedback.textContent = '✓ ' + data.feedback.ok;
+    } else {
+      feedback.className = 'quiz-feedback wrong';
+      feedback.innerHTML = '✗ ' + data.feedback.err + '<br><span style="display:block;margin-top:8px;color:var(--success);">✓ ' + data.feedback.ok + '</span>';
+    }
+    quizAnswers[qid] = Array.from(options).indexOf(btn);
+    saveProgress();
+    updateScore();
+  }
+
+  // ─── COPY BLOCK ───
+  function copyCode(btn) {
+    var block = btn.closest('.copy-block');
+    if (!block) return;
+    var code = block.querySelector('.copy-block-code');
+    if (!code) return;
+    navigator.clipboard.writeText(code.textContent).then(function(){
+      var orig = btn.textContent;
+      btn.textContent = '✓ Copiado';
+      setTimeout(function(){ btn.textContent = orig; }, 1600);
+    });
+  }
+
+  // ─── EXERCISE ───
+  function markEx(id, btn) {
+    exercisesDone.add(id);
+    if (btn) { btn.classList.add('done'); btn.textContent = '✓ Hecho'; btn.disabled = true; }
+    saveProgress();
+    updateScore();
+  }
+
+  // ─── SCORE (/100) ───
+  // Quizzes and exercises split the 100 points evenly across however many exist.
+  function updateScore() {
+    var totalItems = QUIZ_IDS.length + EX_IDS.length;
+    var done = correctAnswers.size + exercisesDone.size;
+    var score = totalItems ? Math.round((done / totalItems) * 100) : 0;
+    var el = document.getElementById('score-display');
+    if (el) el.textContent = score + ' / 100';
+    var fill = document.getElementById('results-bar');
+    if (fill) fill.style.width = score + '%';
+    return score;
+  }
+
   function restoreUI() {
-    if (typeof updateScore === 'function') updateScore();
+    // Quizzes
+    QUIZ_IDS.forEach(function(qid){
+      if (!answeredQuestions.has(qid)) return;
+      var container = document.getElementById(qid);
+      if (!container) return;
+      var options = Array.from(container.querySelectorAll('.quiz-option'));
+      options.forEach(function(opt){ opt.disabled = true; opt.classList.add('disabled'); });
+      var isCorrect = correctAnswers.has(qid);
+      var data = ANSWERS[qid];
+      if (options[data.correct]) options[data.correct].classList.add('correct');
+      var chosen = quizAnswers[qid];
+      if (!isCorrect && chosen !== undefined && options[chosen]) options[chosen].classList.add('wrong');
+      var feedback = document.getElementById(qid + '-feedback');
+      if (feedback) {
+        feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'wrong');
+        if (isCorrect) feedback.textContent = '✓ ' + data.feedback.ok;
+        else feedback.innerHTML = '✗ ' + data.feedback.err + '<br><span style="display:block;margin-top:8px;color:var(--success);">✓ ' + data.feedback.ok + '</span>';
+      }
+    });
+    // Exercises
+    EX_IDS.forEach(function(id){
+      if (!exercisesDone.has(id)) return;
+      var btn = document.getElementById('ex-btn-' + id);
+      if (btn) { btn.classList.add('done'); btn.textContent = '✓ Hecho'; btn.disabled = true; }
+    });
+    updateScore();
   }
 
   // ─── INIT ───
