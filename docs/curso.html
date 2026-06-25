@@ -1020,7 +1020,125 @@
   </div>
 </div>
 <script>
-/* engine added in later tasks */
+  // ─── MODULE DEFINITIONS ───
+  const MODULES = [
+    { id: 1, label: '¿Qué es un LLM?',              time: '8 min' },
+    { id: 2, label: 'El dinero y la disrupción',     time: '10 min' },
+    { id: 3, label: 'Prompts, contexto y tokens',    time: '10 min' },
+    { id: 4, label: 'Las herramientas',              time: '20 min' },
+    { id: 5, label: 'De PDF a datos',                time: '15 min' },
+    { id: 6, label: 'Análisis con datos reales',     time: '20 min' },
+    { id: 7, label: 'Case study financiero',         time: '15 min' }
+  ];
+
+  // ANSWERS filled in Task 4 (quizzes). Declared here so restoreUI can read it.
+  var ANSWERS = {};
+
+  // ─── STATE ───
+  let currentModule = 1;
+  let completedModules  = new Set();
+  let answeredQuestions = new Set();
+  let correctAnswers    = new Set();
+  let quizAnswers       = {};            // { qid: chosenOptionIndex }
+  let exercisesDone     = new Set();     // exercise ids
+
+  var PROGRESS_KEY = 'lps-curso-ia-aplicada-v1';
+
+  function progressBlob() {
+    return {
+      correctAnswers:    Array.from(correctAnswers),
+      answeredQuestions: Array.from(answeredQuestions),
+      quizAnswers:       quizAnswers,
+      exercisesDone:     Array.from(exercisesDone),
+      completedModules:  Array.from(completedModules)
+    };
+  }
+  function saveProgress() {
+    try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(progressBlob())); } catch (e) {}
+  }
+  function loadProgress() {
+    try {
+      var raw = localStorage.getItem(PROGRESS_KEY);
+      if (!raw) return;
+      var d = JSON.parse(raw);
+      if (d.correctAnswers)    d.correctAnswers.forEach(function(id){ correctAnswers.add(id); });
+      if (d.answeredQuestions) d.answeredQuestions.forEach(function(id){ answeredQuestions.add(id); });
+      if (d.quizAnswers)       quizAnswers = d.quizAnswers;
+      if (d.exercisesDone)     d.exercisesDone.forEach(function(id){ exercisesDone.add(id); });
+      if (d.completedModules)  d.completedModules.forEach(function(id){ completedModules.add(id); });
+    } catch (e) {}
+  }
+
+  // ─── NAV ───
+  function buildNav() {
+    var nav  = document.getElementById('nav-items');
+    var tabs = document.getElementById('mobile-tabs');
+    nav.innerHTML = ''; tabs.innerHTML = '';
+    MODULES.forEach(function(m) {
+      var btn = document.createElement('button');
+      btn.className = 'nav-item'; btn.id = 'nav-' + m.id;
+      btn.innerHTML = '<span class="nav-dot"></span><span style="flex:1">' + m.label + '</span><span style="font-size:11px;color:#555;flex-shrink:0">' + m.time + '</span>';
+      btn.onclick = function(){ goTo(m.id); };
+      nav.appendChild(btn);
+      var tab = document.createElement('button');
+      tab.className = 'mobile-tab'; tab.id = 'tab-' + m.id;
+      tab.textContent = m.id;
+      tab.onclick = function(){ goTo(m.id); };
+      tabs.appendChild(tab);
+    });
+  }
+
+  function goTo(n) {
+    if (n === 7 && typeof buildResults === 'function') buildResults();
+    if (currentModule !== n) { completedModules.add(currentModule); saveProgress(); }
+    document.querySelectorAll('.module').forEach(function(m){ m.classList.remove('active'); });
+    document.querySelectorAll('.nav-item').forEach(function(b){ b.classList.remove('active','done'); });
+    document.querySelectorAll('.mobile-tab').forEach(function(t){ t.classList.remove('active'); });
+    var mod = document.getElementById('mod-' + n);
+    var navB = document.getElementById('nav-' + n);
+    var tabB = document.getElementById('tab-' + n);
+    if (mod)  mod.classList.add('active');
+    if (navB) navB.classList.add('active');
+    if (tabB) tabB.classList.add('active');
+    completedModules.forEach(function(id){
+      var el = document.getElementById('nav-' + id);
+      if (el && id !== n) el.classList.add('done');
+    });
+    currentModule = n;
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(n) {
+    var pct = Math.round(((n - 1) / MODULES.length) * 100);
+    var fill = document.getElementById('progress-fill');
+    if (fill) fill.style.width = pct + '%';
+    var lbl = document.getElementById('progress-label');
+    if (lbl) lbl.textContent = 'Módulo ' + n + ' de ' + MODULES.length;
+  }
+
+  // ─── THEME TOGGLE ───
+  (function(){
+    var btn = document.getElementById('courseThemeToggle');
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var root = document.documentElement;
+      var isLight = root.getAttribute('data-theme') === 'light';
+      if (isLight) { root.removeAttribute('data-theme'); localStorage.setItem('lps-theme','dark'); }
+      else { root.setAttribute('data-theme','light'); localStorage.setItem('lps-theme','light'); }
+    });
+  })();
+
+  // restoreUI is extended in Tasks 4 & 5. Stub here keeps init safe.
+  function restoreUI() {
+    if (typeof updateScore === 'function') updateScore();
+  }
+
+  // ─── INIT ───
+  loadProgress();
+  buildNav();
+  goTo(1);
+  document.addEventListener('DOMContentLoaded', function(){ restoreUI(); });
 </script>
 </body>
 </html>
