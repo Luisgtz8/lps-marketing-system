@@ -1313,6 +1313,45 @@ with pdfplumber.open("factura.pdf") as pdf:
   <div class="module-nav"><button class="next-btn" onclick="goTo(7)">Siguiente módulo →</button></div>
 </section>
 
+<section class="module" id="mod-7">
+  <div class="module-eyebrow">Parte IV · Módulo 7</div>
+  <h1 class="module-title">Case study: análisis financiero de una empresa pública</h1>
+  <p class="module-desc">El nivel jefe: entender a un competidor grande que cotiza en bolsa — y al mercado entero — con IA.</p>
+  <p>Las empresas que cotizan en bolsa están <strong>obligadas a publicar</strong> sus números: ventas, utilidades, deudas. Es información pública y gratuita. La IA puede leer esos estados financieros y explicártelos en español sencillo.</p>
+  <h3 style="margin:18px 0 6px;">Leer estados financieros con IA</h3>
+  <p>Le das el reporte (o el enlace) y preguntas lo que un dueño querría saber: ¿están creciendo? ¿de dónde sale su dinero? ¿qué línea les funciona? La IA traduce la jerga contable a decisiones.</p>
+  <h3 style="margin:18px 0 6px;">Un mini-modelo con scrapers (demo)</h3>
+  <p>Para seguir a un competidor de forma continua, se puede armar un pequeño <strong>scraper</strong>: un script que entra a una página pública y baja los datos solo (por ejemplo, las ventas reportadas trimestre a trimestre). La IA te lo construye; tú lo corres cuando quieras una actualización. La idea, en concepto:</p>
+  <div class="copy-block"><div class="copy-block-bar"><span>concepto · scraper</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code"># Idea general (la IA arma el script real por ti):
+# 1. Entrar a la página pública de resultados del competidor
+# 2. Bajar la tabla de ventas por trimestre
+# 3. Guardarla en un archivo para compararla con la tuya</pre></div>
+  <p>Con eso entiendes el <strong>mercado</strong>, no solo tu negocio: cómo se mueve el grande, a qué precio, en qué líneas. Aterricémoslo en tu caso local.</p>
+
+  <div class="exercise">
+    <div class="exercise-title">✋ Ejercicio: entiende a tu competencia</div>
+    <p>Descarga el comparativo por línea contra tus competidores y pídele a la IA un diagnóstico.</p>
+    <p><a href="recursos/competencia_por_linea.csv" target="_blank" rel="noopener" style="color:var(--amber);">📈 competencia_por_linea.csv</a></p>
+    <div class="copy-block"><div class="copy-block-bar"><span>prompt</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">Te adjunto un comparativo de mis precios y participación de mercado contra mis competidores, por línea de producto. Dime:
+1. En qué líneas estoy ganando y en cuáles me están desplazando.
+2. Dónde mi precio me hace vulnerable frente al producto chino o la cadena nacional.
+3. Tres movimientos concretos para defender o recuperar participación.</pre></div>
+    <button class="ex-done-btn" id="ex-btn-ex-case" onclick="markEx('ex-case', this)">Marcar como hecho</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results" style="margin-top:40px;padding:26px;border:1px solid var(--amber-border);border-radius:14px;background:var(--surface);">
+    <h2 style="margin-bottom:6px;">Tu progreso</h2>
+    <p class="score-pill" style="font-size:28px;color:var(--amber);"><span id="score-display">0 / 100</span></p>
+    <div style="height:10px;background:var(--surface2);border-radius:6px;overflow:hidden;margin:12px 0;">
+      <div id="results-bar" style="height:100%;width:0;background:var(--amber);transition:width .4s;"></div>
+    </div>
+    <div id="results-breakdown" style="color:var(--muted);font-size:14px;"></div>
+    <p style="margin-top:16px;">Terminaste el curso <strong>IA Aplicada</strong>. Ahora la IA no es magia: es una herramienta que entiendes, sabes pedirle y revisas con criterio. Eso es exactamente lo que te vuelve indispensable.</p>
+  </div>
+  <div class="module-nav"><button class="next-btn" onclick="goTo(1)">Volver al inicio ↑</button></div>
+</section>
+
       <footer style="margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;">
         Lightning Pro Solutions · Curso IA Aplicada
       </footer>
@@ -1437,7 +1476,7 @@ with pdfplumber.open("factura.pdf") as pdf:
 
   // Reassigned by content tasks:
   var QUIZ_IDS = ['q1','q2','q3','q4','q5'];
-  var EX_IDS = ['ex-tools','ex-pdf','ex-kpi'];   // extended in Task 7
+  var EX_IDS = ['ex-tools','ex-pdf','ex-kpi','ex-case'];
 
   // ─── QUIZ ───
   function answer(qid, btn, isCorrect) {
@@ -1487,6 +1526,17 @@ with pdfplumber.open("factura.pdf") as pdf:
     if (btn) { btn.classList.add('done'); btn.textContent = '✓ Hecho'; btn.disabled = true; }
     saveProgress();
     updateScore();
+  }
+
+  // ─── RESULTS SCREEN ───
+  function buildResults() {
+    updateScore();
+    var bd = document.getElementById('results-breakdown');
+    if (bd) {
+      bd.innerHTML =
+        'Quizzes correctos: <strong>' + correctAnswers.size + ' / ' + QUIZ_IDS.length + '</strong><br>' +
+        'Ejercicios completados: <strong>' + exercisesDone.size + ' / ' + EX_IDS.length + '</strong>';
+    }
   }
 
   // ─── SCORE (/100) ───
