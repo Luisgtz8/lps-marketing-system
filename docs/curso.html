@@ -1517,7 +1517,7 @@ with pdfplumber.open("factura.pdf") as pdf:
       var orig = btn.textContent;
       btn.textContent = '✓ Copiado';
       setTimeout(function(){ btn.textContent = orig; }, 1600);
-    });
+    }).catch(function(){});
   }
 
   // ─── EXERCISE ───
