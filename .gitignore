@@ -10,3 +10,12 @@ venv/
 .coverage
 htmlcov/
 *.log
+.vercel
+
+# Node / Vercel Functions backend
+node_modules/
+.env*.local
+
+# Local dev tools (no van al repo)
+docs/serve.py
+skills-lock.json

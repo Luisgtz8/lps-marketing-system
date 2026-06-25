@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    { "path": "/api/cron/nudge", "schedule": "0 17 * * *" }
+  ],
+  "rewrites": [
+    { "source": "/", "destination": "/docs/index.html" },
+    { "source": "/((?!api/).*)", "destination": "/docs/$1" }
+  ]
+}
