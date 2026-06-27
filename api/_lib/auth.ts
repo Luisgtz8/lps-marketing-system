@@ -1,5 +1,5 @@
 // Auth helpers: token generation, hashing, session resolution.
-import { randomBytes, createHash, timingSafeEqual } from 'node:crypto';
+import { randomBytes, createHash, timingSafeEqual, scryptSync } from 'node:crypto';
 import type { VercelRequest } from '@vercel/node';
 import { sql } from './db.js';
 
@@ -72,4 +72,32 @@ export async function requireAdmin(req: VercelRequest): Promise<SessionUser | tr
   if (user && user.is_admin) return user;
   if (isAdminRequest(req)) return true;
   return null;
+}
+
+// ── Password hashing (scrypt; no external deps) ──────────────────────────────
+// Stored format: "<saltHex>:<hashHex>". 16-byte salt, 64-byte derived key.
+export function hashPassword(password: string): string {
+  const salt = randomBytes(16);
+  const hash = scryptSync(password, salt, 64);
+  return `${salt.toString('hex')}:${hash.toString('hex')}`;
+}
+
+export function verifyPassword(password: string, stored: string): boolean {
+  const [saltHex, hashHex] = stored.split(':');
+  if (!saltHex || !hashHex) return false;
+  const expected = Buffer.from(hashHex, 'hex');
+  const actual = scryptSync(password, Buffer.from(saltHex, 'hex'), 64);
+  if (actual.length !== expected.length) return false;
+  return timingSafeEqual(actual, expected);
+}
+
+// ── Single active session ────────────────────────────────────────────────────
+// Revoke every live session for a user. Called by EVERY login path (password
+// + magic link) before issuing a new session, so a new login kicks the old
+// device ("new login wins"). The old token's next request 401s.
+export async function revokeUserSessions(userId: string): Promise<void> {
+  await sql`
+    update sessions set revoked_at = now()
+    where user_id = ${userId} and revoked_at is null
+  `;
 }
