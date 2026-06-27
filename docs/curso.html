@@ -569,9 +569,72 @@
     .terminal-body .prompt { color: #28c840; }
     .terminal-body .comment { color: #777; }
     .install-warning { margin-top: 10px; border-left: 3px solid var(--amber); background: var(--amber-dim); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 13px; }
+
+    /* ─── GATE ─── */
+    .gate { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center;
+      background: rgba(10,10,10,0.82); backdrop-filter: blur(6px); padding: 20px; }
+    .gate.hidden { display: none; }
+    body.gated { overflow: hidden; }
+    .gate-card { width: 100%; max-width: 420px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px 26px; box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+    .gate-brand { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: var(--amber); margin-bottom: 18px; }
+    .gate-tabs { display: flex; gap: 6px; background: var(--surface2); border-radius: 10px; padding: 4px; margin-bottom: 20px; }
+    .gate-tab { flex: 1; padding: 9px; border: 0; border-radius: 7px; background: transparent; color: var(--muted);
+      font-size: 13px; font-weight: 600; cursor: pointer; }
+    .gate-tab.active { background: var(--bg); color: var(--text); }
+    .gate-panel { display: none; flex-direction: column; }
+    .gate-panel.active { display: flex; }
+    .gate-h { font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin: 0 0 4px; color: var(--text); }
+    .gate-sub { font-size: 13px; color: var(--muted); margin: 0 0 14px; }
+    .gate-label { font-size: 12px; color: var(--muted); margin: 10px 0 4px; }
+    .gate-input { width: 100%; padding: 11px 12px; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); font-size: 14px; }
+    .gate-input:focus { outline: none; border-color: var(--amber); }
+    .gate-error { color: #f87171; font-size: 13px; margin: 10px 0 0; }
+    .gate-submit { margin-top: 16px; padding: 12px; border: 0; border-radius: 8px; background: var(--amber);
+      color: #1a1a1a; font-weight: 700; font-size: 14px; cursor: pointer; }
+    .gate-link { margin-top: 10px; padding: 6px; border: 0; background: transparent; color: var(--muted);
+      font-size: 13px; text-decoration: underline; cursor: pointer; }
+    @media (max-width: 480px) { .gate-card { max-width: none; border-radius: 14px; padding: 22px 18px; } }
   </style>
 </head>
 <body>
+<!-- ─── GATE DE ACCESO ─── -->
+<div id="gate" class="gate hidden" aria-hidden="true">
+  <div class="gate-card" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+    <div class="gate-brand">⚡ IA Aplicada</div>
+    <div class="gate-tabs">
+      <button class="gate-tab active" id="tab-login" type="button">Ya tengo acceso</button>
+      <button class="gate-tab" id="tab-lead" type="button">Quiero acceso</button>
+    </div>
+
+    <!-- Login -->
+    <form id="gate-login" class="gate-panel active" autocomplete="on">
+      <h2 id="gate-title" class="gate-h">Inicia sesión</h2>
+      <label class="gate-label" for="login-email">Correo</label>
+      <input class="gate-input" id="login-email" type="email" autocomplete="email" required>
+      <label class="gate-label" for="login-pass">Contraseña</label>
+      <input class="gate-input" id="login-pass" type="password" autocomplete="current-password" required>
+      <p class="gate-error hidden" id="login-error"></p>
+      <button class="gate-submit" id="login-submit" type="submit">Entrar →</button>
+      <button class="gate-link" id="login-magic" type="button">Entrar con enlace por correo</button>
+    </form>
+
+    <!-- Lead -->
+    <form id="gate-lead" class="gate-panel" autocomplete="on">
+      <h2 class="gate-h">Solicita tu acceso</h2>
+      <p class="gate-sub">Déjanos tus datos y te contactamos por WhatsApp para activarte.</p>
+      <label class="gate-label" for="lead-nombre">Nombre</label>
+      <input class="gate-input" id="lead-nombre" type="text" autocomplete="name">
+      <label class="gate-label" for="lead-email">Correo</label>
+      <input class="gate-input" id="lead-email" type="email" autocomplete="email" required>
+      <label class="gate-label" for="lead-empresa">Empresa</label>
+      <input class="gate-input" id="lead-empresa" type="text" autocomplete="organization">
+      <p class="gate-error hidden" id="lead-error"></p>
+      <button class="gate-submit" id="lead-submit" type="submit">Continuar por WhatsApp →</button>
+    </form>
+  </div>
+</div>
 <div id="course-screen">
   <div class="top-bar">
     <span class="top-bar-logo">Lightning Pro</span>
