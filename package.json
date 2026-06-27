@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "migrate": "psql \"$DATABASE_URL\" -f migrations/0001_init.sql",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "migrate:local": "psql \"postgres://lps:lps@localhost:5432/lps\" -f migrations/0001_init.sql -f migrations/0002_wa_idempotency.sql -f migrations/0003_passwords.sql"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
@@ -14,7 +15,9 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
+    "@types/pg": "^8.20.0",
     "@vercel/node": "^5.0.0",
+    "pg": "^8.22.0",
     "typescript": "^5.7.2"
   }
 }
