@@ -4,7 +4,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sql } from '../_lib/db.js';
 import { cors, json } from '../_lib/http.js';
-import { newToken, hashToken } from '../_lib/auth.js';
+import { newToken, hashToken, revokeUserSessions } from '../_lib/auth.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (cors(req, res)) return;
@@ -31,6 +31,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // First successful verification confirms the email.
     await sql`update users set email_verified = true where id = ${userId}`;
+
+    // Single active session: a magic-link login also kicks prior sessions.
+    await revokeUserSessions(userId);
 
     // Create the session.
     const sessionToken = newToken();
