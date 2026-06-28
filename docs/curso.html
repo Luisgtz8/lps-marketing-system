@@ -644,6 +644,10 @@
       <span class="progress-label" id="progress-label">Módulo 1 de 7</span>
       <span class="ex-counter" id="ex-counter" style="display:none;"><span id="ex-done-count">0</span>/6 ejercicios</span>
       <button class="theme-toggle" id="courseThemeToggle" aria-label="Cambiar modo de color"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+      <button id="logout-btn" type="button" onclick="window.lpsLogout()"
+        style="background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;">
+        Cerrar sesión
+      </button>
     </div>
   </div>
   <div class="mobile-tabs" id="mobile-tabs"></div>
@@ -1459,7 +1463,7 @@ Inventar consecuencias, culpar al cliente o sonar agresivo.</pre>
       var r = await fetch(API_BASE + '/api/me', { headers: { Authorization: 'Bearer ' + token() } });
       if (r.status === 401) { clearToken(); showGate(); return; }
       var d = await r.json();
-      if (d.paid) { hideGate(); }
+      if (d.paid) { hideGate(); maybeOfferPassword(); }
       else { showGate('Tu acceso aún no está activo. Escríbenos por WhatsApp para activarlo.'); }
     } catch (e) { showGate(); }
   }
@@ -1514,6 +1518,17 @@ Inventar consecuencias, culpar al cliente o sonar agresivo.</pre>
     } catch (e) {}
     window.open(WHATSAPP, '_blank', 'noopener');
   });
+
+  function maybeOfferPassword() {
+    if (localStorage.getItem('lps-pw-offered')) return;
+    localStorage.setItem('lps-pw-offered', '1');
+    var pw = window.prompt('Para entrar más rápido la próxima vez, crea una contraseña (mínimo 8 caracteres). Déjalo vacío para omitir.');
+    if (!pw || pw.length < 8) return;
+    fetch('' + '/api/auth/set-password', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (localStorage.getItem('lps-session') || '') },
+      body: JSON.stringify({ password: pw }),
+    });
+  }
 
   // Expose logout for the account menu (Task 9 wires the button)
   window.lpsLogout = async function () {
