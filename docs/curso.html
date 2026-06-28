@@ -1411,5 +1411,118 @@ Inventar consecuencias, culpar al cliente o sonar agresivo.</pre>
   showOS(detectOS());
   document.addEventListener('DOMContentLoaded', function(){ restoreUI(); });
 </script>
+<script>
+(function () {
+  var API_BASE = ''; // same-origin via vercel.json rewrites
+  var SESSION_KEY = 'lps-session';
+  var WHATSAPP = 'https://wa.me/526623478040?text=' + encodeURIComponent('Hola, quiero acceso al curso IA Aplicada');
+
+  var gate = document.getElementById('gate');
+  function token() { return localStorage.getItem(SESSION_KEY) || ''; }
+  function setToken(t) { localStorage.setItem(SESSION_KEY, t); }
+  function clearToken() { localStorage.removeItem(SESSION_KEY); }
+
+  function showGate(msg) {
+    gate.classList.remove('hidden'); gate.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('gated');
+    if (msg) { var e = document.getElementById('login-error'); e.textContent = msg; e.classList.remove('hidden'); }
+  }
+  function hideGate() {
+    gate.classList.add('hidden'); gate.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('gated');
+  }
+
+  // Tab switching
+  document.getElementById('tab-login').onclick = function () { switchTab('login'); };
+  document.getElementById('tab-lead').onclick = function () { switchTab('lead'); };
+  function switchTab(which) {
+    document.getElementById('tab-login').classList.toggle('active', which === 'login');
+    document.getElementById('tab-lead').classList.toggle('active', which === 'lead');
+    document.getElementById('gate-login').classList.toggle('active', which === 'login');
+    document.getElementById('gate-lead').classList.toggle('active', which === 'lead');
+  }
+
+  // Boot: decide gate vs. access from /api/me
+  async function boot() {
+    var magic = (location.hash.match(/token=([^&]+)/) || [])[1];
+    if (magic) {
+      try {
+        var vr = await fetch(API_BASE + '/api/auth/verify', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: magic }),
+        });
+        if (vr.ok) { var vd = await vr.json(); setToken(vd.token); history.replaceState(null, '', location.pathname); }
+      } catch (e) {}
+    }
+    if (!token()) { showGate(); return; }
+    try {
+      var r = await fetch(API_BASE + '/api/me', { headers: { Authorization: 'Bearer ' + token() } });
+      if (r.status === 401) { clearToken(); showGate(); return; }
+      var d = await r.json();
+      if (d.paid) { hideGate(); }
+      else { showGate('Tu acceso aún no está activo. Escríbenos por WhatsApp para activarlo.'); }
+    } catch (e) { showGate(); }
+  }
+
+  // Login submit
+  document.getElementById('gate-login').addEventListener('submit', async function (ev) {
+    ev.preventDefault();
+    var err = document.getElementById('login-error'); err.classList.add('hidden');
+    var email = document.getElementById('login-email').value.trim();
+    var password = document.getElementById('login-pass').value;
+    try {
+      var r = await fetch(API_BASE + '/api/auth/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, password: password }),
+      });
+      if (!r.ok) { err.textContent = 'Correo o contraseña incorrectos.'; err.classList.remove('hidden'); return; }
+      var d = await r.json(); setToken(d.token);
+      await boot();
+    } catch (e) { err.textContent = 'Error de conexión. Inténtalo de nuevo.'; err.classList.remove('hidden'); }
+  });
+
+  // Magic link request
+  document.getElementById('login-magic').onclick = async function () {
+    var err = document.getElementById('login-error'); err.classList.add('hidden');
+    var email = document.getElementById('login-email').value.trim();
+    if (!email) { err.textContent = 'Escribe tu correo y te enviamos un enlace.'; err.classList.remove('hidden'); return; }
+    try {
+      await fetch(API_BASE + '/api/auth/request', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email }),
+      });
+      err.style.color = 'var(--muted)';
+      err.textContent = 'Si tu correo tiene acceso, te enviamos un enlace. Revisa tu bandeja.';
+      err.classList.remove('hidden');
+    } catch (e) { err.textContent = 'Error de conexión.'; err.classList.remove('hidden'); }
+  };
+
+  // Lead submit → save + WhatsApp
+  document.getElementById('gate-lead').addEventListener('submit', async function (ev) {
+    ev.preventDefault();
+    var err = document.getElementById('lead-error'); err.classList.add('hidden');
+    var payload = {
+      email: document.getElementById('lead-email').value.trim(),
+      nombre: document.getElementById('lead-nombre').value.trim(),
+      empresa: document.getElementById('lead-empresa').value.trim(),
+    };
+    try {
+      await fetch(API_BASE + '/api/lead', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch (e) {}
+    window.open(WHATSAPP, '_blank', 'noopener');
+  });
+
+  // Expose logout for the account menu (Task 9 wires the button)
+  window.lpsLogout = async function () {
+    try { await fetch(API_BASE + '/api/auth/logout', { method: 'POST', headers: { Authorization: 'Bearer ' + token() } }); } catch (e) {}
+    clearToken(); showGate();
+  };
+
+  boot();
+})();
+</script>
 </body>
 </html>
