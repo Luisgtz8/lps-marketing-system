@@ -3,160 +3,400 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin — Accesos al curso</title>
+  <title>Panel · Lightning Pro</title>
   <meta name="robots" content="noindex,nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
-    :root { --amber:#F59E0B; --bg:#0a0a0a; --surface:#111; --mid:#0d0d0d; --text:#f0f0f0; --muted:#999; --border:#222; --green:#22c55e; --red:#ef4444; }
+    :root {
+      --amber: #F59E0B; --amber-dim: rgba(245,158,11,0.12); --amber-border: rgba(245,158,11,0.35);
+      --bg: #0a0a0a; --surface: #111111; --surface2: #161616; --mid: #0d0d0d;
+      --text: #ececec; --muted: #8a8a8a; --border: #232323;
+      --green: #34d399; --green-dim: rgba(52,211,153,0.12);
+      --red: #f87171; --red-dim: rgba(248,113,113,0.12);
+      --blue: #60a5fa; --blue-dim: rgba(96,165,250,0.12);
+    }
     * { box-sizing: border-box; }
-    body { margin:0; background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; }
-    .wrap { max-width: 820px; margin: 0 auto; padding: 40px 20px 80px; }
-    h1 { font-family:'Space Grotesk',sans-serif; font-size:22px; margin:0 0 4px; }
-    .sub { color:var(--muted); font-size:13px; margin:0 0 28px; }
-    label { display:block; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 6px; }
-    input { width:100%; background:var(--mid); border:1px solid var(--border); border-radius:8px; padding:11px 14px; font-size:15px; color:var(--text); box-sizing:border-box; }
-    input:focus { outline:none; border-color:var(--amber); }
-    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
-    .row > div { flex:1; min-width:200px; }
-    button { background:var(--amber); border:none; border-radius:8px; padding:11px 18px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:#000; cursor:pointer; }
-    button.ghost { background:transparent; border:1px solid var(--border); color:var(--text); }
-    button.danger { background:transparent; border:1px solid rgba(239,68,68,.4); color:var(--red); padding:7px 12px; font-size:12px; }
-    button.ok { background:transparent; border:1px solid rgba(34,197,94,.4); color:var(--green); padding:7px 12px; font-size:12px; }
-    .card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; margin-bottom:24px; }
-    .msg { font-size:13px; margin-top:12px; min-height:18px; }
-    .msg.ok { color:var(--green); } .msg.err { color:var(--red); }
-    table { width:100%; border-collapse:collapse; font-size:13px; }
-    th, td { text-align:left; padding:10px 8px; border-bottom:1px solid var(--border); vertical-align:middle; }
-    th { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.06em; }
-    .pill { font-size:11px; font-weight:700; padding:3px 9px; border-radius:99px; }
-    .pill.paid { background:rgba(34,197,94,.12); color:var(--green); }
-    .pill.unpaid { background:rgba(239,68,68,.12); color:var(--red); }
-    .hidden { display:none; }
-    a { color:var(--amber); }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--amber); }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── Login ── */
+    .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .login-card { width: 100%; max-width: 380px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 36px 32px; }
+    .login-mark { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); margin: 0 0 4px; }
+    .login-title { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; margin: 0 0 6px; }
+    .login-sub { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin: 0 0 24px; }
+    label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin: 0 0 7px; }
+    input[type=email], input[type=password], input[type=search] {
+      width: 100%; background: var(--mid); border: 1px solid var(--border); border-radius: 9px;
+      padding: 11px 13px; font-size: 15px; color: var(--text); font-family: inherit; transition: border-color .15s;
+    }
+    input:focus { outline: none; border-color: var(--amber); }
+    .btn { background: var(--amber); border: none; border-radius: 9px; padding: 11px 18px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #1a1200; cursor: pointer; transition: filter .15s; }
+    .btn:hover { filter: brightness(1.08); }
+    .btn:disabled { opacity: .55; cursor: not-allowed; }
+    .btn-block { width: 100%; margin-top: 16px; }
+    .msg { font-size: 13px; margin-top: 12px; min-height: 17px; line-height: 1.5; }
+    .msg.ok { color: var(--green); } .msg.err { color: var(--red); }
+    .login-alt { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border); }
+    .login-alt summary { font-size: 12px; color: var(--muted); cursor: pointer; list-style: none; }
+    .login-alt summary::-webkit-details-marker { display: none; }
+    .login-alt[open] summary { margin-bottom: 12px; }
+
+    .center-state { text-align: center; padding: 8px 0; }
+    .spinner { width: 34px; height: 34px; margin: 0 auto 14px; border: 3px solid var(--border); border-top-color: var(--amber); border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Dashboard ── */
+    .dash { max-width: 1080px; margin: 0 auto; padding: 28px 20px 80px; }
+    .dash-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 26px; }
+    .dash-mark { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; }
+    .dash-mark span { color: var(--amber); }
+    .dash-who { font-size: 12.5px; color: var(--muted); }
+    .dash-who button { background: none; border: none; color: var(--amber); cursor: pointer; font: inherit; padding: 0 0 0 10px; }
+
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 26px; }
+    .metric { background: var(--surface); border: 1px solid var(--border); border-radius: 13px; padding: 16px 18px; position: relative; overflow: hidden; }
+    .metric::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--amber); opacity: .6; }
+    .metric-val { font-family: 'Space Grotesk', sans-serif; font-size: 30px; font-weight: 700; line-height: 1; }
+    .metric-lab { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-top: 7px; }
+    .metric.m-paid::after { background: var(--green); }
+    .metric.m-pend::after { background: var(--red); }
+    .metric.m-avg::after { background: var(--blue); }
+
+    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+    .toolbar .search { flex: 1; min-width: 200px; }
+    .filters { display: flex; gap: 6px; }
+    .chip { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 7px 13px; font-size: 12.5px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all .15s; }
+    .chip.active { background: var(--amber-dim); border-color: var(--amber-border); color: var(--amber); }
+
+    .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    thead th { text-align: left; padding: 13px 14px; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); background: var(--mid); }
+    tbody td { padding: 13px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--surface2); }
+    .u-email { font-weight: 600; }
+    .u-sub { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+    .pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+    .pill.paid { background: var(--green-dim); color: var(--green); }
+    .pill.unpaid { background: var(--red-dim); color: var(--red); }
+    .pill.admin { background: var(--amber-dim); color: var(--amber); margin-left: 6px; }
+    .prog { display: flex; align-items: center; gap: 8px; }
+    .prog-bar { width: 54px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .prog-fill { height: 100%; background: var(--blue); border-radius: 3px; }
+    .prog-txt { font-size: 11.5px; color: var(--muted); }
+    .row-actions { display: flex; gap: 6px; justify-content: flex-end; }
+    .act { border: 1px solid var(--border); background: transparent; border-radius: 7px; padding: 6px 10px; font-size: 11.5px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all .15s; color: var(--muted); }
+    .act:hover { color: var(--text); border-color: var(--muted); }
+    .act.go:hover { color: var(--green); border-color: var(--green); }
+    .act.stop:hover { color: var(--red); border-color: var(--red); }
+    .empty { text-align: center; padding: 48px 20px; color: var(--muted); font-size: 14px; }
+    .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 11px 18px; font-size: 13.5px; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 50; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.ok { border-color: var(--green); } .toast.err { border-color: var(--red); }
+    .hidden { display: none !important; }
+
+    @media (max-width: 760px) {
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .col-hide { display: none; }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Accesos al curso</h1>
-    <p class="sub">Activa el acceso después de que el cliente pague. Tu token se guarda solo en este navegador.</p>
 
-    <!-- Token gate -->
-    <div class="card" id="token-card">
-      <label for="admin-token">Admin token</label>
-      <div class="row">
-        <div><input id="admin-token" type="password" placeholder="Pega tu ADMIN_TOKEN"></div>
-        <button onclick="saveToken()">Entrar</button>
-      </div>
-      <div class="msg" id="token-msg"></div>
-    </div>
+  <!-- ═══ LOGIN ═══ -->
+  <div class="login-wrap" id="login-screen">
+    <div class="login-card">
+      <p class="login-mark">Lightning Pro</p>
 
-    <!-- Grant -->
-    <div class="card hidden" id="grant-card">
-      <label for="grant-email">Activar / desactivar por correo</label>
-      <div class="row">
-        <div><input id="grant-email" type="email" placeholder="cliente@empresa.com"></div>
-        <button onclick="doAction('grant')">Activar acceso</button>
-        <button class="ghost" onclick="doAction('revoke')">Quitar</button>
-      </div>
-      <div class="msg" id="grant-msg"></div>
-    </div>
+      <div id="login-email">
+        <p class="login-title">Panel de control</p>
+        <p class="login-sub">Solo para administradores. Te enviamos un enlace de acceso a tu correo.</p>
+        <label for="email">Tu correo</label>
+        <input id="email" type="email" placeholder="tu@correo.com" autocomplete="email">
+        <button class="btn btn-block" id="send-btn" onclick="sendLink()">Enviar enlace →</button>
+        <div class="msg" id="login-msg"></div>
 
-    <!-- List -->
-    <div class="card hidden" id="list-card">
-      <div class="row" style="justify-content:space-between;margin-bottom:14px;">
-        <strong>Registrados recientes</strong>
-        <button class="ghost" onclick="loadUsers()">Actualizar</button>
+        <details class="login-alt">
+          <summary>Entrar con token de respaldo</summary>
+          <label for="token">Admin token</label>
+          <input id="token" type="password" placeholder="ADMIN_TOKEN">
+          <button class="btn btn-block" onclick="useToken()">Entrar con token</button>
+        </details>
       </div>
-      <div style="overflow-x:auto;">
-        <table>
-          <thead><tr><th>Correo</th><th>Nombre</th><th>Empresa</th><th>Estado</th><th></th></tr></thead>
-          <tbody id="users-body"></tbody>
-        </table>
+
+      <div id="login-sent" class="center-state hidden">
+        <p style="font-size:38px;margin:0 0 10px">📧</p>
+        <p class="login-title">Revisa tu correo</p>
+        <p class="login-sub">Te enviamos un enlace de acceso. Ábrelo desde este dispositivo. Expira en 15 minutos.</p>
+      </div>
+
+      <div id="login-verifying" class="center-state hidden">
+        <div class="spinner"></div>
+        <p class="login-sub">Verificando…</p>
+      </div>
+
+      <div id="login-denied" class="center-state hidden">
+        <p style="font-size:38px;margin:0 0 10px">🚫</p>
+        <p class="login-title">Sin acceso</p>
+        <p class="login-sub">Tu cuenta no es administrador. Si crees que es un error, pide que te asignen el rol.</p>
+        <button class="btn btn-block" onclick="resetLogin()">Volver</button>
       </div>
     </div>
   </div>
 
+  <!-- ═══ DASHBOARD ═══ -->
+  <div class="dash hidden" id="dash">
+    <div class="dash-head">
+      <div class="dash-mark">Lightning <span>Pro</span> · Panel</div>
+      <div class="dash-who" id="dash-who"></div>
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><div class="metric-val" id="m-total">—</div><div class="metric-lab">Registrados</div></div>
+      <div class="metric m-paid"><div class="metric-val" id="m-paid">—</div><div class="metric-lab">Con acceso</div></div>
+      <div class="metric m-pend"><div class="metric-val" id="m-pend">—</div><div class="metric-lab">Pendientes</div></div>
+      <div class="metric m-avg"><div class="metric-val" id="m-avg">—</div><div class="metric-lab">Avance prom.</div></div>
+    </div>
+
+    <div class="toolbar">
+      <div class="search"><input type="search" id="search" placeholder="Buscar por correo, nombre o empresa…" oninput="onSearch()"></div>
+      <div class="filters">
+        <button class="chip active" data-f="all" onclick="setFilter('all')">Todos</button>
+        <button class="chip" data-f="paid" onclick="setFilter('paid')">Con acceso</button>
+        <button class="chip" data-f="unpaid" onclick="setFilter('unpaid')">Pendientes</button>
+        <button class="chip" data-f="admin" onclick="setFilter('admin')">Admins</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th class="col-hide">Empresa</th>
+            <th>Estado</th>
+            <th class="col-hide">Avance</th>
+            <th style="text-align:right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="empty hidden" id="empty">No hay usuarios que coincidan.</div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
   <script>
-    // Mismo dominio que el sitio — el API se sirve en /api/* vía los rewrites
-    // de vercel.json. Ruta relativa, sin subdominio ni DNS extra.
-    var API_BASE = '';
-    var TOKEN_KEY = 'lps-admin-token';
+    var API = '';
+    var SK = 'lps-session';          // misma sesión que el curso
+    var TK = 'lps-admin-token';      // token de respaldo
+    var state = { users: [], filter: 'all', authHeader: null };
 
-    function token() { return localStorage.getItem(TOKEN_KEY) || ''; }
-    function headers() { return { 'Authorization': 'Bearer ' + token(), 'Content-Type': 'application/json' }; }
+    function $(id){ return document.getElementById(id); }
+    function show(id){ $(id).classList.remove('hidden'); }
+    function hide(id){ $(id).classList.add('hidden'); }
+    function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
 
-    function show(id) { document.getElementById(id).classList.remove('hidden'); }
-    function hide(id) { document.getElementById(id).classList.add('hidden'); }
-
-    async function saveToken() {
-      var t = document.getElementById('admin-token').value.trim();
-      var msg = document.getElementById('token-msg');
-      if (!t) { msg.className = 'msg err'; msg.textContent = 'Escribe el token.'; return; }
-      localStorage.setItem(TOKEN_KEY, t);
-      // Validate by trying to load the list.
-      var ok = await loadUsers(true);
-      if (ok) { hide('token-card'); show('grant-card'); show('list-card'); }
-      else { msg.className = 'msg err'; msg.textContent = 'Token inválido.'; }
+    function toast(text, kind){
+      var t = $('toast'); t.textContent = text; t.className = 'toast show ' + (kind||'');
+      setTimeout(function(){ t.className = 'toast ' + (kind||''); }, 2600);
     }
 
-    async function doAction(action) {
-      var email = document.getElementById('grant-email').value.trim().toLowerCase();
-      var msg = document.getElementById('grant-msg');
-      if (!email) { msg.className = 'msg err'; msg.textContent = 'Escribe un correo.'; return; }
+    // ── Login flows ──
+    function loginMsg(text, kind){ var m=$('login-msg'); m.textContent=text||''; m.className='msg '+(kind||''); }
+
+    async function sendLink(){
+      var email = ($('email').value||'').trim().toLowerCase();
+      if(!email){ loginMsg('Escribe tu correo.', 'err'); return; }
+      var btn = $('send-btn'); btn.disabled = true; btn.textContent = 'Enviando…';
       try {
-        var res = await fetch(API_BASE + '/api/admin/access', {
-          method: 'POST', headers: headers(),
-          body: JSON.stringify({ email: email, action: action })
+        var res = await fetch(API + '/api/auth/request', {
+          method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email: email })
         });
-        var data = await res.json();
-        if (!res.ok) throw new Error(data.error || res.status);
-        msg.className = 'msg ok';
-        msg.textContent = action === 'grant' ? '✓ Acceso activado para ' + email : '✓ Acceso retirado de ' + email;
-        document.getElementById('grant-email').value = '';
-        loadUsers();
-      } catch (err) {
-        msg.className = 'msg err';
-        msg.textContent = err.message === 'user_not_found'
-          ? 'Ese correo no se ha registrado todavía.'
-          : 'Error: ' + err.message;
+        if(!res.ok) throw new Error(res.status);
+        hide('login-email'); show('login-sent');
+      } catch(e){
+        btn.disabled = false; btn.textContent = 'Enviar enlace →';
+        loginMsg('No pudimos enviar el enlace. Inténtalo de nuevo.', 'err');
       }
     }
 
-    async function loadUsers(silent) {
+    function useToken(){
+      var t = ($('token').value||'').trim();
+      if(!t){ loginMsg('Pega el token.', 'err'); return; }
+      localStorage.setItem(TK, t);
+      enter('Bearer ' + t);
+    }
+
+    // Canjea #token= por sesión (mismo backend que el curso).
+    async function consumeToken(){
+      var m = (location.hash||'').match(/token=([^&]+)/);
+      if(!m) return false;
+      var token = decodeURIComponent(m[1]);
+      history.replaceState(null, '', location.pathname + location.search);
+      hide('login-email'); hide('login-sent'); show('login-verifying');
       try {
-        var res = await fetch(API_BASE + '/api/admin/access', { headers: headers() });
-        if (!res.ok) return false;
-        var data = await res.json();
-        var body = document.getElementById('users-body');
-        body.innerHTML = '';
-        (data.users || []).forEach(function(u) {
-          var tr = document.createElement('tr');
-          var paid = u.paid === true;
-          var act = paid
-            ? '<button class="danger" onclick="quick(\'' + u.email + '\',\'revoke\')">Quitar</button>'
-            : '<button class="ok" onclick="quick(\'' + u.email + '\',\'grant\')">Activar</button>';
-          tr.innerHTML =
-            '<td>' + esc(u.email) + '</td>' +
-            '<td>' + esc(u.nombre || '—') + '</td>' +
-            '<td>' + esc(u.empresa || '—') + '</td>' +
-            '<td><span class="pill ' + (paid ? 'paid">Activo' : 'unpaid">Pendiente') + '</span></td>' +
-            '<td>' + act + '</td>';
-          body.appendChild(tr);
+        var res = await fetch(API + '/api/auth/verify', {
+          method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ token: token })
         });
+        if(!res.ok) throw new Error(res.status);
+        var data = await res.json();
+        localStorage.setItem(SK, data.token);
         return true;
-      } catch (err) { return false; }
+      } catch(e){
+        hide('login-verifying'); show('login-email');
+        loginMsg('El enlace expiró o ya se usó. Pide uno nuevo.', 'err');
+        return false;
+      }
     }
 
-    function quick(email, action) {
-      document.getElementById('grant-email').value = email;
-      doAction(action);
+    function resetLogin(){ localStorage.removeItem(SK); localStorage.removeItem(TK); location.href = location.pathname; }
+
+    // Decide cómo autenticar y valida que sea admin.
+    async function enter(authHeader){
+      state.authHeader = authHeader;
+      hide('login-email'); hide('login-sent'); show('login-verifying');
+      try {
+        // El GET de admin valida el rol (sesión is_admin o token). 401 = sin acceso.
+        var res = await fetch(API + '/api/admin/access', { headers: { 'Authorization': authHeader } });
+        if(res.status === 401){ hide('login-verifying'); show('login-denied'); return; }
+        if(!res.ok) throw new Error(res.status);
+        var data = await res.json();
+        // Saber quién soy (si fue por sesión).
+        var who = '';
+        try {
+          var meRes = await fetch(API + '/api/me', { headers: { 'Authorization': authHeader } });
+          if(meRes.ok){ var me = await meRes.json(); who = me.user && me.user.email ? me.user.email : ''; }
+        } catch(e){}
+        $('dash-who').innerHTML = (who ? esc(who) + ' · ' : '') + '<button onclick="logout()">Salir</button>';
+        hide('login-screen'); show('dash');
+        render(data);
+      } catch(e){
+        hide('login-verifying'); show('login-email');
+        loginMsg('No pudimos conectar. Inténtalo de nuevo.', 'err');
+      }
     }
 
-    function esc(s) { return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+    async function logout(){
+      var token = localStorage.getItem(SK);
+      localStorage.removeItem(SK); localStorage.removeItem(TK);
+      try { if(token) await fetch(API + '/api/auth/logout', { method:'POST', headers:{'Authorization':'Bearer '+token} }); } catch(e){}
+      location.href = location.pathname;
+    }
 
-    // Auto-enter if a token is already saved.
-    if (token()) { (async function(){ if (await loadUsers(true)) { hide('token-card'); show('grant-card'); show('list-card'); } })(); }
+    // ── Dashboard ──
+    function render(data){
+      var m = data.metrics || {};
+      $('m-total').textContent = m.total ?? 0;
+      $('m-paid').textContent  = m.pagados ?? 0;
+      $('m-pend').textContent  = m.pendientes ?? 0;
+      $('m-avg').textContent   = (m.avg_pct ?? 0) + '%';
+      state.users = data.users || [];
+      paint();
+    }
+
+    function visible(){
+      return state.users.filter(function(u){
+        if(state.filter==='paid')   return u.paid === true;
+        if(state.filter==='unpaid') return u.paid !== true;
+        if(state.filter==='admin')  return u.is_admin === true;
+        return true;
+      });
+    }
+
+    function paint(){
+      var list = visible();
+      var tb = $('rows'); tb.innerHTML = '';
+      if(!list.length){ show('empty'); return; } else hide('empty');
+      list.forEach(function(u){
+        var done = Number(u.modules_done||0); var pct = Math.round(done*100/7);
+        var paid = u.paid === true;
+        var tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td><div class="u-email">'+esc(u.email)+(u.is_admin?'<span class="pill admin">admin</span>':'')+'</div>'+
+            '<div class="u-sub">'+esc(u.nombre||'—')+(u.whatsapp_e164?' · '+esc(u.whatsapp_e164):'')+'</div></td>'+
+          '<td class="col-hide">'+esc(u.empresa||'—')+'</td>'+
+          '<td><span class="pill '+(paid?'paid">Con acceso':'unpaid">Pendiente')+'</span></td>'+
+          '<td class="col-hide"><div class="prog"><div class="prog-bar"><div class="prog-fill" style="width:'+pct+'%"></div></div>'+
+            '<span class="prog-txt">'+done+'/7</span></div></td>'+
+          '<td><div class="row-actions">'+
+            (paid
+              ? '<button class="act stop" onclick="act(this,\''+esc(u.email)+'\',\'revoke\')">Quitar acceso</button>'
+              : '<button class="act go" onclick="act(this,\''+esc(u.email)+'\',\'grant\')">Activar</button>')+
+            (u.is_admin
+              ? '<button class="act" onclick="act(this,\''+esc(u.email)+'\',\'remove_admin\')">Quitar admin</button>'
+              : '<button class="act" onclick="act(this,\''+esc(u.email)+'\',\'make_admin\')">Hacer admin</button>')+
+          '</div></td>';
+        tb.appendChild(tr);
+      });
+    }
+
+    function setFilter(f){
+      state.filter = f;
+      document.querySelectorAll('.chip').forEach(function(c){ c.classList.toggle('active', c.dataset.f===f); });
+      paint();
+    }
+
+    var _searchTimer = null;
+    function onSearch(){
+      clearTimeout(_searchTimer);
+      _searchTimer = setTimeout(reload, 300);
+    }
+
+    async function reload(){
+      var q = encodeURIComponent(($('search').value||'').trim());
+      try {
+        var res = await fetch(API + '/api/admin/access?search=' + q, { headers: { 'Authorization': state.authHeader } });
+        if(!res.ok) throw new Error(res.status);
+        render(await res.json());
+      } catch(e){ toast('No se pudo actualizar', 'err'); }
+    }
+
+    var CONFIRM = {
+      revoke: 'Quitar el acceso de ',
+      make_admin: 'Hacer administrador a ',
+      remove_admin: 'Quitar el rol de admin a '
+    };
+    async function act(btn, email, action){
+      if(CONFIRM[action] && !confirm(CONFIRM[action] + email + '?')) return;
+      btn.disabled = true; var orig = btn.textContent; btn.textContent = '…';
+      try {
+        var res = await fetch(API + '/api/admin/access', {
+          method:'POST', headers:{ 'Authorization': state.authHeader, 'Content-Type':'application/json' },
+          body: JSON.stringify({ email: email, action: action })
+        });
+        var data = await res.json();
+        if(!res.ok) throw new Error(data.error||res.status);
+        var labels = { grant:'Acceso activado', revoke:'Acceso retirado', make_admin:'Ahora es admin', remove_admin:'Admin retirado' };
+        toast('✓ ' + (labels[action]||'Listo') + ' · ' + email, 'ok');
+        reload();
+      } catch(e){
+        btn.disabled = false; btn.textContent = orig;
+        toast('Error: ' + e.message, 'err');
+      }
+    }
+
+    // ── Arranque ──
+    (async function init(){
+      // 1) ¿Volvemos de un enlace mágico?
+      if(location.hash.indexOf('token=') !== -1){
+        var ok = await consumeToken();
+        if(ok){ return enter('Bearer ' + localStorage.getItem(SK)); }
+      }
+      // 2) ¿Ya hay sesión guardada?
+      var sess = localStorage.getItem(SK);
+      if(sess){ return enter('Bearer ' + sess); }
+      // 3) ¿Token de respaldo guardado?
+      var tok = localStorage.getItem(TK);
+      if(tok){ return enter('Bearer ' + tok); }
+      // 4) Mostrar login.
+      show('login-email');
+    })();
   </script>
 </body>
 </html>

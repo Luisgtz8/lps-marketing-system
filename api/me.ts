@@ -29,7 +29,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const progress = await loadProgress(user.id);
 
   return json(res, 200, {
-    user: { id: user.id, email: user.email, nombre: user.nombre },
+    user: { id: user.id, email: user.email, nombre: user.nombre, is_admin: user.is_admin },
     paid,
     progress,
   });
