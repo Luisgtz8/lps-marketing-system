@@ -484,6 +484,51 @@
       .module-title { font-size: 26px !important; }
     }
 
+    /* ─── EXERCISE DONE ANIMATION ─── */
+    @keyframes ex-pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+    .exercise.completed {
+      border-color: var(--success);
+      background: var(--success-dim);
+      animation: ex-pop 0.35s ease;
+    }
+    .exercise.completed .exercise-title { color: var(--success); }
+
+    /* ─── TOAST ─── */
+    .ex-toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--success);
+      color: #000;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 10px 22px;
+      border-radius: 100px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s, transform 0.25s;
+      z-index: 9999;
+      white-space: nowrap;
+    }
+    .ex-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ─── EX COUNTER ─── */
+    .ex-counter {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .ex-counter span { color: var(--amber); font-weight: 700; }
+
     /* ─── COPY BLOCK ─── */
     .copy-block { position: relative; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; margin: 16px 0; overflow: hidden; }
     .copy-block-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--muted); }
@@ -533,6 +578,7 @@
     <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill"></div></div>
     <div style="display:flex;align-items:center;gap:12px;">
       <span class="progress-label" id="progress-label">Módulo 1 de 7</span>
+      <span class="ex-counter" id="ex-counter" style="display:none;"><span id="ex-done-count">0</span>/4 ejercicios</span>
       <button class="theme-toggle" id="courseThemeToggle" aria-label="Cambiar modo de color"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
     </div>
   </div>
@@ -550,6 +596,7 @@
   <div class="module-eyebrow">Parte I · Módulo 1</div>
   <h1 class="module-title">¿Qué es un LLM?</h1>
   <p class="module-desc">La versión sin tecnicismos: qué hace por dentro un modelo de lenguaje y por qué eso explica tanto sus aciertos como sus errores.</p>
+  <img class="module-img" src="img/curso_m1_que_es_ia.png" alt="Profesional usando IA como herramienta de trabajo">
   <p>Un <strong>LLM</strong> (modelo grande de lenguaje, como ChatGPT o Claude) hace una sola cosa, muy bien: <strong>predice la siguiente palabra</strong>. Leyó cantidades enormes de texto y aprendió qué palabra suele seguir a otra. Cuando le escribes, va eligiendo palabra por palabra la continuación más probable.</p>
   <p>Piensa en el autocompletado de tu teléfono — pero con esteroides. No "entiende" como una persona; reconoce patrones a una escala gigantesca. Por eso suena tan natural… y por eso a veces <strong>inventa</strong> con total seguridad datos, fechas o citas que no existen (a esto se le llama "alucinar").</p>
   <p>La conclusión práctica para tu negocio: la IA es una herramienta que <strong>propone</strong>. Tú revisas y decides. Nunca uses una respuesta sin revisarla.</p>
@@ -569,6 +616,7 @@
   <div class="module-eyebrow">Parte I · Módulo 2</div>
   <h1 class="module-title">El dinero y la disrupción</h1>
   <p class="module-desc">Por qué esto no es una moda pasajera — y qué significa para tu trabajo y el de tu equipo.</p>
+  <img class="module-img" src="img/curso_m5_sistema.png" alt="Sistema de trabajo transformado por IA">
   <p>Detrás de la IA hay una de las mayores olas de inversión de la historia reciente: cientos de miles de millones de dólares de las empresas más grandes del mundo. Cuando entra ese dinero, el mercado se mueve rápido.</p>
   <p>Ya estamos viendo el efecto: <strong>despidos y reestructuraciones</strong> en áreas donde la IA automatiza tareas repetitivas, y al mismo tiempo una demanda enorme de gente que <strong>sabe usarla</strong>. No es que "la IA reemplace personas" — es que <strong>las personas que usan IA reemplazan a las que no</strong>.</p>
   <p>La habilidad del futuro no es programar. Es saberle <strong>pedir bien las cosas</strong> a la IA y revisar su trabajo con criterio. Eso es exactamente lo que aprendes en este curso. Quien lo domina se vuelve indispensable; quien lo ignora se queda atrás.</p>
@@ -588,6 +636,7 @@
   <div class="module-eyebrow">Parte II · Módulo 3</div>
   <h1 class="module-title">Prompts, contexto y tokens</h1>
   <p class="module-desc">Tres palabras que vas a escuchar siempre. En cuanto las entiendes, todo lo demás se vuelve fácil.</p>
+  <img class="module-img" src="img/curso_m2_formula_prompt.png" alt="Fórmula de un prompt bien estructurado">
   <p><strong>Prompt</strong> es simplemente <em>lo que le pides</em> a la IA: tu instrucción. Un buen prompt es claro y específico.</p>
   <p><strong>Contexto</strong> es todo lo que la IA "tiene presente" mientras te responde: tu pregunta, los mensajes anteriores de la conversación y los documentos que le pegaste. Si no está en el contexto, la IA no lo sabe. Por eso, mientras más contexto útil le das, mejor responde.</p>
   <p><strong>Tokens</strong> son las piezas en que la IA parte el texto (más o menos, trozos de palabras). Importan por dos razones: hay un <strong>límite</strong> de cuánto contexto cabe, y el costo se mide en tokens. No necesitas contarlos — solo saber que textos enormes pueden no caber completos.</p>
@@ -608,6 +657,7 @@
   <div class="module-eyebrow">Parte II · Módulo 4</div>
   <h1 class="module-title">Las herramientas</h1>
   <p class="module-desc">Cuatro herramientas que vas a usar. La estrella es Claude Code — aquí está cómo instalarla, paso a paso, en tu sistema.</p>
+  <img class="module-img" src="img/curso_m3_herramientas.png" alt="Comparación de las cuatro herramientas de IA">
 
   <h2 style="margin:24px 0 6px;">1. Claude Code (modo pro)</h2>
   <p>Es la versión más potente: la IA trabaja en tu computadora desde la <strong>terminal</strong> (esa ventana de texto donde se escriben comandos). Suena técnico, pero la instalación es copiar y pegar. Elige tu sistema:</p>
@@ -736,6 +786,7 @@
   <div class="module-eyebrow">Parte III · Módulo 5</div>
   <h1 class="module-title">De PDF a datos</h1>
   <p class="module-desc">Los PDFs son cárceles de información: ves los números pero no puedes usarlos. La IA los libera.</p>
+  <img class="module-img" src="img/curso_m4_practica.png" alt="Documentos reales siendo procesados con IA">
   <p>Hay tres formas de meterle un PDF a la IA, de menos a más técnica:</p>
   <h3 style="margin:18px 0 6px;">a) Pegarle el texto o subir el archivo</h3>
   <p>Lo más simple: subes el PDF a Claude y le preguntas. Funciona perfecto para contratos, facturas y reportes de tamaño normal. La IA lee el texto y responde sobre su contenido.</p>
@@ -775,6 +826,7 @@ with pdfplumber.open("factura.pdf") as pdf:
   <div class="module-eyebrow">Parte III · Módulo 6</div>
   <h1 class="module-title">Análisis con datos reales</h1>
   <p class="module-desc">Ya tienes los datos sueltos. Ahora los conviertes en decisiones: KPIs, tendencias y un Excel ordenado.</p>
+  <img class="module-img" src="img/curso_m6_proyecto.png" alt="Análisis completo con KPIs y tablas">
   <p>Vamos a trabajar con un caso real: una <strong>distribuidora de autopartes en Hermosillo</strong>. Tiene sus ventas por línea de producto y sus egresos del trimestre. El reto típico: "tengo los números pero no sé qué me están diciendo".</p>
   <p>Descarga los dos archivos y dáselos a la IA:</p>
   <p>
@@ -809,6 +861,7 @@ with pdfplumber.open("factura.pdf") as pdf:
   <div class="module-eyebrow">Parte IV · Módulo 7</div>
   <h1 class="module-title">Case study: análisis financiero de una empresa pública</h1>
   <p class="module-desc">El nivel jefe: entender a un competidor grande que cotiza en bolsa — y al mercado entero — con IA.</p>
+  <img class="module-img" src="img/curso_m7_terminal.png" alt="Análisis financiero de empresa pública con IA">
   <p>Las empresas que cotizan en bolsa están <strong>obligadas a publicar</strong> sus números: ventas, utilidades, deudas. Es información pública y gratuita. La IA puede leer esos estados financieros y explicártelos en español sencillo.</p>
   <h3 style="margin:18px 0 6px;">Leer estados financieros con IA</h3>
   <p>Le das el reporte (o el enlace) y preguntas lo que un dueño querría saber: ¿están creciendo? ¿de dónde sale su dinero? ¿qué línea les funciona? La IA traduce la jerga contable a decisiones.</p>
@@ -850,6 +903,7 @@ with pdfplumber.open("factura.pdf") as pdf:
     </main>
   </div>
 </div>
+<div class="ex-toast" id="ex-toast"></div>
 <script>
   // ─── MODULE DEFINITIONS ───
   const MODULES = [
@@ -1014,10 +1068,35 @@ with pdfplumber.open("factura.pdf") as pdf:
 
   // ─── EXERCISE ───
   function markEx(id, btn) {
+    if (exercisesDone.has(id)) return;
     exercisesDone.add(id);
     if (btn) { btn.classList.add('done'); btn.textContent = '✓ Hecho'; btn.disabled = true; }
+    var card = btn ? btn.closest('.exercise') : null;
+    if (card) card.classList.add('completed');
     saveProgress();
     updateScore();
+    updateExCounter();
+    showExToast();
+  }
+
+  function updateExCounter() {
+    var n = exercisesDone.size;
+    var el = document.getElementById('ex-done-count');
+    var wrap = document.getElementById('ex-counter');
+    if (el) el.textContent = n;
+    if (wrap) wrap.style.display = n > 0 ? '' : 'none';
+  }
+
+  function showExToast() {
+    var n = exercisesDone.size;
+    var total = EX_IDS.length;
+    var toast = document.getElementById('ex-toast');
+    if (!toast) return;
+    toast.textContent = n === total
+      ? '🎉 ¡Todos los ejercicios completados!'
+      : '✓ Ejercicio ' + n + ' de ' + total + ' completado';
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 2600);
   }
 
   // ─── RESULTS SCREEN ───
@@ -1087,8 +1166,11 @@ with pdfplumber.open("factura.pdf") as pdf:
       if (!exercisesDone.has(id)) return;
       var btn = document.getElementById('ex-btn-' + id);
       if (btn) { btn.classList.add('done'); btn.textContent = '✓ Hecho'; btn.disabled = true; }
+      var card = btn ? btn.closest('.exercise') : null;
+      if (card) card.classList.add('completed');
     });
     updateScore();
+    updateExCounter();
   }
 
   // ─── INIT ───
