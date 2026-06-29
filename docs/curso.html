@@ -578,7 +578,7 @@
     <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill"></div></div>
     <div style="display:flex;align-items:center;gap:12px;">
       <span class="progress-label" id="progress-label">Módulo 1 de 7</span>
-      <span class="ex-counter" id="ex-counter" style="display:none;"><span id="ex-done-count">0</span>/4 ejercicios</span>
+      <span class="ex-counter" id="ex-counter" style="display:none;"><span id="ex-done-count">0</span>/6 ejercicios</span>
       <button class="theme-toggle" id="courseThemeToggle" aria-label="Cambiar modo de color"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
     </div>
   </div>
@@ -593,15 +593,26 @@
     <main class="content-area">
       <!-- modules inserted by later tasks -->
 <section class="module active" id="mod-1">
-  <div class="module-eyebrow">Parte I · Módulo 1</div>
-  <h1 class="module-title">¿Qué es un LLM?</h1>
-  <p class="module-desc">La versión sin tecnicismos: qué hace por dentro un modelo de lenguaje y por qué eso explica tanto sus aciertos como sus errores.</p>
+  <div class="module-eyebrow">Módulo 1 de 7</div>
+  <h1 class="module-title">¿Qué es (y qué no es) la IA?</h1>
+  <p class="module-desc">En 5 minutos: cómo funciona por dentro, por qué a veces inventa y por qué eso importa para tu trabajo.</p>
   <img class="module-img" src="img/curso_m1_que_es_ia.png" alt="Profesional usando IA como herramienta de trabajo">
-  <p>Un <strong>LLM</strong> (modelo grande de lenguaje, como ChatGPT o Claude) hace una sola cosa, muy bien: <strong>predice la siguiente palabra</strong>. Leyó cantidades enormes de texto y aprendió qué palabra suele seguir a otra. Cuando le escribes, va eligiendo palabra por palabra la continuación más probable.</p>
-  <p>Piensa en el autocompletado de tu teléfono — pero con esteroides. No "entiende" como una persona; reconoce patrones a una escala gigantesca. Por eso suena tan natural… y por eso a veces <strong>inventa</strong> con total seguridad datos, fechas o citas que no existen (a esto se le llama "alucinar").</p>
-  <p>La conclusión práctica para tu negocio: la IA es una herramienta que <strong>propone</strong>. Tú revisas y decides. Nunca uses una respuesta sin revisarla.</p>
+  <p>Herramientas como ChatGPT o Claude hacen una sola cosa, muy bien: <strong>predicen la siguiente palabra</strong>. Leyeron cantidades enormes de texto y aprendieron qué palabra suele seguir a otra. Cuando les escribes, van eligiendo la continuación más probable.</p>
+  <p>Piénsalo como el autocompletado de tu teléfono — pero mucho más potente. No "piensan" como una persona. <strong>Reconocen patrones</strong> a una escala gigantesca.</p>
+  <h3 style="margin:24px 0 10px;font-size:17px;">Qué NO es la IA</h3>
+  <ul style="margin:0 0 18px 20px;line-height:2.2;font-size:15px;">
+    <li>No está conectada a internet en tiempo real (salvo Gemini)</li>
+    <li>No recuerda lo que le dijiste la semana pasada</li>
+    <li>No verifica si lo que dice es verdad</li>
+    <li>No toma decisiones — propone opciones</li>
+  </ul>
+  <p>Por eso a veces <strong>inventa con total seguridad</strong> datos, fechas o citas que no existen. No es un defecto raro: así funciona. Predijo algo probable, no lo verificó como verdadero.</p>
+  <div style="background:var(--amber-dim);border:1px solid var(--amber-border);border-radius:8px;padding:14px 18px;margin:20px 0;">
+    <strong>Regla de oro:</strong> La IA propone. Tú revisas y decides. Nunca uses una respuesta sin revisarla.
+  </div>
   <div class="quiz-block">
-    <h3 class="quiz-q">¿Por qué la IA puede dar información incorrecta con tanta seguridad?</h3>
+    <div class="quiz-label">Pregunta rápida</div>
+    <h3 class="quiz-question">¿Por qué la IA puede dar información incorrecta con tanta seguridad?</h3>
     <div class="quiz-options" id="q1">
       <button class="quiz-option" onclick="answer('q1', this, false)">Porque está conectada a internet y copia páginas con errores.</button>
       <button class="quiz-option" onclick="answer('q1', this, false)">Porque a veces se le acaba la memoria.</button>
@@ -613,19 +624,64 @@
 </section>
 
 <section class="module" id="mod-2">
-  <div class="module-eyebrow">Parte I · Módulo 2</div>
-  <h1 class="module-title">El dinero y la disrupción</h1>
-  <p class="module-desc">Por qué esto no es una moda pasajera — y qué significa para tu trabajo y el de tu equipo.</p>
-  <img class="module-img" src="img/curso_m5_sistema.png" alt="Sistema de trabajo transformado por IA">
-  <p>Detrás de la IA hay una de las mayores olas de inversión de la historia reciente: cientos de miles de millones de dólares de las empresas más grandes del mundo. Cuando entra ese dinero, el mercado se mueve rápido.</p>
-  <p>Ya estamos viendo el efecto: <strong>despidos y reestructuraciones</strong> en áreas donde la IA automatiza tareas repetitivas, y al mismo tiempo una demanda enorme de gente que <strong>sabe usarla</strong>. No es que "la IA reemplace personas" — es que <strong>las personas que usan IA reemplazan a las que no</strong>.</p>
-  <p>La habilidad del futuro no es programar. Es saberle <strong>pedir bien las cosas</strong> a la IA y revisar su trabajo con criterio. Eso es exactamente lo que aprendes en este curso. Quien lo domina se vuelve indispensable; quien lo ignora se queda atrás.</p>
+  <div class="module-eyebrow">Módulo 2 de 7</div>
+  <h1 class="module-title">La fórmula del prompt</h1>
+  <p class="module-desc">Un prompt sin datos devuelve una respuesta genérica. Con la fórmula correcta, la IA trabaja con tu información real.</p>
+  <img class="module-img" src="img/curso_m2_formula_prompt.png" alt="Fórmula de un prompt bien estructurado">
+  <p>El error más común es escribirle a la IA como si fuera un buscador: <em>"hazme un reporte de ventas"</em>. La IA no conoce tu empresa ni tus números — rellena los huecos con algo genérico e inútil.</p>
+  <p>La solución es darle los ingredientes. Usa esta fórmula de 5 partes:</p>
+  <div style="margin:20px 0;border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+    <div style="display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid var(--border);background:var(--surface);">
+      <div style="padding:12px 16px;font-weight:700;color:var(--amber);font-family:'Space Grotesk',sans-serif;font-size:13px;">ROL</div>
+      <div style="padding:12px 16px;border-left:1px solid var(--border);color:var(--muted);font-size:14px;">Actúa como coordinador de ventas / asesor legal / auditor…</div>
+    </div>
+    <div style="display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid var(--border);">
+      <div style="padding:12px 16px;font-weight:700;color:var(--amber);font-family:'Space Grotesk',sans-serif;font-size:13px;">CONTEXTO</div>
+      <div style="padding:12px 16px;border-left:1px solid var(--border);color:var(--muted);font-size:14px;">Empresa, cliente, situación, datos clave del mes…</div>
+    </div>
+    <div style="display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid var(--border);">
+      <div style="padding:12px 16px;font-weight:700;color:var(--amber);font-family:'Space Grotesk',sans-serif;font-size:13px;">TAREA</div>
+      <div style="padding:12px 16px;border-left:1px solid var(--border);color:var(--muted);font-size:14px;">Qué necesitas producir: correo, resumen, tabla, análisis…</div>
+    </div>
+    <div style="display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid var(--border);">
+      <div style="padding:12px 16px;font-weight:700;color:var(--amber);font-family:'Space Grotesk',sans-serif;font-size:13px;">FORMATO</div>
+      <div style="padding:12px 16px;border-left:1px solid var(--border);color:var(--muted);font-size:14px;">Correo / bullets / tabla / resumen ejecutivo…</div>
+    </div>
+    <div style="display:grid;grid-template-columns:120px 1fr;">
+      <div style="padding:12px 16px;font-weight:700;color:var(--amber);font-family:'Space Grotesk',sans-serif;font-size:13px;">CRITERIO</div>
+      <div style="padding:12px 16px;border-left:1px solid var(--border);color:var(--muted);font-size:14px;">Tono, longitud, qué incluir, qué evitar…</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;">
+    <div style="background:var(--error-dim);border:1px solid var(--error);border-radius:10px;padding:16px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--error);margin-bottom:8px;">✗ PROMPT DÉBIL</div>
+      <p style="font-size:14px;">Hazme un correo de cobranza.</p>
+    </div>
+    <div style="background:var(--success-dim);border:1px solid var(--success);border-radius:10px;padding:16px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--success);margin-bottom:8px;">✓ PROMPT COMPLETO</div>
+      <p style="font-size:14px;">Actúa como ejecutivo de cobranza. Cliente: Los Arcos. Monto: $19,800. Atraso: 31 días. Firme pero profesional. Máximo 120 palabras. Termina con fecha límite.</p>
+    </div>
+  </div>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:6px;">La plantilla que usarás en todos los ejercicios:</p>
+  <div class="copy-block">
+    <div class="copy-block-bar"><span>plantilla base — copia y adapta</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+    <pre class="copy-block-code">Actúa como [ROL]
+
+Contexto: [empresa, cliente, situación, datos clave]
+
+Tarea: [qué necesitas producir]
+
+Formato: [correo / bullets / tabla / resumen]
+
+Criterio: [tono, longitud, qué incluir, qué evitar]</pre>
+  </div>
   <div class="quiz-block">
-    <h3 class="quiz-q">¿Cuál es la habilidad más valiosa frente a la IA, según este módulo?</h3>
+    <div class="quiz-label">Pregunta rápida</div>
+    <h3 class="quiz-question">Escribiste: "ChatGPT, hazme un resumen de mis ventas de mayo." La respuesta es genérica e inútil. ¿Cuál es el problema?</h3>
     <div class="quiz-options" id="q2">
-      <button class="quiz-option" onclick="answer('q2', this, false)">Aprender a programar lo antes posible.</button>
-      <button class="quiz-option" onclick="answer('q2', this, true)">Saber pedirle bien las cosas y revisar su trabajo con criterio.</button>
-      <button class="quiz-option" onclick="answer('q2', this, false)">Comprar la herramienta de IA más cara del mercado.</button>
+      <button class="quiz-option" onclick="answer('q2', this, false)">Usaste ChatGPT en lugar de Claude.</button>
+      <button class="quiz-option" onclick="answer('q2', this, true)">No le diste contexto: los números reales, la empresa, el periodo ni el formato.</button>
+      <button class="quiz-option" onclick="answer('q2', this, false)">El prompt es muy corto; hay que escribir más texto.</button>
     </div>
     <div class="quiz-feedback" id="q2-feedback"></div>
   </div>
@@ -633,19 +689,40 @@
 </section>
 
 <section class="module" id="mod-3">
-  <div class="module-eyebrow">Parte II · Módulo 3</div>
-  <h1 class="module-title">Prompts, contexto y tokens</h1>
-  <p class="module-desc">Tres palabras que vas a escuchar siempre. En cuanto las entiendes, todo lo demás se vuelve fácil.</p>
-  <img class="module-img" src="img/curso_m2_formula_prompt.png" alt="Fórmula de un prompt bien estructurado">
-  <p><strong>Prompt</strong> es simplemente <em>lo que le pides</em> a la IA: tu instrucción. Un buen prompt es claro y específico.</p>
-  <p><strong>Contexto</strong> es todo lo que la IA "tiene presente" mientras te responde: tu pregunta, los mensajes anteriores de la conversación y los documentos que le pegaste. Si no está en el contexto, la IA no lo sabe. Por eso, mientras más contexto útil le das, mejor responde.</p>
-  <p><strong>Tokens</strong> son las piezas en que la IA parte el texto (más o menos, trozos de palabras). Importan por dos razones: hay un <strong>límite</strong> de cuánto contexto cabe, y el costo se mide en tokens. No necesitas contarlos — solo saber que textos enormes pueden no caber completos.</p>
+  <div class="module-eyebrow">Módulo 3 de 7</div>
+  <h1 class="module-title">Cuál herramienta usar</h1>
+  <p class="module-desc">Cuatro herramientas, cuatro momentos. No hay una mejor para todo — hay una correcta para cada tarea.</p>
+  <img class="module-img" src="img/curso_m3_herramientas.png" alt="Las cuatro herramientas de IA: ChatGPT, Claude, Gemini y NotebookLM">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 24px;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;">
+      <div style="font-size:24px;margin-bottom:8px;">💬</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:6px;">ChatGPT</div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.55;">Correos, reportes, resúmenes ejecutivos, borradores. La base. La más conocida.</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;">
+      <div style="font-size:24px;margin-bottom:8px;">📄</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:6px;">Claude</div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.55;">Cuando tienes un documento real: contrato, factura, lista de gastos. Analiza con criterio.</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;">
+      <div style="font-size:24px;margin-bottom:8px;">🌐</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:6px;">Gemini</div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.55;">Cuando necesitas información actual del mercado. Es el único con acceso a internet en tiempo real.</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;">
+      <div style="font-size:24px;margin-bottom:8px;">🗂️</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:6px;">NotebookLM</div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.55;">Cuando tienes manuales o procedimientos internos y quieres consultarlos por pregunta.</p>
+    </div>
+  </div>
+  <p style="color:var(--muted);font-size:14px;">La diferencia entre una respuesta útil y una genérica <strong style="color:var(--text);">no es la herramienta</strong>. Es la instrucción. Con un prompt débil, todas dan resultados mediocres.</p>
   <div class="quiz-block">
-    <h3 class="quiz-q">Le pegas un contrato de 80 páginas y la IA "olvida" el principio. ¿Por qué?</h3>
+    <div class="quiz-label">Pregunta rápida</div>
+    <h3 class="quiz-question">Tienes un contrato de 15 páginas y necesitas saber qué cláusulas te ponen en riesgo. ¿Cuál herramienta usas?</h3>
     <div class="quiz-options" id="q3">
-      <button class="quiz-option" onclick="answer('q3', this, false)">Porque los prompts solo aceptan preguntas cortas.</button>
-      <button class="quiz-option" onclick="answer('q3', this, true)">Porque hay un límite de tokens y un texto tan largo puede no caber completo en el contexto.</button>
-      <button class="quiz-option" onclick="answer('q3', this, false)">Porque la IA no puede leer documentos, solo texto que escribes a mano.</button>
+      <button class="quiz-option" onclick="answer('q3', this, false)">Gemini, porque tiene internet y puede buscar información legal.</button>
+      <button class="quiz-option" onclick="answer('q3', this, false)">NotebookLM, porque sirve para consultar documentos.</button>
+      <button class="quiz-option" onclick="answer('q3', this, true)">Claude, porque es el más fuerte analizando documentos reales con criterio.</button>
     </div>
     <div class="quiz-feedback" id="q3-feedback"></div>
   </div>
@@ -654,245 +731,333 @@
 
 
 <section class="module" id="mod-4">
-  <div class="module-eyebrow">Parte II · Módulo 4</div>
-  <h1 class="module-title">Las herramientas</h1>
-  <p class="module-desc">Cuatro herramientas que vas a usar. La estrella es Claude Code — aquí está cómo instalarla, paso a paso, en tu sistema.</p>
-  <img class="module-img" src="img/curso_m3_herramientas.png" alt="Comparación de las cuatro herramientas de IA">
+  <div class="module-eyebrow">Módulo 4 de 7</div>
+  <h1 class="module-title">Ejercicios 1 y 2 — ChatGPT</h1>
+  <p class="module-desc">Dos tareas reales con la empresa Distribuidora Noroeste. Copia el prompt, pégalo en ChatGPT y adapta los datos a tu negocio si quieres.</p>
+  <img class="module-img" src="img/curso_m4_practica.png" alt="Prompts con datos reales de una empresa">
 
-  <h2 style="margin:24px 0 6px;">1. Claude Code (modo pro)</h2>
-  <p>Es la versión más potente: la IA trabaja en tu computadora desde la <strong>terminal</strong> (esa ventana de texto donde se escriben comandos). Suena técnico, pero la instalación es copiar y pegar. Elige tu sistema:</p>
-
-  <div class="os-tabs">
-    <button class="os-tab" id="ostab-win"   onclick="showOS('win')">🪟 Windows</button>
-    <button class="os-tab" id="ostab-mac"   onclick="showOS('mac')">🍎 Mac</button>
-    <button class="os-tab" id="ostab-linux" onclick="showOS('linux')">🐧 Linux</button>
-  </div>
-
-  <!-- WINDOWS -->
-  <div class="os-panel" id="ospanel-win">
-    <div class="install-step"><div class="install-num">1</div><div class="install-body">
-      <h4>Abre la terminal</h4>
-      <p>Presiona estas dos teclas juntas:</p>
-      <div class="key-combo"><kbd>⊞ Win</kbd><span class="plus">+</span><kbd>R</kbd></div>
-      <p>Se abre el cuadro <strong>Ejecutar</strong>. Escribe <code>cmd</code> y pulsa Enter — eso abre la ventana de comandos (la terminal). 💡 Aún mejor: abre la app <strong>Terminal de Windows</strong> desde el menú Inicio; es la opción más cómoda para Claude Code.</p>
-    </div></div>
-    <div class="install-step"><div class="install-num">2</div><div class="install-body">
-      <h4>Instala Node.js (lo necesita Claude Code)</h4>
-      <p>Ve a <strong>nodejs.org</strong>, descarga la versión <strong>LTS</strong> para Windows y abre el instalador. Dale "Siguiente" en todo y "Finalizar" — los valores por defecto están bien.</p>
-      <div class="install-warning">⚠️ Cuando termine de instalar Node.js, <strong>cierra y vuelve a abrir la terminal</strong> para que reconozca los comandos nuevos.</div>
-    </div></div>
-    <div class="install-step"><div class="install-num">3</div><div class="install-body">
-      <h4>Verifica que Node quedó instalado</h4>
-      <p>Escribe esto y pulsa Enter. Debe responder con un número de versión (algo como <code>v24.x.x</code>):</p>
-      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">node --version</pre></div>
-    </div></div>
-    <div class="install-step"><div class="install-num">4</div><div class="install-body">
-      <h4>Instala Claude Code</h4>
-      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">npm install -g @anthropic-ai/claude-code</pre></div>
-    </div></div>
-    <div class="install-step"><div class="install-num">5</div><div class="install-body">
-      <h4>Arráncalo</h4>
-      <p>Escribe <code>claude</code> y pulsa Enter. La primera vez te pedirá iniciar sesión con tu cuenta.</p>
-      <div class="terminal-mock"><div class="terminal-bar"><span class="r"></span><span class="y"></span><span class="g"></span></div><div class="terminal-body"><span class="prompt">C:\Users\tu-usuario></span> claude
-<span class="comment"># ¡Listo! Claude Code abre y te pide iniciar sesión.</span></div></div>
-    </div></div>
-  </div>
-
-  <!-- MAC -->
-  <div class="os-panel" id="ospanel-mac">
-    <div class="install-step"><div class="install-num">1</div><div class="install-body">
-      <h4>Abre la terminal</h4>
-      <p>Presiona estas dos teclas, escribe <code>Terminal</code> y pulsa Enter:</p>
-      <div class="key-combo"><kbd>⌘ Cmd</kbd><span class="plus">+</span><kbd>Espacio</kbd></div>
-      <p>Eso abre el buscador Spotlight; al escribir "Terminal" aparece la app. Ábrela.</p>
-    </div></div>
-    <div class="install-step"><div class="install-num">2</div><div class="install-body">
-      <h4>Instala Node.js (lo necesita Claude Code)</h4>
-      <p>Ve a <strong>nodejs.org</strong>, descarga la versión <strong>LTS</strong> para macOS y abre el instalador (<code>.pkg</code>). Dale "Continuar" en todo.</p>
-      <div class="install-warning">⚠️ Al terminar, <strong>cierra y vuelve a abrir la terminal</strong>.</div>
-    </div></div>
-    <div class="install-step"><div class="install-num">3</div><div class="install-body">
-      <h4>Verifica Node</h4>
-      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">node --version</pre></div>
-    </div></div>
-    <div class="install-step"><div class="install-num">4</div><div class="install-body">
-      <h4>Instala Claude Code</h4>
-      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">npm install -g @anthropic-ai/claude-code</pre></div>
-      <div class="install-warning">Si ves un error de permisos, antepón <code>sudo</code> y te pedirá tu contraseña de Mac.</div>
-    </div></div>
-    <div class="install-step"><div class="install-num">5</div><div class="install-body">
-      <h4>Arráncalo</h4>
-      <div class="terminal-mock"><div class="terminal-bar"><span class="r"></span><span class="y"></span><span class="g"></span></div><div class="terminal-body"><span class="prompt">tu-mac:~ usuario$</span> claude
-<span class="comment"># ¡Listo! Inicia sesión cuando lo pida.</span></div></div>
-    </div></div>
-  </div>
-
-  <!-- LINUX -->
-  <div class="os-panel" id="ospanel-linux">
-    <div class="install-step"><div class="install-num">1</div><div class="install-body">
-      <h4>Abre la terminal</h4>
-      <div class="key-combo"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Alt</kbd><span class="plus">+</span><kbd>T</kbd></div>
-      <p>En la mayoría de las distribuciones esto abre la terminal directamente.</p>
-    </div></div>
-    <div class="install-step"><div class="install-num">2</div><div class="install-body">
-      <h4>Instala Node.js</h4>
-      <p>En distribuciones basadas en Debian/Ubuntu:</p>
-      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">sudo apt update && sudo apt install -y nodejs npm</pre></div>
-      <div class="install-warning">⚠️ Otras distros usan otro gestor (<code>dnf</code>, <code>pacman</code>). Claude Code requiere <strong>Node 18 o superior</strong>; si <code>node --version</code> muestra un número menor, instala la LTS con <strong>nvm</strong> (nodejs.org explica cómo).</div>
-    </div></div>
-    <div class="install-step"><div class="install-num">3</div><div class="install-body">
-      <h4>Verifica Node</h4>
-      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">node --version</pre></div>
-    </div></div>
-    <div class="install-step"><div class="install-num">4</div><div class="install-body">
-      <h4>Instala Claude Code</h4>
-      <div class="copy-block"><div class="copy-block-bar"><span>terminal</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">sudo npm install -g @anthropic-ai/claude-code</pre></div>
-    </div></div>
-    <div class="install-step"><div class="install-num">5</div><div class="install-body">
-      <h4>Arráncalo</h4>
-      <div class="terminal-mock"><div class="terminal-bar"><span class="r"></span><span class="y"></span><span class="g"></span></div><div class="terminal-body"><span class="prompt">usuario@equipo:~$</span> claude
-<span class="comment"># ¡Listo! Inicia sesión cuando lo pida.</span></div></div>
-    </div></div>
-  </div>
-
-  <h3 style="margin:26px 0 6px;">El archivo CLAUDE.md (en 30 segundos)</h3>
-  <p>Dentro de tu proyecto puedes crear un archivo llamado <code>CLAUDE.md</code>. Ahí escribes, en español normal, las reglas de tu negocio: cómo se llama tu empresa, qué tono usar, qué nunca hacer. Claude Code lo lee solo en cada sesión, así no repites el contexto cada vez.</p>
-
-  <h3 style="margin:22px 0 6px;">Agentes y skills (panorama)</h3>
-  <p>Una <strong>skill</strong> es un prompt que guardaste y reutilizas (ej. "resume así mis reportes de ventas"). Un <strong>agente</strong> es la IA configurada para una tarea específica con sus propias instrucciones. No los construimos a fondo hoy — solo que sepas que existen y que es a donde lleva este camino.</p>
-
-  <h2 style="margin:30px 0 6px;">2. ChatGPT (rápido)</h2>
-  <p>El más conocido. Excelente para redactar, resumir y conversar. Lo usas en el navegador o su app. Para análisis de documentos largos y trabajo cuidadoso, Claude suele ir un paso adelante.</p>
-
-  <h2 style="margin:24px 0 6px;">3. Las apps nativas de Claude</h2>
-  <p>La app de Claude puede conectarse a herramientas que ya usas y actuar sobre ellas:</p>
-  <ul style="margin:8px 0 8px 20px;">
-    <li><strong>Gmail</strong> — redactar correos y dejarlos <em>en borrador</em> para que tú los revises antes de enviar.</li>
-    <li><strong>Google Calendar</strong> — consultar tu agenda y crear eventos.</li>
-  </ul>
-  <p>La idea es siempre la misma: la IA prepara, tú apruebas.</p>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">Abre <strong style="color:var(--text);">ChatGPT</strong> en otra pestaña. Copia el prompt, pégalo y córrelo. Revisa la respuesta antes de confirmar.</p>
 
   <div class="exercise">
-    <div class="exercise-title">✋ Ejercicio: tu primer borrador en Gmail</div>
-    <p>Copia este prompt, pégalo en la app de Claude (con Gmail conectado) y revisa el borrador que deja. Ajusta los datos entre corchetes.</p>
-    <div class="copy-block"><div class="copy-block-bar"><span>prompt</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">Redacta un correo breve y profesional para [nombre del cliente] recordándole el pago pendiente de [monto] con fecha límite [fecha]. Tono cordial pero firme, máximo 120 palabras. Déjalo en borrador, no lo envíes.</pre></div>
-    <button class="ex-done-btn" id="ex-btn-ex-tools" onclick="markEx('ex-tools', this)">Marcar como hecho</button>
+    <div class="exercise-title">✋ Ejercicio 1 — Resumen ejecutivo de ventas</div>
+    <p style="font-size:14px;color:var(--muted);margin:6px 0 12px;">Eres el coordinador de ventas. Tu director pidió un resumen del mes de mayo antes de la junta del lunes.</p>
+    <div class="copy-block">
+      <div class="copy-block-bar"><span>ChatGPT · Ejercicio 1</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+      <pre class="copy-block-code">Actúa como coordinador de ventas de una distribuidora de material de oficina en Hermosillo.
+
+Contexto del mes de mayo:
+- Ventas totales: $312,400 MXN
+- Objetivo: $350,000 MXN
+- Cumplimiento: 89.3%
+- Pedidos entregados: 54 · Cancelados: 3
+- Clientes nuevos: 4
+- Top cliente: Despacho Jurídico Medina, $38,200
+- Producto más vendido: Papel bond carta, 310 resmas
+- Producto con caída: Cartuchos de tinta, bajó 23% vs abril
+
+Crea:
+1. Resumen ejecutivo en 5 puntos
+2. Un párrafo de explicación para el director
+3. Una acción concreta para junio
+
+Tono directo. Sin tecnicismos. Usa bullets.</pre>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px;">Guarda el resultado como <code style="background:var(--surface2);padding:2px 6px;border-radius:4px;">01_Resumen_Ventas_Mayo.txt</code></p>
+    <button class="ex-done-btn" id="ex-btn-ex1" onclick="markEx('ex1', this)">Marcar como hecho ✓</button>
   </div>
 
+  <div class="exercise" style="margin-top:20px;">
+    <div class="exercise-title">✋ Ejercicio 2 — Correo de cobranza</div>
+    <p style="font-size:14px;color:var(--muted);margin:6px 0 12px;">Llevas 31 días esperando el pago de Restaurante Los Arcos. Ya les avisaste por WhatsApp hace 8 días y no respondieron.</p>
+    <div class="copy-block">
+      <div class="copy-block-bar"><span>ChatGPT · Ejercicio 2</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+      <pre class="copy-block-code">Actúa como ejecutivo de cobranza de una distribuidora de material de oficina.
+
+Situación:
+- Cliente: Restaurante Los Arcos (3 sucursales)
+- Monto pendiente: $19,800 MXN
+- Días de atraso: 31 días
+- Contacto previo: WhatsApp hace 8 días, sin respuesta
+
+Escríbeme un correo formal de seguimiento de cobranza.
+Tono: firme pero profesional, sin sonar agresivo.
+No menciones consecuencias legales todavía.
+Máximo 120 palabras.
+Termina con una llamada a la acción clara y una fecha límite.</pre>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px;">Guarda el resultado como <code style="background:var(--surface2);padding:2px 6px;border-radius:4px;">02_Correo_Cobranza.txt</code></p>
+    <button class="ex-done-btn" id="ex-btn-ex2" onclick="markEx('ex2', this)">Marcar como hecho ✓</button>
+  </div>
+
+  <div class="quiz-block" style="margin-top:28px;">
+    <div class="quiz-label">Pregunta rápida</div>
+    <h3 class="quiz-question">¿Por qué el Ejercicio 2 produce un correo útil y no uno genérico?</h3>
+    <div class="quiz-options" id="q4">
+      <button class="quiz-option" onclick="answer('q4', this, false)">Porque ChatGPT está actualizado a 2026.</button>
+      <button class="quiz-option" onclick="answer('q4', this, true)">Porque el prompt incluye cliente, monto, días de atraso, tono y longitud — contexto real.</button>
+      <button class="quiz-option" onclick="answer('q4', this, false)">Porque tiene la frase "actúa como".</button>
+    </div>
+    <div class="quiz-feedback" id="q4-feedback"></div>
+  </div>
   <div class="module-nav"><button class="next-btn" onclick="goTo(5)">Siguiente módulo →</button></div>
 </section>
 
 <section class="module" id="mod-5">
-  <div class="module-eyebrow">Parte III · Módulo 5</div>
-  <h1 class="module-title">De PDF a datos</h1>
-  <p class="module-desc">Los PDFs son cárceles de información: ves los números pero no puedes usarlos. La IA los libera.</p>
-  <img class="module-img" src="img/curso_m4_practica.png" alt="Documentos reales siendo procesados con IA">
-  <p>Hay tres formas de meterle un PDF a la IA, de menos a más técnica:</p>
-  <h3 style="margin:18px 0 6px;">a) Pegarle el texto o subir el archivo</h3>
-  <p>Lo más simple: subes el PDF a Claude y le preguntas. Funciona perfecto para contratos, facturas y reportes de tamaño normal. La IA lee el texto y responde sobre su contenido.</p>
-  <h3 style="margin:18px 0 6px;">b) Visión (para PDFs escaneados)</h3>
-  <p>Si el PDF es una <em>foto</em> (escaneado, sin texto seleccionable), la IA puede "verlo" con visión y leer lo que aparece en la imagen. Sujeto al tamaño: páginas sueltas funcionan muy bien.</p>
-  <h3 style="margin:18px 0 6px;">c) Scripts, cuando son muchos (demo)</h3>
-  <p>Cuando tienes <strong>cientos</strong> de PDFs iguales (todas tus facturas del año), conviene un pequeño script que extrae los datos automáticamente. Una herramienta común es <code>pdfplumber</code>. No tienes que escribirlo tú — la IA te lo arma. Así se ve la idea:</p>
-  <div class="copy-block"><div class="copy-block-bar"><span>ejemplo · python</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">import pdfplumber
-
-with pdfplumber.open("factura.pdf") as pdf:
-    texto = pdf.pages[0].extract_text()
-    print(texto)   # ahora el texto es datos que puedes procesar</pre></div>
-  <p style="color:var(--muted);font-size:14px;">No te preocupes por entender cada línea. El punto es: lo que estaba atrapado en el PDF ahora es información que puedes analizar.</p>
-  <p>¿Y un libro entero en PDF? Se puede, pero choca con el límite de tokens (Módulo 3). Para eso existen técnicas más avanzadas — es la puerta a la que llegas después de este curso.</p>
+  <div class="module-eyebrow">Módulo 5 de 7</div>
+  <h1 class="module-title">Ejercicios 3 y 4 — Claude</h1>
+  <p class="module-desc">Claude es el más fuerte leyendo documentos reales. Estos dos ejercicios usan archivos de la empresa.</p>
+  <img class="module-img" src="img/curso_m5_sistema.png" alt="Claude analizando contratos y gastos de una empresa">
+  <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">Abre <strong style="color:var(--text);">Claude</strong> en claude.ai. Para el Ejercicio 3 descarga el archivo y súbelo junto con el prompt.</p>
 
   <div class="exercise">
-    <div class="exercise-title">✋ Ejercicio: extrae datos de un contrato real</div>
-    <p>Descarga este contrato de ejemplo, súbelo a Claude y pídele lo de abajo.</p>
-    <p><a href="recursos/contrato_arcoiris.pdf" target="_blank" rel="noopener" style="color:var(--amber);">📄 Descargar contrato_arcoiris.pdf</a></p>
-    <div class="copy-block"><div class="copy-block-bar"><span>prompt</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">Te adjunto un contrato. Extrae en una tabla: las partes involucradas, el objeto del contrato, el monto, la vigencia y cualquier penalización o fecha límite. Si algo no aparece, escribe "no especificado".</pre></div>
-    <button class="ex-done-btn" id="ex-btn-ex-pdf" onclick="markEx('ex-pdf', this)">Marcar como hecho</button>
+    <div class="exercise-title">✋ Ejercicio 3 — Análisis de contrato</div>
+    <p style="font-size:14px;color:var(--muted);margin:6px 0 12px;">Tienes un contrato con el Colegio Bilingüe Arcoíris. Entregaste tarde en abril y el colegio no ha firmado la renovación. Necesitas saber qué riesgos tienes antes de hablar con ellos.</p>
+    <p style="margin-bottom:10px;"><a href="recursos/contrato_arcoiris.pdf" target="_blank" rel="noopener" style="color:var(--amber);font-size:14px;">📄 Descargar contrato_arcoiris.pdf</a></p>
+    <div class="copy-block">
+      <div class="copy-block-bar"><span>Claude · Ejercicio 3</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+      <pre class="copy-block-code">Actúa como asesor legal y operativo.
+
+Analiza este contrato y respóndeme solo esto:
+1. ¿Cuánto podría reclamarme el colegio por la entrega tardía?
+2. ¿Qué cláusulas me ponen en riesgo hoy?
+3. ¿Qué pasa si el colegio no firma la renovación y no avisa?
+4. Una acción concreta que debo tomar esta semana.
+
+Sin introducción. Solo bullets.</pre>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px;">Guarda el resultado como <code style="background:var(--surface2);padding:2px 6px;border-radius:4px;">03_Analisis_Contrato.txt</code></p>
+    <button class="ex-done-btn" id="ex-btn-ex3" onclick="markEx('ex3', this)">Marcar como hecho ✓</button>
   </div>
 
-  <div class="quiz-block">
-    <h3 class="quiz-q">Tienes 300 facturas en PDF, todas con el mismo formato. ¿Cuál es el mejor enfoque?</h3>
-    <div class="quiz-options" id="q4">
-      <button class="quiz-option" onclick="answer('q4', this, false)">Subirlas una por una y copiar los datos a mano.</button>
-      <button class="quiz-option" onclick="answer('q4', this, true)">Pedirle a la IA un script (tipo pdfplumber) que extraiga los datos de todas automáticamente.</button>
-      <button class="quiz-option" onclick="answer('q4', this, false)">No se puede; los PDFs no se pueden procesar en masa.</button>
+  <div class="exercise" style="margin-top:20px;">
+    <div class="exercise-title">✋ Ejercicio 4 — Revisión de gastos</div>
+    <p style="font-size:14px;color:var(--muted);margin:6px 0 12px;">Acabas de cerrar mayo. Antes de presentarle los números al dueño, quieres saber si hay algo fuera de lugar en los gastos del mes.</p>
+    <div class="copy-block">
+      <div class="copy-block-bar"><span>Claude · Ejercicio 4</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+      <pre class="copy-block-code">Actúa como auditor operativo.
+
+GASTOS MAYO 2026 — Distribuidora Noroeste
+Nómina: $87,500
+Renta bodega: $18,000 (contrato vence agosto 2026)
+Gasolina y reparto: $12,400 (subió 18% vs abril)
+Servicios: $8,200 (luz subió $1,800 vs abril)
+Inventario: $141,000
+Papelería: $2,300
+Publicidad redes: $3,500
+Mantenimiento vehículos: $6,800
+Comisiones: $9,372
+Otros: $4,100
+TOTAL: $293,172 · Ventas del mes: $312,400
+
+Respóndeme:
+1. ¿Cuál es el margen operativo del mes?
+2. ¿Qué concepto llama la atención y por qué?
+3. ¿Hay algo inusual o fuera de lugar?
+4. Una acción concreta antes de que cierre el mes.
+
+Sin introducción. Usa bullets.</pre>
     </div>
-    <div class="quiz-feedback" id="q4-feedback"></div>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px;">Guarda el resultado como <code style="background:var(--surface2);padding:2px 6px;border-radius:4px;">04_Revision_Gastos.txt</code></p>
+    <button class="ex-done-btn" id="ex-btn-ex4" onclick="markEx('ex4', this)">Marcar como hecho ✓</button>
+  </div>
+
+  <div class="quiz-block" style="margin-top:28px;">
+    <div class="quiz-label">Pregunta rápida</div>
+    <h3 class="quiz-question">¿Por qué Claude es mejor que ChatGPT para analizar el contrato del Ejercicio 3?</h3>
+    <div class="quiz-options" id="q5b">
+      <button class="quiz-option" onclick="answer('q5b', this, false)">Porque es más barato.</button>
+      <button class="quiz-option" onclick="answer('q5b', this, false)">Porque tiene internet y puede buscar información del colegio.</button>
+      <button class="quiz-option" onclick="answer('q5b', this, true)">Porque maneja documentos largos con mayor precisión y criterio analítico.</button>
+    </div>
+    <div class="quiz-feedback" id="q5b-feedback"></div>
   </div>
   <div class="module-nav"><button class="next-btn" onclick="goTo(6)">Siguiente módulo →</button></div>
 </section>
 
 <section class="module" id="mod-6">
-  <div class="module-eyebrow">Parte III · Módulo 6</div>
-  <h1 class="module-title">Análisis con datos reales</h1>
-  <p class="module-desc">Ya tienes los datos sueltos. Ahora los conviertes en decisiones: KPIs, tendencias y un Excel ordenado.</p>
-  <img class="module-img" src="img/curso_m6_proyecto.png" alt="Análisis completo con KPIs y tablas">
-  <p>Vamos a trabajar con un caso real: una <strong>distribuidora de autopartes en Hermosillo</strong>. Tiene sus ventas por línea de producto y sus egresos del trimestre. El reto típico: "tengo los números pero no sé qué me están diciendo".</p>
-  <p>Descarga los dos archivos y dáselos a la IA:</p>
-  <p>
-    <a href="recursos/ventas_lineas_2t_2026.csv" target="_blank" rel="noopener" style="color:var(--amber);">📊 ventas_lineas_2t_2026.csv</a> &nbsp;·&nbsp;
-    <a href="recursos/egresos_2t_2026.csv" target="_blank" rel="noopener" style="color:var(--amber);">💸 egresos_2t_2026.csv</a>
-  </p>
-  <p>Un <strong>KPI</strong> es un número que resume cómo va el negocio: margen por línea, línea más rentable, gasto más grande. La IA los saca en segundos — tú decides cuáles importan.</p>
+  <div class="module-eyebrow">Módulo 6 de 7</div>
+  <h1 class="module-title">Ejercicios 5 y 6 — Gemini y NotebookLM</h1>
+  <p class="module-desc">Gemini para información del mercado en tiempo real. NotebookLM para consultar tus propios documentos por pregunta.</p>
+  <img class="module-img" src="img/curso_m6_proyecto.png" alt="Consultas de mercado y documentos internos con IA">
 
   <div class="exercise">
-    <div class="exercise-title">✋ Ejercicio: saca KPIs y arma el Excel</div>
-    <div class="copy-block"><div class="copy-block-bar"><span>prompt</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">Te adjunto las ventas por línea y los egresos de mi distribuidora (segundo trimestre). Quiero que:
-1. Calcules el margen por línea de producto y me digas cuál es la más y la menos rentable.
-2. Identifiques mis 3 gastos más grandes y qué porcentaje son del total.
-3. Me des 3 conclusiones accionables en lenguaje sencillo.
-4. Organices todo en una tabla lista para pegar en Excel.</pre></div>
-    <button class="ex-done-btn" id="ex-btn-ex-kpi" onclick="markEx('ex-kpi', this)">Marcar como hecho</button>
+    <div class="exercise-title">✋ Ejercicio 5 — Gemini: contexto del mercado</div>
+    <p style="font-size:14px;color:var(--muted);margin:6px 0 12px;">Las ventas de cartuchos bajaron 23% en un mes. Antes de tomar una decisión sobre el inventario, quieres entender qué está pasando. Gemini tiene acceso a internet en tiempo real — los demás no.</p>
+    <div class="copy-block">
+      <div class="copy-block-bar"><span>Gemini · Ejercicio 5</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+      <pre class="copy-block-code">Soy dueño de una distribuidora de material de oficina en México.
+
+Mis ventas de cartuchos de tinta bajaron 23% en el último mes. Necesito entender el contexto actual del mercado.
+
+Respóndeme:
+1. ¿Qué está pasando con el mercado de cartuchos de tinta en México hoy?
+2. ¿Están migrando las empresas a impresión láser o impresión administrada?
+3. ¿Qué están haciendo los distribuidores para adaptarse?
+4. ¿Hay alguna tendencia reciente que explique esta caída?
+
+Información actual, no de hace un año. Máximo 5 bullets por pregunta.</pre>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px;">Guarda el resultado como <code style="background:var(--surface2);padding:2px 6px;border-radius:4px;">05_Mercado_Cartuchos.txt</code></p>
+    <button class="ex-done-btn" id="ex-btn-ex5" onclick="markEx('ex5', this)">Marcar como hecho ✓</button>
   </div>
 
-  <div class="quiz-block">
-    <h3 class="quiz-q">¿Para qué sirve un KPI?</h3>
-    <div class="quiz-options" id="q5">
-      <button class="quiz-option" onclick="answer('q5', this, false)">Para guardar los archivos en la nube.</button>
-      <button class="quiz-option" onclick="answer('q5', this, true)">Para resumir en un número clave cómo va el negocio y poder decidir.</button>
-      <button class="quiz-option" onclick="answer('q5', this, false)">Es un formato de archivo de Excel.</button>
+  <div class="exercise" style="margin-top:20px;">
+    <div class="exercise-title">✋ Ejercicio 6 — NotebookLM: consulta tus procedimientos</div>
+    <p style="font-size:14px;color:var(--muted);margin:6px 0 12px;">Tienes un empleado nuevo que empieza el lunes. En lugar de explicarle todo, NotebookLM responderá sus preguntas a partir de los procedimientos internos.</p>
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin:0 0 12px;font-size:14px;">
+      <strong>Pasos:</strong>
+      <ol style="margin:8px 0 0 18px;line-height:2.2;">
+        <li>Entra a <strong>notebooklm.google.com</strong></li>
+        <li>Crea un Notebook nuevo</li>
+        <li>Copia el texto de procedimientos de abajo y pégalo como fuente</li>
+        <li>Hazle las 3 preguntas una por una</li>
+      </ol>
     </div>
-    <div class="quiz-feedback" id="q5-feedback"></div>
+    <div class="copy-block">
+      <div class="copy-block-bar"><span>Pega esto como fuente en NotebookLM</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+      <pre class="copy-block-code">PROCEDIMIENTOS INTERNOS — Distribuidora Noroeste
+
+STOCK AGOTADO: Si el cliente pide algo sin existencia, se notifica en 2 horas hábiles y se ofrece producto sustituto o fecha estimada. Si no acepta, se cancela sin penalización.
+
+CRÉDITO: Se otorga con historial positivo de 3 compras. Se suspende cuando hay factura vencida mayor a 30 días. Se reactiva al saldar el adeudo más 1 compra de contado.
+
+DEVOLUCIONES: Se aceptan en los primeros 5 días naturales desde la recepción, siempre que el producto esté sin abrir y en embalaje original. No aplica a papel, consumibles o productos con daño evidente.
+
+ESCALAMIENTO: Si el cliente reclama un monto mayor a $5,000 MXN o hay amenaza legal, el gerente de ventas entra en las primeras 24 horas.</pre>
+    </div>
+    <div class="copy-block" style="margin-top:8px;">
+      <div class="copy-block-bar"><span>Pregunta 1</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+      <pre class="copy-block-code">¿Qué hace el ejecutivo de ventas cuando un cliente pide algo que no hay en stock?</pre>
+    </div>
+    <div class="copy-block">
+      <div class="copy-block-bar"><span>Pregunta 2</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+      <pre class="copy-block-code">¿Cuándo se suspende el crédito a un cliente? ¿Qué pasos se siguen antes de llegar a eso?</pre>
+    </div>
+    <div class="copy-block">
+      <div class="copy-block-bar"><span>Pregunta 3</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+      <pre class="copy-block-code">Un cliente recibió su pedido hace 5 días y quiere devolverlo. ¿Se puede? ¿Qué condiciones aplican?</pre>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px;">Guarda las respuestas como <code style="background:var(--surface2);padding:2px 6px;border-radius:4px;">06_Consulta_Procedimientos.txt</code></p>
+    <button class="ex-done-btn" id="ex-btn-ex6" onclick="markEx('ex6', this)">Marcar como hecho ✓</button>
+  </div>
+
+  <div class="quiz-block" style="margin-top:28px;">
+    <div class="quiz-label">Pregunta rápida</div>
+    <h3 class="quiz-question">Necesitas saber cuánto subió el precio del acero en México este mes. ¿Qué herramienta usas?</h3>
+    <div class="quiz-options" id="q6">
+      <button class="quiz-option" onclick="answer('q6', this, false)">Claude — analiza documentos con criterio.</button>
+      <button class="quiz-option" onclick="answer('q6', this, false)">NotebookLM — consulta tus fuentes internas.</button>
+      <button class="quiz-option" onclick="answer('q6', this, true)">Gemini — tiene acceso a internet en tiempo real.</button>
+    </div>
+    <div class="quiz-feedback" id="q6-feedback"></div>
   </div>
   <div class="module-nav"><button class="next-btn" onclick="goTo(7)">Siguiente módulo →</button></div>
 </section>
 
 <section class="module" id="mod-7">
   <div class="module-eyebrow">Parte IV · Módulo 7</div>
-  <h1 class="module-title">Case study: análisis financiero de una empresa pública</h1>
-  <p class="module-desc">El nivel jefe: entender a un competidor grande que cotiza en bolsa — y al mercado entero — con IA.</p>
-  <img class="module-img" src="img/curso_m7_terminal.png" alt="Análisis financiero de empresa pública con IA">
-  <p>Las empresas que cotizan en bolsa están <strong>obligadas a publicar</strong> sus números: ventas, utilidades, deudas. Es información pública y gratuita. La IA puede leer esos estados financieros y explicártelos en español sencillo.</p>
-  <h3 style="margin:18px 0 6px;">Leer estados financieros con IA</h3>
-  <p>Le das el reporte (o el enlace) y preguntas lo que un dueño querría saber: ¿están creciendo? ¿de dónde sale su dinero? ¿qué línea les funciona? La IA traduce la jerga contable a decisiones.</p>
-  <h3 style="margin:18px 0 6px;">Un mini-modelo con scrapers (demo)</h3>
-  <p>Para seguir a un competidor de forma continua, se puede armar un pequeño <strong>scraper</strong>: un script que entra a una página pública y baja los datos solo (por ejemplo, las ventas reportadas trimestre a trimestre). La IA te lo construye; tú lo corres cuando quieras una actualización. La idea, en concepto:</p>
-  <div class="copy-block"><div class="copy-block-bar"><span>concepto · scraper</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code"># Idea general (la IA arma el script real por ti):
-# 1. Entrar a la página pública de resultados del competidor
-# 2. Bajar la tabla de ventas por trimestre
-# 3. Guardarla en un archivo para compararla con la tuya</pre></div>
-  <p>Con eso entiendes el <strong>mercado</strong>, no solo tu negocio: cómo se mueve el grande, a qué precio, en qué líneas. Aterricémoslo en tu caso local.</p>
+  <h1 class="module-title">De prompt a skill — el siguiente nivel</h1>
+  <p class="module-desc">Ya tienes 6 prompts que funcionan. Ahora conviértelos en herramientas reutilizables que trabajan para ti cada mes.</p>
+  <img class="module-img" src="img/curso_m7_terminal.png" alt="Convertir prompts en skills reutilizables">
 
-  <div class="exercise">
-    <div class="exercise-title">✋ Ejercicio: entiende a tu competencia</div>
-    <p>Descarga el comparativo por línea contra tus competidores y pídele a la IA un diagnóstico.</p>
-    <p><a href="recursos/competencia_por_linea.csv" target="_blank" rel="noopener" style="color:var(--amber);">📈 competencia_por_linea.csv</a></p>
-    <div class="copy-block"><div class="copy-block-bar"><span>prompt</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div><pre class="copy-block-code">Te adjunto un comparativo de mis precios y participación de mercado contra mis competidores, por línea de producto. Dime:
-1. En qué líneas estoy ganando y en cuáles me están desplazando.
-2. Dónde mi precio me hace vulnerable frente al producto chino o la cadena nacional.
-3. Tres movimientos concretos para defender o recuperar participación.</pre></div>
-    <button class="ex-done-btn" id="ex-btn-ex-case" onclick="markEx('ex-case', this)">Marcar como hecho</button>
+  <p>Terminaste los 6 ejercicios con Distribuidora Noroeste. Eso significa que ya tienes 6 prompts que dieron resultados reales. El siguiente paso es dejar de copiar y pegar cada mes — y convertir esos prompts en <strong>skills</strong>: instrucciones guardadas con nombre y contexto que usas en segundos.</p>
+
+  <h3 style="margin:24px 0 8px;">¿Qué es una skill?</h3>
+  <p>Una skill es un prompt con nombre propio. Tiene tres partes esenciales:</p>
+
+  <div style="display:grid;gap:12px;margin:16px 0;">
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <div style="color:var(--amber);font-weight:700;margin-bottom:4px;">1. NOMBRE</div>
+      <p style="color:var(--muted);font-size:14px;">Corto y descriptivo. Sabes exactamente para qué sirve sin leerla entera.</p>
+      <div style="font-size:13px;margin-top:6px;font-style:italic;">Ej: "Seguimiento de cobranza sin quemar la relación"</div>
+    </div>
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <div style="color:var(--amber);font-weight:700;margin-bottom:4px;">2. CUÁNDO USARLA</div>
+      <p style="color:var(--muted);font-size:14px;">La condición que activa la skill. Esto evita que la uses mal o de más.</p>
+      <div style="font-size:13px;margin-top:6px;font-style:italic;">Ej: "Después de 30 días de atraso o cuando ya hubo contacto previo sin respuesta."</div>
+    </div>
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <div style="color:var(--amber);font-weight:700;margin-bottom:4px;">3. PROMPT BASE</div>
+      <p style="color:var(--muted);font-size:14px;">El prompt completo que ya probaste y funciona. Solo cambias los datos variables.</p>
+      <div style="font-size:13px;margin-top:6px;font-style:italic;">Ej: el prompt del Ejercicio 2 con espacios para [cliente], [monto], [días].</div>
+    </div>
+  </div>
+
+  <h3 style="margin:24px 0 8px;">Ejemplo completo — Ejercicio 2 convertido en skill</h3>
+  <p style="margin-bottom:12px;">El prompt de cobranza que usaste ya tiene todo lo necesario para ser una skill. Solo agrega el nombre y el criterio de uso:</p>
+
+  <div class="copy-block">
+    <div class="copy-block-bar"><span>skill · cobranza</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+    <pre class="copy-block-code">NOMBRE DE LA SKILL:
+Seguimiento de cobranza sin quemar la relación.
+
+Cuándo usarla:
+Después de 30 días de atraso o cuando ya hubo contacto previo sin respuesta.
+
+Información que necesita:
+Cliente, monto, días de atraso, último contacto, tono deseado.
+
+Prompt base:
+Actúa como ejecutivo de cobranza de una distribuidora de material de oficina.
+
+Situación:
+- Cliente: [NOMBRE CLIENTE]
+- Monto pendiente: [MONTO] MXN
+- Días de atraso: [DÍAS]
+- Contacto previo: [ÚLTIMO CONTACTO], sin respuesta
+
+Escríbeme un correo formal de seguimiento de cobranza.
+Tono: firme pero profesional, sin sonar agresivo.
+No menciones consecuencias legales todavía.
+Máximo 120 palabras.
+Termina con una llamada a la acción clara y una fecha límite.
+
+Formato de salida:
+Correo listo para pegar en Gmail. Sin introducción.
+
+Qué nunca debe hacer:
+Inventar consecuencias, culpar al cliente o sonar agresivo.</pre>
+  </div>
+
+  <p style="margin-top:16px;">¿Ves la diferencia? Ya no buscas el prompt — lo tienes guardado. Solo cambias los corchetes y en 10 segundos tienes un correo profesional. Haz eso con los 6 ejercicios y tendrás <strong>tu primer banco de skills</strong>.</p>
+
+  <h3 style="margin:24px 0 8px;">Tu plan de acción</h3>
+  <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px;">
+    <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;">
+      <span style="background:var(--amber);color:#000;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;">1</span>
+      <p><strong>Esta semana:</strong> elige 1 de los 6 ejercicios que usarás seguido. Conviértelo en skill con el formato de arriba. Guárdalo en un doc o carpeta de IA.</p>
+    </div>
+    <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;">
+      <span style="background:var(--amber);color:#000;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;">2</span>
+      <p><strong>Este mes:</strong> convierte los 6 en skills. Compártelas con tu equipo. El que aprende rápido las skills de otros ahorra semanas.</p>
+    </div>
+    <div style="display:flex;gap:10px;align-items:flex-start;">
+      <span style="background:var(--amber);color:#000;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;">3</span>
+      <p><strong>A largo plazo:</strong> cada vez que un prompt te funcione, agrégalo al banco. Con 20 skills tienes un sistema que vale más que cualquier suscripción.</p>
+    </div>
+  </div>
+
+  <!-- QUIZ 7 -->
+  <div class="quiz-block">
+    <div class="quiz-eyebrow">Pregunta final</div>
+    <h3 class="quiz-question">Ya tienes 6 ejercicios listos. ¿Qué es una "skill" en el contexto de IA para trabajo?</h3>
+    <div class="quiz-options" id="q7">
+      <button class="quiz-option" onclick="answer('q7', this, false)">Un plugin que se instala en ChatGPT para automatizar tareas.</button>
+      <button class="quiz-option" onclick="answer('q7', this, true)">Un prompt guardado con nombre, criterio de uso y contexto — listo para reutilizar.</button>
+      <button class="quiz-option" onclick="answer('q7', this, false)">Una función de programación que conecta IA con otras aplicaciones.</button>
+    </div>
+    <div class="quiz-feedback" id="q7-feedback"></div>
   </div>
 
   <!-- RESULTS -->
   <div id="results" style="margin-top:40px;padding:26px;border:1px solid var(--amber-border);border-radius:14px;background:var(--surface);">
-    <h2 style="margin-bottom:6px;">Tu progreso</h2>
+    <h2 style="margin-bottom:6px;">Tu progreso final</h2>
     <p class="score-pill" style="font-size:28px;color:var(--amber);"><span id="score-display">0 / 100</span></p>
     <div style="height:10px;background:var(--surface2);border-radius:6px;overflow:hidden;margin:12px 0;">
       <div id="results-bar" style="height:100%;width:0;background:var(--amber);transition:width .4s;"></div>
     </div>
     <div id="results-breakdown" style="color:var(--muted);font-size:14px;"></div>
-    <p style="margin-top:16px;">Terminaste el curso <strong>IA Aplicada</strong>. Ahora la IA no es magia: es una herramienta que entiendes, sabes pedirle y revisas con criterio. Eso es exactamente lo que te vuelve indispensable.</p>
+    <p style="margin-top:16px;">Terminaste el curso <strong>IA Aplicada</strong>. Tienes 6 ejercicios reales con una empresa, una fórmula que funciona y la base para construir tu banco de skills. Eso ya es más que el 90% de las personas que usan IA.</p>
   </div>
   <div class="module-nav"><button class="next-btn" onclick="goTo(1)">Volver al inicio ↑</button></div>
 </section>
@@ -907,22 +1072,24 @@ with pdfplumber.open("factura.pdf") as pdf:
 <script>
   // ─── MODULE DEFINITIONS ───
   const MODULES = [
-    { id: 1, label: '¿Qué es un LLM?',              time: '8 min' },
-    { id: 2, label: 'El dinero y la disrupción',     time: '10 min' },
-    { id: 3, label: 'Prompts, contexto y tokens',    time: '10 min' },
-    { id: 4, label: 'Las herramientas',              time: '20 min' },
-    { id: 5, label: 'De PDF a datos',                time: '15 min' },
-    { id: 6, label: 'Análisis con datos reales',     time: '20 min' },
-    { id: 7, label: 'Case study financiero',         time: '15 min' }
+    { id: 1, label: '¿Qué es la IA?',               time: '8 min' },
+    { id: 2, label: 'La fórmula del prompt',         time: '10 min' },
+    { id: 3, label: 'Cuál herramienta usar',         time: '10 min' },
+    { id: 4, label: 'Ejercicios 1 y 2 — ChatGPT',   time: '20 min' },
+    { id: 5, label: 'Ejercicios 3 y 4 — Claude',     time: '20 min' },
+    { id: 6, label: 'Ejercicios 5 y 6',             time: '15 min' },
+    { id: 7, label: 'De prompt a skill',             time: '10 min' }
   ];
 
-  // ANSWERS filled in Task 4 (quizzes). Declared here so restoreUI can read it.
+  // ANSWERS: correct = index (0-based) of the correct option in .quiz-options
   var ANSWERS = {
-    q1: { correct: 2, feedback: { ok: 'La IA predice la palabra más probable según patrones — no comprueba si es cierto. Por eso siempre revisas antes de usar.', err: 'No es por internet ni por memoria: la IA predice texto probable, no verifica la verdad. Por eso puede inventar con seguridad.' } },
-    q2: { correct: 1, feedback: { ok: 'Exacto. El valor está en pedir bien y revisar con criterio — eso es lo que este curso te enseña.', err: 'No. No necesitas programar ni comprar lo más caro: la habilidad clave es pedir bien y revisar con criterio.' } },
-    q3: { correct: 1, feedback: { ok: 'Correcto. Hay un límite de tokens (contexto); un texto enorme puede no caber completo y la IA "pierde" partes.', err: 'No. La IA sí lee documentos largos; el problema es el límite de tokens: un texto enorme puede no caber completo en el contexto.' } },
-    q4: { correct: 1, feedback: { ok: 'Correcto. Con muchos PDFs iguales, un script (como pdfplumber) extrae todo automáticamente — y la IA te lo arma.', err: 'No. A mano es lentísimo y sí se puede en masa: la IA te arma un script que extrae los datos de todos los PDFs.' } },
-    q5: { correct: 1, feedback: { ok: 'Exacto. Un KPI resume en un número clave cómo va el negocio para poder decidir.', err: 'No. Un KPI no es almacenamiento ni un formato: es un número clave que resume el desempeño del negocio.' } }
+    q1:  { correct: 2, feedback: { ok: 'La IA predice la palabra más probable según patrones — no comprueba si es cierto. Por eso siempre revisas antes de usar.', err: 'No es por internet ni por memoria: la IA predice texto probable, no verifica la verdad. Por eso puede inventar con seguridad.' } },
+    q2:  { correct: 1, feedback: { ok: 'Correcto. Sin datos reales — empresa, números, periodo, formato — la IA improvisa. El contexto es todo.', err: 'No. La herramienta no es el problema ni la longitud: le faltó contexto real para responder bien.' } },
+    q3:  { correct: 2, feedback: { ok: 'Correcto. Claude es el más fuerte analizando documentos largos con criterio: contratos, estados financieros, reportes.', err: 'No. Gemini tiene internet pero no analiza documentos como Claude. NotebookLM sirve para consultar tus fuentes, no para análisis legal.' } },
+    q4:  { correct: 1, feedback: { ok: 'Exacto. El contexto específico — cliente, monto, días, tono, límite de palabras — es lo que convierte un prompt genérico en uno útil.', err: 'No. La fecha de actualización o la frase "actúa como" no son la clave: es el contexto real con datos concretos.' } },
+    q5b: { correct: 2, feedback: { ok: 'Correcto. Claude maneja documentos largos con mayor precisión y analiza con criterio las implicaciones legales y operativas.', err: 'No. El precio o el acceso a internet no explican la diferencia: Claude destaca por su capacidad de análisis profundo en documentos.' } },
+    q6:  { correct: 2, feedback: { ok: 'Correcto. Gemini tiene acceso a internet en tiempo real — ideal para preguntar sobre mercados, precios y tendencias actuales.', err: 'No. Claude analiza tus documentos internos; NotebookLM consulta tus fuentes guardadas. Para información del mundo en tiempo real, usas Gemini.' } },
+    q7:  { correct: 1, feedback: { ok: 'Exacto. Una skill es un prompt con nombre y criterio de uso — guardado y listo para reutilizar en segundos cada vez que lo necesitas.', err: 'No. Una skill no requiere instalar nada ni programar: es simplemente un prompt bien documentado que puedes reusar sin buscar.' } }
   };
 
   // ─── STATE ───
@@ -1021,8 +1188,8 @@ with pdfplumber.open("factura.pdf") as pdf:
   })();
 
   // Reassigned by content tasks:
-  var QUIZ_IDS = ['q1','q2','q3','q4','q5'];
-  var EX_IDS = ['ex-tools','ex-pdf','ex-kpi','ex-case'];
+  var QUIZ_IDS = ['q1','q2','q3','q4','q5b','q6','q7'];
+  var EX_IDS = ['ex1','ex2','ex3','ex4','ex5','ex6'];
 
   // ─── QUIZ ───
   function answer(qid, btn, isCorrect) {
