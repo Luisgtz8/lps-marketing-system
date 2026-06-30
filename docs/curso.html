@@ -576,8 +576,12 @@
     .gate.hidden { display: none; }
     .gate-error.hidden { display: none; }
     body.gated { overflow: hidden; }
-    .gate-card { width: 100%; max-width: 420px; background: var(--surface); border: 1px solid var(--border);
+    .gate-card { position: relative; width: 100%; max-width: 420px; background: var(--surface); border: 1px solid var(--border);
       border-radius: 16px; padding: 28px 26px; box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+    .gate-close { position: absolute; top: 14px; right: 14px; width: 30px; height: 30px; display: flex;
+      align-items: center; justify-content: center; border: 0; border-radius: 8px; background: var(--surface2);
+      color: var(--muted); cursor: pointer; line-height: 0; }
+    .gate-close:hover { color: var(--text); }
     .gate-brand { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: var(--amber); margin-bottom: 18px; }
     .gate-tabs { display: flex; gap: 6px; background: var(--surface2); border-radius: 10px; padding: 4px; margin-bottom: 20px; }
     .gate-tab { flex: 1; padding: 9px; border: 0; border-radius: 7px; background: transparent; color: var(--muted);
@@ -603,6 +607,9 @@
 <!-- ─── GATE DE ACCESO ─── -->
 <div id="gate" class="gate hidden" aria-hidden="true">
   <div class="gate-card" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+    <button class="gate-close" id="gate-close" type="button" aria-label="Cerrar y volver al inicio">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
     <div class="gate-brand">⚡ IA Aplicada</div>
     <div class="gate-tabs">
       <button class="gate-tab active" id="tab-login" type="button">Ya tengo acceso</button>
@@ -633,6 +640,17 @@
       <input class="gate-input" id="lead-empresa" type="text" autocomplete="organization">
       <p class="gate-error hidden" id="lead-error"></p>
       <button class="gate-submit" id="lead-submit" type="submit">Continuar por WhatsApp →</button>
+    </form>
+    <!-- Crear contraseña (activado por #setpw= en la URL) -->
+    <form id="gate-setpw" class="gate-panel" autocomplete="on">
+      <h2 class="gate-h">Crea tu contraseña</h2>
+      <p class="gate-sub">Tu acceso ya está activo. Define una contraseña para entrar al curso.</p>
+      <label class="gate-label" for="setpw-pass">Contraseña</label>
+      <input class="gate-input" id="setpw-pass" type="password" autocomplete="new-password" minlength="8" required>
+      <label class="gate-label" for="setpw-pass2">Confirmar contraseña</label>
+      <input class="gate-input" id="setpw-pass2" type="password" autocomplete="new-password" minlength="8" required>
+      <p class="gate-error hidden" id="setpw-error"></p>
+      <button class="gate-submit" id="setpw-submit" type="submit">Crear contraseña →</button>
     </form>
   </div>
 </div>
@@ -1436,6 +1454,10 @@ Inventar consecuencias, culpar al cliente o sonar agresivo.</pre>
     document.body.classList.remove('gated');
   }
 
+  // Close → leave the course (the gate is the paywall; there's no nav bar on
+  // curso.html, so send them back to the landing page, which has the site nav).
+  document.getElementById('gate-close').onclick = function () { location.href = 'index.html'; };
+
   // Tab switching
   document.getElementById('tab-login').onclick = function () { switchTab('login'); };
   document.getElementById('tab-lead').onclick = function () { switchTab('lead'); };
@@ -1448,6 +1470,8 @@ Inventar consecuencias, culpar al cliente o sonar agresivo.</pre>
 
   // Boot: decide gate vs. access from /api/me
   async function boot() {
+    var setpw = (location.hash.match(/setpw=([^&]+)/) || [])[1];
+    if (setpw) { showSetPassword(setpw); return; }
     var magic = (location.hash.match(/token=([^&]+)/) || [])[1];
     if (magic) {
       try {
@@ -1535,6 +1559,39 @@ Inventar consecuencias, culpar al cliente o sonar agresivo.</pre>
     try { await fetch(API_BASE + '/api/auth/logout', { method: 'POST', headers: { Authorization: 'Bearer ' + token() } }); } catch (e) {}
     clearToken(); showGate();
   };
+
+  // Pantalla "Crea tu contraseña" (llegando desde el correo de activación).
+  function showSetPassword(setpwToken) {
+    gate.classList.remove('hidden'); gate.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('gated');
+    // Ocultar tabs y los otros paneles; mostrar solo el de crear contraseña.
+    var tabs = document.querySelector('.gate-tabs'); if (tabs) tabs.style.display = 'none';
+    document.getElementById('gate-login').classList.remove('active');
+    document.getElementById('gate-lead').classList.remove('active');
+    document.getElementById('gate-setpw').classList.add('active');
+
+    document.getElementById('gate-setpw').addEventListener('submit', async function (ev) {
+      ev.preventDefault();
+      var err = document.getElementById('setpw-error'); err.classList.add('hidden');
+      var p1 = document.getElementById('setpw-pass').value;
+      var p2 = document.getElementById('setpw-pass2').value;
+      if (p1.length < 8) { err.textContent = 'La contraseña debe tener al menos 8 caracteres.'; err.classList.remove('hidden'); return; }
+      if (p1 !== p2) { err.textContent = 'Las contraseñas no coinciden.'; err.classList.remove('hidden'); return; }
+      try {
+        var r = await fetch(API_BASE + '/api/auth/setup-password', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: setpwToken, password: p1 }),
+        });
+        if (!r.ok) { err.textContent = 'El enlace expiró o ya se usó. Pide acceso de nuevo.'; err.classList.remove('hidden'); return; }
+        var d = await r.json(); setToken(d.token);
+        if (tabs) tabs.style.display = '';            // restaurar para próximas veces
+        document.getElementById('gate-setpw').classList.remove('active');
+        document.getElementById('gate-login').classList.add('active');
+        history.replaceState(null, '', location.pathname);
+        await boot();                                  // sesión + paid → desbloquea
+      } catch (e) { err.textContent = 'Error de conexión. Inténtalo de nuevo.'; err.classList.remove('hidden'); }
+    });
+  }
 
   boot();
 })();
