@@ -5,7 +5,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sql } from '../_lib/db.js';
 import { cors, json } from '../_lib/http.js';
-import { requireAdmin, isValidEmail } from '../_lib/auth.js';
+import { requireAdmin, isValidEmail, newToken, hashToken } from '../_lib/auth.js';
+import { sendSetupPasswordLink } from '../_lib/email.js';
 
 const ACTIONS = new Set(['grant', 'revoke', 'make_admin', 'remove_admin']);
 
@@ -27,14 +28,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!user) return json(res, 404, { error: 'user_not_found' });
 
   switch (action) {
-    case 'grant':
+    case 'grant': {
       await sql`
         insert into entitlements (user_id, paid, paid_at)
         values (${user.id}, true, now())
         on conflict (user_id) do update set paid = true,
           paid_at = coalesce(entitlements.paid_at, now())
       `;
-      break;
+      // Send a one-time "create your password" link. Email failure must NOT
+      // revoke access — the grant already succeeded; report emailSent so the
+      // panel can warn the admin to follow up manually.
+      let emailSent = false;
+      try {
+        // Supersede any outstanding tokens, then issue a fresh 7-day one.
+        await sql`
+          update magic_link_tokens set consumed_at = now()
+          where user_id = ${user.id} and consumed_at is null
+        `;
+        const token = newToken();
+        await sql`
+          insert into magic_link_tokens (user_id, token_hash, expires_at)
+          values (${user.id}, ${hashToken(token)}, now() + interval '7 days')
+        `;
+        const base = process.env.APP_BASE_URL ?? 'https://www.lightningprosolutions.com';
+        await sendSetupPasswordLink(email, `${base}/curso.html#setpw=${token}`);
+        emailSent = true;
+      } catch (err) {
+        emailSent = false;
+      }
+      return json(res, 200, { ok: true, email, action, emailSent });
+    }
     case 'revoke':
       await sql`
         insert into entitlements (user_id, paid)
