@@ -1570,7 +1570,7 @@ Inventar consecuencias, culpar al cliente o sonar agresivo.</pre>
     document.getElementById('gate-lead').classList.remove('active');
     document.getElementById('gate-setpw').classList.add('active');
 
-    document.getElementById('gate-setpw').addEventListener('submit', async function (ev) {
+    document.getElementById('gate-setpw').onsubmit = async function (ev) {
       ev.preventDefault();
       var err = document.getElementById('setpw-error'); err.classList.add('hidden');
       var p1 = document.getElementById('setpw-pass').value;
@@ -1583,14 +1583,16 @@ Inventar consecuencias, culpar al cliente o sonar agresivo.</pre>
           body: JSON.stringify({ token: setpwToken, password: p1 }),
         });
         if (!r.ok) { err.textContent = 'El enlace expiró o ya se usó. Pide acceso de nuevo.'; err.classList.remove('hidden'); return; }
-        var d = await r.json(); setToken(d.token);
+        var d = await r.json();
+        if (!d || !d.token) { err.textContent = 'El enlace expiró o ya se usó. Pide acceso de nuevo.'; err.classList.remove('hidden'); return; }
+        setToken(d.token);
         if (tabs) tabs.style.display = '';            // restaurar para próximas veces
         document.getElementById('gate-setpw').classList.remove('active');
         document.getElementById('gate-login').classList.add('active');
         history.replaceState(null, '', location.pathname);
         await boot();                                  // sesión + paid → desbloquea
-      } catch (e) { err.textContent = 'Error de conexión. Inténtalo de nuevo.'; err.classList.remove('hidden'); }
-    });
+      } catch (e) { err.textContent = 'Error de conexión. Inténtalo de nuevo.'; err.classList.remove('hidden'); if (tabs) tabs.style.display = ''; }
+    };
   }
 
   boot();
