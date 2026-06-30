@@ -43,12 +43,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Supersede any outstanding tokens, then issue a fresh 7-day one.
         await sql`
           update magic_link_tokens set consumed_at = now()
-          where user_id = ${user.id} and consumed_at is null
+          where user_id = ${user.id} and consumed_at is null and kind = 'setup_password'
         `;
         const token = newToken();
         await sql`
-          insert into magic_link_tokens (user_id, token_hash, expires_at)
-          values (${user.id}, ${hashToken(token)}, now() + interval '7 days')
+          insert into magic_link_tokens (user_id, token_hash, expires_at, kind)
+          values (${user.id}, ${hashToken(token)}, now() + interval '7 days', 'setup_password')
         `;
         const base = process.env.APP_BASE_URL ?? 'https://www.lightningprosolutions.com';
         await sendSetupPasswordLink(email, `${base}/curso.html#setpw=${token}`);

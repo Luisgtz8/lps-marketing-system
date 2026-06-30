@@ -26,6 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       where token_hash = ${hashToken(token)}
         and consumed_at is null
         and expires_at > now()
+        and kind = 'setup_password'
       returning user_id
     `;
     if (consumed.length === 0) return json(res, 401, { error: 'invalid_or_expired' });
