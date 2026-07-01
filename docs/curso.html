@@ -622,11 +622,15 @@
       <h2 id="gate-title" class="gate-h">Inicia sesión</h2>
       <label class="gate-label" for="login-email">Correo</label>
       <input class="gate-input" id="login-email" type="email" autocomplete="email" required>
-      <label class="gate-label" for="login-pass">Contraseña</label>
-      <input class="gate-input" id="login-pass" type="password" autocomplete="current-password" required>
       <p class="gate-error hidden" id="login-error"></p>
-      <button class="gate-submit" id="login-submit" type="submit">Entrar →</button>
-      <button class="gate-link" id="login-magic" type="button">Entrar con enlace por correo</button>
+      <button class="gate-submit" id="login-magic" type="button">Enviar enlace de acceso →</button>
+      <p style="text-align:center;margin:12px 0 4px;font-size:13px;color:var(--muted);">Te mandamos un link a tu correo. Sin contraseña.</p>
+      <button class="gate-link" id="login-show-pw" type="button" style="margin-top:8px;">Tengo contraseña, entrar directo</button>
+      <div id="login-pw-section" style="display:none;margin-top:12px;">
+        <label class="gate-label" for="login-pass">Contraseña</label>
+        <input class="gate-input" id="login-pass" type="password" autocomplete="current-password">
+        <button class="gate-submit" id="login-submit" type="submit" style="margin-top:8px;">Entrar →</button>
+      </div>
     </form>
 
     <!-- Lead -->
@@ -1579,37 +1583,52 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
     } catch (e) { showGate(); }
   }
 
-  // Login submit
+  // Toggle contraseña
+  document.getElementById('login-show-pw').onclick = function () {
+    var sec = document.getElementById('login-pw-section');
+    var visible = sec.style.display !== 'none';
+    sec.style.display = visible ? 'none' : 'block';
+    this.textContent = visible ? 'Tengo contraseña, entrar directo' : 'Ocultar contraseña';
+  };
+
+  // Login submit (contraseña)
   document.getElementById('gate-login').addEventListener('submit', async function (ev) {
     ev.preventDefault();
     var err = document.getElementById('login-error'); err.classList.add('hidden');
     var email = document.getElementById('login-email').value.trim();
     var password = document.getElementById('login-pass').value;
+    if (!password) return; // no hacer submit si contraseña oculta
     try {
       var r = await fetch(API_BASE + '/api/auth/login', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email, password: password }),
       });
-      if (!r.ok) { err.textContent = 'Correo o contraseña incorrectos.'; err.classList.remove('hidden'); return; }
+      if (!r.ok) {
+        err.style.color = '';
+        err.innerHTML = 'Contraseña incorrecta. <button type="button" id="err-magic-btn" style="background:none;border:none;color:var(--amber);cursor:pointer;font-size:inherit;padding:0;text-decoration:underline;">Entrar con enlace →</button>';
+        err.classList.remove('hidden');
+        document.getElementById('err-magic-btn').onclick = function() { sendMagicLink(); };
+        return;
+      }
       var d = await r.json(); setToken(d.token);
       await boot();
-    } catch (e) { err.textContent = 'Error de conexión. Inténtalo de nuevo.'; err.classList.remove('hidden'); }
+    } catch (e) { err.style.color=''; err.textContent = 'Error de conexión. Inténtalo de nuevo.'; err.classList.remove('hidden'); }
   });
 
   // Magic link request
-  document.getElementById('login-magic').onclick = async function () {
+  function sendMagicLink() {
     var err = document.getElementById('login-error'); err.classList.add('hidden');
     var email = document.getElementById('login-email').value.trim();
-    if (!email) { err.textContent = 'Escribe tu correo y te enviamos un enlace.'; err.classList.remove('hidden'); return; }
-    try {
-      await fetch(API_BASE + '/api/auth/request', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email }),
-      });
-      err.style.color = 'var(--muted)';
-      err.textContent = 'Si tu correo tiene acceso, te enviamos un enlace. Revisa tu bandeja.';
-      err.classList.remove('hidden');
-    } catch (e) { err.textContent = 'Error de conexión.'; err.classList.remove('hidden'); }
+    if (!email) { err.style.color=''; err.textContent = 'Escribe tu correo primero.'; err.classList.remove('hidden'); return; }
+    fetch(API_BASE + '/api/auth/request', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email }),
+    }).catch(function(){});
+    err.style.color = 'var(--muted)';
+    err.textContent = 'Listo — revisa tu bandeja. El enlace expira en 15 minutos.';
+    err.classList.remove('hidden');
+  }
+  document.getElementById('login-magic').onclick = function () { sendMagicLink(); };
   };
 
   // Lead submit → save + WhatsApp
@@ -1630,16 +1649,7 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
     window.open(WHATSAPP, '_blank', 'noopener');
   });
 
-  function maybeOfferPassword() {
-    if (localStorage.getItem('lps-pw-offered')) return;
-    localStorage.setItem('lps-pw-offered', '1');
-    var pw = window.prompt('Para entrar más rápido la próxima vez, crea una contraseña (mínimo 8 caracteres). Déjalo vacío para omitir.');
-    if (!pw || pw.length < 8) return;
-    fetch('' + '/api/auth/set-password', {
-      method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (localStorage.getItem('lps-session') || '') },
-      body: JSON.stringify({ password: pw }),
-    });
-  }
+  function maybeOfferPassword() { /* desactivado — usar enlace por correo */ }
 
   // Expose logout for the account menu (Task 9 wires the button)
   window.lpsLogout = async function () {
