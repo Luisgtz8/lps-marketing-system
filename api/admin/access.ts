@@ -50,7 +50,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           insert into magic_link_tokens (user_id, token_hash, expires_at, kind)
           values (${user.id}, ${hashToken(token)}, now() + interval '7 days', 'setup_password')
         `;
-        const base = process.env.APP_BASE_URL ?? 'https://www.lightningprosolutions.com';
+        const base = (process.env.APP_BASE_URL ?? 'https://www.lightningprosolutions.com').trim().replace(/\/$/, '');
         await sendSetupPasswordLink(email, `${base}/curso.html#setpw=${token}`);
         emailSent = true;
       } catch (err) {
