@@ -1,10 +1,12 @@
-// POST /api/auth/verify — exchange a magic-link token for a session bearer.
-// Body: { token }. Atomically consumes the token (single-use), marks the email
-// verified, creates a 30-day session, returns { token, user }.
+// POST /api/auth/setup-password — set a password via a one-time setup token.
+// Body: { token, password }. The token (from the activation email) IS the
+// proof of identity — no prior session required. Atomically consumes the
+// token, sets the password, verifies the email, revokes prior sessions, and
+// returns a fresh 30-day session. Mirrors verify.ts + set-password.ts.
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sql } from '../_lib/db.js';
 import { cors, json } from '../_lib/http.js';
-import { newToken, hashToken, revokeUserSessions } from '../_lib/auth.js';
+import { newToken, hashToken, hashPassword, revokeUserSessions } from '../_lib/auth.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (cors(req, res)) return;
@@ -12,31 +14,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const body = (req.body ?? {}) as Record<string, unknown>;
   const token = typeof body.token === 'string' ? body.token.trim() : '';
+  const password = typeof body.password === 'string' ? body.password : '';
   if (!token) return json(res, 400, { error: 'missing_token' });
+  if (password.length < 8) return json(res, 400, { error: 'weak_password' });
 
   try {
     // Consume the token atomically: only succeeds if unconsumed AND unexpired.
-    // The `consumed_at is null` guard makes this single-use even under races.
     const consumed = await sql`
       update magic_link_tokens
       set consumed_at = now()
       where token_hash = ${hashToken(token)}
         and consumed_at is null
         and expires_at > now()
-        and kind = 'magic_link'
+        and kind = 'setup_password'
       returning user_id
     `;
     if (consumed.length === 0) return json(res, 401, { error: 'invalid_or_expired' });
 
     const userId = (consumed[0] as { user_id: string }).user_id;
 
-    // First successful verification confirms the email.
-    await sql`update users set email_verified = true where id = ${userId}`;
+    await sql`
+      update users
+      set password_hash = ${hashPassword(password)}, email_verified = true
+      where id = ${userId}
+    `;
 
-    // Single active session: a magic-link login also kicks prior sessions.
+    // Single active session: kick prior sessions, then issue a new one.
     await revokeUserSessions(userId);
-
-    // Create the session.
     const sessionToken = newToken();
     const ua = (req.headers['user-agent'] ?? '').toString().slice(0, 500);
     await sql`

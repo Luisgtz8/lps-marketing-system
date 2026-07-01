@@ -569,9 +569,91 @@
     .terminal-body .prompt { color: #28c840; }
     .terminal-body .comment { color: #777; }
     .install-warning { margin-top: 10px; border-left: 3px solid var(--amber); background: var(--amber-dim); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 13px; }
+
+    /* ─── GATE ─── */
+    .gate { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center;
+      background: rgba(10,10,10,0.82); backdrop-filter: blur(6px); padding: 20px; }
+    .gate.hidden { display: none; }
+    .gate-error.hidden { display: none; }
+    body.gated { overflow: hidden; }
+    .gate-card { position: relative; width: 100%; max-width: 420px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px 26px; box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+    .gate-close { position: absolute; top: 14px; right: 14px; width: 30px; height: 30px; display: flex;
+      align-items: center; justify-content: center; border: 0; border-radius: 8px; background: var(--surface2);
+      color: var(--muted); cursor: pointer; line-height: 0; }
+    .gate-close:hover { color: var(--text); }
+    .gate-brand { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: var(--amber); margin-bottom: 18px; }
+    .gate-tabs { display: flex; gap: 6px; background: var(--surface2); border-radius: 10px; padding: 4px; margin-bottom: 20px; }
+    .gate-tab { flex: 1; padding: 9px; border: 0; border-radius: 7px; background: transparent; color: var(--muted);
+      font-size: 13px; font-weight: 600; cursor: pointer; }
+    .gate-tab.active { background: var(--black); color: var(--text); }
+    .gate-panel { display: none; flex-direction: column; }
+    .gate-panel.active { display: flex; }
+    .gate-h { font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin: 0 0 4px; color: var(--text); }
+    .gate-sub { font-size: 13px; color: var(--muted); margin: 0 0 14px; }
+    .gate-label { font-size: 12px; color: var(--muted); margin: 10px 0 4px; }
+    .gate-input { width: 100%; padding: 11px 12px; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--black); color: var(--text); font-size: 14px; }
+    .gate-input:focus { outline: none; border-color: var(--amber); }
+    .gate-error { color: #f87171; font-size: 13px; margin: 10px 0 0; }
+    .gate-submit { margin-top: 16px; padding: 12px; border: 0; border-radius: 8px; background: var(--amber);
+      color: #1a1a1a; font-weight: 700; font-size: 14px; cursor: pointer; }
+    .gate-link { margin-top: 10px; padding: 6px; border: 0; background: transparent; color: var(--muted);
+      font-size: 13px; text-decoration: underline; cursor: pointer; }
+    @media (max-width: 480px) { .gate-card { max-width: none; border-radius: 14px; padding: 22px 18px; } }
   </style>
 </head>
 <body>
+<!-- ─── GATE DE ACCESO ─── -->
+<div id="gate" class="gate hidden" aria-hidden="true">
+  <div class="gate-card" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+    <button class="gate-close" id="gate-close" type="button" aria-label="Cerrar y volver al inicio">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="gate-brand">⚡ IA Aplicada</div>
+    <div class="gate-tabs">
+      <button class="gate-tab active" id="tab-login" type="button">Ya tengo acceso</button>
+      <button class="gate-tab" id="tab-lead" type="button">Quiero acceso</button>
+    </div>
+
+    <!-- Login -->
+    <form id="gate-login" class="gate-panel active" autocomplete="on">
+      <h2 id="gate-title" class="gate-h">Inicia sesión</h2>
+      <label class="gate-label" for="login-email">Correo</label>
+      <input class="gate-input" id="login-email" type="email" autocomplete="email" required>
+      <label class="gate-label" for="login-pass">Contraseña</label>
+      <input class="gate-input" id="login-pass" type="password" autocomplete="current-password" required>
+      <p class="gate-error hidden" id="login-error"></p>
+      <button class="gate-submit" id="login-submit" type="submit">Entrar →</button>
+      <button class="gate-link" id="login-magic" type="button">Entrar con enlace por correo</button>
+    </form>
+
+    <!-- Lead -->
+    <form id="gate-lead" class="gate-panel" autocomplete="on">
+      <h2 class="gate-h">Solicita tu acceso</h2>
+      <p class="gate-sub">Déjanos tus datos y te contactamos por WhatsApp para activarte.</p>
+      <label class="gate-label" for="lead-nombre">Nombre</label>
+      <input class="gate-input" id="lead-nombre" type="text" autocomplete="name">
+      <label class="gate-label" for="lead-email">Correo</label>
+      <input class="gate-input" id="lead-email" type="email" autocomplete="email" required>
+      <label class="gate-label" for="lead-empresa">Empresa</label>
+      <input class="gate-input" id="lead-empresa" type="text" autocomplete="organization">
+      <p class="gate-error hidden" id="lead-error"></p>
+      <button class="gate-submit" id="lead-submit" type="submit">Continuar por WhatsApp →</button>
+    </form>
+    <!-- Crear contraseña (activado por #setpw= en la URL) -->
+    <form id="gate-setpw" class="gate-panel" autocomplete="on">
+      <h2 class="gate-h">Crea tu contraseña</h2>
+      <p class="gate-sub">Tu acceso ya está activo. Define una contraseña para entrar al curso.</p>
+      <label class="gate-label" for="setpw-pass">Contraseña</label>
+      <input class="gate-input" id="setpw-pass" type="password" autocomplete="new-password" minlength="8" required>
+      <label class="gate-label" for="setpw-pass2">Confirmar contraseña</label>
+      <input class="gate-input" id="setpw-pass2" type="password" autocomplete="new-password" minlength="8" required>
+      <p class="gate-error hidden" id="setpw-error"></p>
+      <button class="gate-submit" id="setpw-submit" type="submit">Crear contraseña →</button>
+    </form>
+  </div>
+</div>
 <div id="course-screen">
   <div class="top-bar">
     <span class="top-bar-logo">Lightning Pro</span>
@@ -580,6 +662,10 @@
       <span class="progress-label" id="progress-label">Módulo 1 de 7</span>
       <span class="ex-counter" id="ex-counter" style="display:none;"><span id="ex-done-count">0</span>/6 ejercicios</span>
       <button class="theme-toggle" id="courseThemeToggle" aria-label="Cambiar modo de color"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+      <button id="logout-btn" type="button" onclick="window.lpsLogout()"
+        style="background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;">
+        Cerrar sesión
+      </button>
     </div>
   </div>
   <div class="mobile-tabs" id="mobile-tabs"></div>
@@ -1346,6 +1432,171 @@ Inventar consecuencias, culpar al cliente o sonar agresivo.</pre>
   goTo(1);
   showOS(detectOS());
   document.addEventListener('DOMContentLoaded', function(){ restoreUI(); });
+</script>
+<script>
+(function () {
+  var API_BASE = ''; // same-origin via vercel.json rewrites
+  var SESSION_KEY = 'lps-session';
+  var WHATSAPP = 'https://wa.me/526623478040?text=' + encodeURIComponent('Hola, quiero acceso al curso IA Aplicada');
+
+  var gate = document.getElementById('gate');
+  function token() { return localStorage.getItem(SESSION_KEY) || ''; }
+  function setToken(t) { localStorage.setItem(SESSION_KEY, t); }
+  function clearToken() { localStorage.removeItem(SESSION_KEY); }
+
+  function showGate(msg) {
+    gate.classList.remove('hidden'); gate.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('gated');
+    if (msg) { var e = document.getElementById('login-error'); e.textContent = msg; e.classList.remove('hidden'); }
+  }
+  function hideGate() {
+    gate.classList.add('hidden'); gate.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('gated');
+  }
+
+  // Close → leave the course (the gate is the paywall; there's no nav bar on
+  // curso.html, so send them back to the landing page, which has the site nav).
+  document.getElementById('gate-close').onclick = function () { location.href = 'index.html'; };
+
+  // Tab switching
+  document.getElementById('tab-login').onclick = function () { switchTab('login'); };
+  document.getElementById('tab-lead').onclick = function () { switchTab('lead'); };
+  function switchTab(which) {
+    document.getElementById('tab-login').classList.toggle('active', which === 'login');
+    document.getElementById('tab-lead').classList.toggle('active', which === 'lead');
+    document.getElementById('gate-login').classList.toggle('active', which === 'login');
+    document.getElementById('gate-lead').classList.toggle('active', which === 'lead');
+  }
+
+  // Boot: decide gate vs. access from /api/me
+  async function boot() {
+    var setpw = (location.hash.match(/setpw=([^&]+)/) || [])[1];
+    if (setpw) { showSetPassword(setpw); return; }
+    var magic = (location.hash.match(/token=([^&]+)/) || [])[1];
+    if (magic) {
+      try {
+        var vr = await fetch(API_BASE + '/api/auth/verify', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: magic }),
+        });
+        if (vr.ok) { var vd = await vr.json(); setToken(vd.token); history.replaceState(null, '', location.pathname); }
+      } catch (e) {}
+    }
+    if (!token()) { showGate(); return; }
+    try {
+      var r = await fetch(API_BASE + '/api/me', { headers: { Authorization: 'Bearer ' + token() } });
+      if (r.status === 401) { clearToken(); showGate(); return; }
+      var d = await r.json();
+      if (d.paid) { hideGate(); maybeOfferPassword(); }
+      else { showGate('Tu acceso aún no está activo. Escríbenos por WhatsApp para activarlo.'); }
+    } catch (e) { showGate(); }
+  }
+
+  // Login submit
+  document.getElementById('gate-login').addEventListener('submit', async function (ev) {
+    ev.preventDefault();
+    var err = document.getElementById('login-error'); err.classList.add('hidden');
+    var email = document.getElementById('login-email').value.trim();
+    var password = document.getElementById('login-pass').value;
+    try {
+      var r = await fetch(API_BASE + '/api/auth/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, password: password }),
+      });
+      if (!r.ok) { err.textContent = 'Correo o contraseña incorrectos.'; err.classList.remove('hidden'); return; }
+      var d = await r.json(); setToken(d.token);
+      await boot();
+    } catch (e) { err.textContent = 'Error de conexión. Inténtalo de nuevo.'; err.classList.remove('hidden'); }
+  });
+
+  // Magic link request
+  document.getElementById('login-magic').onclick = async function () {
+    var err = document.getElementById('login-error'); err.classList.add('hidden');
+    var email = document.getElementById('login-email').value.trim();
+    if (!email) { err.textContent = 'Escribe tu correo y te enviamos un enlace.'; err.classList.remove('hidden'); return; }
+    try {
+      await fetch(API_BASE + '/api/auth/request', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email }),
+      });
+      err.style.color = 'var(--muted)';
+      err.textContent = 'Si tu correo tiene acceso, te enviamos un enlace. Revisa tu bandeja.';
+      err.classList.remove('hidden');
+    } catch (e) { err.textContent = 'Error de conexión.'; err.classList.remove('hidden'); }
+  };
+
+  // Lead submit → save + WhatsApp
+  document.getElementById('gate-lead').addEventListener('submit', async function (ev) {
+    ev.preventDefault();
+    var err = document.getElementById('lead-error'); err.classList.add('hidden');
+    var payload = {
+      email: document.getElementById('lead-email').value.trim(),
+      nombre: document.getElementById('lead-nombre').value.trim(),
+      empresa: document.getElementById('lead-empresa').value.trim(),
+    };
+    try {
+      await fetch(API_BASE + '/api/lead', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch (e) {}
+    window.open(WHATSAPP, '_blank', 'noopener');
+  });
+
+  function maybeOfferPassword() {
+    if (localStorage.getItem('lps-pw-offered')) return;
+    localStorage.setItem('lps-pw-offered', '1');
+    var pw = window.prompt('Para entrar más rápido la próxima vez, crea una contraseña (mínimo 8 caracteres). Déjalo vacío para omitir.');
+    if (!pw || pw.length < 8) return;
+    fetch('' + '/api/auth/set-password', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (localStorage.getItem('lps-session') || '') },
+      body: JSON.stringify({ password: pw }),
+    });
+  }
+
+  // Expose logout for the account menu (Task 9 wires the button)
+  window.lpsLogout = async function () {
+    try { await fetch(API_BASE + '/api/auth/logout', { method: 'POST', headers: { Authorization: 'Bearer ' + token() } }); } catch (e) {}
+    clearToken(); showGate();
+  };
+
+  // Pantalla "Crea tu contraseña" (llegando desde el correo de activación).
+  function showSetPassword(setpwToken) {
+    gate.classList.remove('hidden'); gate.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('gated');
+    // Ocultar tabs y los otros paneles; mostrar solo el de crear contraseña.
+    var tabs = document.querySelector('.gate-tabs'); if (tabs) tabs.style.display = 'none';
+    document.getElementById('gate-login').classList.remove('active');
+    document.getElementById('gate-lead').classList.remove('active');
+    document.getElementById('gate-setpw').classList.add('active');
+
+    document.getElementById('gate-setpw').onsubmit = async function (ev) {
+      ev.preventDefault();
+      var err = document.getElementById('setpw-error'); err.classList.add('hidden');
+      var p1 = document.getElementById('setpw-pass').value;
+      var p2 = document.getElementById('setpw-pass2').value;
+      if (p1.length < 8) { err.textContent = 'La contraseña debe tener al menos 8 caracteres.'; err.classList.remove('hidden'); return; }
+      if (p1 !== p2) { err.textContent = 'Las contraseñas no coinciden.'; err.classList.remove('hidden'); return; }
+      try {
+        var r = await fetch(API_BASE + '/api/auth/setup-password', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: setpwToken, password: p1 }),
+        });
+        if (!r.ok) { err.textContent = 'El enlace expiró o ya se usó. Pide acceso de nuevo.'; err.classList.remove('hidden'); return; }
+        var d = await r.json();
+        if (!d || !d.token) { err.textContent = 'El enlace expiró o ya se usó. Pide acceso de nuevo.'; err.classList.remove('hidden'); return; }
+        setToken(d.token);
+        if (tabs) tabs.style.display = '';            // restaurar para próximas veces
+        document.getElementById('gate-setpw').classList.remove('active');
+        document.getElementById('gate-login').classList.add('active');
+        history.replaceState(null, '', location.pathname);
+        await boot();                                  // sesión + paid → desbloquea
+      } catch (e) { err.textContent = 'Error de conexión. Inténtalo de nuevo.'; err.classList.remove('hidden'); if (tabs) tabs.style.display = ''; }
+    };
+  }
+
+  boot();
+})();
 </script>
 </body>
 </html>

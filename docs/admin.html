@@ -114,15 +114,20 @@
 
       <div id="login-email">
         <p class="login-title">Panel de control</p>
-        <p class="login-sub">Solo para administradores. Te enviamos un enlace de acceso a tu correo.</p>
+        <p class="login-sub">Solo para administradores. Entra con tu correo y contraseña.</p>
         <label for="email">Tu correo</label>
         <input id="email" type="email" placeholder="tu@correo.com" autocomplete="email">
-        <button class="btn btn-block" id="send-btn" onclick="sendLink()">Enviar enlace →</button>
+        <label for="password" style="margin-top:14px">Contraseña</label>
+        <input id="password" type="password" placeholder="••••••••" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter')passwordLogin()">
+        <button class="btn btn-block" id="login-btn" onclick="passwordLogin()">Entrar →</button>
         <div class="msg" id="login-msg"></div>
 
         <details class="login-alt">
-          <summary>Entrar con token de respaldo</summary>
-          <label for="token">Admin token</label>
+          <summary>Otras formas de entrar</summary>
+          <label for="magic-email" style="margin-top:4px">Enlace por correo</label>
+          <button class="btn btn-block" id="send-btn" onclick="sendLink()" style="margin-top:8px">Enviar enlace de acceso →</button>
+          <label for="token" style="margin-top:16px">Admin token de respaldo</label>
           <input id="token" type="password" placeholder="ADMIN_TOKEN">
           <button class="btn btn-block" onclick="useToken()">Entrar con token</button>
         </details>
@@ -223,6 +228,28 @@
       } catch(e){
         btn.disabled = false; btn.textContent = 'Enviar enlace →';
         loginMsg('No pudimos enviar el enlace. Inténtalo de nuevo.', 'err');
+      }
+    }
+
+    async function passwordLogin(){
+      var email = ($('email').value||'').trim().toLowerCase();
+      var password = $('password').value||'';
+      if(!email || !password){ loginMsg('Escribe tu correo y contraseña.', 'err'); return; }
+      var btn = $('login-btn'); btn.disabled = true; btn.textContent = 'Entrando…';
+      try {
+        var res = await fetch(API + '/api/auth/login', {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ email: email, password: password })
+        });
+        if(res.status === 401){ throw new Error('cred'); }
+        if(!res.ok) throw new Error(res.status);
+        var data = await res.json();
+        localStorage.setItem(SK, data.token);
+        // enter() re-validates the admin role; a non-admin lands on "Sin acceso".
+        return enter('Bearer ' + data.token);
+      } catch(e){
+        btn.disabled = false; btn.textContent = 'Entrar →';
+        loginMsg(e.message === 'cred' ? 'Correo o contraseña incorrectos.' : 'No pudimos conectar. Inténtalo de nuevo.', 'err');
       }
     }
 
@@ -328,9 +355,6 @@
             (paid
               ? '<button class="act stop" onclick="act(this,\''+esc(u.email)+'\',\'revoke\')">Quitar acceso</button>'
               : '<button class="act go" onclick="act(this,\''+esc(u.email)+'\',\'grant\')">Activar</button>')+
-            (u.is_admin
-              ? '<button class="act" onclick="act(this,\''+esc(u.email)+'\',\'remove_admin\')">Quitar admin</button>'
-              : '<button class="act" onclick="act(this,\''+esc(u.email)+'\',\'make_admin\')">Hacer admin</button>')+
           '</div></td>';
         tb.appendChild(tr);
       });
@@ -372,8 +396,16 @@
         });
         var data = await res.json();
         if(!res.ok) throw new Error(data.error||res.status);
-        var labels = { grant:'Acceso activado', revoke:'Acceso retirado', make_admin:'Ahora es admin', remove_admin:'Admin retirado' };
-        toast('✓ ' + (labels[action]||'Listo') + ' · ' + email, 'ok');
+        if (action === 'grant') {
+          if (data.emailSent) {
+            toast('✓ Acceso activado · correo de contraseña enviado · ' + email, 'ok');
+          } else {
+            toast('⚠ Acceso activado, pero el correo NO se envió · contacta a ' + email, 'err');
+          }
+        } else {
+          var labels = { revoke:'Acceso retirado', make_admin:'Ahora es admin', remove_admin:'Admin retirado' };
+          toast('✓ ' + (labels[action]||'Listo') + ' · ' + email, 'ok');
+        }
         reload();
       } catch(e){
         btn.disabled = false; btn.textContent = orig;

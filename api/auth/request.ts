@@ -59,12 +59,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // single-use token (store only its hash). A new request supersedes old ones.
     await sql`
       update magic_link_tokens set consumed_at = now()
-      where user_id = ${userId} and consumed_at is null
+      where user_id = ${userId} and consumed_at is null and kind = 'magic_link'
     `;
     const token = newToken();
     await sql`
-      insert into magic_link_tokens (user_id, token_hash, expires_at)
-      values (${userId}, ${hashToken(token)}, now() + interval '15 minutes')
+      insert into magic_link_tokens (user_id, token_hash, expires_at, kind)
+      values (${userId}, ${hashToken(token)}, now() + interval '15 minutes', 'magic_link')
     `;
 
     const base = process.env.APP_BASE_URL ?? 'https://www.lightningprosolutions.com';
