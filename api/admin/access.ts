@@ -23,7 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!isValidEmail(email)) return json(res, 400, { error: 'invalid_email' });
   if (!ACTIONS.has(action)) return json(res, 400, { error: 'invalid_action' });
 
-const users = await sql`select id from users where email = ${email} limit 1`;
+  const users = await sql`select id from users where email = ${email} limit 1`;
   const user = users[0] as { id: string } | undefined;
   if (!user) return json(res, 404, { error: 'user_not_found' });
 
@@ -88,15 +88,15 @@ const users = await sql`select id from users where email = ${email} limit 1`;
     case 'reset_password': {
       await sql`
         update magic_link_tokens set consumed_at = now()
-        where user_id = ${user.id} and consumed_at is null and kind = 'setup_password'
+        where user_id = ${user.id} and consumed_at is null and kind = 'magic_link'
       `;
       const token = newToken();
       await sql`
         insert into magic_link_tokens (user_id, token_hash, expires_at, kind)
-        values (${user.id}, ${hashToken(token)}, now() + interval '7 days', 'setup_password')
+        values (${user.id}, ${hashToken(token)}, now() + interval '7 days', 'magic_link')
       `;
       const base = (process.env.APP_BASE_URL ?? 'https://www.lightningprosolutions.com').trim().replace(/\/$/, '');
-      const link = `${base}/curso.html?setpw=${token}`;
+      const link = `${base}/curso.html?token=${token}`;
       return json(res, 200, { ok: true, email, action, link });
     }
   }
