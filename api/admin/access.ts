@@ -8,7 +8,7 @@ import { cors, json } from '../_lib/http.js';
 import { requireAdmin, isValidEmail, newToken, hashToken } from '../_lib/auth.js';
 import { sendSetupPasswordLink } from '../_lib/email.js';
 
-const ACTIONS = new Set(['grant', 'revoke', 'make_admin', 'remove_admin']);
+const ACTIONS = new Set(['grant', 'revoke', 'make_admin', 'remove_admin', 'edit_profile', 'reset_password']);
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (cors(req, res)) return;
@@ -71,6 +71,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     case 'remove_admin':
       await sql`update users set is_admin = false where id = ${user.id}`;
       break;
+    case 'edit_profile': {
+      const nombre      = typeof body.nombre      === 'string' ? body.nombre.trim()      || null : undefined;
+      const empresa     = typeof body.empresa     === 'string' ? body.empresa.trim()     || null : undefined;
+      const whatsapp    = typeof body.whatsapp    === 'string' ? body.whatsapp.trim()    || null : undefined;
+      const giro        = typeof body.giro        === 'string' ? body.giro.trim()        || null : undefined;
+      const departamento= typeof body.departamento=== 'string' ? body.departamento.trim()|| null : undefined;
+      await sql`
+        update users set
+          nombre        = ${nombre        as string | null},
+          empresa       = ${empresa       as string | null},
+          whatsapp_e164 = ${whatsapp      as string | null},
+          giro          = ${giro          as string | null},
+          departamento  = ${departamento  as string | null}
+        where id = ${user.id}
+      `;
+      break;
+    }
+    case 'reset_password': {
+      await sql`
+        update magic_link_tokens set consumed_at = now()
+        where user_id = ${user.id} and consumed_at is null and kind = 'setup_password'
+      `;
+      const token = newToken();
+      await sql`
+        insert into magic_link_tokens (user_id, token_hash, expires_at, kind)
+        values (${user.id}, ${hashToken(token)}, now() + interval '7 days', 'setup_password')
+      `;
+      const base = (process.env.APP_BASE_URL ?? 'https://www.lightningprosolutions.com').trim().replace(/\/$/, '');
+      let emailSent = false;
+      try {
+        await sendSetupPasswordLink(email, `${base}/curso.html?setpw=${token}`);
+        emailSent = true;
+      } catch (_) {}
+      return json(res, 200, { ok: true, email, action, emailSent });
+    }
   }
 
   return json(res, 200, { ok: true, email, action });

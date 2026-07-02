@@ -99,6 +99,18 @@
     .toast.ok { border-color: var(--green); } .toast.err { border-color: var(--red); }
     .hidden { display: none !important; }
 
+    /* ── Edit modal ── */
+    .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.7); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px 26px; width: 100%; max-width: 440px; }
+    .modal h3 { font-family: 'Space Grotesk', sans-serif; font-size: 17px; margin: 0 0 18px; }
+    .modal .field { margin-bottom: 14px; }
+    .modal label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .modal input { width: 100%; background: var(--mid); border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; font-size: 14px; color: var(--text); font-family: inherit; }
+    .modal input:focus { outline: none; border-color: var(--amber); }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+    .btn-cancel { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 8px; padding: 9px 16px; font-size: 13px; cursor: pointer; }
+    .btn-save { background: var(--amber); border: none; color: #1a1200; border-radius: 8px; padding: 9px 18px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Space Grotesk', sans-serif; }
+
     @media (max-width: 760px) {
       .metrics { grid-template-columns: repeat(2, 1fr); }
       .col-hide { display: none; }
@@ -180,6 +192,23 @@
   </div>
 
   <div class="toast" id="toast"></div>
+
+  <!-- ═══ EDIT MODAL ═══ -->
+  <div class="modal-bg hidden" id="edit-modal">
+    <div class="modal">
+      <h3>Editar alumno</h3>
+      <input type="hidden" id="edit-email">
+      <div class="field"><label>Nombre</label><input type="text" id="edit-nombre" placeholder="Nombre completo"></div>
+      <div class="field"><label>Empresa</label><input type="text" id="edit-empresa" placeholder="Empresa u organización"></div>
+      <div class="field"><label>WhatsApp</label><input type="tel" id="edit-whatsapp" placeholder="+526621234567"></div>
+      <div class="field"><label>Giro</label><input type="text" id="edit-giro" placeholder="Sector o giro"></div>
+      <div class="field"><label>Departamento</label><input type="text" id="edit-departamento" placeholder="Área o puesto"></div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeEdit()">Cancelar</button>
+        <button class="btn-save" id="edit-save-btn" onclick="saveEdit()">Guardar →</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     var API = '';
@@ -294,6 +323,8 @@
             (paid
               ? '<button class="act stop" onclick="act(this,\''+esc(u.email)+'\',\'revoke\')">Quitar acceso</button>'
               : '<button class="act go" onclick="act(this,\''+esc(u.email)+'\',\'grant\')">Activar</button>')+
+            '<button class="act" onclick="openEdit('+JSON.stringify(u)+')">Editar</button>'+
+            '<button class="act" onclick="act(this,\''+esc(u.email)+'\',\'reset_password\')" title="Envía link para crear/cambiar contraseña">Contraseña</button>'+
           '</div></td>';
         tb.appendChild(tr);
       });
@@ -341,6 +372,12 @@
           } else {
             toast('⚠ Acceso activado, pero el correo NO se envió · contacta a ' + email, 'err');
           }
+        } else if (action === 'reset_password') {
+          if (data.emailSent) {
+            toast('✓ Link de contraseña enviado a ' + email, 'ok');
+          } else {
+            toast('⚠ No se pudo enviar el correo a ' + email, 'err');
+          }
         } else {
           var labels = { revoke:'Acceso retirado', make_admin:'Ahora es admin', remove_admin:'Admin retirado' };
           toast('✓ ' + (labels[action]||'Listo') + ' · ' + email, 'ok');
@@ -351,6 +388,48 @@
         toast('Error: ' + e.message, 'err');
       }
     }
+
+    // ── Edit modal ──
+    function openEdit(u){
+      $('edit-email').value        = u.email || '';
+      $('edit-nombre').value       = u.nombre || '';
+      $('edit-empresa').value      = u.empresa || '';
+      $('edit-whatsapp').value     = u.whatsapp_e164 || '';
+      $('edit-giro').value         = u.giro || '';
+      $('edit-departamento').value = u.departamento || '';
+      show('edit-modal');
+      $('edit-nombre').focus();
+    }
+    function closeEdit(){ hide('edit-modal'); }
+
+    async function saveEdit(){
+      var email = $('edit-email').value;
+      var btn = $('edit-save-btn'); btn.disabled = true; btn.textContent = 'Guardando…';
+      try {
+        var res = await fetch(API + '/api/admin/access', {
+          method:'POST', headers:{ 'Authorization': state.authHeader, 'Content-Type':'application/json' },
+          body: JSON.stringify({
+            email: email, action: 'edit_profile',
+            nombre:       $('edit-nombre').value.trim() || null,
+            empresa:      $('edit-empresa').value.trim() || null,
+            whatsapp:     $('edit-whatsapp').value.trim() || null,
+            giro:         $('edit-giro').value.trim() || null,
+            departamento: $('edit-departamento').value.trim() || null,
+          })
+        });
+        if(!res.ok) throw new Error((await res.json()).error || res.status);
+        toast('✓ Datos actualizados · ' + email, 'ok');
+        closeEdit();
+        reload();
+      } catch(e){
+        toast('Error: ' + e.message, 'err');
+      } finally {
+        btn.disabled = false; btn.textContent = 'Guardar →';
+      }
+    }
+
+    // Cerrar modal al click fuera
+    $('edit-modal').addEventListener('click', function(e){ if(e.target === this) closeEdit(); });
 
     // ── Arranque ──
     (async function init(){
