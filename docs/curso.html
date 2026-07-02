@@ -624,7 +624,7 @@
       <input class="gate-input" id="login-email" type="email" autocomplete="email" required>
       <p class="gate-error hidden" id="login-error"></p>
       <button class="gate-submit" id="login-magic" type="button">Enviar enlace de acceso →</button>
-      <p style="text-align:center;margin:12px 0 4px;font-size:13px;color:var(--muted);">Te mandamos un link a tu correo. Sin contraseña.</p>
+      <p style="text-align:center;margin:12px 0 4px;font-size:13px;color:var(--muted);">Escribe tu correo y te avisamos cuando tu acceso esté listo.</p>
       <button class="gate-link" id="login-show-pw" type="button" style="margin-top:8px;">Tengo contraseña, entrar directo</button>
       <div id="login-pw-section" style="display:none;margin-top:12px;">
         <label class="gate-label" for="login-pass">Contraseña</label>
@@ -1624,35 +1624,47 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
   });
 
   // Magic link request
-  function sendMagicLink() {
+  async function sendMagicLink() {
     var err = document.getElementById('login-error'); err.classList.add('hidden');
     var email = document.getElementById('login-email').value.trim();
     if (!email) { err.style.color=''; err.textContent = 'Escribe tu correo primero.'; err.classList.remove('hidden'); return; }
-    fetch(API_BASE + '/api/auth/request', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email }),
-    }).catch(function(){});
-
-    // Feedback inmediato: deshabilitar botón 30s con cuenta regresiva
     var btn = document.getElementById('login-magic');
-    btn.disabled = true;
-    var secs = 30;
-    btn.textContent = 'Solicitar de nuevo (' + secs + 's)';
-    var interval = setInterval(function () {
-      secs--;
-      if (secs <= 0) {
-        clearInterval(interval);
-        btn.disabled = false;
-        btn.textContent = 'Enviar enlace de acceso →';
+    btn.disabled = true; btn.textContent = 'Enviando…';
+    try {
+      var r = await fetch(API_BASE + '/api/auth/request', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email }),
+      });
+      var d = await r.json();
+      if (d.pending) {
+        // Nuevo alumno sin acceso aún
+        btn.textContent = 'Solicitud enviada ✓';
+        err.style.color = 'var(--muted)';
+        err.textContent = 'Recibimos tu solicitud. Te avisaremos por correo cuando tu acceso esté listo.';
+        err.classList.remove('hidden');
       } else {
+        // Alumno con acceso: enviar link y cuenta regresiva
+        var secs = 30;
         btn.textContent = 'Solicitar de nuevo (' + secs + 's)';
+        var interval = setInterval(function () {
+          secs--;
+          if (secs <= 0) {
+            clearInterval(interval);
+            btn.disabled = false;
+            btn.textContent = 'Enviar enlace de acceso →';
+          } else {
+            btn.textContent = 'Solicitar de nuevo (' + secs + 's)';
+          }
+        }, 1000);
+        err.style.color = 'var(--muted)';
+        err.textContent = '✉️ Revisa tu correo — el enlace llega en segundos y expira en 1 hora.';
+        err.classList.remove('hidden');
       }
-    }, 1000);
-
-    // Instrucción debajo del botón
-    err.style.color = 'var(--muted)';
-    err.textContent = '✉️ Revisa tu correo — el enlace llega en segundos y expira en 15 minutos.';
-    err.classList.remove('hidden');
+    } catch(e) {
+      btn.disabled = false; btn.textContent = 'Enviar enlace de acceso →';
+      err.style.color = ''; err.textContent = 'Error de conexión. Inténtalo de nuevo.';
+      err.classList.remove('hidden');
+    }
   }
   document.getElementById('login-magic').onclick = function () { sendMagicLink(); };
 

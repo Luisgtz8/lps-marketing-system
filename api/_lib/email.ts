@@ -38,6 +38,18 @@ export async function sendMagicLink(to: string, link: string): Promise<void> {
   await sendEmail(to, 'Tu acceso a IA Aplicada', html);
 }
 
+export async function sendActivationLink(to: string, link: string): Promise<void> {
+  const html = `
+    <div style="font-family:Inter,Arial,sans-serif;max-width:480px;margin:0 auto;color:#1a1a1a">
+      <p style="font-size:28px;margin:0 0 8px">⚡</p>
+      <h2 style="margin:0 0 12px">Tu acceso al curso está listo</h2>
+      <p style="font-size:15px;line-height:1.5">Ya activamos tu acceso a IA Aplicada. Haz clic para entrar. Este enlace es de un solo uso y expira en 7 días.</p>
+      <p style="margin:24px 0">${button(link, 'Entrar al curso →')}</p>
+      <p style="font-size:13px;color:#666">Si no esperabas este correo, puedes ignorarlo.</p>
+    </div>`;
+  await sendEmail(to, '¡Tu acceso a IA Aplicada está listo!', html);
+}
+
 export async function sendSetupPasswordLink(to: string, link: string): Promise<void> {
   const html = `
     <div style="font-family:Inter,Arial,sans-serif;max-width:480px;margin:0 auto;color:#1a1a1a">

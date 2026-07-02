@@ -6,7 +6,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sql } from '../_lib/db.js';
 import { cors, json } from '../_lib/http.js';
 import { requireAdmin, isValidEmail, newToken, hashToken } from '../_lib/auth.js';
-import { sendSetupPasswordLink } from '../_lib/email.js';
+import { sendActivationLink } from '../_lib/email.js';
 
 const ACTIONS = new Set(['grant', 'revoke', 'make_admin', 'remove_admin', 'edit_profile', 'reset_password']);
 
@@ -35,23 +35,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         on conflict (user_id) do update set paid = true,
           paid_at = coalesce(entitlements.paid_at, now())
       `;
-      // Send a one-time "create your password" link. Email failure must NOT
-      // revoke access — the grant already succeeded; report emailSent so the
-      // panel can warn the admin to follow up manually.
+      // Send a direct-access magic link. Email failure must NOT revoke access.
       let emailSent = false;
       try {
-        // Supersede any outstanding tokens, then issue a fresh 7-day one.
         await sql`
           update magic_link_tokens set consumed_at = now()
-          where user_id = ${user.id} and consumed_at is null and kind = 'setup_password'
+          where user_id = ${user.id} and consumed_at is null and kind = 'magic_link'
         `;
         const token = newToken();
         await sql`
           insert into magic_link_tokens (user_id, token_hash, expires_at, kind)
-          values (${user.id}, ${hashToken(token)}, now() + interval '7 days', 'setup_password')
+          values (${user.id}, ${hashToken(token)}, now() + interval '7 days', 'magic_link')
         `;
         const base = (process.env.APP_BASE_URL ?? 'https://www.lightningprosolutions.com').trim().replace(/\/$/, '');
-        await sendSetupPasswordLink(email, `${base}/curso.html?setpw=${token}`);
+        await sendActivationLink(email, `${base}/curso.html?token=${token}`);
         emailSent = true;
       } catch (err) {
         emailSent = false;

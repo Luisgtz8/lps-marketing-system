@@ -55,8 +55,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       `;
     }
 
-    // Invalidate any outstanding links for this user, then issue a fresh
-    // single-use token (store only its hash). A new request supersedes old ones.
+    // Only send a magic link if this user already has paid access (returning student).
+    // New / unpaid users just get saved — Luis activates them from the admin panel,
+    // which triggers the activation email.
+    const ent = await sql`select paid from entitlements where user_id = ${userId} and paid = true limit 1`;
+    const hasPaid = (ent[0] as { paid: boolean } | undefined)?.paid === true;
+
+    if (!hasPaid) {
+      return json(res, 200, { ok: true, pending: true });
+    }
+
     await sql`
       update magic_link_tokens set consumed_at = now()
       where user_id = ${userId} and consumed_at is null and kind = 'magic_link'
@@ -68,12 +76,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     `;
 
     const base = (process.env.APP_BASE_URL ?? 'https://www.lightningprosolutions.com').trim().replace(/\/$/, '');
-    const link = `${base}/curso.html?token=${token}`;
-    await sendMagicLink(email, link);
+    await sendMagicLink(email, `${base}/curso.html?token=${token}`);
 
     return json(res, 200, { ok: true });
   } catch (err) {
-    // Don't leak internals; still 200-ish UX so the page shows "revisa tu correo".
     return json(res, 200, { ok: true });
   }
 }
