@@ -64,7 +64,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const token = newToken();
     await sql`
       insert into magic_link_tokens (user_id, token_hash, expires_at, kind)
-      values (${userId}, ${hashToken(token)}, now() + interval '15 minutes', 'magic_link')
+      values (${userId}, ${hashToken(token)}, now() + interval '60 minutes', 'magic_link')
     `;
 
     const base = (process.env.APP_BASE_URL ?? 'https://www.lightningprosolutions.com').trim().replace(/\/$/, '');

@@ -1565,13 +1565,15 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
     if (setpw) { showSetPassword(setpw); return; }
     var magic = (location.hash.match(/token=([^&]+)/) || [])[1];
     if (magic) {
+      history.replaceState(null, '', location.pathname);
       try {
         var vr = await fetch(API_BASE + '/api/auth/verify', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token: magic }),
         });
-        if (vr.ok) { var vd = await vr.json(); setToken(vd.token); history.replaceState(null, '', location.pathname); }
-      } catch (e) {}
+        if (vr.ok) { var vd = await vr.json(); setToken(vd.token); }
+        else { showGate('El enlace expiró o ya fue usado. Escribe tu correo y te mandamos uno nuevo.'); return; }
+      } catch (e) { showGate('Error de conexión. Inténtalo de nuevo.'); return; }
     }
     if (!token()) { showGate(); return; }
     try {

@@ -31,7 +31,7 @@ export async function sendMagicLink(to: string, link: string): Promise<void> {
     <div style="font-family:Inter,Arial,sans-serif;max-width:480px;margin:0 auto;color:#1a1a1a">
       <p style="font-size:28px;margin:0 0 8px">⚡</p>
       <h2 style="margin:0 0 12px">Tu acceso a IA Aplicada</h2>
-      <p style="font-size:15px;line-height:1.5">Haz clic en el botón para entrar al curso. Este enlace expira en 15 minutos y solo puede usarse una vez.</p>
+      <p style="font-size:15px;line-height:1.5">Haz clic en el botón para entrar al curso. Este enlace expira en 1 hora y solo puede usarse una vez.</p>
       <p style="margin:24px 0">${button(link, 'Entrar al curso →')}</p>
       <p style="font-size:13px;color:#666">Si no solicitaste este acceso, puedes ignorar este correo.</p>
     </div>`;
