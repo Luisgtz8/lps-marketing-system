@@ -48,6 +48,28 @@ export function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+// Hard allowlist of admin emails. A session only reaches the admin panel if its
+// email is in here AND it has is_admin=true — the allowlist is the load-bearing
+// gate, is_admin is a secondary flag. Configured via ADMIN_EMAILS (comma-separated);
+// falls back to the three known operators if the env var is unset.
+const ADMIN_EMAILS_DEFAULT = [
+  'luisgutierrezhomesolutions@gmail.com',
+  'davidhagenb@gmail.com',
+  'dhagenballesteros@outlook.com',
+];
+
+function adminEmailAllowlist(): Set<string> {
+  const raw = process.env.ADMIN_EMAILS;
+  const list = (raw ? raw.split(',') : ADMIN_EMAILS_DEFAULT)
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+  return new Set(list);
+}
+
+export function isAllowlistedAdmin(email: string): boolean {
+  return adminEmailAllowlist().has(email.trim().toLowerCase());
+}
+
 // Admin auth (fallback): a shared secret in `Authorization: Bearer <ADMIN_TOKEN>`.
 // Kept as a break-glass option; the primary path is a user session with is_admin.
 export function isAdminRequest(req: VercelRequest): boolean {
@@ -63,13 +85,14 @@ export function isAdminRequest(req: VercelRequest): boolean {
 
 /**
  * Authorize an admin request. Primary path: a logged-in user whose session
- * has is_admin=true (auth por usuario). Fallback: the shared ADMIN_TOKEN.
- * Returns the SessionUser when authorized via session, `true` when authorized
- * via the token, or null when not authorized.
+ * has is_admin=true AND whose email is in the ADMIN_EMAILS allowlist (both are
+ * required — the allowlist is the hard gate). Fallback: the shared ADMIN_TOKEN
+ * break-glass. Returns the SessionUser when authorized via session, `true` when
+ * authorized via the token, or null when not authorized.
  */
 export async function requireAdmin(req: VercelRequest): Promise<SessionUser | true | null> {
   const user = await getSessionUser(req);
-  if (user && user.is_admin) return user;
+  if (user && user.is_admin && isAllowlistedAdmin(user.email)) return user;
   if (isAdminRequest(req)) return true;
   return null;
 }
