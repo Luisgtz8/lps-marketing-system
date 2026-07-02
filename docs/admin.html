@@ -172,7 +172,6 @@
         <button class="chip" data-f="unpaid" onclick="setFilter('unpaid')">Pendientes</button>
         <button class="chip" data-f="admin" onclick="setFilter('admin')">Admins</button>
       </div>
-      <button class="btn" style="padding:8px 16px;font-size:13px;" onclick="show('new-modal')">+ Nuevo alumno</button>
     </div>
 
     <div class="table-wrap">
@@ -193,27 +192,6 @@
   </div>
 
   <div class="toast" id="toast"></div>
-
-  <!-- ═══ NEW STUDENT MODAL ═══ -->
-  <div class="modal-bg hidden" id="new-modal">
-    <div class="modal">
-      <h3>Nuevo alumno</h3>
-      <p style="font-size:13px;color:var(--muted);margin:0 0 16px;">Crea el acceso al instante. El alumno entra con correo + contraseña sin pasos extra.</p>
-      <div class="field"><label>Correo *</label><input type="email" id="new-email" placeholder="alumno@correo.com"></div>
-      <div class="field"><label>Contraseña *</label>
-        <div style="position:relative;">
-          <input type="password" id="new-password" placeholder="Elige una contraseña" style="padding-right:44px;">
-          <button type="button" onclick="togglePw('new-password',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;">Ver</button>
-        </div>
-      </div>
-      <div class="field"><label>Nombre</label><input type="text" id="new-nombre" placeholder="Nombre completo"></div>
-      <div class="field"><label>Empresa</label><input type="text" id="new-empresa" placeholder="Empresa u organización"></div>
-      <div class="modal-actions">
-        <button class="btn-cancel" onclick="hide('new-modal');clearNew()">Cancelar</button>
-        <button class="btn-save" id="new-save-btn" onclick="createUser()">Crear acceso →</button>
-      </div>
-    </div>
-  </div>
 
   <!-- ═══ LINK MODAL ═══ -->
   <div class="modal-bg hidden" id="link-modal">
@@ -238,12 +216,6 @@
       <div class="field"><label>WhatsApp</label><input type="tel" id="edit-whatsapp" placeholder="+526621234567"></div>
       <div class="field"><label>Giro</label><input type="text" id="edit-giro" placeholder="Sector o giro"></div>
       <div class="field"><label>Departamento</label><input type="text" id="edit-departamento" placeholder="Área o puesto"></div>
-      <div class="field"><label>Nueva contraseña <span style="font-weight:400;text-transform:none;letter-spacing:0;">(dejar vacío para no cambiar)</span></label>
-        <div style="position:relative;">
-          <input type="password" id="edit-password" placeholder="Escribe para cambiarla" style="padding-right:44px;">
-          <button type="button" onclick="togglePw('edit-password',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;">Ver</button>
-        </div>
-      </div>
       <div class="modal-actions">
         <button class="btn-cancel" onclick="closeEdit()">Cancelar</button>
         <button class="btn-save" id="edit-save-btn" onclick="saveEdit()">Guardar →</button>
@@ -424,40 +396,6 @@
       }
     }
 
-    // ── New student ──
-    function togglePw(inputId, btn){
-      var el = $(inputId);
-      var show = el.type === 'password';
-      el.type = show ? 'text' : 'password';
-      btn.textContent = show ? 'Ocultar' : 'Ver';
-    }
-    function clearNew(){
-      ['new-email','new-password','new-nombre','new-empresa'].forEach(function(id){ $(id).value=''; });
-    }
-    async function createUser(){
-      var email   = $('new-email').value.trim();
-      var password= $('new-password').value.trim();
-      var nombre  = $('new-nombre').value.trim() || null;
-      var empresa = $('new-empresa').value.trim() || null;
-      if(!email || !password){ toast('Correo y contraseña son obligatorios.','err'); return; }
-      var btn = $('new-save-btn'); btn.disabled=true; btn.textContent='Creando…';
-      try {
-        var res = await fetch(API + '/api/admin/access', {
-          method:'POST', headers:{'Authorization':state.authHeader,'Content-Type':'application/json'},
-          body: JSON.stringify({ email, action:'create_user', password, nombre, empresa })
-        });
-        var data = await res.json();
-        if(!res.ok) throw new Error(data.error||res.status);
-        toast('✓ Alumno creado con acceso · ' + email, 'ok');
-        hide('new-modal'); clearNew(); reload();
-      } catch(e){
-        toast('Error: '+e.message,'err');
-      } finally {
-        btn.disabled=false; btn.textContent='Crear acceso →';
-      }
-    }
-    $('new-modal').addEventListener('click', function(e){ if(e.target===this){ hide('new-modal'); clearNew(); } });
-
     // ── Password link modal ──
     async function getPasswordLink(btn, email){
       btn.disabled = true; var orig = btn.textContent; btn.textContent = '…';
@@ -498,7 +436,7 @@
       show('edit-modal');
       $('edit-nombre').focus();
     }
-    function closeEdit(){ hide('edit-modal'); $('edit-password').value=''; $('edit-password').type='password'; }
+    function closeEdit(){ hide('edit-modal'); }
 
     async function saveEdit(){
       var email = $('edit-email').value;
@@ -513,7 +451,6 @@
             whatsapp:     $('edit-whatsapp').value.trim() || null,
             giro:         $('edit-giro').value.trim() || null,
             departamento: $('edit-departamento').value.trim() || null,
-            password:     $('edit-password').value.trim() || null,
           })
         });
         if(!res.ok) throw new Error((await res.json()).error || res.status);

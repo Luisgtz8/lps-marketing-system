@@ -5,10 +5,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sql } from '../_lib/db.js';
 import { cors, json } from '../_lib/http.js';
-import { requireAdmin, isValidEmail, newToken, hashToken, hashPassword } from '../_lib/auth.js';
+import { requireAdmin, isValidEmail, newToken, hashToken } from '../_lib/auth.js';
 import { sendActivationLink } from '../_lib/email.js';
 
-const ACTIONS = new Set(['grant', 'revoke', 'make_admin', 'remove_admin', 'edit_profile', 'reset_password', 'create_user']);
+const ACTIONS = new Set(['grant', 'revoke', 'make_admin', 'remove_admin', 'edit_profile', 'reset_password']);
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (cors(req, res)) return;
@@ -23,31 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!isValidEmail(email)) return json(res, 400, { error: 'invalid_email' });
   if (!ACTIONS.has(action)) return json(res, 400, { error: 'invalid_action' });
 
-  // create_user must run before the user-lookup (the user doesn't exist yet).
-  if (action === 'create_user') {
-    const password = typeof body.password === 'string' ? body.password.trim() : '';
-    if (!password) return json(res, 400, { error: 'password_required' });
-    const nombre  = typeof body.nombre  === 'string' ? body.nombre.trim()  || null : null;
-    const empresa = typeof body.empresa === 'string' ? body.empresa.trim() || null : null;
-    const newRows = await sql`
-      insert into users (email, nombre, empresa, password_hash)
-      values (${email}, ${nombre}, ${empresa}, ${hashPassword(password)})
-      on conflict (email) do update set
-        nombre        = coalesce(users.nombre, excluded.nombre),
-        empresa       = coalesce(users.empresa, excluded.empresa),
-        password_hash = excluded.password_hash
-      returning id
-    `;
-    const newId = (newRows[0] as { id: string }).id;
-    await sql`
-      insert into entitlements (user_id, paid, paid_at)
-      values (${newId}, true, now())
-      on conflict (user_id) do update set paid = true, paid_at = coalesce(entitlements.paid_at, now())
-    `;
-    return json(res, 200, { ok: true, email, action });
-  }
-
-  const users = await sql`select id from users where email = ${email} limit 1`;
+const users = await sql`select id from users where email = ${email} limit 1`;
   const user = users[0] as { id: string } | undefined;
   if (!user) return json(res, 404, { error: 'user_not_found' });
 
@@ -107,10 +83,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           departamento  = ${departamento  as string | null}
         where id = ${user.id}
       `;
-      const newPw = typeof body.password === 'string' ? body.password.trim() : '';
-      if (newPw) {
-        await sql`update users set password_hash = ${hashPassword(newPw)} where id = ${user.id}`;
-      }
       break;
     }
     case 'reset_password': {
