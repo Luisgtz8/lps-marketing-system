@@ -33,10 +33,16 @@ psql "$DATABASE_URL" -f migrations/0001_init.sql
 ## 3. Manual access grants (no Stripe)
 Payments are handled by you out-of-band: a prospect contacts you, you talk,
 you send a payment link, and once they pay you activate them.
-- Set `ADMIN_TOKEN` to a long random string in Vercel env.
-- After deploy, open `https://www.lightningprosolutions.com/admin.html`, paste
-  the token, and you get a list of registrants with **Activar / Quitar**
-  buttons (or type an email). This calls `POST /api/admin/access`.
+- Set `ADMIN_EMAILS` (comma-separated) to the admins' emails in Vercel env.
+  A session reaches the panel only if its email is in this list **and** the
+  user has `is_admin=true`. Grant `is_admin` in the DB
+  (`update users set is_admin=true where email=…`) for each admin.
+- Set `ADMIN_TOKEN` to a long random string in Vercel env — a break-glass
+  fallback (sent as `Authorization: Bearer <token>`), not the primary path.
+- After deploy, open `https://www.lightningprosolutions.com/admin.html` and log
+  in with **email + password** (admins set a password via the one-time link).
+  You get a list of registrants with **Activar / Quitar** buttons. This calls
+  `POST /api/admin/access`.
 - The course paywall card sends unpaid users to your WhatsApp to start that
   conversation.
 
@@ -63,5 +69,5 @@ vercel deploy --prod
 
 ## Env var checklist (all in Vercel project settings)
 `DATABASE_URL` · `APP_BASE_URL` · `RESEND_API_KEY` · `MAGIC_LINK_FROM` ·
-`ADMIN_TOKEN` · `WHATSAPP_VERIFY_TOKEN` · `WHATSAPP_APP_SECRET` ·
+`ADMIN_EMAILS` · `ADMIN_TOKEN` · `WHATSAPP_VERIFY_TOKEN` · `WHATSAPP_APP_SECRET` ·
 `WHATSAPP_TOKEN` · `WHATSAPP_PHONE_NUMBER_ID` · `CRON_SECRET`

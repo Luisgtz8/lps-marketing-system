@@ -122,21 +122,6 @@
           onkeydown="if(event.key==='Enter')passwordLogin()">
         <button class="btn btn-block" id="login-btn" onclick="passwordLogin()">Entrar →</button>
         <div class="msg" id="login-msg"></div>
-
-        <details class="login-alt">
-          <summary>Otras formas de entrar</summary>
-          <label for="magic-email" style="margin-top:4px">Enlace por correo</label>
-          <button class="btn btn-block" id="send-btn" onclick="sendLink()" style="margin-top:8px">Enviar enlace de acceso →</button>
-          <label for="token" style="margin-top:16px">Admin token de respaldo</label>
-          <input id="token" type="password" placeholder="ADMIN_TOKEN">
-          <button class="btn btn-block" onclick="useToken()">Entrar con token</button>
-        </details>
-      </div>
-
-      <div id="login-sent" class="center-state hidden">
-        <p style="font-size:38px;margin:0 0 10px">📧</p>
-        <p class="login-title">Revisa tu correo</p>
-        <p class="login-sub">Te enviamos un enlace de acceso. Ábrelo desde este dispositivo. Expira en 15 minutos.</p>
       </div>
 
       <div id="login-verifying" class="center-state hidden">
@@ -199,7 +184,6 @@
   <script>
     var API = '';
     var SK = 'lps-session';          // misma sesión que el curso
-    var TK = 'lps-admin-token';      // token de respaldo
     var state = { users: [], filter: 'all', authHeader: null };
 
     function $(id){ return document.getElementById(id); }
@@ -212,24 +196,8 @@
       setTimeout(function(){ t.className = 'toast ' + (kind||''); }, 2600);
     }
 
-    // ── Login flows ──
+    // ── Login flow (email + contraseña, solo admins) ──
     function loginMsg(text, kind){ var m=$('login-msg'); m.textContent=text||''; m.className='msg '+(kind||''); }
-
-    async function sendLink(){
-      var email = ($('email').value||'').trim().toLowerCase();
-      if(!email){ loginMsg('Escribe tu correo.', 'err'); return; }
-      var btn = $('send-btn'); btn.disabled = true; btn.textContent = 'Enviando…';
-      try {
-        var res = await fetch(API + '/api/auth/request', {
-          method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email: email })
-        });
-        if(!res.ok) throw new Error(res.status);
-        hide('login-email'); show('login-sent');
-      } catch(e){
-        btn.disabled = false; btn.textContent = 'Enviar enlace →';
-        loginMsg('No pudimos enviar el enlace. Inténtalo de nuevo.', 'err');
-      }
-    }
 
     async function passwordLogin(){
       var email = ($('email').value||'').trim().toLowerCase();
@@ -253,41 +221,12 @@
       }
     }
 
-    function useToken(){
-      var t = ($('token').value||'').trim();
-      if(!t){ loginMsg('Pega el token.', 'err'); return; }
-      localStorage.setItem(TK, t);
-      enter('Bearer ' + t);
-    }
+    function resetLogin(){ localStorage.removeItem(SK); location.href = location.pathname; }
 
-    // Canjea #token= por sesión (mismo backend que el curso).
-    async function consumeToken(){
-      var m = (location.hash||'').match(/token=([^&]+)/);
-      if(!m) return false;
-      var token = decodeURIComponent(m[1]);
-      history.replaceState(null, '', location.pathname + location.search);
-      hide('login-email'); hide('login-sent'); show('login-verifying');
-      try {
-        var res = await fetch(API + '/api/auth/verify', {
-          method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ token: token })
-        });
-        if(!res.ok) throw new Error(res.status);
-        var data = await res.json();
-        localStorage.setItem(SK, data.token);
-        return true;
-      } catch(e){
-        hide('login-verifying'); show('login-email');
-        loginMsg('El enlace expiró o ya se usó. Pide uno nuevo.', 'err');
-        return false;
-      }
-    }
-
-    function resetLogin(){ localStorage.removeItem(SK); localStorage.removeItem(TK); location.href = location.pathname; }
-
-    // Decide cómo autenticar y valida que sea admin.
+    // Valida que la sesión sea admin (email+contraseña ya obtuvo el token).
     async function enter(authHeader){
       state.authHeader = authHeader;
-      hide('login-email'); hide('login-sent'); show('login-verifying');
+      hide('login-email'); show('login-verifying');
       try {
         // El GET de admin valida el rol (sesión is_admin o token). 401 = sin acceso.
         var res = await fetch(API + '/api/admin/access', { headers: { 'Authorization': authHeader } });
@@ -311,7 +250,7 @@
 
     async function logout(){
       var token = localStorage.getItem(SK);
-      localStorage.removeItem(SK); localStorage.removeItem(TK);
+      localStorage.removeItem(SK);
       try { if(token) await fetch(API + '/api/auth/logout', { method:'POST', headers:{'Authorization':'Bearer '+token} }); } catch(e){}
       location.href = location.pathname;
     }
@@ -415,18 +354,10 @@
 
     // ── Arranque ──
     (async function init(){
-      // 1) ¿Volvemos de un enlace mágico?
-      if(location.hash.indexOf('token=') !== -1){
-        var ok = await consumeToken();
-        if(ok){ return enter('Bearer ' + localStorage.getItem(SK)); }
-      }
-      // 2) ¿Ya hay sesión guardada?
+      // ¿Ya hay sesión guardada? (la deja el login con email+contraseña)
       var sess = localStorage.getItem(SK);
       if(sess){ return enter('Bearer ' + sess); }
-      // 3) ¿Token de respaldo guardado?
-      var tok = localStorage.getItem(TK);
-      if(tok){ return enter('Bearer ' + tok); }
-      // 4) Mostrar login.
+      // Si no, mostrar login.
       show('login-email');
     })();
   </script>
