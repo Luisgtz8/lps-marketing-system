@@ -1561,9 +1561,10 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
 
   // Boot: decide gate vs. access from /api/me
   async function boot() {
-    var setpw = (location.hash.match(/setpw=([^&]+)/) || [])[1];
-    if (setpw) { showSetPassword(setpw); return; }
-    var magic = (location.hash.match(/token=([^&]+)/) || [])[1];
+    var params = new URLSearchParams(location.search);
+    var setpw = params.get('setpw');
+    if (setpw) { history.replaceState(null, '', location.pathname); showSetPassword(setpw); return; }
+    var magic = params.get('token');
     if (magic) {
       history.replaceState(null, '', location.pathname);
       try {

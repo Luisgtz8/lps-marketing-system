@@ -68,7 +68,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     `;
 
     const base = (process.env.APP_BASE_URL ?? 'https://www.lightningprosolutions.com').trim().replace(/\/$/, '');
-    const link = `${base}/curso.html#token=${token}`;
+    const link = `${base}/curso.html?token=${token}`;
     await sendMagicLink(email, link);
 
     return json(res, 200, { ok: true });
