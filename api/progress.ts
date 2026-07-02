@@ -20,6 +20,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'GET') return getProgress(res, user.id);
   if (req.method === 'PUT') return putProgress(res, user.id, req.body);
+  if (req.method === 'DELETE') return resetProgress(res, user.id);
   return json(res, 405, { error: 'method_not_allowed' });
 }
 
@@ -58,6 +59,15 @@ async function getProgress(res: VercelResponse, userId: string) {
     exercisesDone, skillsDone, agentsDone,
     puzzlesCompleted, puzzleRetries, completedModules,
   });
+}
+
+async function resetProgress(res: VercelResponse, userId: string) {
+  await Promise.all([
+    sql`delete from course_progress where user_id = ${userId}`,
+    sql`delete from quiz_answers where user_id = ${userId}`,
+    sql`delete from exercise_submissions where user_id = ${userId}`,
+  ]);
+  return json(res, 200, { ok: true });
 }
 
 async function putProgress(res: VercelResponse, userId: string, body: unknown) {

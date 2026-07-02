@@ -671,6 +671,10 @@
         style="display:none;background:var(--amber);color:#1a1200;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;text-decoration:none;">
         Admin ↗
       </a>
+      <button id="reset-btn" type="button"
+        style="display:none;background:transparent;border:1px solid #444;color:#666;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;">
+        Resetear progreso
+      </button>
       <button id="logout-btn" type="button" onclick="window.lpsLogout()"
         style="background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;">
         Cerrar sesión
@@ -1585,7 +1589,10 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
       var r = await fetch(API_BASE + '/api/me', { headers: { Authorization: 'Bearer ' + token() } });
       if (r.status === 401) { clearToken(); showGate(); return; }
       var d = await r.json();
-      if (d.user && d.user.is_admin) { document.getElementById('admin-btn').style.display = 'inline-block'; }
+      if (d.user && d.user.is_admin) {
+        document.getElementById('admin-btn').style.display = 'inline-block';
+        document.getElementById('reset-btn').style.display = 'inline-block';
+      }
       if (d.paid) { hideGate(); maybeOfferPassword(); }
       else { showGate('Tu acceso aún no está activo. Escríbenos por WhatsApp para activarlo.'); }
     } catch (e) { showGate(); }
@@ -1693,6 +1700,18 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
     try { await fetch(API_BASE + '/api/auth/logout', { method: 'POST', headers: { Authorization: 'Bearer ' + token() } }); } catch (e) {}
     clearToken(); showGate();
   };
+
+  document.getElementById('reset-btn').addEventListener('click', async function () {
+    if (!confirm('¿Borrar todo tu progreso del curso? Esto no se puede deshacer.')) return;
+    var btn = this; btn.disabled = true; btn.textContent = 'Reseteando…';
+    try {
+      await fetch(API_BASE + '/api/progress', { method: 'DELETE', headers: { Authorization: 'Bearer ' + token() } });
+      localStorage.removeItem('lps-progress');
+      location.reload();
+    } catch (e) {
+      btn.disabled = false; btn.textContent = 'Resetear progreso';
+    }
+  });
 
   // Pantalla "Crea tu contraseña" (llegando desde el correo de activación).
   function showSetPassword(setpwToken) {
