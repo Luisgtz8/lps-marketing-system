@@ -1706,7 +1706,7 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
     var btn = this; btn.disabled = true; btn.textContent = 'Reseteando…';
     try {
       await fetch(API_BASE + '/api/progress', { method: 'DELETE', headers: { Authorization: 'Bearer ' + token() } });
-      localStorage.removeItem('lps-progress');
+      localStorage.removeItem('lps-curso-ia-aplicada-v1');
       location.reload();
     } catch (e) {
       btn.disabled = false; btn.textContent = 'Resetear progreso';
