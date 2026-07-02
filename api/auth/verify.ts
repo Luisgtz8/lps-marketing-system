@@ -44,14 +44,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       values (${userId}, ${hashToken(sessionToken)}, now() + interval '30 days', ${ua})
     `;
 
-    // Auto-grant course access on magic-link login.
-    await sql`
-      insert into entitlements (user_id, paid, paid_at)
-      values (${userId}, true, now())
-      on conflict (user_id) do update set paid = true,
-        paid_at = coalesce(entitlements.paid_at, now())
-    `;
-
     const userRows = await sql`
       select id, email, nombre, is_admin from users where id = ${userId} limit 1
     `;
