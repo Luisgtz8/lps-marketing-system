@@ -20,7 +20,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!user) return json(res, 401, { error: 'unauthorized' });
 
   let paid = true;
-  if (PAYWALL_ENABLED) {
+  if (PAYWALL_ENABLED && !user.is_admin) {
     const ent = await sql`select paid from entitlements where user_id = ${user.id} limit 1`;
     paid = (ent[0] as { paid: boolean } | undefined)?.paid ?? false;
   }
