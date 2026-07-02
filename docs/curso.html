@@ -1624,8 +1624,26 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email }),
     }).catch(function(){});
+
+    // Feedback inmediato: deshabilitar botón 30s con cuenta regresiva
+    var btn = document.getElementById('login-magic');
+    btn.disabled = true;
+    var secs = 30;
+    btn.textContent = 'Solicitar de nuevo (' + secs + 's)';
+    var interval = setInterval(function () {
+      secs--;
+      if (secs <= 0) {
+        clearInterval(interval);
+        btn.disabled = false;
+        btn.textContent = 'Enviar enlace de acceso →';
+      } else {
+        btn.textContent = 'Solicitar de nuevo (' + secs + 's)';
+      }
+    }, 1000);
+
+    // Instrucción debajo del botón
     err.style.color = 'var(--muted)';
-    err.textContent = 'Listo — revisa tu bandeja. El enlace expira en 15 minutos.';
+    err.textContent = '✉️ Revisa tu correo — el enlace llega en segundos y expira en 15 minutos.';
     err.classList.remove('hidden');
   }
   document.getElementById('login-magic').onclick = function () { sendMagicLink(); };
