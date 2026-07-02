@@ -99,12 +99,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         values (${user.id}, ${hashToken(token)}, now() + interval '7 days', 'setup_password')
       `;
       const base = (process.env.APP_BASE_URL ?? 'https://www.lightningprosolutions.com').trim().replace(/\/$/, '');
-      let emailSent = false;
-      try {
-        await sendSetupPasswordLink(email, `${base}/curso.html?setpw=${token}`);
-        emailSent = true;
-      } catch (_) {}
-      return json(res, 200, { ok: true, email, action, emailSent });
+      const link = `${base}/curso.html?setpw=${token}`;
+      return json(res, 200, { ok: true, email, action, link });
     }
   }
 
@@ -118,7 +114,7 @@ async function list(req: VercelRequest, res: VercelResponse) {
 
   // Users + paid + admin + completed module count, filtered by optional search.
   const users = await sql`
-    select u.email, u.nombre, u.empresa, u.whatsapp_e164, u.is_admin,
+    select u.email, u.nombre, u.empresa, u.whatsapp_e164, u.giro, u.departamento, u.is_admin,
            coalesce(e.paid, false) as paid, e.paid_at, u.created_at,
            coalesce(cp.done, 0) as modules_done
     from users u

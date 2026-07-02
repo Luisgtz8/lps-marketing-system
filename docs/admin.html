@@ -193,6 +193,19 @@
 
   <div class="toast" id="toast"></div>
 
+  <!-- ═══ LINK MODAL ═══ -->
+  <div class="modal-bg hidden" id="link-modal">
+    <div class="modal">
+      <h3>Link de acceso</h3>
+      <p style="font-size:13px;color:var(--muted);margin:0 0 14px;">Copia este link y mándalo por WhatsApp. El alumno lo abre y pone su contraseña. Válido 7 días, un solo uso.</p>
+      <input type="text" id="link-val" readonly style="cursor:pointer;color:var(--amber);font-size:12px;" onclick="this.select()">
+      <div class="modal-actions" style="margin-top:14px;">
+        <button class="btn-cancel" onclick="hide('link-modal')">Cerrar</button>
+        <button class="btn-save" onclick="copyLink()">Copiar link →</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══ EDIT MODAL ═══ -->
   <div class="modal-bg hidden" id="edit-modal">
     <div class="modal">
@@ -323,8 +336,8 @@
             (paid
               ? '<button class="act stop" onclick="act(this,\''+esc(u.email)+'\',\'revoke\')">Quitar acceso</button>'
               : '<button class="act go" onclick="act(this,\''+esc(u.email)+'\',\'grant\')">Activar</button>')+
-            '<button class="act" onclick="openEdit('+JSON.stringify(u)+')">Editar</button>'+
-            '<button class="act" onclick="act(this,\''+esc(u.email)+'\',\'reset_password\')" title="Envía link para crear/cambiar contraseña">Contraseña</button>'+
+            '<button class="act" onclick="openEditByEmail(\''+esc(u.email)+'\')">Editar</button>'+
+            '<button class="act" onclick="getPasswordLink(this,\''+esc(u.email)+'\')">Contraseña</button>'+
           '</div></td>';
         tb.appendChild(tr);
       });
@@ -372,12 +385,6 @@
           } else {
             toast('⚠ Acceso activado, pero el correo NO se envió · contacta a ' + email, 'err');
           }
-        } else if (action === 'reset_password') {
-          if (data.emailSent) {
-            toast('✓ Link de contraseña enviado a ' + email, 'ok');
-          } else {
-            toast('⚠ No se pudo enviar el correo a ' + email, 'err');
-          }
         } else {
           var labels = { revoke:'Acceso retirado', make_admin:'Ahora es admin', remove_admin:'Admin retirado' };
           toast('✓ ' + (labels[action]||'Listo') + ' · ' + email, 'ok');
@@ -389,7 +396,36 @@
       }
     }
 
+    // ── Password link modal ──
+    async function getPasswordLink(btn, email){
+      btn.disabled = true; var orig = btn.textContent; btn.textContent = '…';
+      try {
+        var res = await fetch(API + '/api/admin/access', {
+          method:'POST', headers:{ 'Authorization': state.authHeader, 'Content-Type':'application/json' },
+          body: JSON.stringify({ email: email, action: 'reset_password' })
+        });
+        var data = await res.json();
+        if(!res.ok) throw new Error(data.error || res.status);
+        $('link-val').value = data.link;
+        show('link-modal');
+        setTimeout(function(){ $('link-val').select(); }, 100);
+      } catch(e){
+        toast('Error: ' + e.message, 'err');
+      } finally {
+        btn.disabled = false; btn.textContent = orig;
+      }
+    }
+    function copyLink(){
+      var v = $('link-val').value;
+      navigator.clipboard.writeText(v).then(function(){ toast('✓ Link copiado', 'ok'); }).catch(function(){ $('link-val').select(); });
+    }
+    $('link-modal').addEventListener('click', function(e){ if(e.target === this) hide('link-modal'); });
+
     // ── Edit modal ──
+    function openEditByEmail(email){
+      var u = state.users.find(function(x){ return x.email === email; });
+      if(u) openEdit(u);
+    }
     function openEdit(u){
       $('edit-email').value        = u.email || '';
       $('edit-nombre').value       = u.nombre || '';
