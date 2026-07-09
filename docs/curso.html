@@ -608,7 +608,7 @@
 <!-- ─── GATE DE ACCESO ─── -->
 <div id="gate" class="gate hidden" aria-hidden="true">
   <div class="gate-card" role="dialog" aria-modal="true" aria-labelledby="gate-title">
-    <button class="gate-close" id="gate-close" type="button" aria-label="Cerrar y volver al inicio">
+    <button class="gate-close" id="gate-close" type="button" aria-label="Cerrar y volver a la página del curso">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
     </button>
     <div class="gate-brand">⚡ IA Aplicada</div>
@@ -624,7 +624,7 @@
       <input class="gate-input" id="login-email" type="email" autocomplete="email" required>
       <p class="gate-error hidden" id="login-error"></p>
       <button class="gate-submit" id="login-magic" type="button">Enviar enlace de acceso →</button>
-      <p style="text-align:center;margin:12px 0 4px;font-size:13px;color:var(--muted);">Escribe tu correo y te avisamos cuando tu acceso esté listo.</p>
+      <p style="text-align:center;margin:12px 0 4px;font-size:13px;color:var(--muted);">Escribe tu correo para recibir tu enlace de acceso.</p>
       <button class="gate-link" id="login-show-pw" type="button" style="margin-top:8px;">Tengo contraseña, entrar directo</button>
       <div id="login-pw-section" style="display:none;margin-top:12px;">
         <label class="gate-label" for="login-pass">Contraseña</label>
@@ -645,6 +645,7 @@
       <input class="gate-input" id="lead-empresa" type="text" autocomplete="organization">
       <p class="gate-error hidden" id="lead-error"></p>
       <button class="gate-submit" id="lead-submit" type="submit">Continuar por WhatsApp →</button>
+      <a class="gate-link" href="ia-aplicada.html" style="text-align:center;display:block;text-decoration:underline;">¿Aún no conoces el curso? Ver de qué trata →</a>
     </form>
     <!-- Crear contraseña (activado por #setpw= en la URL) -->
     <form id="gate-setpw" class="gate-panel" autocomplete="on">
@@ -1554,8 +1555,8 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
   }
 
   // Close → leave the course (the gate is the paywall; there's no nav bar on
-  // curso.html, so send them back to the landing page, which has the site nav).
-  document.getElementById('gate-close').onclick = function () { location.href = 'index.html'; };
+  // curso.html, so send them back to the course landing page, which has the site nav).
+  document.getElementById('gate-close').onclick = function () { location.href = 'ia-aplicada.html'; };
 
   // Tab switching
   document.getElementById('tab-login').onclick = function () { switchTab('login'); };
