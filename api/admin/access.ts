@@ -113,7 +113,8 @@ async function list(req: VercelRequest, res: VercelResponse) {
   const users = await sql`
     select u.email, u.nombre, u.empresa, u.whatsapp_e164, u.giro, u.departamento, u.is_admin,
            coalesce(e.paid, false) as paid, e.paid_at, u.created_at,
-           coalesce(cp.done, 0) as modules_done
+           coalesce(cp.done, 0) as modules_done,
+           u.quiz_attempt
     from users u
     left join entitlements e on e.user_id = u.id
     left join (

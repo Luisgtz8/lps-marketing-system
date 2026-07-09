@@ -67,7 +67,12 @@ async function resetProgress(res: VercelResponse, userId: string) {
     sql`delete from quiz_answers where user_id = ${userId}`,
     sql`delete from exercise_submissions where user_id = ${userId}`,
   ]);
-  return json(res, 200, { ok: true });
+  const updated = await sql`
+    update users set quiz_attempt = quiz_attempt + 1 where id = ${userId}
+    returning quiz_attempt
+  `;
+  const attempt = Number((updated[0] as any)?.quiz_attempt ?? 2);
+  return json(res, 200, { ok: true, attempt });
 }
 
 async function putProgress(res: VercelResponse, userId: string, body: unknown) {

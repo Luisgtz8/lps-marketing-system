@@ -324,6 +324,8 @@
       list.forEach(function(u){
         var done = Number(u.modules_done||0); var pct = Math.round(done*100/7);
         var paid = u.paid === true;
+        var attempt = Number(u.quiz_attempt||1);
+        var attemptLabel = attempt > 1 ? '<span class="pill" style="background:#1a1a2e;color:#8888cc;margin-left:6px;">Intento '+attempt+'</span>' : '';
         var tr = document.createElement('tr');
         tr.innerHTML =
           '<td><div class="u-email">'+esc(u.email)+(u.is_admin?'<span class="pill admin">admin</span>':'')+'</div>'+
@@ -331,7 +333,7 @@
           '<td class="col-hide">'+esc(u.empresa||'—')+'</td>'+
           '<td><span class="pill '+(paid?'paid">Con acceso':'unpaid">Pendiente')+'</span></td>'+
           '<td class="col-hide"><div class="prog"><div class="prog-bar"><div class="prog-fill" style="width:'+pct+'%"></div></div>'+
-            '<span class="prog-txt">'+done+'/7</span></div></td>'+
+            '<span class="prog-txt">'+done+'/7</span></div>'+attemptLabel+'</td>'+
           '<td><div class="row-actions">'+
             (paid
               ? '<button class="act stop" onclick="act(this,\''+esc(u.email)+'\',\'revoke\')">Quitar acceso</button>'
