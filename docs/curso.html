@@ -636,7 +636,7 @@
     <!-- Lead -->
     <form id="gate-lead" class="gate-panel" autocomplete="on">
       <h2 class="gate-h">Solicita tu acceso</h2>
-      <p class="gate-sub">Déjanos tus datos y te contactamos por WhatsApp para activarte.</p>
+      <p class="gate-sub">Déjanos tus datos y te avisaremos por correo cuando tu acceso esté listo.</p>
       <label class="gate-label" for="lead-nombre">Nombre</label>
       <input class="gate-input" id="lead-nombre" type="text" autocomplete="name">
       <label class="gate-label" for="lead-email">Correo</label>
@@ -644,7 +644,7 @@
       <label class="gate-label" for="lead-empresa">Empresa</label>
       <input class="gate-input" id="lead-empresa" type="text" autocomplete="organization">
       <p class="gate-error hidden" id="lead-error"></p>
-      <button class="gate-submit" id="lead-submit" type="submit">Continuar por WhatsApp →</button>
+      <button class="gate-submit" id="lead-submit" type="submit">Solicitar acceso →</button>
       <a class="gate-link" href="ia-aplicada.html" style="text-align:center;display:block;text-decoration:underline;">¿Aún no conoces el curso? Ver de qué trata →</a>
     </form>
     <!-- Crear contraseña (activado por #setpw= en la URL) -->
@@ -668,10 +668,6 @@
       <span class="progress-label" id="progress-label">Módulo 1 de 7</span>
       <span class="ex-counter" id="ex-counter" style="display:none;"><span id="ex-done-count">0</span>/6 ejercicios</span>
       <button class="theme-toggle" id="courseThemeToggle" aria-label="Cambiar modo de color"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
-      <a id="admin-btn" href="/admin.html"
-        style="display:none;background:var(--amber);color:#1a1200;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;text-decoration:none;">
-        Admin ↗
-      </a>
       <button id="reset-btn" type="button"
         style="display:none;background:transparent;border:1px solid #444;color:#666;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;">
         Resetear progreso
@@ -1243,8 +1239,9 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
   <div class="module-nav"><button class="next-btn" onclick="goTo(1)">Volver al inicio ↑</button></div>
 </section>
 
-      <footer style="margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;">
-        Lightning Pro Solutions · Curso IA Aplicada
+      <footer style="margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;display:flex;justify-content:space-between;align-items:center;">
+        <span>Lightning Pro Solutions · Curso IA Aplicada</span>
+        <a href="/admin.html" style="font-size:11px;color:#444;text-decoration:none;">Admin</a>
       </footer>
     </main>
   </div>
@@ -1532,8 +1529,6 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
 (function () {
   var API_BASE = ''; // same-origin via vercel.json rewrites
   var SESSION_KEY = 'lps-session';
-  var WHATSAPP = 'https://wa.me/526623478040?text=' + encodeURIComponent('Hola, quiero acceso al curso IA Aplicada');
-
   var gate = document.getElementById('gate');
   function token() { return localStorage.getItem(SESSION_KEY) || ''; }
   function setToken(t) { localStorage.setItem(SESSION_KEY, t); }
@@ -1591,11 +1586,10 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
       if (r.status === 401) { clearToken(); showGate(); return; }
       var d = await r.json();
       if (d.user && d.user.is_admin) {
-        document.getElementById('admin-btn').style.display = 'inline-block';
         document.getElementById('reset-btn').style.display = 'inline-block';
       }
       if (d.paid) { hideGate(); maybeOfferPassword(); }
-      else { showGate('Tu acceso aún no está activo. Escríbenos por WhatsApp para activarlo.'); }
+      else { showGate('Tu acceso aún no está activo. Te avisaremos por correo cuando esté listo.'); }
     } catch (e) { showGate(); }
   }
 
@@ -1676,22 +1670,27 @@ Máximo 120 palabras. Termina con fecha límite clara.</pre>
   }
   document.getElementById('login-magic').onclick = function () { sendMagicLink(); };
 
-  // Lead submit → save + WhatsApp
+  // Lead submit → save + show pending message
   document.getElementById('gate-lead').addEventListener('submit', async function (ev) {
     ev.preventDefault();
+    var btn = document.getElementById('lead-submit');
     var err = document.getElementById('lead-error'); err.classList.add('hidden');
     var payload = {
       email: document.getElementById('lead-email').value.trim(),
       nombre: document.getElementById('lead-nombre').value.trim(),
       empresa: document.getElementById('lead-empresa').value.trim(),
     };
+    btn.disabled = true; btn.textContent = 'Enviando…';
     try {
       await fetch(API_BASE + '/api/lead', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
     } catch (e) {}
-    window.open(WHATSAPP, '_blank', 'noopener');
+    btn.textContent = 'Solicitud enviada ✓';
+    err.style.color = 'var(--muted)';
+    err.textContent = '✓ Recibimos tu solicitud. Te avisaremos por correo cuando tu acceso esté listo.';
+    err.classList.remove('hidden');
   });
 
   function maybeOfferPassword() { /* desactivado — usar enlace por correo */ }
