@@ -1028,27 +1028,16 @@
     }
 
     .exp-logo {
-      height: 36px;
+      height: 64px;
       width: auto;
-      max-width: 140px;
+      max-width: 220px;
       object-fit: contain;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
       display: block;
-      filter: brightness(0) invert(1);
-      opacity: 0.85;
+      mix-blend-mode: screen;
     }
     [data-theme="light"] .exp-logo {
-      filter: brightness(0);
-      opacity: 0.75;
-    }
-    .exp-logo-color {
-      filter: none !important;
-      opacity: 1 !important;
-      border-radius: 8px;
-    }
-    [data-theme="light"] .exp-logo-color {
-      filter: none !important;
-      opacity: 1 !important;
+      mix-blend-mode: multiply;
     }
 
     .exp-client {
@@ -2244,18 +2233,6 @@
         </div>
 
         <div class="exp-card reveal">
-          <p class="exp-client">Asesores Inmobiliarios</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Bienes raíces · Hermosillo, Sonora y Phoenix, Arizona</p>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">El asistente hacía y recibía llamadas, agendaba citas y avisaba al asesor — todo sin que nadie tuviera que estar al teléfono.</blockquote>
-          <ul class="exp-points">
-            <li>Asistente de voz que atendía por teléfono y WhatsApp las 24 horas</li>
-            <li>Agendaba citas automáticamente sin conflictos de horario</li>
-            <li>Detectaba propiedades en proceso legal y contactaba al dueño antes que la competencia</li>
-          </ul>
-          <img src="img/3.whatsapp.webp" alt="Asistente de voz con IA" class="exp-img">
-        </div>
-
-        <div class="exp-card reveal">
           <img src="img/logo-dhagen.svg" alt="D'Hagen Ópticas" class="exp-logo">
           <p class="exp-client">D'Hagen Ópticas</p>
           <p class="exp-sector" style="margin-bottom:16px;">Retail · Varias sucursales · Hermosillo, Sonora</p>
@@ -2269,20 +2246,7 @@
         </div>
 
         <div class="exp-card reveal">
-          <p class="exp-client">Plataforma PropTech Noroeste</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Tecnología Inmobiliaria · Noroeste de México</p>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Antes el asesor buscaba propiedad por propiedad en cada portal. Hoy el cliente describe lo que quiere, el sistema filtra y el asesor solo da clic en contactar.</blockquote>
-          <ul class="exp-points">
-            <li>Panel que une todos los portales inmobiliarios del noroeste en un solo lugar</li>
-            <li>Se actualiza solo cada mañana — propiedades nuevas, precios y disponibilidad al día</li>
-            <li>El asesor filtra por lo que busca el cliente y contacta al vendedor con un clic</li>
-            <li>Elimina el riesgo de ofrecer propiedades que ya no están disponibles</li>
-          </ul>
-          <img src="img/5.dashboard.webp" alt="Plataforma inmobiliaria" class="exp-img">
-        </div>
-
-        <div class="exp-card reveal">
-          <img src="img/logo-titanes.png" alt="Titanes Team" class="exp-logo exp-logo-color">
+          <img src="img/logo-titanes.png" alt="Titanes Team" class="exp-logo">
           <p class="exp-client">Titanes Team</p>
           <p class="exp-sector" style="margin-bottom:16px;">Academia de Artes Marciales · Hermosillo, Sonora</p>
           <ul class="exp-points" style="margin-top:0;">
@@ -2321,6 +2285,31 @@
           <img src="img/9.logistica.webp" alt="Empresa de logística" class="exp-img">
         </div>
 
+        <div class="exp-card reveal">
+          <p class="exp-client">Asesores Inmobiliarios</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Bienes raíces · Hermosillo, Sonora y Phoenix, Arizona</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">El asistente hacía y recibía llamadas, agendaba citas y avisaba al asesor — todo sin que nadie tuviera que estar al teléfono.</blockquote>
+          <ul class="exp-points">
+            <li>Asistente de voz que atendía por teléfono y WhatsApp las 24 horas</li>
+            <li>Agendaba citas automáticamente sin conflictos de horario</li>
+            <li>Detectaba propiedades en proceso legal y contactaba al dueño antes que la competencia</li>
+          </ul>
+          <img src="img/3.whatsapp.webp" alt="Asistente de voz con IA" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
+          <p class="exp-client">Plataforma PropTech Noroeste</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Tecnología Inmobiliaria · Noroeste de México</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Antes el asesor buscaba propiedad por propiedad en cada portal. Hoy el cliente describe lo que quiere, el sistema filtra y el asesor solo da clic en contactar.</blockquote>
+          <ul class="exp-points">
+            <li>Panel que une todos los portales inmobiliarios del noroeste en un solo lugar</li>
+            <li>Se actualiza solo cada mañana — propiedades nuevas, precios y disponibilidad al día</li>
+            <li>El asesor filtra por lo que busca el cliente y contacta al vendedor con un clic</li>
+            <li>Elimina el riesgo de ofrecer propiedades que ya no están disponibles</li>
+          </ul>
+          <img src="img/5.dashboard.webp" alt="Plataforma inmobiliaria" class="exp-img">
+        </div>
+
       </div>
     </div>
   </section>
@@ -2330,10 +2319,9 @@
     <div class="about-inner">
       <div>
         <p class="section-label reveal">QUIÉN LO HACE</p>
-        <h2 class="about-h2 reveal">No consultores.
-Stack real
-en producción.</h2>
-        <p class="about-bio reveal">Luis es la cara de Lightning — y detrás hay un equipo técnico con el talento para hacer todo realidad. Lo que nos diferencia no es el stack: es la capacidad de sentarnos con un cliente, entender cómo opera su negocio y detectar dónde la IA genera impacto real. Sin venderle tecnología que no necesita. Sin proyectos que toman años. El resultado es siempre un sistema concreto, entregado funcionando y diseñado para que tu equipo lo opere desde el primer día.</p>
+        <h2 class="about-h2 reveal">Cercanos en el proceso,
+directos en los resultados.</h2>
+        <p class="about-bio reveal">Soy Luis Gutiérrez. Empezamos con un diagnóstico real: entendemos cómo trabaja tu equipo, dónde se pierde tiempo y qué procesos se pueden automatizar sin romper lo que ya funciona. A partir de ahí construimos — dashboards, automatizaciones, chatbots, sitios web, integraciones — siempre reduciendo la fricción al mínimo para que la adopción sea natural. Y cuando entregamos, capacitamos a tu equipo sin tecnicismos: nada de manuales de 80 páginas, solo lo que necesitan saber para operarlo desde el primer día.</p>
         <div class="chips reveal">
           <span class="chip">Chatbots y asistentes IA</span>
           <span class="chip">Integraciones de sistemas</span>
