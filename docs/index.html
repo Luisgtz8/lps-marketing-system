@@ -604,6 +604,12 @@
       border: 1px solid #252525;
       border-radius: 12px;
       padding: 24px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .method-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(245,158,11,0.35);
+      box-shadow: 0 0 0 1px rgba(245,158,11,0.12), 0 12px 32px rgba(0,0,0,0.4);
     }
 
     .method-card.good {
@@ -792,6 +798,12 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .taller-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(245,158,11,0.35);
+      box-shadow: 0 0 0 1px rgba(245,158,11,0.12), 0 12px 32px rgba(0,0,0,0.4);
     }
 
     .taller-card.featured {
@@ -1020,11 +1032,13 @@
       display: flex;
       flex-direction: column;
       gap: 0;
-      transition: border-color 0.2s;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
     .exp-card:hover {
-      border-color: #2a2a2a;
+      transform: translateY(-4px);
+      border-color: rgba(245,158,11,0.35);
+      box-shadow: 0 0 0 1px rgba(245,158,11,0.12), 0 12px 32px rgba(0,0,0,0.4);
     }
 
     .exp-logo {
@@ -1550,7 +1564,9 @@
     }
 
     [data-theme="light"] .exp-card:hover {
-      border-color: #ccc;
+      transform: translateY(-4px);
+      border-color: rgba(180,83,9,0.4);
+      box-shadow: 0 0 0 1px rgba(180,83,9,0.1), 0 12px 32px rgba(0,0,0,0.1);
     }
 
     [data-theme="light"] .exp-client {
@@ -1731,7 +1747,7 @@
       gap: 14px;
       position: relative;
       overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
     .servicio-card::before {
       content: '';
@@ -1742,7 +1758,7 @@
       opacity: 0;
       transition: opacity 0.2s;
     }
-    .servicio-card:hover { border-color: #3a3a3a; transform: translateY(-3px); }
+    .servicio-card:hover { transform: translateY(-4px); border-color: rgba(245,158,11,0.35); box-shadow: 0 0 0 1px rgba(245,158,11,0.12), 0 12px 32px rgba(0,0,0,0.4); }
     .servicio-card:hover::before { opacity: 1; }
     .servicio-icon-wrap {
       width: 56px;
@@ -1807,7 +1823,7 @@
       border-color: #e0e0e0;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.04);
     }
-    [data-theme="light"] .servicio-card:hover { border-color: #c0c0c0; }
+    [data-theme="light"] .servicio-card:hover { transform: translateY(-4px); border-color: rgba(180,83,9,0.4); box-shadow: 0 0 0 1px rgba(180,83,9,0.1), 0 12px 32px rgba(0,0,0,0.1); }
     [data-theme="light"] .servicio-name { color: #111; }
     [data-theme="light"] .servicio-desc { color: #555; }
     [data-theme="light"] .method-expand-btn {
