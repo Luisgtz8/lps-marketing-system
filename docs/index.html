@@ -1046,13 +1046,15 @@
       width: auto;
       max-width: 220px;
       object-fit: contain;
-      margin-bottom: 18px;
       display: block;
+      margin: 0 auto 18px;
       mix-blend-mode: screen;
     }
     [data-theme="light"] .exp-logo {
       mix-blend-mode: multiply;
     }
+    .exp-logo-invert { filter: invert(1); }
+    [data-theme="light"] .exp-logo-invert { filter: invert(0); }
 
     .exp-client {
       font-family: 'Space Grotesk', sans-serif;
@@ -2299,6 +2301,20 @@
             <li>Presencia digital operando sin intervención manual del equipo</li>
           </ul>
           <img src="img/9.logistica.webp" alt="Empresa de logística" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
+          <img src="img/logo-silvana.png" alt="Silvana Growth" class="exp-logo exp-logo-invert">
+          <p class="exp-client">Silvana Growth</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Marketing Digital y Creación de Contenido · Hermosillo, Sonora</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Pasé de improvisar cada publicación a tener una marca clara, paquetes definidos y un flujo de producción que la IA me ayuda a ejecutar dos veces más rápido.</blockquote>
+          <ul class="exp-points">
+            <li>Identidad de marca construida desde cero: nombre, tono, paleta y propuesta de valor</li>
+            <li>Paquetes de servicios estructurados para cotizar y cerrar clientes sin negociar desde cero cada vez</li>
+            <li>Flujo de producción de contenido con IA — más piezas publicadas en menos tiempo</li>
+            <li>De la improvisación a un proceso claro que escala sin depender de más horas</li>
+          </ul>
+          <img src="img/2.reunion.webp" alt="Emprendedora de marketing digital" class="exp-img">
         </div>
 
         <div class="exp-card reveal">
