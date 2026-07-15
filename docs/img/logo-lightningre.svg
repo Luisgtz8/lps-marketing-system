@@ -1,0 +1,12 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark rounded background -->
+  <rect width="64" height="64" rx="14" fill="#0F0F0F"/>
+
+  <!-- House -->
+  <polygon points="14,57 50,57 50,38 56,38 32,9 26,16 26,12 16,12 16,28 8,38 14,38 14,57" fill="#18181B"/>
+  <polygon points="14,57 50,57 50,38 56,38 32,9 26,16 26,12 16,12 16,28 8,38 14,38 14,57"
+           fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- Rayo literal ⚡ como caracter -->
+  <text x="35" y="50" text-anchor="middle" font-size="30" font-family="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif">⚡</text>
+</svg>
