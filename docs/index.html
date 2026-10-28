@@ -1055,6 +1055,12 @@
       padding: 0 48px;
     }
 
+    .cifras { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 28px; }
+    .cifra { border-left: 2px solid var(--green); padding: 4px 0 4px 16px; display: flex; flex-direction: column; gap: 6px; }
+    .cifra b { font-family: 'Space Grotesk', sans-serif; font-size: clamp(30px, 3.4vw, 44px); font-weight: 700; color: var(--text); letter-spacing: -1px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .cifra > span { font-size: 13px; color: var(--muted); line-height: 1.45; }
+    @media (max-width: 768px) { .cifras { grid-template-columns: 1fr 1fr; gap: 24px 16px; } }
+
     .expediente-scroll-wrap {
       margin-top: 40px;
       overflow: hidden;
@@ -2430,6 +2436,12 @@
     <div class="expediente-inner">
       <p class="section-label reveal">EXPEDIENTE</p>
       <h2 class="section-h2 reveal">Lo que hemos construido.</h2>
+      <div class="cifras reveal">
+        <div class="cifra"><b><span data-count="2000">2,000</span>+</b><span>licitaciones monitoreadas para GESAR</span></div>
+        <div class="cifra"><b>$<span data-count="86.4" data-dec="1">86.4</span>M</b><span>revisados con IA en una auditoría</span></div>
+        <div class="cifra"><b><span data-count="961">961</span></b><span>transacciones analizadas en días, no semanas</span></div>
+        <div class="cifra"><b><span data-count="11">11</span></b><span>proyectos entregados en Sonora, Baja California y Arizona</span></div>
+      </div>
     </div>
     <div class="expediente-scroll-wrap">
       <div class="expediente-scroll" id="expScroll">
@@ -2811,6 +2823,28 @@ directos en los resultados.</h2>
           }, 300);
         });
       });
+    })();
+
+    /* ── Cifras: cuentan al verse ── */
+    (function () {
+      var box = document.querySelector('.cifras');
+      if (!box || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var els = box.querySelectorAll('[data-count]');
+      function fmt(el, v) {
+        var d = +(el.dataset.dec || 0);
+        el.textContent = v.toLocaleString('es-MX', { minimumFractionDigits: d, maximumFractionDigits: d });
+      }
+      els.forEach(function (el) { fmt(el, 0); });
+      new IntersectionObserver(function (es, ob) {
+        if (!es[0].isIntersecting) return;
+        ob.disconnect();
+        var t0 = performance.now();
+        (function step(now) {
+          var p = Math.min((now - t0) / 1400, 1), e = 1 - Math.pow(1 - p, 3);
+          els.forEach(function (el) { fmt(el, +el.dataset.count * e); });
+          if (p < 1) requestAnimationFrame(step);
+        })(t0);
+      }, { threshold: 0.5 }).observe(box);
     })();
 
     /* ── Scroll reveal ── */
