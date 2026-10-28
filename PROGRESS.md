@@ -37,9 +37,10 @@ Actualizado: 2026-10-28
   - Expediente: GESAR (con nombre, plataforma completa), Constructora (sin nombre), Casas de renta vacacional (sin nombres)
   - OG image 1200×630 (img/og-lps.jpg)
   - Video propio "Lightning Pro en 40 segundos" (voz Jorge) justo después del hero, con pestaña para ver el de GESAR. Fuente: ~/LPS/scripts/video_sitio/ (build.py + motor de ~/GESAR/codigo/redes/video/)
-  - Franja de cifras animada (2,000+ licitaciones · $86.4M · 961 · 11 proyectos) — pendiente OK de Luis a las cifras
+  - Franja de cifras animada (2,000+ licitaciones · $86.4M · 961 · 11 proyectos)
   - Servicios agrupados en 4 (Asistentes · Sistemas y datos · Sitios, video y contenido · Diagnóstico y capacitación)
   - Expediente en cuadrícula 3 col con 6 destacados + botón "Ver los 11 proyectos" (se quitó el carrusel horizontal)
+  - Tarjetas viejas del expediente: fotos de stock → maquetas de lo que hace cada sistema (img/exp-*.webp, generador ~/LPS/scripts/mockups_sitio/gen.py)
   - Expediente: quitadas las citas tipo testimonio → texto descriptivo normal (RVA y Silvana pasadas a tercera persona)
 - Dominio lightningprosolutions.com vencido desde 18-sep (Namecheap); el sitio sigue en https://lps-marketing-system.vercel.app
 
