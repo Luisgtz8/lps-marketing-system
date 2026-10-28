@@ -1154,6 +1154,14 @@
       color: var(--green);
     }
 
+    .exp-story {
+      font-size: 14px;
+      color: var(--text);
+      opacity: .82;
+      line-height: 1.6;
+      margin: 0 0 16px;
+    }
+
     .exp-points {
       list-style: none;
       display: flex;
@@ -1918,10 +1926,14 @@
     }
 
     /* VIDEO */
-    .video-sec { padding: 96px 0; background: var(--black); }
+    .video-sec { padding: 96px 0; background: var(--black); border-top: 1px solid var(--border); }
     .video-inner { max-width: 1100px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: 38fr 62fr; gap: 56px; align-items: center; }
     .video-sub { color: var(--muted); font-size: 16px; line-height: 1.65; margin: 0 0 24px; }
     .video-copy .btn-green { display: inline-block; }
+    .video-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+    .video-tabs button { font: 600 13px 'Space Grotesk', sans-serif; padding: 8px 16px; border-radius: 99px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
+    .video-tabs button.is-on { background: var(--green); border-color: var(--green); color: #000; }
+    .video-frame video { transition: opacity .35s ease; }
     .video-frame { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(245,158,11,.3); box-shadow: 0 24px 60px rgba(0,0,0,.45), 0 0 0 1px rgba(245,158,11,.08); aspect-ratio: 16 / 9; background: #000; }
     .video-frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
     .video-sound { position: absolute; right: 14px; bottom: 14px; background: rgba(0,0,0,.65); color: #fff; border: 1px solid rgba(255,255,255,.2); border-radius: 99px; padding: 8px 14px; font: 600 13px 'Space Grotesk', sans-serif; cursor: pointer; backdrop-filter: blur(6px); transition: background .2s; }
@@ -2178,6 +2190,34 @@
     </div>
   </section>
 
+  <!-- VIDEO -->
+  <section class="video-sec" id="video">
+    <div class="video-inner">
+      <div class="video-copy">
+        <p class="section-label reveal">VIDEO Y ANIMACIÓN</p>
+        <h2 class="section-h2 reveal">Lo que hacemos, en 40 segundos.</h2>
+        <p class="video-sub reveal">Este video lo hicimos nosotros: guion, voz, animación y música. Lo mismo hacemos para tu marca.</p>
+        <ul class="exp-points reveal">
+          <li>Video para tu sitio web, horizontal y vertical</li>
+          <li>Reels para Instagram, Facebook y TikTok</li>
+          <li>Portadas y miniaturas con tu marca</li>
+        </ul>
+        <a href="https://wa.me/526623478040?text=Quiero%20un%20video%20para%20mi%20negocio" class="btn-green reveal" target="_blank" rel="noopener" style="margin-top:28px;">Quiero un video →</a>
+      </div>
+      <div class="reveal">
+        <div class="video-tabs" role="tablist" aria-label="Elegir video">
+          <button type="button" role="tab" aria-selected="true" class="is-on" data-src="media/lightning-inicio.mp4" data-poster="media/lightning-inicio.jpg">Lightning Pro</button>
+          <button type="button" role="tab" aria-selected="false" data-src="media/gesar-inicio.mp4" data-poster="media/gesar-inicio.jpg">Para GESAR Consultoría</button>
+        </div>
+        <div class="video-frame">
+          <video id="vidMain" src="media/lightning-inicio.mp4" poster="media/lightning-inicio.jpg" muted loop playsinline preload="none"></video>
+          <button type="button" class="video-sound" id="vidSound" aria-label="Activar sonido">🔊 Escuchar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
 
   <!-- PARA QUIÉN ES -->
   <section style="padding: 64px 0; background: var(--black-mid); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
@@ -2343,27 +2383,6 @@
     </div>
   </section>
 
-  <!-- VIDEO -->
-  <section class="video-sec" id="video">
-    <div class="video-inner">
-      <div class="video-copy">
-        <p class="section-label reveal">VIDEO Y ANIMACIÓN</p>
-        <h2 class="section-h2 reveal">Videos con voz y animación, hechos en días.</h2>
-        <p class="video-sub reveal">Guion, voz en off, animación y subtítulos, con capturas reales de tu operación. Este es el video de inicio que hicimos para GESAR Consultoría.</p>
-        <ul class="exp-points reveal">
-          <li>Video para tu sitio web, horizontal y vertical</li>
-          <li>Reels para Instagram, Facebook y TikTok</li>
-          <li>Portadas y miniaturas con tu marca</li>
-        </ul>
-        <a href="https://wa.me/526623478040?text=Quiero%20un%20video%20para%20mi%20negocio" class="btn-green reveal" target="_blank" rel="noopener" style="margin-top:28px;">Quiero un video →</a>
-      </div>
-      <div class="video-frame reveal">
-        <video id="vidGesar" src="media/gesar-inicio.mp4" poster="media/gesar-inicio.jpg" muted loop playsinline preload="none"></video>
-        <button type="button" class="video-sound" id="vidSound" aria-label="Activar sonido">🔊 Escuchar</button>
-      </div>
-    </div>
-  </section>
-
   <!-- CAPACITACIÓN -->
   <section class="talleres" id="capacitacion" style="background: var(--black-mid); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
     <div class="talleres-inner">
@@ -2419,7 +2438,7 @@
           <img src="img/logo-gesar.png" alt="GESAR Consultoría Gubernamental" class="exp-logo">
           <p class="exp-client">GESAR Consultoría Gubernamental</p>
           <p class="exp-sector" style="margin-bottom:16px;">Licitaciones y gestión pública · Sonora y federal</p>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Antes las licitaciones se buscaban a mano, portal por portal. Hoy le llegan a cada cliente las de su giro, con fechas y bases, antes de que cierren.</blockquote>
+          <p class="exp-story">Antes las licitaciones se buscaban a mano, portal por portal. Hoy le llegan a cada cliente las de su giro, con fechas y bases, antes de que cierren.</p>
           <ul class="exp-points">
             <li>Alertas diarias de licitaciones estatales y federales, filtradas por giro</li>
             <li>Portal de clientes con histórico, licitaciones activas y documentos</li>
@@ -2434,7 +2453,7 @@
           <img src="img/logo-constructora.svg" alt="Constructora" class="exp-logo">
           <p class="exp-client">Constructora de obra pública</p>
           <p class="exp-sector" style="margin-bottom:16px;">Construcción · Hermosillo, Sonora</p>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">La información de obra vivía en grupos de WhatsApp, correos y la computadora de cada quien. Ahora se captura una vez y todos trabajan sobre la misma.</blockquote>
+          <p class="exp-story">La información de obra vivía en grupos de WhatsApp, correos y la computadora de cada quien. Ahora se captura una vez y todos trabajan sobre la misma.</p>
           <ul class="exp-points">
             <li>Capacitación por área: cada persona resuelve una tarea real desde la primera visita</li>
             <li>Asistentes por puesto: lector de bases, revisor de estimaciones, redactor de oficios</li>
@@ -2448,7 +2467,7 @@
           <img src="img/logo-rentas.svg" alt="Rentas vacacionales" class="exp-logo">
           <p class="exp-client">Casas de renta vacacional</p>
           <p class="exp-sector" style="margin-bottom:16px;">Hospedaje · Costa de Sonora</p>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Sin tiempo para redes. Cada semana el contenido de las casas sale listo, con sus fotos reales y su propia marca.</blockquote>
+          <p class="exp-story">Sin tiempo para redes. Cada semana el contenido de las casas sale listo, con sus fotos reales y su propia marca.</p>
           <ul class="exp-points">
             <li>Posts, reels e historias cada semana para Instagram y Facebook</li>
             <li>Reels con movimiento a partir de las fotos de cada casa</li>
@@ -2462,7 +2481,7 @@
           <img src="img/logo-rva.png" alt="RVA Fiscalistas" class="exp-logo">
           <p class="exp-client">Raygoza Vázquez &amp; Ayala Fiscalistas</p>
           <p class="exp-sector" style="margin-bottom:16px;">Consultoría y Defensa Fiscal · Mexicali, Baja California</p>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">"En un mes recupero entre 25 y 40 horas que antes destinaba a redacción y búsqueda. Las reinvierto en lo que ningún sistema sustituye: la estrategia y la atención al cliente."</blockquote>
+          <p class="exp-story">Recupera entre 25 y 40 horas al mes que antes se iban en redacción y búsqueda, y las dedica a la estrategia y a la atención al cliente.</p>
           <ul class="exp-points">
             <li>Un proceso que tomaba 22–28 horas: hoy lo resuelve en 8–10</li>
             <li>Usa IA para analizar documentos legales, cruzar información y redactar escritos</li>
@@ -2475,7 +2494,7 @@
           <img src="img/logo-dhagen.svg" alt="D'Hagen Ópticas" class="exp-logo">
           <p class="exp-client">D'Hagen Ópticas</p>
           <p class="exp-sector" style="margin-bottom:16px;">Retail · Varias sucursales · Hermosillo, Sonora</p>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Antes eran seis sistemas distintos. Hoy corren como uno solo — cada venta, cliente y gasto trazado en tiempo real.</blockquote>
+          <p class="exp-story">Antes eran seis sistemas distintos. Hoy corren como uno solo — cada venta, cliente y gasto trazado en tiempo real.</p>
           <ul class="exp-points">
             <li>Un solo sistema para tiendas físicas y tienda en línea</li>
             <li>Gerentes ven ventas, inventario y clientes frecuentes en tiempo real</li>
@@ -2501,7 +2520,7 @@
           <img src="img/logo-resinx.png" alt="ResinX" class="exp-logo">
           <p class="exp-client">ResinX</p>
           <p class="exp-sector" style="margin-bottom:16px;">Pisos Epóxicos y Acabados · Hermosillo, Sonora</p>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Sin presupuesto de publicidad. En lugar de pautar en redes, creamos un sistema que llega directamente a las empresas que necesitan el servicio — antes de que ellas lo busquen.</blockquote>
+          <p class="exp-story">Sin presupuesto de publicidad. En lugar de pautar en redes, creamos un sistema que llega directamente a las empresas que necesitan el servicio — antes de que ellas lo busquen.</p>
           <ul class="exp-points">
             <li>Sitio web con identidad de marca creada desde cero con IA</li>
             <li>Sistema que identifica automáticamente empresas que pueden necesitar el servicio</li>
@@ -2528,7 +2547,7 @@
           <img src="img/logo-silvana.png" alt="Silvana Growth" class="exp-logo exp-logo-invert">
           <p class="exp-client">Silvana Growth</p>
           <p class="exp-sector" style="margin-bottom:16px;">Marketing Digital y Creación de Contenido · Hermosillo, Sonora</p>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Pasé de improvisar cada publicación a tener una marca clara, paquetes definidos y un flujo de producción que la IA me ayuda a ejecutar dos veces más rápido.</blockquote>
+          <p class="exp-story">De improvisar cada publicación a una marca clara, paquetes definidos y un flujo de producción de contenido con IA.</p>
           <ul class="exp-points">
             <li>Identidad de marca construida desde cero: nombre, tono, paleta y propuesta de valor</li>
             <li>Paquetes de servicios estructurados para cotizar y cerrar clientes sin negociar desde cero cada vez</li>
@@ -2542,7 +2561,7 @@
           <img src="img/logo-asesores.svg" alt="Asesores Inmobiliarios" class="exp-logo">
           <p class="exp-client">Asesores Inmobiliarios</p>
           <p class="exp-sector" style="margin-bottom:16px;">Bienes raíces · Hermosillo, Sonora y Phoenix, Arizona</p>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">El asistente hacía y recibía llamadas, agendaba citas y avisaba al asesor — todo sin que nadie tuviera que estar al teléfono.</blockquote>
+          <p class="exp-story">El asistente hacía y recibía llamadas, agendaba citas y avisaba al asesor — todo sin que nadie tuviera que estar al teléfono.</p>
           <ul class="exp-points">
             <li>Asistente de voz que atendía por teléfono y WhatsApp las 24 horas</li>
             <li>Agendaba citas automáticamente sin conflictos de horario</li>
@@ -2555,7 +2574,7 @@
           <img src="img/logo-lightningre.svg" alt="Lightning RE" class="exp-logo">
           <p class="exp-client">Plataforma PropTech Noroeste</p>
           <p class="exp-sector" style="margin-bottom:16px;">Tecnología Inmobiliaria · Noroeste de México</p>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Antes el asesor buscaba propiedad por propiedad en cada portal. Hoy el cliente describe lo que quiere, el sistema filtra y el asesor solo da clic en contactar.</blockquote>
+          <p class="exp-story">Antes el asesor buscaba propiedad por propiedad en cada portal. Hoy el cliente describe lo que quiere, el sistema filtra y el asesor solo da clic en contactar.</p>
           <ul class="exp-points">
             <li>Panel que une todos los portales inmobiliarios del noroeste en un solo lugar</li>
             <li>Se actualiza solo cada mañana — propiedades nuevas, precios y disponibilidad al día</li>
@@ -2757,20 +2776,40 @@ directos en los resultados.</h2>
       show(0);
     })();
 
-    /* ── Video GESAR: corre en silencio al verse, botón para escuchar ── */
+    /* ── Video: corre en silencio al verse, pestañas y botón para escuchar ── */
     (function () {
-      var v = document.getElementById('vidGesar'), btn = document.getElementById('vidSound');
+      var v = document.getElementById('vidMain'), btn = document.getElementById('vidSound');
       if (!v) return;
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches, visible = false;
       new IntersectionObserver(function (es) {
         es.forEach(function (e) {
-          if (e.isIntersecting) { if (!reduce || !v.muted) v.play().catch(function () {}); }
+          visible = e.isIntersecting;
+          if (visible) { if (!reduce || !v.muted) v.play().catch(function () {}); }
           else v.pause();
         });
       }, { threshold: 0.4 }).observe(v);
+      function setSound(on) {
+        v.muted = !on;
+        btn.textContent = on ? '🔇 Silenciar' : '🔊 Escuchar';
+        btn.setAttribute('aria-label', on ? 'Quitar sonido' : 'Activar sonido');
+      }
       btn.addEventListener('click', function () {
-        if (v.muted) { v.muted = false; v.currentTime = 0; v.play().catch(function () {}); btn.textContent = '🔇 Silenciar'; btn.setAttribute('aria-label', 'Quitar sonido'); }
-        else { v.muted = true; btn.textContent = '🔊 Escuchar'; btn.setAttribute('aria-label', 'Activar sonido'); }
+        if (v.muted) { setSound(true); v.currentTime = 0; v.play().catch(function () {}); }
+        else setSound(false);
+      });
+      document.querySelectorAll('.video-tabs button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          if (b.classList.contains('is-on')) return;
+          document.querySelectorAll('.video-tabs button').forEach(function (x) {
+            x.classList.toggle('is-on', x === b); x.setAttribute('aria-selected', x === b ? 'true' : 'false');
+          });
+          v.style.opacity = 0;
+          setTimeout(function () {
+            v.src = b.dataset.src; v.poster = b.dataset.poster;
+            if (visible && (!reduce || !v.muted)) v.play().catch(function () {});
+            v.style.opacity = 1;
+          }, 300);
+        });
       });
     })();
 

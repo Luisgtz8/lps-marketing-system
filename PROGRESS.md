@@ -36,6 +36,8 @@ Actualizado: 2026-10-28
   - Capacitación: Mentoría → Acompañamiento a tu equipo
   - Expediente: GESAR (con nombre, plataforma completa), Constructora (sin nombre), Casas de renta vacacional (sin nombres)
   - OG image 1200×630 (img/og-lps.jpg)
+  - Video propio "Lightning Pro en 40 segundos" (voz Jorge) justo después del hero, con pestaña para ver el de GESAR. Fuente: ~/LPS/scripts/video_sitio/ (build.py + motor de ~/GESAR/codigo/redes/video/)
+  - Expediente: quitadas las citas tipo testimonio → texto descriptivo normal (RVA y Silvana pasadas a tercera persona)
 - Dominio lightningprosolutions.com vencido desde 18-sep (Namecheap); el sitio sigue en https://lps-marketing-system.vercel.app
 
 ## Pendiente
