@@ -2419,7 +2419,7 @@
         <div class="cifra"><b><span data-count="2000">2,000</span>+</b><span>licitaciones monitoreadas para GESAR</span></div>
         <div class="cifra"><b>$<span data-count="86.4" data-dec="1">86.4</span>M</b><span>revisados con IA en una auditoría</span></div>
         <div class="cifra"><b><span data-count="961">961</span></b><span>transacciones analizadas en días, no semanas</span></div>
-        <div class="cifra"><b><span data-count="11">11</span></b><span>proyectos entregados en Sonora, Baja California y Arizona</span></div>
+        <div class="cifra"><b><span data-count="12">12</span></b><span>proyectos construidos en Sonora, Baja California y Arizona</span></div>
       </div>
     </div>
     <div class="expediente-scroll-wrap">
@@ -2452,6 +2452,20 @@
             <li>Chatbot de bitácora: lo que se dice en los grupos de obra queda ordenado por día</li>
           </ul>
           <img src="img/13.obra.webp" alt="Bitácora de obra generada desde WhatsApp" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
+          <img src="img/logo-juridia.svg" alt="Juridia" class="exp-logo">
+          <p class="exp-client">Juridia</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Plataforma fiscal y legal · Despachos en México</p>
+          <p class="exp-story">Responde consultas fiscales con la jurisprudencia y los datos reales de cada contribuyente en el SAT, citando siempre la fuente.</p>
+          <ul class="exp-points">
+            <li>Consulta jurídica con tesis de la SCJN y del TFJA citadas en cada respuesta</li>
+            <li>Buzón tributario, CFDIs y facturación de cada RFC en un solo lugar</li>
+            <li>Organigrama de grupos de empresas y flujos de trabajo del despacho</li>
+            <li>Diseño de producto y aplicación web, hoy en desarrollo</li>
+          </ul>
+          <img src="img/exp-juridia.webp" alt="Consulta jurídica con fuentes en Juridia" class="exp-img">
         </div>
 
         <div class="exp-card reveal">
@@ -2494,7 +2508,7 @@
           <img src="img/exp-dhagen.webp" alt="Óptica de lujo con sistema integrado" class="exp-img">
         </div>
 
-        <div class="exp-card reveal">
+        <div class="exp-card is-extra reveal">
           <img src="img/logo-titanes.png" alt="Titanes Team" class="exp-logo">
           <p class="exp-client">Titanes Team</p>
           <p class="exp-sector" style="margin-bottom:16px;">Academia de Artes Marciales · Hermosillo, Sonora</p>
@@ -2577,7 +2591,7 @@
 
       </div>
       <div class="exp-more">
-        <button type="button" id="expMore" aria-expanded="false">Ver los 11 proyectos</button>
+        <button type="button" id="expMore" aria-expanded="false">Ver los 12 proyectos</button>
       </div>
     </div>
   </section>
@@ -2950,7 +2964,7 @@ directos en los resultados.</h2>
       if (!btn) return;
       btn.addEventListener('click', function () {
         var all = grid.classList.toggle('is-all');
-        btn.textContent = all ? 'Ver menos' : 'Ver los 11 proyectos';
+        btn.textContent = all ? 'Ver menos' : 'Ver los 12 proyectos';
         btn.setAttribute('aria-expanded', all ? 'true' : 'false');
         grid.querySelectorAll('.is-extra').forEach(function (c) { c.classList.add('visible'); c.classList.remove('pre-animate'); });
         if (!all) document.getElementById('proyectos').scrollIntoView({ behavior: 'smooth' });
