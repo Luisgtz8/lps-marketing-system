@@ -1,0 +1,12 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="14" fill="#0F0F0F"/>
+  <!-- Grúa -->
+  <line x1="18" y1="54" x2="18" y2="12" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="10" y1="16" x2="52" y2="16" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="18" y1="24" x2="26" y2="16" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  <line x1="44" y1="16" x2="44" y2="28" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round"/>
+  <rect x="39" y="28" width="10" height="7" rx="1.5" fill="none" stroke="#F59E0B" stroke-width="2.2"/>
+  <!-- Edificio -->
+  <rect x="30" y="40" width="22" height="14" rx="1.5" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="10" y1="54" x2="56" y2="54" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

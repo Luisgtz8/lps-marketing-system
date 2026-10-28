@@ -11,13 +11,16 @@
   <link rel="canonical" href="https://www.lightningprosolutions.com/">
   <meta property="og:title" content="Agencia de IA en Hermosillo — Lightning Pro Solutions">
   <meta property="og:description" content="Consultoría de IA, chatbots, automatizaciones y cursos para empresas en Hermosillo, Sonora. Diagnóstico gratis, propuesta ese mismo día.">
-  <meta property="og:image" content="https://www.lightningprosolutions.com/img/2.reunion.webp">
+  <meta property="og:image" content="https://www.lightningprosolutions.com/img/og-lps.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.lightningprosolutions.com/">
   <meta property="og:locale" content="es_MX">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Agencia de IA en Hermosillo — Lightning Pro Solutions">
   <meta name="twitter:description" content="Consultoría de IA, chatbots, automatización y cursos de IA para empresas en Hermosillo, Sonora.">
+  <meta name="twitter:image" content="https://www.lightningprosolutions.com/img/og-lps.jpg">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -464,6 +467,83 @@
       line-height: 1.5;
       flex-shrink: 0;
     }
+
+    /* HERO SHOWREEL — escenas animadas */
+    .hero-panel.sr { padding: 22px 22px 18px; }
+    .sr { --sr-card: #171717; --sr-line: #262626; --sr-in: #1f1f1f; --sr-out: #3a2a08; --sr-txt: #e8e8e8; }
+    [data-theme="light"] .sr { --sr-card: #f6f6f6; --sr-line: #e2e2e2; --sr-in: #efefef; --sr-out: #fdf0d5; --sr-txt: #111; }
+    .sr-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .sr-live { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 rgba(245,158,11,.6); animation: sr-pulse 1.8s infinite; flex-shrink: 0; }
+    @keyframes sr-pulse { 70% { box-shadow: 0 0 0 8px rgba(245,158,11,0); } 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); } }
+    .sr-label { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; color: var(--muted); }
+    .sr-title { margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; color: var(--green); transition: opacity .35s; }
+    .sr-stage { position: relative; height: 336px; }
+    .sr-scene { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 10px; opacity: 0; filter: blur(6px); transform: scale(.98); transition: opacity .6s ease, filter .6s ease, transform .6s ease; pointer-events: none; }
+    .sr-scene.is-on { opacity: 1; filter: none; transform: none; pointer-events: auto; }
+    .sr-i { opacity: 0; transform: translateY(8px); }
+    .sr-scene.is-on .sr-i { animation: sr-in .5s cubic-bezier(.2,.7,.2,1) var(--d, 0s) forwards; }
+    @keyframes sr-in { to { opacity: 1; transform: none; } }
+    .sr-chat { display: flex; flex-direction: column; gap: 8px; }
+    .hero-panel .sr-msg { max-width: 82%; font-size: 13.5px; line-height: 1.45; padding: 8px 12px; border-radius: 12px; margin: 0; color: var(--sr-txt); }
+    .sr-msg.in { align-self: flex-start; background: var(--sr-in); border-bottom-left-radius: 4px; }
+    .sr-msg.out { align-self: flex-end; background: var(--sr-out); border-bottom-right-radius: 4px; }
+    .sr-ok { color: var(--green); }
+    .sr-typing { align-self: flex-end; display: flex; gap: 4px; padding: 10px 12px; background: var(--sr-out); border-radius: 12px; margin: 0; opacity: 0; height: 0; padding-block: 0; overflow: hidden; }
+    .sr-scene.is-on .sr-blink { animation: sr-typing .9s linear var(--d) 1 both; }
+    @keyframes sr-typing { 0% { opacity: 0; height: 0; padding-block: 0; } 10%, 90% { opacity: 1; height: 28px; padding-block: 10px; } 100% { opacity: 0; height: 0; padding-block: 0; } }
+    .sr-typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: sr-dot 1s infinite; }
+    .sr-typing i:nth-child(2) { animation-delay: .15s; } .sr-typing i:nth-child(3) { animation-delay: .3s; }
+    @keyframes sr-dot { 50% { transform: translateY(-3px); opacity: .5; } }
+    .sr-mail { background: var(--sr-card); border: 1px solid var(--sr-line); border-radius: 10px; padding: 12px 14px; }
+    .hero-panel .sr-mail-top { display: flex; justify-content: space-between; font-size: 11.5px; margin: 0 0 4px; }
+    .sr-pill { background: var(--green); color: #000; font-weight: 600; border-radius: 99px; padding: 1px 8px; }
+    .hero-panel .sr-mail-h { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; color: var(--sr-txt); margin: 0; }
+    .sr-rows { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; }
+    .sr-rows li { display: flex; flex-direction: column; gap: 2px; border-left: 2px solid var(--green); background: var(--sr-card); padding: 8px 12px; border-radius: 0 8px 8px 0; }
+    .sr-rows span { font-size: 14px; font-weight: 600; color: var(--sr-txt); }
+    .sr-rows em { font-style: normal; font-size: 12px; color: var(--muted); }
+    .hero-panel .sr-foot { font-size: 12.5px; margin: auto 0 0; color: var(--muted); }
+    .sr-group { display: flex; flex-direction: column; gap: 6px; }
+    .hero-panel .sr-gmsg { margin: 0; font-size: 13px; color: var(--sr-txt); background: var(--sr-in); padding: 7px 11px; border-radius: 10px; width: fit-content; }
+    .sr-gmsg b { display: block; font-size: 11px; color: #25D366; font-weight: 600; }
+    .sr-doc { margin-top: 4px; background: var(--sr-card); border: 1px solid rgba(245,158,11,.35); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+    .hero-panel .sr-doc p { margin: 0; font-size: 13px; color: var(--sr-txt); }
+    .hero-panel .sr-doc .sr-doc-h { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: var(--green); }
+    .sr-tag { display: inline-block; width: 74px; font-size: 11px; font-weight: 600; border-radius: 5px; padding: 1px 0; text-align: center; margin-right: 6px; }
+    .sr-tag.t1 { background: rgba(34,197,94,.15); color: #22c55e; }
+    .sr-tag.t2 { background: rgba(59,130,246,.15); color: #60a5fa; }
+    .sr-tag.t3 { background: rgba(245,158,11,.15); color: var(--green); }
+    .sr-tiles { display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 8px; height: 205px; }
+    .sr-tile { position: relative; border-radius: 10px; overflow: hidden; display: flex; align-items: flex-start; padding: 8px; }
+    .sr-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.18) 50%, transparent 70%); background-size: 250% 100%; animation: sr-shine 1.6s linear infinite; }
+    .sr-tile.a { background: linear-gradient(160deg, #f59e0b, #b45309 60%, #3b1d06); }
+    .sr-tile.b { background: linear-gradient(170deg, #0ea5e9, #0369a1 55%, #f59e0b 130%); }
+    .sr-tile.c { background: linear-gradient(160deg, #fb7185, #9d174d 70%); }
+    .sr-tile span { position: relative; z-index: 1; font-size: 11px; font-weight: 600; color: #fff; background: rgba(0,0,0,.35); border-radius: 5px; padding: 1px 7px; }
+    .sr-play { position: absolute; z-index: 1; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 34px; height: 34px; border-radius: 50%; background: rgba(0,0,0,.4); }
+    .sr-play::before { content: ""; position: absolute; left: 13px; top: 10px; border-left: 11px solid #fff; border-top: 7px solid transparent; border-bottom: 7px solid transparent; }
+    .sr-done { position: absolute; z-index: 2; right: 8px; bottom: 8px; font-size: 11px; background: #000; color: var(--green); border-radius: 5px; padding: 2px 7px; opacity: 0; }
+    .sr-scene.is-on .sr-done { animation: sr-in .4s ease var(--d) forwards; }
+    @keyframes sr-shine { from { background-position: 150% 0; } to { background-position: -100% 0; } }
+    .sr-cal { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .sr-cal span { background: var(--sr-card); border: 1px solid var(--sr-line); border-radius: 8px; padding: 6px 8px; font-size: 12px; color: var(--sr-txt); }
+    .sr-cal b { display: block; font-size: 10.5px; color: var(--green); font-weight: 600; letter-spacing: .5px; }
+    .sr-dots { display: flex; gap: 6px; margin-top: 14px; }
+    .sr-dots button { flex: 1; height: 16px; background: none; border: 0; padding: 6px 0; cursor: pointer; }
+    .sr-dots i { display: block; height: 3px; border-radius: 2px; background: var(--sr-line); overflow: hidden; position: relative; }
+    .sr-dots i::after { content: ""; position: absolute; inset: 0; background: var(--green); transform: scaleX(0); transform-origin: left; }
+    .sr-dots button.is-done i::after { transform: scaleX(1); }
+    .sr-dots button.is-on i::after { animation: sr-bar var(--sr-dur, 6.5s) linear forwards; }
+    .sr.is-paused .sr-dots button.is-on i::after { animation-play-state: paused; }
+    @keyframes sr-bar { to { transform: scaleX(1); } }
+    @media (prefers-reduced-motion: reduce) {
+      .sr-scene, .sr-i, .sr-done { transition: none; animation: none !important; opacity: 1; transform: none; filter: none; }
+      .sr-scene:not(.is-on) { opacity: 0; }
+      .sr-tile::after, .sr-live, .sr-blink { animation: none !important; }
+    }
+    [data-theme="light"] .hero-panel.sr p { color: var(--sr-txt); }
+    [data-theme="light"] .hero-panel.sr .sr-foot, [data-theme="light"] .hero-panel.sr .sr-mail-top { color: var(--muted); }
+    @media (max-width: 768px) { .sr-stage { height: 352px; } }
 
     /* LOGOS STRIP */
     .logos-strip {
@@ -1837,6 +1917,24 @@
       color: #111;
     }
 
+    /* VIDEO */
+    .video-sec { padding: 96px 0; background: var(--black); }
+    .video-inner { max-width: 1100px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: 38fr 62fr; gap: 56px; align-items: center; }
+    .video-sub { color: var(--muted); font-size: 16px; line-height: 1.65; margin: 0 0 24px; }
+    .video-copy .btn-green { display: inline-block; }
+    .video-frame { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid rgba(245,158,11,.3); box-shadow: 0 24px 60px rgba(0,0,0,.45), 0 0 0 1px rgba(245,158,11,.08); aspect-ratio: 16 / 9; background: #000; }
+    .video-frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .video-sound { position: absolute; right: 14px; bottom: 14px; background: rgba(0,0,0,.65); color: #fff; border: 1px solid rgba(255,255,255,.2); border-radius: 99px; padding: 8px 14px; font: 600 13px 'Space Grotesk', sans-serif; cursor: pointer; backdrop-filter: blur(6px); transition: background .2s; }
+    .video-sound:hover { background: var(--green); color: #000; }
+    @media (max-width: 1024px) {
+      .servicios-grid[style*="repeat(4"] { grid-template-columns: 1fr 1fr !important; }
+    }
+    @media (max-width: 768px) {
+      .video-sec { padding: 64px 0; }
+      .video-inner { grid-template-columns: 1fr; padding: 0 24px; gap: 32px; }
+      .servicios-grid[style*="repeat(4"] { grid-template-columns: 1fr !important; }
+    }
+
     /* RESPONSIVE — nuevas secciones */
     @media (max-width: 768px) {
       .uno-inner,
@@ -2006,23 +2104,76 @@
       <div class="hero-left">
         <p class="hero-eyebrow reveal">AGENCIA DE IA EN HERMOSILLO, SONORA · CONSULTORÍA · AUTOMATIZACIÓN · CURSOS</p>
         <h1 class="hero-h1 reveal">Construimos sistemas de IA que <span class="accent">trabajan en tu negocio.</span></h1>
-        <p class="hero-sub reveal">Chatbots, integraciones, bases de datos, sitios web y automatizaciones. Diseñados para tu operación. Entregados listos para usar.</p>
+        <p class="hero-sub reveal">Chatbots, integraciones, bases de datos, sitios web, video y automatizaciones. Diseñados para tu operación. Entregados listos para usar.</p>
         <div class="hero-btns reveal">
           <a href="https://wa.me/526623478040?text=Hola%2C%20quiero%20agendar%20un%20diagn%C3%B3stico%20gratuito%20para%20mi%20negocio" class="btn-primary" target="_blank" rel="noopener">Agendar diagnóstico gratis →</a>
           <a href="#servicios" class="btn-outline">Ver servicios</a>
         </div>
       </div>
-      <div class="hero-panel reveal">
-        <img src="img/2.reunion.webp" alt="Consultoría IA Lightning Pro Solutions" class="hero-panel-img">
-        <p class="panel-label">RESULTADOS REALES</p>
-        <p style="font-size:13px;color:#a0a0a0;margin:0 0 16px;line-height:1.6;">No vendemos tecnología. Entregamos sistemas que ya están funcionando en negocios como el tuyo.</p>
-        <ul class="check-list">
-          <li><span class="check">✓</span> Chatbot de WhatsApp que atiende y agenda las 24 horas.</li>
-          <li><span class="check">✓</span> 961 transacciones analizadas con IA — semanas en días.</li>
-          <li><span class="check">✓</span> CRM con alertas automáticas de seguimiento a prospectos.</li>
-          <li><span class="check">✓</span> Un proceso de 22 horas convertido en 8 con IA.</li>
-          <li><span class="check">✓</span> Sistemas integrados — sin duplicar datos ni exportar Excel.</li>
-        </ul>
+      <div class="hero-panel sr reveal" aria-label="Ejemplos de sistemas que construimos, funcionando">
+        <div class="sr-head">
+          <span class="sr-live" aria-hidden="true"></span>
+          <span class="sr-label">EN OPERACIÓN</span>
+          <span class="sr-title" id="srTitle">Asistente de WhatsApp</span>
+        </div>
+        <div class="sr-stage">
+
+          <div class="sr-scene is-on" data-title="Asistente de WhatsApp">
+            <div class="sr-chat">
+              <p class="sr-msg in sr-i" style="--d:.2s">Hola, ¿tienen clases para niños?</p>
+              <p class="sr-typing sr-blink" style="--d:.9s" aria-hidden="true"><i></i><i></i><i></i></p>
+              <p class="sr-msg out sr-i" style="--d:1.8s">¡Hola! Sí, de 6 a 12 años, lunes y miércoles 5 pm. ¿Te agendo una clase de prueba gratis?</p>
+              <p class="sr-msg in sr-i" style="--d:3s">Sí, el miércoles</p>
+              <p class="sr-msg out sr-i" style="--d:3.9s"><b class="sr-ok">✓</b> Listo: miércoles 5:00 pm. Te mando recordatorio un día antes.</p>
+            </div>
+          </div>
+
+          <div class="sr-scene" data-title="Alertas de licitaciones">
+            <div class="sr-mail sr-i" style="--d:.2s">
+              <p class="sr-mail-top"><span>Para: tu correo · 7:00 am</span><span class="sr-pill">Nuevo</span></p>
+              <p class="sr-mail-h">3 licitaciones nuevas para tu giro</p>
+            </div>
+            <ul class="sr-rows">
+              <li class="sr-i" style="--d:1s"><span>Material de limpieza</span><em>Estatal · cierra en 6 días</em></li>
+              <li class="sr-i" style="--d:1.6s"><span>Mantenimiento de equipo médico</span><em>Federal · cierra en 9 días</em></li>
+              <li class="sr-i" style="--d:2.2s"><span>Papelería y consumibles</span><em>Municipal · cierra en 12 días</em></li>
+            </ul>
+            <p class="sr-foot sr-i" style="--d:3.2s">Filtradas por tu giro, con fechas y bases listas para descargar.</p>
+          </div>
+
+          <div class="sr-scene" data-title="Bitácora de obra">
+            <div class="sr-group">
+              <p class="sr-gmsg sr-i" style="--d:.2s"><b>Residente</b> Terminamos colado de losa nivel 2</p>
+              <p class="sr-gmsg sr-i" style="--d:.8s"><b>Compras</b> El acero llega mañana 9 am</p>
+              <p class="sr-gmsg sr-i" style="--d:1.4s"><b>Supervisor</b> Falta firma de la estimación 4</p>
+            </div>
+            <div class="sr-doc sr-i" style="--d:2.3s">
+              <p class="sr-doc-h">Bitácora del día · obra norte</p>
+              <p class="sr-i" style="--d:2.8s"><span class="sr-tag t1">Avance</span> Losa nivel 2 colada</p>
+              <p class="sr-i" style="--d:3.2s"><span class="sr-tag t2">Material</span> Acero: mañana 9:00</p>
+              <p class="sr-i" style="--d:3.6s"><span class="sr-tag t3">Pendiente</span> Firma estimación 4</p>
+            </div>
+          </div>
+
+          <div class="sr-scene" data-title="Contenido para redes">
+            <div class="sr-tiles">
+              <div class="sr-tile a sr-i" style="--d:.2s"><span>Post</span><b class="sr-done" style="--d:1.4s">Listo</b></div>
+              <div class="sr-tile b sr-i" style="--d:.5s"><span>Reel</span><i class="sr-play" aria-hidden="true"></i><b class="sr-done" style="--d:2s">Listo</b></div>
+              <div class="sr-tile c sr-i" style="--d:.8s"><span>Historia</span><b class="sr-done" style="--d:2.6s">Listo</b></div>
+            </div>
+            <div class="sr-cal sr-i" style="--d:3s">
+              <span><b>Lun</b>Post</span><span><b>Mié</b>Reel</span><span><b>Vie</b>Post</span><span><b>Sáb</b>Historias</span>
+            </div>
+            <p class="sr-foot sr-i" style="--d:3.6s">La semana de Instagram y Facebook, armada con tus fotos y tu marca.</p>
+          </div>
+
+        </div>
+        <div class="sr-dots" role="tablist" aria-label="Elegir ejemplo">
+          <button type="button" role="tab" aria-label="Asistente de WhatsApp" class="is-on"><i></i></button>
+          <button type="button" role="tab" aria-label="Alertas de licitaciones"><i></i></button>
+          <button type="button" role="tab" aria-label="Bitácora de obra"><i></i></button>
+          <button type="button" role="tab" aria-label="Contenido para redes"><i></i></button>
+        </div>
       </div>
     </div>
   </section>
@@ -2066,7 +2217,7 @@
     <div class="servicios-inner">
       <p class="section-label reveal">LO QUE HACEMOS</p>
       <h2 class="section-h2 reveal">Sistemas que trabajan mientras tú te enfocas en lo importante.</h2>
-      <div class="servicios-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="servicios-grid" style="grid-template-columns:repeat(4,1fr);">
         <div class="servicio-card reveal">
           <div class="skill-ico ico-amber"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
           <h3 class="servicio-name">Chatbots y Asistentes IA</h3>
@@ -2115,6 +2266,26 @@
             <span class="servicio-tag">Reportes automáticos</span>
             <span class="servicio-tag">Alertas y notificaciones</span>
             <span class="servicio-tag">Flujos internos</span>
+          </div>
+        </div>
+        <div class="servicio-card reveal">
+          <div class="skill-ico ico-amber"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="15" height="14" rx="2"/><path d="m17 10 5-3v10l-5-3"/></svg></div>
+          <h3 class="servicio-name">Video y Contenido</h3>
+          <p class="servicio-desc">Videos con voz, animación y subtítulos para tu sitio y redes. Reels, posts e historias cada semana con tus fotos y tu marca.</p>
+          <div class="servicio-tags">
+            <span class="servicio-tag">Reels</span>
+            <span class="servicio-tag">Video para web</span>
+            <span class="servicio-tag">Calendario semanal</span>
+          </div>
+        </div>
+        <div class="servicio-card reveal">
+          <div class="skill-ico ico-blue"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a6 6 0 0 1-12 0V8z"/></svg></div>
+          <h3 class="servicio-name">Tu Información en Claude y ChatGPT</h3>
+          <p class="servicio-desc">Conectamos tu sistema para que tú o tus clientes le pregunten en lenguaje normal: ventas, clientes, licitaciones, lo que tengas.</p>
+          <div class="servicio-tags">
+            <span class="servicio-tag">Conectores</span>
+            <span class="servicio-tag">Datos centralizados</span>
+            <span class="servicio-tag">Acceso por usuario</span>
           </div>
         </div>
         <div class="servicio-card reveal">
@@ -2172,6 +2343,27 @@
     </div>
   </section>
 
+  <!-- VIDEO -->
+  <section class="video-sec" id="video">
+    <div class="video-inner">
+      <div class="video-copy">
+        <p class="section-label reveal">VIDEO Y ANIMACIÓN</p>
+        <h2 class="section-h2 reveal">Videos con voz y animación, hechos en días.</h2>
+        <p class="video-sub reveal">Guion, voz en off, animación y subtítulos, con capturas reales de tu operación. Este es el video de inicio que hicimos para GESAR Consultoría.</p>
+        <ul class="exp-points reveal">
+          <li>Video para tu sitio web, horizontal y vertical</li>
+          <li>Reels para Instagram, Facebook y TikTok</li>
+          <li>Portadas y miniaturas con tu marca</li>
+        </ul>
+        <a href="https://wa.me/526623478040?text=Quiero%20un%20video%20para%20mi%20negocio" class="btn-green reveal" target="_blank" rel="noopener" style="margin-top:28px;">Quiero un video →</a>
+      </div>
+      <div class="video-frame reveal">
+        <video id="vidGesar" src="media/gesar-inicio.mp4" poster="media/gesar-inicio.jpg" muted loop playsinline preload="none"></video>
+        <button type="button" class="video-sound" id="vidSound" aria-label="Activar sonido">🔊 Escuchar</button>
+      </div>
+    </div>
+  </section>
+
   <!-- CAPACITACIÓN -->
   <section class="talleres" id="capacitacion" style="background: var(--black-mid); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
     <div class="talleres-inner">
@@ -2191,14 +2383,14 @@
           <a href="https://wa.me/526623478040?text=Quiero%20info%20del%20taller%20IA%20Sin%20Miedo" class="btn-outline-green" target="_blank" rel="noopener">Solicitar información</a>
         </div>
         <div class="taller-card reveal">
-          <span class="taller-badge">1 A 1</span>
-          <h3 class="taller-name">Mentoría Personalizada</h3>
-          <p class="taller-desc">Sesiones individuales con tus herramientas, tus archivos y tus tareas reales. Aprendes a tu ritmo con seguimiento entre sesiones.</p>
+          <span class="taller-badge">EN TU EMPRESA</span>
+          <h3 class="taller-name">Acompañamiento a tu equipo</h3>
+          <p class="taller-desc">Visitas semanales por área. Cada persona sale con asistentes listos para su puesto y su información en un solo lugar. También 1 a 1.</p>
           <div class="taller-meta">
-            <span>Sesiones semanales o quincenales</span>
+            <span>Visitas semanales</span>
             <span>Diagnóstico incluido</span>
           </div>
-          <a href="https://wa.me/526623478040?text=Quiero%20info%20de%20mentor%C3%ADa%201%20a%201" class="btn-outline-green" target="_blank" rel="noopener">Solicitar mentoría</a>
+          <a href="https://wa.me/526623478040?text=Quiero%20info%20del%20acompa%C3%B1amiento%20para%20mi%20equipo" class="btn-outline-green" target="_blank" rel="noopener">Solicitar información</a>
         </div>
         <div class="taller-card featured reveal">
           <span class="taller-badge green">ONLINE</span>
@@ -2224,6 +2416,49 @@
       <div class="expediente-scroll" id="expScroll">
 
         <div class="exp-card reveal">
+          <img src="img/logo-gesar.png" alt="GESAR Consultoría Gubernamental" class="exp-logo">
+          <p class="exp-client">GESAR Consultoría Gubernamental</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Licitaciones y gestión pública · Sonora y federal</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Antes las licitaciones se buscaban a mano, portal por portal. Hoy le llegan a cada cliente las de su giro, con fechas y bases, antes de que cierren.</blockquote>
+          <ul class="exp-points">
+            <li>Alertas diarias de licitaciones estatales y federales, filtradas por giro</li>
+            <li>Portal de clientes con histórico, licitaciones activas y documentos</li>
+            <li>Ranking de quién gana y quién pierde, leído de las actas de fallo publicadas</li>
+            <li>Conector para consultar todo desde Claude o ChatGPT</li>
+            <li>Sitio web, videos con voz y auditoría de 961 transacciones ($86.4M) con IA</li>
+          </ul>
+          <img src="img/12.gesar.webp" alt="Video de GESAR Consultoría Gubernamental" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
+          <img src="img/logo-constructora.svg" alt="Constructora" class="exp-logo">
+          <p class="exp-client">Constructora de obra pública</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Construcción · Hermosillo, Sonora</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">La información de obra vivía en grupos de WhatsApp, correos y la computadora de cada quien. Ahora se captura una vez y todos trabajan sobre la misma.</blockquote>
+          <ul class="exp-points">
+            <li>Capacitación por área: cada persona resuelve una tarea real desde la primera visita</li>
+            <li>Asistentes por puesto: lector de bases, revisor de estimaciones, redactor de oficios</li>
+            <li>Información centralizada por departamento, sin capturar dos veces</li>
+            <li>Chatbot de bitácora: lo que se dice en los grupos de obra queda ordenado por día</li>
+          </ul>
+          <img src="img/13.obra.webp" alt="Bitácora de obra generada desde WhatsApp" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
+          <img src="img/logo-rentas.svg" alt="Rentas vacacionales" class="exp-logo">
+          <p class="exp-client">Casas de renta vacacional</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Hospedaje · Costa de Sonora</p>
+          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Sin tiempo para redes. Cada semana el contenido de las casas sale listo, con sus fotos reales y su propia marca.</blockquote>
+          <ul class="exp-points">
+            <li>Posts, reels e historias cada semana para Instagram y Facebook</li>
+            <li>Reels con movimiento a partir de las fotos de cada casa</li>
+            <li>Textos redactados con IA y calendario de publicación</li>
+            <li>Identidad de cada casa respetada: logo, colores y tipografía</li>
+          </ul>
+          <img src="img/14.rentas.webp" alt="Contenido semanal para redes sociales" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
           <img src="img/logo-rva.png" alt="RVA Fiscalistas" class="exp-logo">
           <p class="exp-client">Raygoza Vázquez &amp; Ayala Fiscalistas</p>
           <p class="exp-sector" style="margin-bottom:16px;">Consultoría y Defensa Fiscal · Mexicali, Baja California</p>
@@ -2234,20 +2469,6 @@
             <li>El criterio jurídico sigue siendo suyo — la IA hace el trabajo pesado</li>
           </ul>
           <img src="img/6.despacho.webp" alt="Despacho fiscal usando IA" class="exp-img">
-        </div>
-
-        <div class="exp-card reveal">
-          <img src="img/logo-gesar.png" alt="GESAR Consultoría Gubernamental" class="exp-logo">
-          <p class="exp-client">GESAR Consultoría Gubernamental</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Auditoría y Consultoría · Hermosillo, Sonora</p>
-          <blockquote style="font-style:italic;color:#a0a0a0;font-size:13px;border-left:2px solid #22c55e;padding-left:12px;margin:0 0 16px;line-height:1.6;">Se cargaron leyes, reglamentos y documentos reales. La IA analizó. El despacho decidió. Sin inventar nada.</blockquote>
-          <ul class="exp-points">
-            <li>Auditoría financiera a organismo municipal — Sonora</li>
-            <li>961 transacciones y $86.4M revisados con IA</li>
-            <li>$13.8M en irregularidades formalizadas y sustentadas en normativa</li>
-            <li>Semanas de revisión manual comprimidas en días</li>
-          </ul>
-          <img src="img/7.consultoria.webp" alt="Auditoría con IA" class="exp-img">
         </div>
 
         <div class="exp-card reveal">
@@ -2498,6 +2719,59 @@ directos en los resultados.</h2>
       spawnSpark();
       setTimeout(spawnSpark, 600);
       tick();
+    })();
+
+    /* ── Hero showreel: rota escenas ── */
+    (function () {
+      var root = document.querySelector('.sr');
+      if (!root) return;
+      var scenes = root.querySelectorAll('.sr-scene');
+      var dots = root.querySelectorAll('.sr-dots button');
+      var title = document.getElementById('srTitle');
+      var DUR = 6500, idx = 0, timer = null, left = DUR, started = 0;
+
+      function show(n) {
+        idx = (n + scenes.length) % scenes.length;
+        scenes.forEach(function (sc, i) {
+          sc.classList.remove('is-on');
+          if (i === idx) { void sc.offsetWidth; sc.classList.add('is-on'); }
+        });
+        dots.forEach(function (d, i) {
+          d.classList.remove('is-on');
+          d.classList.toggle('is-done', i < idx);
+          d.setAttribute('aria-selected', i === idx ? 'true' : 'false');
+          if (i === idx) { void d.offsetWidth; d.classList.add('is-on'); }
+        });
+        title.style.opacity = 0;
+        setTimeout(function () { title.textContent = scenes[idx].dataset.title; title.style.opacity = 1; }, 200);
+        schedule(DUR);
+      }
+      function schedule(ms) {
+        clearTimeout(timer); left = ms; started = Date.now();
+        timer = setTimeout(function () { show(idx + 1); }, ms);
+      }
+      dots.forEach(function (d, i) { d.addEventListener('click', function () { show(i); }); });
+      root.addEventListener('mouseenter', function () { clearTimeout(timer); left -= Date.now() - started; root.classList.add('is-paused'); });
+      root.addEventListener('mouseleave', function () { root.classList.remove('is-paused'); schedule(Math.max(left, 600)); });
+      root.style.setProperty('--sr-dur', DUR / 1000 + 's');
+      show(0);
+    })();
+
+    /* ── Video GESAR: corre en silencio al verse, botón para escuchar ── */
+    (function () {
+      var v = document.getElementById('vidGesar'), btn = document.getElementById('vidSound');
+      if (!v) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting) { if (!reduce || !v.muted) v.play().catch(function () {}); }
+          else v.pause();
+        });
+      }, { threshold: 0.4 }).observe(v);
+      btn.addEventListener('click', function () {
+        if (v.muted) { v.muted = false; v.currentTime = 0; v.play().catch(function () {}); btn.textContent = '🔇 Silenciar'; btn.setAttribute('aria-label', 'Quitar sonido'); }
+        else { v.muted = true; btn.textContent = '🔊 Escuchar'; btn.setAttribute('aria-label', 'Activar sonido'); }
+      });
     })();
 
     /* ── Scroll reveal ── */

@@ -1,6 +1,6 @@
 # PROGRESS — LPS sitio / lps-marketing-system
 
-Actualizado: 2026-07-02
+Actualizado: 2026-10-28
 
 ## Completado
 
@@ -29,12 +29,20 @@ Actualizado: 2026-07-02
 - Script: `scripts/send_taller.mjs` (reutilizable para futuros talleres, `--dry-run` disponible)
 
 ## En progreso
-- Nada activo
+- Rama local `feat/home-2026-10` (sin push): home actualizado
+  - Hero: panel animado con 4 escenas (WhatsApp, alertas de licitaciones, bitácora de obra, contenido para redes)
+  - Sección nueva "Video y animación" con el video de inicio de GESAR (docs/media/)
+  - Servicios: +Video y Contenido, +Tu información en Claude y ChatGPT (grid 4 col)
+  - Capacitación: Mentoría → Acompañamiento a tu equipo
+  - Expediente: GESAR (con nombre, plataforma completa), Constructora (sin nombre), Casas de renta vacacional (sin nombres)
+  - OG image 1200×630 (img/og-lps.jpg)
+- Dominio lightningprosolutions.com vencido desde 18-sep (Namecheap); el sitio sigue en https://lps-marketing-system.vercel.app
 
 ## Pendiente
 - Portafolio en index.html: cards clickables con detalle de proyectos
 
 ## Decisiones tomadas
+- 28-oct: GESAR va con nombre; SECOIP y casas de Kino van sin nombre en el sitio
 - Sin contraseñas para alumnos — flujo 100% magic link
 - Acceso manual: Luis cobra → activa desde admin panel → alumno recibe email
 - 12/12 funciones Vercel Hobby — no crear nuevos archivos en api/
