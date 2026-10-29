@@ -29,7 +29,7 @@ Actualizado: 2026-10-28
 - Script: `scripts/send_taller.mjs` (reutilizable para futuros talleres, `--dry-run` disponible)
 
 ## En progreso
-- Rama local `feat/home-2026-10` (sin push): home actualizado
+- 29-oct: home actualizado PUBLICADO (main f38bd6b). Dirección pública mientras regresa el dominio: https://lightningprosolutions.vercel.app (proyecto Vercel "lightningprosolutions"). Ojo: lps-marketing-system.vercel.app es OTRO proyecto viejo, no se actualiza.
   - Hero: panel animado con 4 escenas (WhatsApp, alertas de licitaciones, bitácora de obra, contenido para redes)
   - Sección nueva "Video y animación" con el video de inicio de GESAR (docs/media/)
   - Servicios: +Video y Contenido, +Tu información en Claude y ChatGPT (grid 4 col)
@@ -42,7 +42,8 @@ Actualizado: 2026-10-28
   - Expediente en cuadrícula 3 col con 6 destacados + botón "Ver los 11 proyectos" (se quitó el carrusel horizontal)
   - Tarjetas viejas del expediente: fotos de stock → maquetas de lo que hace cada sistema (img/exp-*.webp, generador ~/LPS/scripts/mockups_sitio/gen.py)
   - Expediente: quitadas las citas tipo testimonio → texto descriptivo normal (RVA y Silvana pasadas a tercera persona)
-- Dominio lightningprosolutions.com vencido desde 18-sep (Namecheap); el sitio sigue en https://lps-marketing-system.vercel.app
+- Dominio lightningprosolutions.com vencido desde 18-sep, en cuenta Namecheap de David; no aparece en su lista. David escribió a soporte el 29-oct. Costo esperado US$88–107. El curso/login dependen de api.lightningprosolutions.com → no funcionan hasta recuperar el dominio.
+- Pendiente: Fiscalito en el expediente (falta que Luis diga qué es y si es suyo)
 
 ## Pendiente
 - Portafolio en index.html: cards clickables con detalle de proyectos
