@@ -1416,6 +1416,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px 28px;
     }
 
     .footer-brand {
@@ -2084,6 +2086,8 @@
     .exp-link:hover { border-color: var(--green); }
     .exp-card .exp-points { margin-bottom: 20px; }
     .servicios-grid[style*="repeat(4"] { align-items: stretch; }
+    .servicios-sub { color: var(--muted); font-size: 16px; line-height: 1.6; max-width: 640px; margin: -8px 0 40px; }
+    .servicio-problema { font-size: 13.5px; font-weight: 500; color: var(--green); line-height: 1.45; margin: 4px 0 10px; }
     .exp-card.is-extra { display: none; }
     .expediente-scroll.is-all .exp-card.is-extra { display: flex; }
     .exp-more { text-align: center; margin-top: 32px; }
@@ -2140,12 +2144,12 @@
     </svg>
     <div class="hero-inner">
       <div class="hero-left">
-        <p class="hero-eyebrow reveal">AGENCIA DE IA EN HERMOSILLO, SONORA · CONSULTORÍA · AUTOMATIZACIÓN · CURSOS</p>
+        <p class="hero-eyebrow reveal">AGENCIA DE IA · HERMOSILLO, SONORA</p>
         <h1 class="hero-h1 reveal">Construimos sistemas de IA que <span class="accent">trabajan en tu negocio.</span></h1>
         <p class="hero-sub reveal">Chatbots, integraciones, bases de datos, sitios web, video y automatizaciones. Diseñados para tu operación. Entregados listos para usar.</p>
         <div class="hero-btns reveal">
           <a href="https://wa.me/526623478040?text=Hola%2C%20quiero%20agendar%20un%20diagn%C3%B3stico%20gratuito%20para%20mi%20negocio" class="btn-primary" target="_blank" rel="noopener">Agendar diagnóstico gratis →</a>
-          <a href="#servicios" class="btn-outline">Ver servicios</a>
+          <a href="#proyectos" class="btn-outline">Ver proyectos</a>
         </div>
       </div>
       <div class="hero-panel sr reveal" aria-label="Ejemplos de sistemas que construimos, funcionando">
@@ -2245,36 +2249,200 @@
 
 
 
-  <!-- PARA QUIÉN ES -->
-  <section style="padding: 64px 0; background: var(--black-mid); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-    <div class="para-quien-inner" style="max-width: 860px; margin: 0 auto; padding: 0 48px;">
-      <p class="section-label reveal" style="text-align:center;">¿ESTO ES PARA TI?</p>
-      <h2 class="reveal" style="font-size:clamp(22px,3vw,32px);font-weight:700;text-align:center;margin:12px 0 40px;letter-spacing:-0.5px;">Tienes un proceso que mejorar y necesitas a alguien que lo construya.</h2>
-
-      <div class="reveal" style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;">
-        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
-          <div style="font-size:28px;margin-bottom:10px;">📲</div>
-          <p style="font-size:13px;font-weight:600;color:#e8e8e8;line-height:1.4;">Pierdes clientes porque nadie responde a tiempo</p>
-        </div>
-        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
-          <div style="font-size:28px;margin-bottom:10px;">🔀</div>
-          <p style="font-size:13px;font-weight:600;color:#e8e8e8;line-height:1.4;">Tus sistemas no hablan entre sí y duplicas trabajo</p>
-        </div>
-        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
-          <div style="font-size:28px;margin-bottom:10px;">📊</div>
-          <p style="font-size:13px;font-weight:600;color:#e8e8e8;line-height:1.4;">Haces reportes a mano cada semana o cada mes</p>
-        </div>
-        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
-          <div style="font-size:28px;margin-bottom:10px;">📁</div>
-          <p style="font-size:13px;font-weight:600;color:#e8e8e8;line-height:1.4;">Tu información está dispersa en correos y Excel</p>
-        </div>
-        <div style="background:#111;border:1px solid #222;border-radius:10px;padding:24px 16px;text-align:center;">
-          <div style="font-size:28px;margin-bottom:10px;">⏱️</div>
-          <p style="font-size:13px;font-weight:600;color:#e8e8e8;line-height:1.4;">Tareas repetitivas consumen tiempo de tu equipo</p>
-        </div>
+  <!-- EXPEDIENTE -->
+  <section class="expediente" id="proyectos">
+    <div class="expediente-inner">
+      <p class="section-label reveal">EXPEDIENTE</p>
+      <h2 class="section-h2 reveal">Lo que hemos construido.</h2>
+      <div class="cifras reveal">
+        <div class="cifra"><b><span data-count="2000">2,000</span>+</b><span>licitaciones públicas monitoreadas, estatales y federales</span></div>
+        <div class="cifra"><b>$<span data-count="790">790</span>M+</b><span>de presupuesto público revisado con IA en auditorías</span></div>
+        <div class="cifra"><b><span data-count="961">961</span></b><span>transacciones analizadas en días, no semanas</span></div>
+        <div class="cifra"><b><span data-count="13">13</span></b><span>proyectos construidos en Sonora, Baja California y Arizona</span></div>
       </div>
+    </div>
+    <div class="expediente-scroll-wrap">
+      <div class="expediente-scroll" id="expScroll">
 
-      <p class="reveal" style="text-align:center;color:#888;font-size:15px;margin-top:28px;">No necesitas saber de tecnología. Solo contarnos cómo funciona tu operación. Nosotros identificamos dónde la IA genera impacto real — y lo construimos.</p>
+        <div class="exp-card reveal">
+          <img src="img/logo-gesar.png" alt="GESAR Consultoría Gubernamental" class="exp-logo">
+          <p class="exp-client">GESAR Consultoría Gubernamental</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Licitaciones y gestión pública · Sonora y federal</p>
+          <p class="exp-story">Antes las licitaciones se buscaban a mano, portal por portal. Hoy le llegan a cada cliente las de su giro, con fechas y bases, antes de que cierren.</p>
+          <ul class="exp-points">
+            <li>Alertas diarias de licitaciones estatales y federales, filtradas por giro</li>
+            <li>Portal de clientes y conector para consultarlo desde Claude o ChatGPT</li>
+            <li>Auditorías municipales sobre más de $790M con IA</li>
+          </ul>
+          <a class="exp-link" href="https://gesar.mx" target="_blank" rel="noopener">Ver sitio: gesar.mx ↗</a>
+          <img src="img/12.gesar.webp" alt="Video de GESAR Consultoría Gubernamental" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
+          <img src="img/logo-constructora.svg" alt="Constructora" class="exp-logo">
+          <p class="exp-client">Constructora de obra pública</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Construcción · Hermosillo, Sonora</p>
+          <p class="exp-story">La información de obra vivía en grupos de WhatsApp, correos y la computadora de cada quien. Ahora se captura una vez y todos trabajan sobre la misma.</p>
+          <ul class="exp-points">
+            <li>Capacitación por área con tareas reales desde la primera visita</li>
+            <li>Asistentes por puesto: bases, estimaciones y oficios</li>
+            <li>Chatbot de bitácora: lo que se dice en los grupos de obra queda ordenado por día</li>
+          </ul>
+          <img src="img/13.obra.webp" alt="Bitácora de obra generada desde WhatsApp" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
+          <img src="img/logo-juridia.svg" alt="Juridia" class="exp-logo">
+          <p class="exp-client">Juridia</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Plataforma fiscal y legal · Despachos en México</p>
+          <p class="exp-story">Responde consultas fiscales con la jurisprudencia y los datos reales de cada contribuyente en el SAT, citando siempre la fuente.</p>
+          <ul class="exp-points">
+            <li>Consulta jurídica con tesis de la SCJN y del TFJA citadas</li>
+            <li>Buzón, CFDIs y facturación de cada RFC en un solo lugar</li>
+            <li>Aplicación web, hoy en desarrollo</li>
+          </ul>
+          <a class="exp-link" href="https://juridia.mx" target="_blank" rel="noopener">Ver sitio: juridia.mx ↗</a>
+          <img src="img/exp-juridia.webp" alt="Consulta jurídica con fuentes en Juridia" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
+          <img src="img/logo-fiscalito.svg" alt="Fiscalito" class="exp-logo" style="background:#F3EBDD;border-radius:14px;padding:6px;mix-blend-mode:normal">
+          <p class="exp-client">Fiscalito</p>
+          <p class="exp-sector" style="margin-bottom:16px;">App fiscal para negocios · México</p>
+          <p class="exp-story">Lleva los impuestos de un negocio desde el teléfono: vigila el Buzón Tributario, emite facturas y ordena todo lo que entra y sale.</p>
+          <ul class="exp-points">
+            <li>Avisa el mismo día cuando el SAT notifica</li>
+            <li>Facturas desde el celular y tickets con una foto</li>
+            <li>Mapa de gastos y aviso de proveedores en la lista 69-B</li>
+          </ul>
+          <a class="exp-link" href="https://fiscalito.mx" target="_blank" rel="noopener">Ver sitio: fiscalito.mx ↗</a>
+          <img src="img/exp-fiscalito.webp" alt="Pantallas de Fiscalito: inicio y Buzón Tributario" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
+          <img src="img/logo-dhagen.svg" alt="D'Hagen Ópticas" class="exp-logo">
+          <p class="exp-client">D'Hagen Ópticas</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Retail · Varias sucursales · Hermosillo, Sonora</p>
+          <p class="exp-story">Antes eran seis sistemas distintos. Hoy corren como uno solo — cada venta, cliente y gasto trazado en tiempo real.</p>
+          <ul class="exp-points">
+            <li>Un solo sistema para tiendas físicas y tienda en línea</li>
+            <li>Gerentes ven ventas, inventario y clientes frecuentes en tiempo real</li>
+            <li>Asistentes de IA que crean contenido para redes y analizan resultados de marketing</li>
+          </ul>
+          <a class="exp-link" href="https://www.dhagen.mx" target="_blank" rel="noopener">Ver sitio: dhagen.mx ↗</a>
+          <img src="img/exp-dhagen.webp" alt="Óptica de lujo con sistema integrado" class="exp-img">
+        </div>
+
+        <div class="exp-card reveal">
+          <img src="img/logo-rentas.svg" alt="Rentas vacacionales" class="exp-logo">
+          <p class="exp-client">Casas de renta vacacional</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Hospedaje · Costa de Sonora</p>
+          <p class="exp-story">Sin tiempo para redes. Cada semana el contenido de las casas sale listo, con sus fotos reales y su propia marca.</p>
+          <ul class="exp-points">
+            <li>Posts, reels e historias cada semana para Instagram y Facebook</li>
+            <li>Reels con movimiento a partir de las fotos de cada casa</li>
+            <li>La identidad de cada casa respetada: logo, colores y tipografía</li>
+          </ul>
+          <img src="img/14.rentas.webp" alt="Contenido semanal para redes sociales" class="exp-img">
+        </div>
+
+        <div class="exp-card is-extra reveal">
+          <img src="img/logo-rva.png" alt="RVA Fiscalistas" class="exp-logo">
+          <p class="exp-client">Raygoza Vázquez &amp; Ayala Fiscalistas</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Consultoría y Defensa Fiscal · Mexicali, Baja California</p>
+          <p class="exp-story">Recupera entre 25 y 40 horas al mes que antes se iban en redacción y búsqueda, y las dedica a la estrategia y a la atención al cliente.</p>
+          <ul class="exp-points">
+            <li>Un proceso que tomaba 22–28 horas: hoy lo resuelve en 8–10</li>
+            <li>Usa IA para analizar documentos legales, cruzar información y redactar escritos</li>
+            <li>El criterio jurídico sigue siendo suyo — la IA hace el trabajo pesado</li>
+          </ul>
+          <img src="img/exp-rva.webp" alt="Despacho fiscal usando IA" class="exp-img">
+        </div>
+
+        <div class="exp-card is-extra reveal">
+          <img src="img/logo-titanes.png" alt="Titanes Team" class="exp-logo">
+          <p class="exp-client">Titanes Team</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Academia de Artes Marciales · Hermosillo, Sonora</p>
+          <ul class="exp-points">
+            <li>Asistente de WhatsApp que responde preguntas y da precios</li>
+            <li>Agenda clases de prueba sin intervención del equipo</li>
+            <li>Recordatorios a alumnos con mensualidad vencida</li>
+          </ul>
+          <img src="img/exp-titanes.webp" alt="Academia de artes marciales con IA" class="exp-img">
+        </div>
+
+        <div class="exp-card is-extra reveal">
+          <img src="img/logo-resinx.png" alt="ResinX" class="exp-logo">
+          <p class="exp-client">ResinX</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Pisos Epóxicos y Acabados · Hermosillo, Sonora</p>
+          <p class="exp-story">Sin presupuesto de publicidad. En lugar de pautar en redes, creamos un sistema que llega directamente a las empresas que necesitan el servicio — antes de que ellas lo busquen.</p>
+          <ul class="exp-points">
+            <li>Sitio web con una marca creada desde cero</li>
+            <li>Detecta empresas que pueden necesitar el servicio</li>
+            <li>Les envía correos personalizados por tipo de cliente</li>
+          </ul>
+          <a class="exp-link" href="https://www.resinx.net" target="_blank" rel="noopener">Ver sitio: resinx.net ↗</a>
+          <img src="img/exp-resinx.webp" alt="Empresa de acabados" class="exp-img">
+        </div>
+
+        <div class="exp-card is-extra reveal">
+          <img src="img/logo-bsi.png" alt="Fletes y Acarreos Botiller" class="exp-logo">
+          <p class="exp-client">Fletes y Acarreos Botiller</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Logística y Fletes · Hermosillo, Sonora</p>
+          <ul class="exp-points">
+            <li>Identidad de marca creada desde cero</li>
+            <li>Publicaciones automáticas en redes sociales</li>
+            <li>Asistente en Meta y WhatsApp Business</li>
+          </ul>
+          <a class="exp-link" href="https://www.instagram.com/botillerfletes/" target="_blank" rel="noopener">Ver Instagram: @botillerfletes ↗</a>
+          <img src="img/exp-bsi.webp" alt="Empresa de logística" class="exp-img">
+        </div>
+
+        <div class="exp-card is-extra reveal">
+          <img src="img/logo-silvana.png" alt="Silvana Growth" class="exp-logo exp-logo-invert">
+          <p class="exp-client">Silvana Growth</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Marketing Digital y Creación de Contenido · Hermosillo, Sonora</p>
+          <p class="exp-story">De improvisar cada publicación a una marca clara, paquetes definidos y un flujo de producción de contenido con IA.</p>
+          <ul class="exp-points">
+            <li>Identidad de marca: nombre, tono, paleta y propuesta de valor</li>
+            <li>Paquetes de servicio para cotizar y cerrar sin negociar desde cero</li>
+            <li>Flujo de producción de contenido con IA</li>
+          </ul>
+          <a class="exp-link" href="https://www.instagram.com/silvanagrowth/" target="_blank" rel="noopener">Ver Instagram: @silvanagrowth ↗</a>
+          <img src="img/exp-silvana.webp" alt="Emprendedora de marketing digital" class="exp-img">
+        </div>
+
+        <div class="exp-card is-extra reveal">
+          <img src="img/logo-asesores.svg" alt="Asesores Inmobiliarios" class="exp-logo">
+          <p class="exp-client">Asesores Inmobiliarios</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Bienes raíces · Hermosillo, Sonora y Phoenix, Arizona</p>
+          <p class="exp-story">El asistente hacía y recibía llamadas, agendaba citas y avisaba al asesor — todo sin que nadie tuviera que estar al teléfono.</p>
+          <ul class="exp-points">
+            <li>Asistente de voz que atendía por teléfono y WhatsApp las 24 horas</li>
+            <li>Agendaba citas automáticamente sin conflictos de horario</li>
+            <li>Detectaba propiedades en proceso legal y contactaba al dueño antes que la competencia</li>
+          </ul>
+          <img src="img/exp-asesores.webp" alt="Asistente de voz con IA" class="exp-img">
+        </div>
+
+        <div class="exp-card is-extra reveal">
+          <img src="img/logo-lightningre.svg" alt="Lightning RE" class="exp-logo">
+          <p class="exp-client">Plataforma PropTech Noroeste</p>
+          <p class="exp-sector" style="margin-bottom:16px;">Tecnología Inmobiliaria · Noroeste de México</p>
+          <p class="exp-story">Antes el asesor buscaba propiedad por propiedad en cada portal. Hoy el cliente describe lo que quiere, el sistema filtra y el asesor solo da clic en contactar.</p>
+          <ul class="exp-points">
+            <li>Une los portales inmobiliarios del noroeste en un solo panel</li>
+            <li>Se actualiza solo cada mañana</li>
+            <li>El asesor filtra y contacta al vendedor con un clic</li>
+          </ul>
+          <a class="exp-link" href="https://www.lightninghomesolutions.com/login" target="_blank" rel="noopener">Ver sitio: lightninghomesolutions.com ↗</a>
+          <img src="img/exp-proptech.webp" alt="Plataforma inmobiliaria" class="exp-img">
+        </div>
+
+      </div>
+      <div class="exp-more">
+        <button type="button" id="expMore" aria-expanded="false">Ver los 13 proyectos</button>
+      </div>
     </div>
   </section>
 
@@ -2283,47 +2451,31 @@
     <div class="servicios-inner">
       <p class="section-label reveal">LO QUE HACEMOS</p>
       <h2 class="section-h2 reveal">Sistemas que trabajan mientras tú te enfocas en lo importante.</h2>
+      <p class="servicios-sub reveal">No necesitas saber de tecnología. Cuéntanos cómo funciona tu operación: nosotros vemos dónde la IA genera impacto y lo construimos.</p>
       <div class="servicios-grid" style="grid-template-columns:repeat(4,1fr);">
         <div class="servicio-card reveal">
           <div class="skill-ico ico-amber"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <p class="servicio-problema">¿Pierdes clientes porque nadie contesta a tiempo?</p>
           <h3 class="servicio-name">Asistentes y Chatbots</h3>
           <p class="servicio-desc">Un asistente entrenado con tu negocio que atiende, califica y agenda las 24 horas. Por WhatsApp, en tu sitio o por teléfono.</p>
-          <div class="servicio-tags">
-            <span class="servicio-tag">Bot de WhatsApp</span>
-            <span class="servicio-tag">Asistente de voz</span>
-            <span class="servicio-tag">Agenda automática</span>
-          </div>
         </div>
         <div class="servicio-card reveal">
           <div class="skill-ico ico-green"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></svg></div>
+          <p class="servicio-problema">¿Tu información está en correos y Excel, y haces reportes a mano?</p>
           <h3 class="servicio-name">Sistemas y Datos</h3>
           <p class="servicio-desc">Tu información en un solo lugar: conectamos CRM, WhatsApp, correo, Excel y Drive, y automatizamos reportes y alertas. Consúltala desde Claude o ChatGPT.</p>
-          <div class="servicio-tags">
-            <span class="servicio-tag">Integraciones</span>
-            <span class="servicio-tag">Base de datos propia</span>
-            <span class="servicio-tag">Reportes y alertas</span>
-            <span class="servicio-tag">Claude y ChatGPT</span>
-          </div>
         </div>
         <div class="servicio-card reveal">
           <div class="skill-ico ico-violet"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="15" height="14" rx="2"/><path d="m17 10 5-3v10l-5-3"/></svg></div>
+          <p class="servicio-problema">¿Tu marca no tiene presencia ni contenido constante?</p>
           <h3 class="servicio-name">Sitios, Video y Contenido</h3>
           <p class="servicio-desc">Sitios que convierten, videos con voz y animación, y la semana de redes lista con tus fotos y tu marca.</p>
-          <div class="servicio-tags">
-            <span class="servicio-tag">Sitios web</span>
-            <span class="servicio-tag">Video con voz</span>
-            <span class="servicio-tag">Reels y posts</span>
-          </div>
         </div>
         <div class="servicio-card reveal">
           <div class="skill-ico ico-rose"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+          <p class="servicio-problema">¿No sabes por dónde empezar con la IA?</p>
           <h3 class="servicio-name">Diagnóstico y Capacitación</h3>
           <p class="servicio-desc">Revisamos tu operación sin costo y te decimos dónde la IA genera impacto. Si prefieres que tu equipo lo haga, lo capacitamos.</p>
-          <div class="servicio-tags">
-            <span class="servicio-tag">Diagnóstico gratis</span>
-            <span class="servicio-tag">Propuesta en 24h</span>
-            <span class="servicio-tag">Talleres</span>
-          </div>
         </div>
       </div>
       <div class="reveal" style="text-align:center;margin-top:48px;">
@@ -2379,215 +2531,6 @@
       <div class="hero-btns reveal" style="justify-content:center;">
         <a href="cursos.html" class="btn-primary">Ver cursos y talleres →</a>
         <a href="ia-aplicada.html" class="btn-outline">Curso en línea</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXPEDIENTE -->
-  <section class="expediente" id="proyectos">
-    <div class="expediente-inner">
-      <p class="section-label reveal">EXPEDIENTE</p>
-      <h2 class="section-h2 reveal">Lo que hemos construido.</h2>
-      <div class="cifras reveal">
-        <div class="cifra"><b><span data-count="2000">2,000</span>+</b><span>licitaciones públicas monitoreadas, estatales y federales</span></div>
-        <div class="cifra"><b>$<span data-count="790">790</span>M+</b><span>de presupuesto público revisado con IA en auditorías</span></div>
-        <div class="cifra"><b><span data-count="961">961</span></b><span>transacciones analizadas en días, no semanas</span></div>
-        <div class="cifra"><b><span data-count="13">13</span></b><span>proyectos construidos en Sonora, Baja California y Arizona</span></div>
-      </div>
-    </div>
-    <div class="expediente-scroll-wrap">
-      <div class="expediente-scroll" id="expScroll">
-
-        <div class="exp-card reveal">
-          <img src="img/logo-gesar.png" alt="GESAR Consultoría Gubernamental" class="exp-logo">
-          <p class="exp-client">GESAR Consultoría Gubernamental</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Licitaciones y gestión pública · Sonora y federal</p>
-          <p class="exp-story">Antes las licitaciones se buscaban a mano, portal por portal. Hoy le llegan a cada cliente las de su giro, con fechas y bases, antes de que cierren.</p>
-          <ul class="exp-points">
-            <li>Alertas diarias de licitaciones estatales y federales, filtradas por giro</li>
-            <li>Portal de clientes con histórico, licitaciones activas y documentos</li>
-            <li>Ranking de quién gana y quién pierde, leído de las actas de fallo publicadas</li>
-            <li>Conector para consultar todo desde Claude o ChatGPT</li>
-            <li>Sitio web, videos con voz y auditorías municipales sobre más de $790M con IA</li>
-          </ul>
-          <a class="exp-link" href="https://gesar.mx" target="_blank" rel="noopener">Ver sitio: gesar.mx ↗</a>
-          <img src="img/12.gesar.webp" alt="Video de GESAR Consultoría Gubernamental" class="exp-img">
-        </div>
-
-        <div class="exp-card reveal">
-          <img src="img/logo-constructora.svg" alt="Constructora" class="exp-logo">
-          <p class="exp-client">Constructora de obra pública</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Construcción · Hermosillo, Sonora</p>
-          <p class="exp-story">La información de obra vivía en grupos de WhatsApp, correos y la computadora de cada quien. Ahora se captura una vez y todos trabajan sobre la misma.</p>
-          <ul class="exp-points">
-            <li>Capacitación por área: cada persona resuelve una tarea real desde la primera visita</li>
-            <li>Asistentes por puesto: lector de bases, revisor de estimaciones, redactor de oficios</li>
-            <li>Información centralizada por departamento, sin capturar dos veces</li>
-            <li>Chatbot de bitácora: lo que se dice en los grupos de obra queda ordenado por día</li>
-          </ul>
-          <img src="img/13.obra.webp" alt="Bitácora de obra generada desde WhatsApp" class="exp-img">
-        </div>
-
-        <div class="exp-card reveal">
-          <img src="img/logo-juridia.svg" alt="Juridia" class="exp-logo">
-          <p class="exp-client">Juridia</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Plataforma fiscal y legal · Despachos en México</p>
-          <p class="exp-story">Responde consultas fiscales con la jurisprudencia y los datos reales de cada contribuyente en el SAT, citando siempre la fuente.</p>
-          <ul class="exp-points">
-            <li>Consulta jurídica con tesis de la SCJN y del TFJA citadas en cada respuesta</li>
-            <li>Buzón tributario, CFDIs y facturación de cada RFC en un solo lugar</li>
-            <li>Organigrama de grupos de empresas y flujos de trabajo del despacho</li>
-            <li>Diseño de producto y aplicación web, hoy en desarrollo</li>
-          </ul>
-          <a class="exp-link" href="https://juridia.mx" target="_blank" rel="noopener">Ver sitio: juridia.mx ↗</a>
-          <img src="img/exp-juridia.webp" alt="Consulta jurídica con fuentes en Juridia" class="exp-img">
-        </div>
-
-        <div class="exp-card reveal">
-          <img src="img/logo-fiscalito.svg" alt="Fiscalito" class="exp-logo" style="background:#F3EBDD;border-radius:14px;padding:6px;mix-blend-mode:normal">
-          <p class="exp-client">Fiscalito</p>
-          <p class="exp-sector" style="margin-bottom:16px;">App fiscal para negocios · México</p>
-          <p class="exp-story">Lleva los impuestos de un negocio desde el teléfono: vigila el Buzón Tributario, emite facturas y ordena todo lo que entra y sale.</p>
-          <ul class="exp-points">
-            <li>Avisa el mismo día cuando el SAT notifica, con el plazo de 72 horas a la vista</li>
-            <li>Emite y cancela facturas desde el celular</li>
-            <li>Lee los tickets con una foto y recuerda facturarlos</li>
-            <li>Mapa de gastos y aviso si un proveedor aparece en la lista 69-B</li>
-            <li>Conector para consultarlo desde Claude</li>
-          </ul>
-          <a class="exp-link" href="https://fiscalito.mx" target="_blank" rel="noopener">Ver sitio: fiscalito.mx ↗</a>
-          <img src="img/exp-fiscalito.webp" alt="Pantallas de Fiscalito: inicio y Buzón Tributario" class="exp-img">
-        </div>
-
-        <div class="exp-card reveal">
-          <img src="img/logo-dhagen.svg" alt="D'Hagen Ópticas" class="exp-logo">
-          <p class="exp-client">D'Hagen Ópticas</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Retail · Varias sucursales · Hermosillo, Sonora</p>
-          <p class="exp-story">Antes eran seis sistemas distintos. Hoy corren como uno solo — cada venta, cliente y gasto trazado en tiempo real.</p>
-          <ul class="exp-points">
-            <li>Un solo sistema para tiendas físicas y tienda en línea</li>
-            <li>Gerentes ven ventas, inventario y clientes frecuentes en tiempo real</li>
-            <li>Asistentes de IA que crean contenido para redes y analizan resultados de marketing</li>
-          </ul>
-          <a class="exp-link" href="https://www.dhagen.mx" target="_blank" rel="noopener">Ver sitio: dhagen.mx ↗</a>
-          <img src="img/exp-dhagen.webp" alt="Óptica de lujo con sistema integrado" class="exp-img">
-        </div>
-
-        <div class="exp-card reveal">
-          <img src="img/logo-rentas.svg" alt="Rentas vacacionales" class="exp-logo">
-          <p class="exp-client">Casas de renta vacacional</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Hospedaje · Costa de Sonora</p>
-          <p class="exp-story">Sin tiempo para redes. Cada semana el contenido de las casas sale listo, con sus fotos reales y su propia marca.</p>
-          <ul class="exp-points">
-            <li>Posts, reels e historias cada semana para Instagram y Facebook</li>
-            <li>Reels con movimiento a partir de las fotos de cada casa</li>
-            <li>Textos redactados con IA y calendario de publicación</li>
-            <li>Identidad de cada casa respetada: logo, colores y tipografía</li>
-          </ul>
-          <img src="img/14.rentas.webp" alt="Contenido semanal para redes sociales" class="exp-img">
-        </div>
-
-        <div class="exp-card is-extra reveal">
-          <img src="img/logo-rva.png" alt="RVA Fiscalistas" class="exp-logo">
-          <p class="exp-client">Raygoza Vázquez &amp; Ayala Fiscalistas</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Consultoría y Defensa Fiscal · Mexicali, Baja California</p>
-          <p class="exp-story">Recupera entre 25 y 40 horas al mes que antes se iban en redacción y búsqueda, y las dedica a la estrategia y a la atención al cliente.</p>
-          <ul class="exp-points">
-            <li>Un proceso que tomaba 22–28 horas: hoy lo resuelve en 8–10</li>
-            <li>Usa IA para analizar documentos legales, cruzar información y redactar escritos</li>
-            <li>El criterio jurídico sigue siendo suyo — la IA hace el trabajo pesado</li>
-          </ul>
-          <img src="img/exp-rva.webp" alt="Despacho fiscal usando IA" class="exp-img">
-        </div>
-
-        <div class="exp-card is-extra reveal">
-          <img src="img/logo-titanes.png" alt="Titanes Team" class="exp-logo">
-          <p class="exp-client">Titanes Team</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Academia de Artes Marciales · Hermosillo, Sonora</p>
-          <ul class="exp-points" style="margin-top:0;">
-            <li>Asistente por WhatsApp que responde preguntas y comunica precios</li>
-            <li>Agenda clases de prueba automáticamente sin intervención del equipo</li>
-            <li>Recordatorios automáticos a alumnos con mensualidades vencidas</li>
-            <li>El equipo dejó de contestar los mismos mensajes — el asistente opera 24/7</li>
-          </ul>
-          <img src="img/exp-titanes.webp" alt="Academia de artes marciales con IA" class="exp-img">
-        </div>
-
-        <div class="exp-card is-extra reveal">
-          <img src="img/logo-resinx.png" alt="ResinX" class="exp-logo">
-          <p class="exp-client">ResinX</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Pisos Epóxicos y Acabados · Hermosillo, Sonora</p>
-          <p class="exp-story">Sin presupuesto de publicidad. En lugar de pautar en redes, creamos un sistema que llega directamente a las empresas que necesitan el servicio — antes de que ellas lo busquen.</p>
-          <ul class="exp-points">
-            <li>Sitio web con identidad de marca creada desde cero con IA</li>
-            <li>Sistema que identifica automáticamente empresas que pueden necesitar el servicio</li>
-            <li>Envía correos personalizados por tipo de cliente sin intervención manual</li>
-            <li>Marketing que llega directo al cliente sin depender de publicidad en redes</li>
-          </ul>
-          <a class="exp-link" href="https://www.resinx.net" target="_blank" rel="noopener">Ver sitio: resinx.net ↗</a>
-          <img src="img/exp-resinx.webp" alt="Empresa de acabados" class="exp-img">
-        </div>
-
-        <div class="exp-card is-extra reveal">
-          <img src="img/logo-bsi.png" alt="Fletes y Acarreos Botiller" class="exp-logo">
-          <p class="exp-client">Fletes y Acarreos Botiller</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Logística y Fletes · Hermosillo, Sonora</p>
-          <ul class="exp-points" style="margin-top:0;">
-            <li>Identidad de marca creada desde cero con IA</li>
-            <li>Publicidad automatizada en redes sociales</li>
-            <li>Asistente automático configurado en Meta y WhatsApp Business</li>
-            <li>Presencia digital operando sin intervención manual del equipo</li>
-          </ul>
-          <a class="exp-link" href="https://www.instagram.com/botillerfletes/" target="_blank" rel="noopener">Ver Instagram: @botillerfletes ↗</a>
-          <img src="img/exp-bsi.webp" alt="Empresa de logística" class="exp-img">
-        </div>
-
-        <div class="exp-card is-extra reveal">
-          <img src="img/logo-silvana.png" alt="Silvana Growth" class="exp-logo exp-logo-invert">
-          <p class="exp-client">Silvana Growth</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Marketing Digital y Creación de Contenido · Hermosillo, Sonora</p>
-          <p class="exp-story">De improvisar cada publicación a una marca clara, paquetes definidos y un flujo de producción de contenido con IA.</p>
-          <ul class="exp-points">
-            <li>Identidad de marca construida desde cero: nombre, tono, paleta y propuesta de valor</li>
-            <li>Paquetes de servicios estructurados para cotizar y cerrar clientes sin negociar desde cero cada vez</li>
-            <li>Flujo de producción de contenido con IA — más piezas publicadas en menos tiempo</li>
-            <li>De la improvisación a un proceso claro que escala sin depender de más horas</li>
-          </ul>
-          <a class="exp-link" href="https://www.instagram.com/silvanagrowth/" target="_blank" rel="noopener">Ver Instagram: @silvanagrowth ↗</a>
-          <img src="img/exp-silvana.webp" alt="Emprendedora de marketing digital" class="exp-img">
-        </div>
-
-        <div class="exp-card is-extra reveal">
-          <img src="img/logo-asesores.svg" alt="Asesores Inmobiliarios" class="exp-logo">
-          <p class="exp-client">Asesores Inmobiliarios</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Bienes raíces · Hermosillo, Sonora y Phoenix, Arizona</p>
-          <p class="exp-story">El asistente hacía y recibía llamadas, agendaba citas y avisaba al asesor — todo sin que nadie tuviera que estar al teléfono.</p>
-          <ul class="exp-points">
-            <li>Asistente de voz que atendía por teléfono y WhatsApp las 24 horas</li>
-            <li>Agendaba citas automáticamente sin conflictos de horario</li>
-            <li>Detectaba propiedades en proceso legal y contactaba al dueño antes que la competencia</li>
-          </ul>
-          <img src="img/exp-asesores.webp" alt="Asistente de voz con IA" class="exp-img">
-        </div>
-
-        <div class="exp-card is-extra reveal">
-          <img src="img/logo-lightningre.svg" alt="Lightning RE" class="exp-logo">
-          <p class="exp-client">Plataforma PropTech Noroeste</p>
-          <p class="exp-sector" style="margin-bottom:16px;">Tecnología Inmobiliaria · Noroeste de México</p>
-          <p class="exp-story">Antes el asesor buscaba propiedad por propiedad en cada portal. Hoy el cliente describe lo que quiere, el sistema filtra y el asesor solo da clic en contactar.</p>
-          <ul class="exp-points">
-            <li>Panel que une todos los portales inmobiliarios del noroeste en un solo lugar</li>
-            <li>Se actualiza solo cada mañana — propiedades nuevas, precios y disponibilidad al día</li>
-            <li>El asesor filtra por lo que busca el cliente y contacta al vendedor con un clic</li>
-            <li>Elimina el riesgo de ofrecer propiedades que ya no están disponibles</li>
-          </ul>
-          <a class="exp-link" href="https://www.lightninghomesolutions.com/login" target="_blank" rel="noopener">Ver sitio: lightninghomesolutions.com ↗</a>
-          <img src="img/exp-proptech.webp" alt="Plataforma inmobiliaria" class="exp-img">
-        </div>
-
-      </div>
-      <div class="exp-more">
-        <button type="button" id="expMore" aria-expanded="false">Ver los 13 proyectos</button>
       </div>
     </div>
   </section>
