@@ -1,6 +1,6 @@
 # PROGRESS — LPS sitio / lps-marketing-system
 
-Actualizado: 2026-07-02
+Actualizado: 2026-10-28
 
 ## Completado
 
@@ -29,12 +29,26 @@ Actualizado: 2026-07-02
 - Script: `scripts/send_taller.mjs` (reutilizable para futuros talleres, `--dry-run` disponible)
 
 ## En progreso
-- Nada activo
+- Rama local `feat/home-2026-10` (sin push): home actualizado
+  - Hero: panel animado con 4 escenas (WhatsApp, alertas de licitaciones, bitácora de obra, contenido para redes)
+  - Sección nueva "Video y animación" con el video de inicio de GESAR (docs/media/)
+  - Servicios: +Video y Contenido, +Tu información en Claude y ChatGPT (grid 4 col)
+  - Capacitación: Mentoría → Acompañamiento a tu equipo
+  - Expediente: GESAR (con nombre, plataforma completa), Constructora (sin nombre), Casas de renta vacacional (sin nombres)
+  - OG image 1200×630 (img/og-lps.jpg)
+  - Video propio "Lightning Pro en 40 segundos" (voz Jorge) justo después del hero, con pestaña para ver el de GESAR. Fuente: ~/LPS/scripts/video_sitio/ (build.py + motor de ~/GESAR/codigo/redes/video/)
+  - Franja de cifras animada (2,000+ licitaciones · $86.4M · 961 · 11 proyectos)
+  - Servicios agrupados en 4 (Asistentes · Sistemas y datos · Sitios, video y contenido · Diagnóstico y capacitación)
+  - Expediente en cuadrícula 3 col con 6 destacados + botón "Ver los 11 proyectos" (se quitó el carrusel horizontal)
+  - Tarjetas viejas del expediente: fotos de stock → maquetas de lo que hace cada sistema (img/exp-*.webp, generador ~/LPS/scripts/mockups_sitio/gen.py)
+  - Expediente: quitadas las citas tipo testimonio → texto descriptivo normal (RVA y Silvana pasadas a tercera persona)
+- Dominio lightningprosolutions.com vencido desde 18-sep (Namecheap); el sitio sigue en https://lps-marketing-system.vercel.app
 
 ## Pendiente
 - Portafolio en index.html: cards clickables con detalle de proyectos
 
 ## Decisiones tomadas
+- 28-oct: GESAR va con nombre; SECOIP y casas de Kino van sin nombre en el sitio
 - Sin contraseñas para alumnos — flujo 100% magic link
 - Acceso manual: Luis cobra → activa desde admin panel → alumno recibe email
 - 12/12 funciones Vercel Hobby — no crear nuevos archivos en api/
