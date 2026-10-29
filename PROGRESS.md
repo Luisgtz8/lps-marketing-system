@@ -48,6 +48,9 @@ Actualizado: 2026-10-28
 ## Pendiente
 - Portafolio en index.html: cards clickables con detalle de proyectos
 
+- 29-oct publicado: cursos en página aparte (cursos.html, con "Quién lo hace"), home limpio (proyectos arriba, servicios con el problema que resuelven, 3 viñetas por tarjeta, sin "¿Esto es para ti?"), Juridia y Fiscalito, links a sitios/Instagram, cifra $790M+.
+- Dominio: opciones de respaldo en Vercel (libres 29-oct): lightningpro.mx US$50, lightningpro.com.mx US$34, lightningpro.app US$15. Recomendación: esperar a Namecheap.
+
 ## Decisiones tomadas
 - 28-oct: GESAR va con nombre; SECOIP y casas de Kino van sin nombre en el sitio
 - Sin contraseñas para alumnos — flujo 100% magic link
