@@ -1,0 +1,8 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="14" fill="#0F0F0F"/>
+  <!-- Flechas de sincronización -->
+  <path d="M46 24a15 15 0 0 0-27-4" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/>
+  <polyline points="46,14 46,24 36,24" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M18 40a15 15 0 0 0 27 4" fill="none" stroke="#F59E0B" stroke-width="2.6" stroke-linecap="round"/>
+  <polyline points="18,50 18,40 28,40" fill="none" stroke="#F59E0B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
