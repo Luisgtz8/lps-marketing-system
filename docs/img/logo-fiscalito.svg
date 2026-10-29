@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 615 607" role="img" aria-label="Fiscalito">
+  <!--
+    EL LOGO, EN SVG Y NO EN JPG.
+
+    El original venia como JPG de 615x607 con el fondo crema quemado dentro:
+    sobre el fondo oscuro de la pagina se habria visto como un recuadro claro
+    pegado encima, y al escalarlo en pantallas densas se habria emborronado.
+    Aqui son formas planas: se pintan nitidas a cualquier tamaño y el fondo
+    es transparente.
+
+    LOS COLORES VAN DENTRO, no heredados del documento. Este fichero se carga
+    tambien como imagen suelta y como favicon, y ahi el SVG es un documento
+    APARTE: no ve el CSS de la pagina, asi que `currentColor` y las variables
+    se quedan sin valor y el dibujo sale invisible. Se pinta solo, y el tema
+    oscuro se resuelve con el `prefers-color-scheme` de aqui abajo.
+
+    Medidas tomadas del original, no a ojo: cabeza en (309,323) r=145,
+    ojos en (258,340) y (358,340) r=23, bolita en (348,63) r=27.
+  -->
+  <style>
+    /* LA SILUETA MANDA. El cuerpo va del color de la TINTA y la cara es un
+       hueco del color del FONDO -- ojos, cejas y sonrisa son el fondo que
+       se ve a traves de la cabeza.
+
+       En oscuro se invierten LOS DOS a la vez: la cabeza pasa a clara y la
+       cara al negro de la pagina. Dejar la cabeza oscura sobre fondo oscuro
+       la hacia desaparecer, que es justo lo que se veia al probarlo.
+
+       La bolita AMBAR no se toca: es el acento de la marca. */
+    .tinta { fill: #17140d; }
+    .cara  { fill: #f0e9db; stroke: #f0e9db; }
+    .traza { stroke: #17140d; }
+    @media (prefers-color-scheme: dark) {
+      .tinta { fill: #f0e9db; }
+      .cara  { fill: #0d1117; stroke: #0d1117; }
+      .traza { stroke: #f0e9db; }
+    }
+  </style>
+  <!-- La antena: sale de la cabeza y se curva hacia la bolita. -->
+  <path class="traza" d="M309 190 C309 150 309 120 322 100"
+        stroke-width="26" stroke-linecap="round" fill="none"/>
+  <!-- El travesaño de la antena. -->
+  <rect class="tinta" x="273" y="117" width="72" height="25" rx="12.5"/>
+  <!-- La cabeza. -->
+  <circle class="tinta" cx="309" cy="323" r="145"/>
+  <!-- El cuerpo: el moño y el pie. -->
+  <path class="traza" d="M258 478 L309 512 L360 478"
+        stroke-width="30" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path class="traza" d="M309 505 L309 550" stroke-width="26"/>
+
+  <!-- La bolita: el unico color de la marca, igual en los dos temas. -->
+  <circle cx="348" cy="63" r="27" fill="#e0a02c"/>
+
+  <!-- La cara, del color del FONDO: asi el logo funciona igual sobre crema
+       que sobre negro, sin una segunda version del fichero. -->
+  <g class="cara" fill="none" stroke-linecap="round">
+    <!-- Las cejas. -->
+    <path d="M221 281 C240 264 272 262 291 274" stroke-width="22"/>
+    <path d="M327 274 C346 262 378 264 397 281" stroke-width="22"/>
+    <!-- La sonrisa. -->
+    <path d="M270 400 C288 424 330 424 348 400" stroke-width="22"/>
+  </g>
+  <g class="cara" stroke="none">
+    <!-- Los ojos. -->
+    <circle cx="258" cy="340" r="23"/>
+    <circle cx="358" cy="340" r="23"/>
+  </g>
+</svg>
